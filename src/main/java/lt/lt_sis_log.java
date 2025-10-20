@@ -89,11 +89,12 @@ public class lt_sis_log extends HttpServlet {
 					request.getSession().setAttribute("id_sis_pre", cl_sis_dom.getId_sis());
 					request.getSession().setAttribute("id_sis_dom_pre", cl_sis_dom.getId_sis_dom());
 					request.getSession().setAttribute("web_url_pre", cl_sis_dom.getSis_url());
-
+					
 					request.getSession().setAttribute("l_usu_pre", w_login.getTx1());
 					if (web_url == null || web_url.equals("null") || web_url.isEmpty()) {
 						web_url = w_login.getWeb_publ();
 					}
+					request.getSession().setAttribute("h_titulo_pagina", "Menu");
 
 					String usu_comp = cl_sis_d_log.getNome_desc();
 					String usu_nome = usu_comp.contains(" ")
@@ -115,6 +116,7 @@ public class lt_sis_log extends HttpServlet {
 						}
 
 					}
+					request.getSession().setAttribute("h_titulo_pagina", "SET DEV");
 
 					request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
 
@@ -124,6 +126,7 @@ public class lt_sis_log extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			request.getSession().setAttribute("h_titulo_pagina", "SET DEV");
 
 			request.setAttribute("msg_erro",
 					"Informa o comando que foi executado ao Desensenvolverdor  e erro ocorrido = " + e.getMessage());

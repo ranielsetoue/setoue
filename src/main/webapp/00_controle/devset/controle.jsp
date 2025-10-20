@@ -1,5 +1,8 @@
-<!doctype html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<html lang="pt-br">
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -11,6 +14,7 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+
 <!--  -->
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
@@ -24,7 +28,7 @@
 </head>
 <body>
 	<!-- ----- inicio body -->
-<!-- inicio form -->
+	<!-- inicio form -->
 	<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
 		style="" onsubmit="return validardados()? true : false">
 		<!-- Borda -->
@@ -48,7 +52,7 @@
 
 						<c:choose>
 							<c:when test="${empty h_titulo_pagina}">
-								<h3>Menu</h3>
+								<h3>SET DEV</h3>
 							</c:when>
 							<c:otherwise>
 								<h3>${h_titulo_pagina}</h3>
@@ -84,13 +88,32 @@
 			<!-- Inicio Container -->
 			<div class="container mt-3">
 				<div class="row align-items-center text-center text-md-left">
+					<hr>
 					<!-- coluna esquerda -->
 					<div
 						class="col-12  col-md-5 mb-2 mb-md-0 align-self-center align-items-center">
-						<input class="form-control" placeholder="Login Usuario"
-							type="text" name="l_usu" id="l_usu" autocomplete="off"
-							value="setran">
-					</div>
+								<hr>
+
+		<div class="btn-group" role="group">
+			<button id="btnGroupDrop1" type="button" class="btn btn-primary"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Menu</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+				<a class="dropdown-item"
+					href="<%=request.getContextPath()%>/front_end/front.jsp">PAGINA
+					INICIAL</a> <a class="dropdown-item"
+					href="<%=request.getContextPath()%>/front_end/cadastro/sistema/cad_sis.jsp">CADASTRO
+					SISTEMA CLIENTE</a> <a class="dropdown-item"
+					href="<%=request.getContextPath()%>/front_end/cadastro/cad_cliente.jsp">CADASTRO
+					CLIENTE</a> <a class="dropdown-item"
+					href="<%=request.getContextPath()%>/front_end/cadastro/cad_fornecedor.jsp">CADASTRO
+					FORNECEDOR</a> <a class="dropdown-item"
+					href="<%=request.getContextPath()%>/front_end/cadastro/cad_prod.jsp">CADASTRO
+					PRODUTO</a>
+			</div>
+		</div>
+						
+						</div>
 					<!-- coluna esquerda -->
 
 					<!-- coluna Central -->
@@ -98,8 +121,6 @@
 					<div
 						class="col-12 col-md-5 mb-2 mb-md-0 align-self-center text-center">
 
-						<input class="form-control" placeholder="Login Senha" type="text"
-							name="l_sen" id="l_sen" autocomplete="off" value="1234">
 
 					</div>
 					<!-- coluna Central -->
@@ -107,7 +128,6 @@
 					<!-- coluna Direita -->
 					<div
 						class="col-12 col-md-2 mb-2 mb-md-0 align-items-center align-self-center ">
-						<button type="submit" class="btn btn-success">Logar</button>
 					</div>
 					<!-- coluna Direita -->
 				</div>
@@ -120,64 +140,29 @@
 		</div>
 		<!-- Borda -->
 	</form>
-<!-- fim form -->
-<!-- inicio form -->
-<form id="formUserA" method="post"
-	action="<%=request.getContextPath()%>/serv_recup_senha"
-	onsubmit="return validardados()? true : false">
-	
-	<div class="container-fluid mt-3 px-4">
-		<!-- Inicio Container -->
-		<div class="container mt-3">
-			<div class="row align-items-center text-center text-md-left">
-				
-				<!-- Coluna Esquerda (fica à esquerda no desktop, em cima no celular) -->
-			<div class="col-12 col-md-5 mb-2 mb-md-0 d-flex justify-content-md-start justify-content-center align-items-center">
-					<input type="hidden" name="recuperar_senha" id="recuperar_senha" value="">
-					<button type="button" class="btn btn-light" onclick="recuperarsenha();">
-						Recuperar Senha
-					</button>
-				</div>
-
-				<!-- Coluna Central -->
-				<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-center text-center">
-					<!-- conteúdo central opcional -->
-				</div>
-
-				<!-- Coluna Direita -->
-				<div class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
-					<!-- conteúdo direito opcional -->
-				</div>
-
-			</div>
-		</div>
-	</div>
-</form>
-<!-- fim form -->
-
+	<!-- fim form -->
 
 
 	<!-- ---- fim body-->
-	<!-- Optional JavaScript; choose one of the two! -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-		integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
 		crossorigin="anonymous"></script>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
-	<!-- Option 1: Bootstrap Bundle with Popper -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 		crossorigin="anonymous"></script>
 
-	<!-- Option 2: Separate Popper and Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
 		integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
@@ -186,5 +171,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </body>
 </html>
