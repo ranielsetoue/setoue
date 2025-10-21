@@ -17,6 +17,33 @@ public class fun_sis_login {
 		// TODO Auto-generated constructor stub
 	}
 
+	public cla_sis_log cons_sis_log_id_sis_log(long id_sis_log) throws Exception {
+
+		cla_sis_log gra_inp = new cla_sis_log();
+
+		String bc_sql = "select * FROM tb_sis_log where id_sis_log = '" + id_sis_log + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis_log = gra_bus.executeQuery();
+
+		while (cl_sis_log.next()) {
+
+			gra_inp.setId_sis(cl_sis_log.getLong("id_sis"));
+			gra_inp.setReg_id(cl_sis_log.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis_log.getDate("reg_data"));
+			gra_inp.setReg_alt(cl_sis_log.getLong("reg_alt"));
+			gra_inp.setReg_data_alt(cl_sis_log.getDate("reg_data_alt"));
+			gra_inp.setId_sis_log(cl_sis_log.getLong("id_sis_log"));
+			gra_inp.setId_sis_dom(cl_sis_log.getLong("id_sis_dom"));
+			gra_inp.setL_usu(cl_sis_log.getString("l_usu"));
+			gra_inp.setL_sen(cl_sis_log.getString("l_sen"));
+
+		}
+
+		return gra_inp;
+
+	}
+
 	public cla_sis_log cons_sis_log_l_usu(String l_usu, String l_sen) throws Exception {
 
 		cla_sis_log gra_inp = new cla_sis_log();
@@ -43,7 +70,7 @@ public class fun_sis_login {
 
 	}
 
-	public cla_sis_d_log cons_sis_d_log_id_sis_log(Long id_sis_log) throws Exception {
+	public cla_sis_d_log cons_sis_d_log_id_sis_log(long id_sis_log) throws Exception {
 
 		cla_sis_d_log gra_inp = new cla_sis_d_log();
 

@@ -121,19 +121,19 @@
 								</c:if>
 								<c:if test="${aces_cad_clin}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_clien.jsp">CLIENTE</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">CLIENTE</a>
 								</c:if>
 								<c:if test="${aces_cad_forn}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_forn.jsp">FORNECEDOR</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">FORNECEDOR</a>
 								</c:if>
 								<c:if test="${aces_cad_prod}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_prod.jsp">PRODUTO</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_PRO">PRODUTO</a>
 								</c:if>
 								<c:if test="${aces_cad_serv}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/sistema/cad_serv.jsp">SERVICO</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">SERVICO</a>
 								</c:if>
 							</div>
 						</div>
