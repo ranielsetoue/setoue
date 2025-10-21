@@ -124,7 +124,6 @@ public class lt_sis_log extends HttpServlet {
 					request.getSession().setAttribute("cons_true", "false");
 					request.getSession().setAttribute("cons_false", "true");
 
-
 					request.getRequestDispatcher(cl_sis_dom.getSis_url()).forward(request, response);
 
 				} else {

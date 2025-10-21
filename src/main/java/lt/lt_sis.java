@@ -76,6 +76,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
+				request.getSession().setAttribute("cont_sis", "cad_cli");
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
@@ -92,7 +93,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
-
+				request.getSession().setAttribute("cont_sis", "cad_for");
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
 			}
@@ -107,6 +108,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
+				request.getSession().setAttribute("cont_sis", "cad_pro");
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request, response);
@@ -122,6 +124,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_cad_serv", "false");
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
+				request.getSession().setAttribute("cont_sis", "cad_serv");
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO"); 
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request, response);
@@ -142,7 +145,8 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("h_titulo_pagina", request.getSession().getAttribute("h_titulo_pagina_ini"));
 				request.getSession().setAttribute("h_titulo_web", request.getSession().getAttribute("h_titulo_web_ini"));
-
+				request.getSession().setAttribute("cont_sis", "cad_empty");
+				
 				String web_url = String.valueOf(request.getSession().getAttribute("web_url_pre"));
 				request.getRequestDispatcher(web_url).forward(request, response);
 			}
