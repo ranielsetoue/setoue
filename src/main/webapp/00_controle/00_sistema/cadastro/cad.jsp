@@ -14,6 +14,11 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+
+<!--  -->
+<link rel="shortcut icon"
+	href="<%=request.getContextPath()%>/desenho/logo.png"
+	type="imagem/x-icon">
 <!--  -->
 <c:set scope="session" var="aces_cad_sis"
 	value='<%=request.getSession().getAttribute("aces_cad_sis").toString()%>'></c:set>
@@ -29,16 +34,6 @@
 <c:set scope="session" var="aces_cad_serv"
 	value='<%=request.getSession().getAttribute("aces_cad_serv").toString()%>'></c:set>
 <!--  -->
-<title>${h_titulo_web}</title>
-
-
-<!--  -->
-<!--  -->
-<link rel="shortcut icon"
-	href="<%=request.getContextPath()%>/desenho/logo.png"
-	type="imagem/x-icon">
-
-
 <title>${h_titulo_web}</title>
 
 
@@ -114,6 +109,7 @@
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">Cadastro</button>
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+
 								<c:if test="${aces_cad_sis}">
 									<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
@@ -133,7 +129,7 @@
 								</c:if>
 								<c:if test="${aces_cad_serv}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/sistema/cad_serv.jsp">SERVICO</a>
+										href="<%=request.getContextPath()%>/00_controle/devset/sistema/cad_serv.jsp">PRODUTO</a>
 								</c:if>
 							</div>
 						</div>

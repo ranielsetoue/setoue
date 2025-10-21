@@ -14,32 +14,14 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
-<!--  -->
-<c:set scope="session" var="aces_cad_sis"
-	value='<%=request.getSession().getAttribute("aces_cad_sis").toString()%>'></c:set>
 
-<c:set scope="session" var="aces_cad_clin"
-	value='<%=request.getSession().getAttribute("aces_cad_clin").toString()%>'></c:set>
-
-<c:set scope="session" var="aces_cad_forn"
-	value='<%=request.getSession().getAttribute("aces_cad_forn").toString()%>'></c:set>
-
-<c:set scope="session" var="aces_cad_prod"
-	value='<%=request.getSession().getAttribute("aces_cad_prod").toString()%>'></c:set>
-<c:set scope="session" var="aces_cad_serv"
-	value='<%=request.getSession().getAttribute("aces_cad_serv").toString()%>'></c:set>
-<!--  -->
-<title>${h_titulo_web}</title>
-
-
-<!--  -->
 <!--  -->
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
 	type="imagem/x-icon">
 
 
-<title>${h_titulo_web}</title>
+<title>Cadastro de Serviço</title>
 
 
 <!--  -->
@@ -106,39 +88,33 @@
 			<!-- Inicio Container -->
 			<div class="container mt-3">
 				<div class="row align-items-center text-center text-md-left">
+					<hr>
 					<!-- coluna esquerda -->
 					<div
-						class="col-12  col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start">
-						<div class="btn-group" role="group">
-							<button id="btnGroupDrop1" type="button" class="btn btn-primary"
-								data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">Cadastro</button>
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<c:if test="${aces_cad_sis}">
-									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
-										SISTEMA</a>
-								</c:if>
-								<c:if test="${aces_cad_clin}">
-									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_clien.jsp">CLIENTE</a>
-								</c:if>
-								<c:if test="${aces_cad_forn}">
-									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_forn.jsp">FORNECEDOR</a>
-								</c:if>
-								<c:if test="${aces_cad_prod}">
-									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_prod.jsp">PRODUTO</a>
-								</c:if>
-								<c:if test="${aces_cad_serv}">
-									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/sistema/cad_serv.jsp">SERVICO</a>
-								</c:if>
-							</div>
-						</div>
+						class="col-12  col-md-5 mb-2 mb-md-0 align-self-center align-items-center">
+								<hr>
 
-					</div>
+		<div class="btn-group" role="group">
+			<button id="btnGroupDrop1" type="button" class="btn btn-primary"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Cadastro</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+								<a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/controle.jsp">PAGINA
+									INICIAL</a> <a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_sis.jsp">
+									SISTEMA</a> <a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_cli.jsp">CLIENTE</a>
+								<a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_for.jsp">FORNECEDOR</a>
+								<a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_pro.jsp">PRODUTO</a>
+								<a class="dropdown-item"
+									href="<%=request.getContextPath()%>/00_controle/devset/cadastro/cad_serv.jsp">SERVICO</a>
+				</div>
+		</div>
+						
+						</div>
 					<!-- coluna esquerda -->
 
 					<!-- coluna Central -->

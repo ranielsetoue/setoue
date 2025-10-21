@@ -2,10 +2,13 @@ package lt;
 
 import java.io.IOException;
 
+import cla.cla_perm_ace;
+import cla.cla_sis;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
+import func.fun_sis;
 import func.fun_sis_dom;
 import func.fun_sis_login;
 import jakarta.servlet.ServletException;
@@ -33,7 +36,9 @@ public class lt_sis_log extends HttpServlet {
 	cla_sis_d_log cl_sis_d_log = new cla_sis_d_log();
 	fun_sis_dom f_sis_dom = new fun_sis_dom();
 	cla_sis_dom cl_sis_dom = new cla_sis_dom();
-
+	fun_sis f_sis = new fun_sis();
+	cla_sis cl_sis = new cla_sis();
+	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	public lt_sis_log() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -86,22 +91,34 @@ public class lt_sis_log extends HttpServlet {
 					cl_sis_log = f_sis_login.cons_sis_log_l_usu(w_login.getTx1(), w_login.getTx2());
 					cl_sis_d_log = f_sis_login.cons_sis_d_log_id_sis_log(cl_sis_log.getId_sis_log());
 					cl_sis_dom = f_sis_dom.cons_sis_dom_id_sis_dom(cl_sis_log.getId_sis_dom());
-					request.getSession().setAttribute("id_sis_pre", cl_sis_dom.getId_sis());
-					request.getSession().setAttribute("id_sis_dom_pre", cl_sis_dom.getId_sis_dom());
-					request.getSession().setAttribute("web_url_pre", cl_sis_dom.getSis_url());
+					cl_sis = f_sis.cons_titulo_web(cl_sis_log.getId_sis());
+					cl_perm_ace  = f_sis_login.cons_perm_ace_id_sis_log(cl_sis_log.getId_sis_log());
 					
+					request.getSession().setAttribute("id_sis_pre", cl_sis_log.getId_sis());
+					request.getSession().setAttribute("id_sis_dom_pre", cl_sis_dom.getId_sis_dom());
+					request.getSession().setAttribute("id_sis_log_pre", cl_sis_log.getId_sis_log());
+					request.getSession().setAttribute("web_url_pre", cl_sis_dom.getSis_url());
+					request.getSession().setAttribute("h_titulo_pagina", cl_sis.getTitutlo_web());
+					request.getSession().setAttribute("h_titulo_web", cl_sis.getTitutlo_web());
 					request.getSession().setAttribute("l_usu_pre", w_login.getTx1());
 					if (web_url == null || web_url.equals("null") || web_url.isEmpty()) {
 						web_url = w_login.getWeb_publ();
 					}
-					request.getSession().setAttribute("h_titulo_pagina", "Menu");
+					
 
 					String usu_comp = cl_sis_d_log.getNome_desc();
 					String usu_nome = usu_comp.contains(" ")
 							? usu_comp.substring(0, usu_comp.indexOf(" "))
 							: usu_comp;
 					request.getSession().setAttribute("usu_html", usu_nome);
-					
+					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
+					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
+					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
+					request.getSession().setAttribute("cons_true", "false");
+					request.getSession().setAttribute("cons_false", "true");
+
 
 					request.getRequestDispatcher(cl_sis_dom.getSis_url()).forward(request, response);
 

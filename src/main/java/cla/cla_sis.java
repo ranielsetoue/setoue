@@ -30,7 +30,8 @@ public class cla_sis implements Serializable {
 	private String tel_1;
 	private String email_1;
 	private String obs;
-
+	private String Titutlo_web;
+	
 	public boolean nv_id() {
 		if (this.id_sis == null || this.id_sis == 0L) {
 			return true;
@@ -215,6 +216,15 @@ public class cla_sis implements Serializable {
 
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+
+	
+	public String getTitutlo_web() {
+		return Titutlo_web;
+	}
+
+	public void setTitutlo_web(String titutlo_web) {
+		Titutlo_web = titutlo_web;
 	}
 
 	public void vz_id() {

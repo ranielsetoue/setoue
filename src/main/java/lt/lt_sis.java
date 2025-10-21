@@ -2,11 +2,21 @@ package lt;
 
 import java.io.IOException;
 
+import cla.cla_perm_ace;
+import cla.cla_sis;
+import cla.cla_sis_d_log;
+import cla.cla_sis_dom;
+import cla.cla_sis_log;
+import func.fun_blio;
+import func.fun_sis;
+import func.fun_sis_dom;
+import func.fun_sis_login;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import st.win_login;
 
 /**
  * Servlet implementation class lt_sis
@@ -18,6 +28,15 @@ public class lt_sis extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
+	fun_blio f_blio = new fun_blio();
+	fun_sis_login f_sis_login = new fun_sis_login();
+	cla_sis_log cl_sis_log = new cla_sis_log();
+	cla_sis_d_log cl_sis_d_log = new cla_sis_d_log();
+	fun_sis_dom f_sis_dom = new fun_sis_dom();
+	cla_sis_dom cl_sis_dom = new cla_sis_dom();
+	fun_sis f_sis = new fun_sis();
+	cla_sis cl_sis = new cla_sis();
+	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	public lt_sis() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -30,9 +49,29 @@ public class lt_sis extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
-		request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_sis_cons.jsp").forward(request, response);
+	
+		try {
+			
+		
+		if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
+	
+			cl_perm_ace  = f_sis_login.cons_perm_ace_id_sis_log(Long.parseLong("id_sis_log_pre"));
 
+			request.getSession().setAttribute("aces_cad_sis", "false");
+			request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+			request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+			request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
+			request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
+			request.getSession().setAttribute("cons_true", "false");
+			request.getSession().setAttribute("cons_false", "true");
+			request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");	
+
+			request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request,
+					response);
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -43,26 +82,10 @@ public class lt_sis extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		request.getSession().setAttribute("cont_aces", "true");
-		request.getSession().setAttribute("aces_cad_sis", "true");
-		request.getSession().setAttribute("aces_cad_clin", "true");
-		request.getSession().setAttribute("aces_cad_forn", "true");
-		request.getSession().setAttribute("aces_cad_prod", "true");
-		request.getSession().setAttribute("aces_cad_serv", "true");
-		request.getSession().setAttribute("cons_true", "true");
-		request.getSession().setAttribute("cons_false", "true");
-		request.getSession().setAttribute("h_titulo_web", "SISTEMA");
-		
+			
 
 
-		if (request.getParameter("sit_cont").equalsIgnoreCase("cad_sis")) {
-			request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
-		
-			request.getSession().setAttribute("cons_true", "true");
-			request.getSession().setAttribute("cons_false", "false");
-			request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_sis_cons.jsp").forward(request,
-					response);
-		}
+
 
 	}
 

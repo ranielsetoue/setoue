@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import cbd.pos_cbd;
+import cla.cla_perm_ace;
 import cla.cla_sis_d_log;
 import cla.cla_sis_log;
 
@@ -57,6 +58,31 @@ public class fun_sis_login {
 			gra_inp.setEmail_1(cl_sis_d_log.getString("email_1"));
 			gra_inp.setFoto(cl_sis_d_log.getString("foto"));
 			gra_inp.setCaminho_foto(cl_sis_d_log.getString("caminho_foto"));
+
+		}
+
+		return gra_inp;
+
+	}
+
+	public cla_perm_ace cons_perm_ace_id_sis_log(long id_sis_log) throws Exception {
+
+		cla_perm_ace gra_inp = new cla_perm_ace();
+
+		String bc_sql = "select * FROM tb_perm_ace where id_sis_log = '" + id_sis_log + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_perm_ace = gra_bus.executeQuery();
+
+		while (cl_perm_ace.next()) {
+
+			gra_inp.setId_sis(cl_perm_ace.getLong("id_sis"));
+			gra_inp.setId_sis_log(cl_perm_ace.getLong("id_sis_log"));
+			gra_inp.setAces_cad_sis(cl_perm_ace.getBoolean("aces_cad_sis"));
+			gra_inp.setAces_cad_clin(cl_perm_ace.getBoolean("aces_cad_clin"));
+			gra_inp.setAces_cad_forn(cl_perm_ace.getBoolean("aces_cad_forn"));
+			gra_inp.setAces_cad_prod(cl_perm_ace.getBoolean("aces_cad_prod"));
+			gra_inp.setAces_cad_serv(cl_perm_ace.getBoolean("aces_cad_serv"));
 
 		}
 
