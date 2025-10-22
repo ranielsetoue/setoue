@@ -312,37 +312,43 @@
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
 						<table class="table-borderless w-100">
-							<td class="d-block d-md-table-cell p-1"><input
+						<tr>
+							<td class="d-block d-md-table-cell p-1">
+							 
+							<input
 								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" minlength="11" maxlength="18"
 								oninput="forCnpjCpf(this); cnpjlimparnome('cnpj_cpf', 'nome_desc'); valCnpjCpf(this)"
 								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF"> <datalist
 									id="listcnpj_cpf">
 									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-										<option><c:out value="${l_cnpj_cpf.cnpj_cpf}"></c:out></option>
+										<option><c:out value="${l_cnpj_cpf.cnpjCpf}"></c:out></option>
 									</c:forEach>
-								</datalist> <!-- Mensagem de erro --> <small id="erro_cnpj_cpf"
-								class="text-danger d-none">dado inválido</small></td>
+								</datalist>
+								  <!-- Mensagem de erro --> <small id="erro_cnpj_cpf"
+								class="text-danger d-none">dado inválido</small>
+							</td>
 							<td class="d-block d-md-table-cell p-2 text-center align-middle">
 								<h5>
 									<a><p>ou</p></a>
 								</h5>
 							</td>
-							<td class="d-block d-md-table-cell p-1"><input
+								<td><input
 								class="form-control" onkeyup="exc_pes_nome();"
 								list="list_nome_desc" name="nome_desc" id="nome_desc"
 								oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
 								value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
 								<datalist id="list_nome_desc">
 									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-										<option><c:out value="${l_cnpj_cpf.nome_desc}"></c:out></option>
+										<option><c:out value="${l_cnpj_cpf.nomeDesc}"></c:out></option>
 									</c:forEach>
 								</datalist></td>
+							
 							<td><a
 								href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
 									<button type="button" class="btn btn-info">Buscar</button>
 							</a></td>
-
+</tr>
 						</table>
 						<!-- FIM row -->
 					</div>
@@ -398,7 +404,7 @@
 			<!-- final form -->
 		</form>
 		<!-- final form -->
-
+		<!-- Campo de entrada -->
 		<!--  -->
 		<!-- Borda -->
 	</div>

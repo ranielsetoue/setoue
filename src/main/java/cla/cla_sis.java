@@ -32,6 +32,8 @@ public class cla_sis implements Serializable {
 	private String obs;
 	private String Titutlo_web;
 	
+	
+
 	public boolean nv_id() {
 		if (this.id_sis == null || this.id_sis == 0L) {
 			return true;
