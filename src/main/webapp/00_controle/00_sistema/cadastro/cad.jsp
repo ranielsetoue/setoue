@@ -170,17 +170,21 @@
 </head>
 <body>
 	<!-- ----- inicio body -->
-	<!-- inicio form -->
-	<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
-		style="" onsubmit="return validardados()? true : false">
+	<!--  -->
+	<!-- Borda -->
+	<div class="container-fluid	 mt-3 px-4">
 		<!-- Borda -->
-		<div class="container-fluid	 mt-3 px-4">
-			<!-- Borda -->
-			<!-- coloca conteudo abaixo -->
+		<!-- inicio form -->
+		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
+			style="" onsubmit="return validardados()? true : false">
+			<!-- inicio form -->
+			<!--  -->
 			<!-- Inicio Container -->
 			<div class="container">
 				<!-- Inicio Container -->
+				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
+					<!-- Inicio row -->
 					<!-- coluna esquerda -->
 					<div class="col-12  col-md-2 align-self-center align-items-center">
 						<img height="200" width="400"
@@ -191,7 +195,6 @@
 					<!-- coluna Central -->
 					<div
 						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-
 						<c:choose>
 							<c:when test="${empty h_titulo_pagina}">
 								<h3>SET DEV</h3>
@@ -200,7 +203,6 @@
 								<h3>${h_titulo_pagina}</h3>
 							</c:otherwise>
 						</c:choose>
-
 					</div>
 					<!-- coluna Central -->
 					<!-- coluna Direita -->
@@ -222,35 +224,40 @@
 						</table>
 					</div>
 					<!-- coluna Direita -->
+					<!-- FIM row -->
 				</div>
+				<!-- FIM row -->
 				<!-- FIM Container -->
 			</div>
 			<!-- FIM Container -->
 			<!--  -->
+			<!--  -->
 			<!-- Inicio Container -->
 			<div class="container mt-3">
+				<!-- Inicio Container -->
+				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
+					<!-- Inicio row -->
 					<!-- coluna esquerda -->
 					<div
-						class="col-12  col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start">
-						<!-- coluna esquerda -->
-						<table>
+						class="col-12 col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start text-md-start text-center">
+						<table class="mx-auto mx-md-0">
 							<tr>
 								<td><a
 									href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
 										<button type="button" class="btn btn-primary">Pagina
 											Inicial</button>
 								</a></td>
-								<td><div class="btn-group" role="group">
+								<td>
+									<div class="btn-group" role="group">
 										<button id="btnGroupDrop1" type="button"
-											class="btn btn-primary" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false">Cadastro</button>
+											class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false">Cadastro</button>
 										<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-
 											<c:if test="${aces_cad_sis}">
 												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
-													SISTEMA</a>
+													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">SISTEMA</a>
 											</c:if>
 											<c:if test="${aces_cad_clin}">
 												<a class="dropdown-item"
@@ -269,128 +276,138 @@
 													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">SERVICO</a>
 											</c:if>
 										</div>
-									</div></td>
+									</div>
+								</td>
 							</tr>
 						</table>
-						<!-- coluna esquerda -->
 					</div>
 					<!-- coluna esquerda -->
-
 					<!-- coluna Central -->
-
 					<div
 						class="col-12 col-md-5 mb-2 mb-md-0 align-self-center text-center">
-
-
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-md-0 align-items-center align-self-center ">
+							<!-- coluna Direita -->
+							<!-- FIM row -->
+						</div>
+						<!-- FIM row -->
+						<!-- FIM Container -->
 					</div>
-					<!-- coluna Central -->
-
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-2 mb-2 mb-md-0 align-items-center align-self-center ">
-					</div>
-					<!-- coluna Direita -->
-				</div>
-			</div>
-			<!-- Fim Container -->
-			<!--  -->
+					<!-- FIM Container -->
+					<!-- final form -->
 		</form>
-	<!-- fim form -->
-		<!-- inicio form -->
-	<form method="post" action="<%=request.getContextPath()%>/lt_sis_busc/"
-		style="" onsubmit="return validardados()? true : false">
-	
-		<!--  -->
-		<!-- Inicio Container -->
-		<c:if test="${cons_false}">
-			<div class="container mt-3">
+		<!-- final form -->
 
-				<div class="row align-items-center text-center text-md-left">
+		<form method="post"
+			action="<%=request.getContextPath()%>/lt_sis_busc/" style=""
+			onsubmit="return validardados()? true : false">
 
-					<table class="table-borderless w-100">
-						<td class="d-block d-md-table-cell p-1"><input
-							class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
-							id="cnpj_cpf" minlength="11" maxlength="18"
-							oninput="forCnpjCpf(this); cnpjlimparnome('cnpj_cpf', 'nome_desc'); valCnpjCpf(this)"
-							value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF"> <datalist
-								id="listcnpj_cpf">
-								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-									<option><c:out value="${l_cnpj_cpf.cnpj_cpf}"></c:out></option>
-								</c:forEach>
-							</datalist> <!-- Mensagem de erro --> <small id="erro_cnpj_cpf"
-							class="text-danger d-none">dado inválido</small></td>
-						<td class="d-block d-md-table-cell p-2 text-center align-middle">
-							<h5>
-								<a><p>ou</p></a>
-							</h5>
-						</td>
-						<td class="d-block d-md-table-cell p-1"><input
-							class="form-control" onkeyup="exc_pes_nome();"
-							list="list_nome_desc" name="nome_desc" id="nome_desc"
-							oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
-							value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
-							<datalist id="list_nome_desc">
-								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-									<option><c:out value="${l_cnpj_cpf.nome_desc}"></c:out></option>
-								</c:forEach>
-							</datalist></td>
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_false}">
+				<div class="container mt-3" id="html_false">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<table class="table-borderless w-100">
+							<td class="d-block d-md-table-cell p-1"><input
+								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
+								id="cnpj_cpf" minlength="11" maxlength="18"
+								oninput="forCnpjCpf(this); cnpjlimparnome('cnpj_cpf', 'nome_desc'); valCnpjCpf(this)"
+								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF"> <datalist
+									id="listcnpj_cpf">
+									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+										<option><c:out value="${l_cnpj_cpf.cnpj_cpf}"></c:out></option>
+									</c:forEach>
+								</datalist> <!-- Mensagem de erro --> <small id="erro_cnpj_cpf"
+								class="text-danger d-none">dado inválido</small></td>
+							<td class="d-block d-md-table-cell p-2 text-center align-middle">
+								<h5>
+									<a><p>ou</p></a>
+								</h5>
+							</td>
+							<td class="d-block d-md-table-cell p-1"><input
+								class="form-control" onkeyup="exc_pes_nome();"
+								list="list_nome_desc" name="nome_desc" id="nome_desc"
+								oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
+								value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
+								<datalist id="list_nome_desc">
+									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+										<option><c:out value="${l_cnpj_cpf.nome_desc}"></c:out></option>
+									</c:forEach>
+								</datalist></td>
 							<td><a
-									href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
-										<button type="button" class="btn btn-info">Buscar</button>
-								</a></td>
+								href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+									<button type="button" class="btn btn-info">Buscar</button>
+							</a></td>
 
-					</table>
+						</table>
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
 				</div>
-
-
-			</div>
-		</c:if>
-		<!-- Fim Container -->
-		<!--  -->
-		<!--  -->
-		<!-- Inicio Container -->
-		<c:if test="${cons_true}">
-			<div class="container mt-3">
-				<hr>
-				<div class="row align-items-center text-center text-md-left">
-					<!-- coluna esquerda -->
-					<div
-						class="col-12  col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start">
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container mt-3" id="html_true">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
 						<!-- coluna esquerda -->
-						<p>2</p>
+						<div
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center"">
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=novo">
+								<button type="button" class="btn btn-info">NOVO</button>
+							</a>
+						</div>
 						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+								<button type="button" class="btn btn-success">SALVAR</button>
+							</a>
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+								<button type="button" class="btn btn-danger">EXCLUIR</button>
+							</a>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
 					</div>
-					<!-- coluna esquerda -->
-
-					<!-- coluna Central -->
-
-					<div
-						class="col-12 col-md-5 mb-2 mb-md-0 align-self-center text-center">
-
-
-					</div>
-					<!-- coluna Central -->
-
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-2 mb-2 mb-md-0 align-items-center align-self-center ">
-					</div>
-					<!-- coluna Direita -->
+					<!-- FIM row -->
+					<!-- FIM Container -->
 				</div>
-			</div>
-		</c:if>
-		<!-- Fim Container -->
-	</form>
-	<!-- fim form -->
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
 
-	<!--  -->
 
-	<!-- Borda -->
+
+			<!-- final form -->
+		</form>
+		<!-- final form -->
+
+		<!--  -->
+		<!-- Borda -->
 	</div>
 	<!-- Borda -->
 
 
 
+
+	<!--  -->
 	<!-- ---- fim body-->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
