@@ -342,10 +342,10 @@
 							<div class="row align-items-center text-center text-md-left">
 								<div
 									class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
-									<input class="form-control" onkeyup="exc_pes_nome();"
-										list="list_nome_desc" name="nome_desc" id="nome_desc"
+									<input class="form-control" list="list_nome_desc"
+										name="nome_desc" id="nome_desc"
 										oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
-										value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
+										value="${pre_glo.nome_desc}" placeholder="Nome">
 									<datalist id="list_nome_desc">
 										<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
 											<option><c:out value="${l_cnpj_cpf.nomeDesc}"></c:out></option>
@@ -413,8 +413,278 @@
 			</c:if>
 			<!-- FIM Container -->
 			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
+							<input class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
+								id="cnpj_cpf" maxlength="18"
+								oninput="forCnpjCpf(this); valCnpjCpf(this)"
+								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div id="div_nome_desc"
+							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
+							<textarea class="form-control" autocomplete="off"
+								name="nome_desc" id="nome_desc" placeholder="Nome" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+							oninput="adjustHeight(this)"
+							<script>
+								function adjustHeight(el) {
+									el.style.height = 'auto'; // reset height
+									const lineHeight = 24; // ajuste conforme seu CSS do textarea
+									const maxLines = 3;
+									const maxHeight = lineHeight * maxLines;
 
+									if (el.scrollHeight > maxHeight) {
+										el.style.height = maxHeight + 'px';
+										el.style.overflowY = 'auto'; // aparece scroll após 3 linhas
+									} else {
+										el.style.height = el.scrollHeight
+												+ 'px';
+										el.style.overflowY = 'hidden';
+									}
+								}
+							</script>
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<input class="form-control" type="text" name="nome_fantasia"
+								id="nome_fantasia" autocomplete="off"
+								value="${sis_tel.nome_fantasia}" placeholder="Nome Fantasia">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
 
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="inscricao_estatual"
+								id="inscricao_estatual" autocomplete="off"
+								value="${sis_tel.inscricao_estatual}" class="form-control"
+								placeholder="Inscricao Estatual">
+						</div>
+						<!-- coluna esquerda -->
+
+						<!-- coluna Direita -->
+						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+							<input type="text" name="inscricao_municipal"
+								id="inscricao_municipal" autocomplete="off"
+								value="${sis_tel.inscricao_municipal}" class="form-control"
+								placeholder="Inscricao Municipal">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="endereco" id="endereco"
+								autocomplete="off" value="${sis_tel.endereco}"
+								class="form-control" placeholder="Enderenco">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="numero" id="numero" autocomplete="off"
+								value="${sis_tel.numero}" class="form-control"
+								placeholder="Numero">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="complemento" id="complemento"
+								autocomplete="off" value="${sis_tel.complemento}"
+								class="form-control" placeholder="Complemento">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="bairro" id="bairro" autocomplete="off"
+								value="${sis_tel.bairro}" class="form-control"
+								placeholder="Bairro">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="municipio" id="municipio"
+								autocomplete="off" value="${sis_tel.municipio}"
+								class="form-control" placeholder="Municipio">
+						</div>
+						<!-- coluna Central -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
+							<input type="text" maxlength="2" name="estado" id="estado"
+								autocomplete="off" value="${sis_tel.estado}"
+								class="form-control" placeholder="UF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+							<input onblur="CEPPESQ();" type="text" maxlength="10" name="cep"
+								id="cep" autocomplete="off" value="${sis_tel.cep}"
+								class="form-control" placeholder="CEP">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div id="col-obs"
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<textarea name="observacao" id="observacao" class="form-control"
+								placeholder="Observação" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${sis_tel.observacao}</textarea>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							<!--  -->
+							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse"
+								type="text" autocomplete="off" value="${sis_tel.truefalse}"
+								class="form-control" placeholder="ACESSO ADMINISTRATOR">
+							<datalist id="listADMTRUEFALSE">
+								<option value="TRUE">
+								<option value="FALSE">
+							</datalist>
+
+							<script>
+								document
+										.getElementById("truefalse")
+										.addEventListener(
+												"change",
+												function() {
+													const valor = this.value
+															.toUpperCase();
+													if (valor !== "TRUE"
+															&& valor !== "FALSE"
+															&& valor !== " ") {
+														alert("Por favor, selecione apenas TRUE ou FALSE.");
+														this.value = ""; // limpa o campo
+													}
+												});
+							</script>
+
+							<!--  -->
+						</div>
+
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							<input type="text" name="permissao" id="permissao"
+								autocomplete="off" value="${sis_tel.permissao}"
+								class="form-control" placeholder="Tipo de Permissao">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
 
 			<!-- final form -->
 		</form>
