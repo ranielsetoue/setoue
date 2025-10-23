@@ -303,53 +303,64 @@
 		<form method="post"
 			action="<%=request.getContextPath()%>/lt_sis_busc/" style=""
 			onsubmit="return validardados()? true : false">
-
 			<!--  -->
 			<!-- Inicio Container -->
 			<c:if test="${cons_false}">
-				<div class="container mt-3" id="html_false">
+				<div class="container mt-md-3">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
-						<table class="table-borderless w-100">
-						<tr>
-							<td class="d-block d-md-table-cell p-1">
-							 
-							<input
-								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div class="col-12  col-md-3 align-self-center align-items-center">
+							<input class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" minlength="11" maxlength="18"
 								oninput="forCnpjCpf(this); cnpjlimparnome('cnpj_cpf', 'nome_desc'); valCnpjCpf(this)"
-								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF"> <datalist
-									id="listcnpj_cpf">
-									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-										<option><c:out value="${l_cnpj_cpf.cnpjCpf}"></c:out></option>
-									</c:forEach>
-								</datalist>
-								  <!-- Mensagem de erro --> <small id="erro_cnpj_cpf"
-								class="text-danger d-none">dado inválido</small>
-							</td>
-							<td class="d-block d-md-table-cell p-2 text-center align-middle">
-								<h5>
-									<a><p>ou</p></a>
-								</h5>
-							</td>
-								<td><input
-								class="form-control" onkeyup="exc_pes_nome();"
-								list="list_nome_desc" name="nome_desc" id="nome_desc"
-								oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
-								value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
-								<datalist id="list_nome_desc">
-									<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-										<option><c:out value="${l_cnpj_cpf.nomeDesc}"></c:out></option>
-									</c:forEach>
-								</datalist></td>
-							
-							<td><a
-								href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
-									<button type="button" class="btn btn-info">Buscar</button>
-							</a></td>
-</tr>
-						</table>
+								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
+							<datalist id="listcnpj_cpf">
+								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+									<option><c:out value="${l_cnpj_cpf.cnpjCpf}"></c:out></option>
+								</c:forEach>
+							</datalist>
+							<!-- Mensagem de erro -->
+							<small id="erro_cnpj_cpf" class="text-danger d-none">dado
+								inválido</small>
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-1 mb-2 mb-md-0 align-self-center text-center">
+							<h5>
+								<a>ou</a>
+							</h5>
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-8 mb-2 mb-md-0 align-self-center text-center">
+
+							<div class="row align-items-center text-center text-md-left">
+								<div
+									class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
+									<input class="form-control" onkeyup="exc_pes_nome();"
+										list="list_nome_desc" name="nome_desc" id="nome_desc"
+										oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
+										value="${pre_glo.nome_desc}" placeholder="Nome ou Descrição">
+									<datalist id="list_nome_desc">
+										<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+											<option><c:out value="${l_cnpj_cpf.nomeDesc}"></c:out></option>
+										</c:forEach>
+									</datalist>
+								</div>
+								<div
+									class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
+									<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+										<button type="button" class="btn btn-info">Buscar</button>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- coluna Direita -->
 						<!-- FIM row -->
 					</div>
 					<!-- FIM row -->
@@ -358,6 +369,10 @@
 			</c:if>
 			<!-- FIM Container -->
 			<!--  -->
+
+
+
+
 			<!--  -->
 			<!-- Inicio Container -->
 			<c:if test="${cons_true}">
