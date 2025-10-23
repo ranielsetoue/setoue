@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class pos_cbd {
 
 	private static String cam_da = "jdbc:postgresql://localhost:5432/ranie4329_setoue_sis?autoeconnect=true";
-	private static String p_des = "ranie4329";
+	private static String p_des = "ranie4329_set";
 	private static String p_ics = "S@t753146#";
 	private static Connection pos_cbd = null;
  
