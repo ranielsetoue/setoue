@@ -1,7 +1,9 @@
 package lt;
 
 import java.io.IOException;
+import java.util.List;
 
+import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
 import cla.cla_sis_d_log;
@@ -56,6 +58,8 @@ public class lt_sis_busc extends HttpServlet {
 		try {
 			cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 					Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
+			List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
+			request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("cons_true", "true");
@@ -108,13 +112,14 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 				}
-				if (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_prod" ||
-				(String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_serv")) {
-					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request, response);
-	
-				}else {
+				if (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_prod"
+						|| (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_serv")) {
+					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
+							response);
+
+				} else {
 					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
-	
+
 				}
 
 			}
@@ -171,18 +176,17 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 				}
-				if (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_prod" ||
-				(String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_serv")) {
-					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request, response);
-	
-				}else {
+				if (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_prod"
+						|| (String.valueOf(request.getSession().getAttribute("cont_sis")) == "cad_serv")) {
+					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
+							response);
+
+				} else {
 					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
-	
+
 				}
-					
 
 			}
-
 
 		} catch (Exception e) {
 			// TODO: handle exception

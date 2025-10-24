@@ -8,6 +8,7 @@ import java.util.List;
 
 import cbd.pos_cbd;
 import cla.cla_list_cnpj_nome;
+import cla.cla_list_tipo_ace;
 import cla.cla_sis;
 
 public class fun_sis {
@@ -46,12 +47,12 @@ public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
 		String bc_sql = "SELECT cnpj_cpf, nome_desc FROM tb_sis ORDER BY nome_desc";
 		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
-		ResultSet cl_sis = gra_bus.executeQuery();
+		ResultSet gran_inp = gra_bus.executeQuery();
 		
-		while (cl_sis.next()) { /*percorrer as linhas de resultado do SQL*/
+		while (gran_inp.next()) { /*percorrer as linhas de resultado do SQL*/
 			
-			String cnpjCpf = cl_sis.getString("cnpj_cpf");
-            String nomeDesc = cl_sis.getString("nome_desc");
+			String cnpjCpf = gran_inp.getString("cnpj_cpf");
+            String nomeDesc = gran_inp.getString("nome_desc");
             retorno.add(new cla_list_cnpj_nome(cnpjCpf, nomeDesc));
 		}
 		
@@ -59,6 +60,25 @@ public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
 		return retorno;
 	}
 	
+public List<cla_list_tipo_ace> cons_list_tipo_ace() throws Exception {
+	
+	List<cla_list_tipo_ace> retorno = new ArrayList<cla_list_tipo_ace>();
+	
+
+	String bc_sql = "SELECT nome_desc FROM tb_tipo_ace ORDER BY nome_desc";
+	PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+	ResultSet gran_inp = gra_bus.executeQuery();
+	
+	while (gran_inp.next()) { /*percorrer as linhas de resultado do SQL*/
+		
+		String tpnomeDesc = gran_inp.getString("nome_desc");
+        retorno.add(new cla_list_tipo_ace(tpnomeDesc));
+	}
+	
+	
+	return retorno;
+}
 	
 	
 }

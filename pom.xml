@@ -7,6 +7,7 @@
   <name>setoue</name>
 <dependencies>
 
+
 <dependency>
   <groupId>javax.faces</groupId>
   <artifactId>javax.faces-api</artifactId>
@@ -24,11 +25,33 @@
 </dependency>
 
 	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-<dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>9.4-1200-jdbc41</version>
-</dependency>
+
+    <!-- PostgreSQL JDBC -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.5.4</version>
+    </dependency>
+
+    <!-- Servlet API (provided by Tomcat) -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+     <!-- JSTL -->
+    <dependency>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+      <version>2.0.0</version>
+    </dependency>
 
 
 <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -168,8 +191,7 @@ jstl
   	<version>1.0.2</version>
 </dependency>
 
-
-  </dependencies>
+</dependencies>
 
   <build>
     <resources>

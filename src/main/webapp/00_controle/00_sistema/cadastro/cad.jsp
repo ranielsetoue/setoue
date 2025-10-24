@@ -666,9 +666,16 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-							<input type="text" name="permissao" id="permissao"
-								autocomplete="off" value="${sis_tel.permissao}"
-								class="form-control" placeholder="Tipo de Permissao">
+								
+				<input class="form-control" list="list_tipo_ace"
+										type="text" name="permissao" id="permissao"
+								autocomplete="off" value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
+									<datalist id="list_tipo_ace">
+										<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
+											<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
+										</c:forEach>
+									</datalist>
+								
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
