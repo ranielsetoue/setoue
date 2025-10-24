@@ -437,7 +437,6 @@
 								name="nome_desc" id="nome_desc" placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
-							oninput="adjustHeight(this)"
 							<script>
 								function adjustHeight(el) {
 									el.style.height = 'auto'; // reset height
