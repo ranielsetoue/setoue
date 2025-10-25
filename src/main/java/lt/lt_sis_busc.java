@@ -1,7 +1,9 @@
 package lt;
 
 import java.io.IOException;
+import java.util.List;
 
+import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
 import cla.cla_sis_d_log;
@@ -40,7 +42,7 @@ public class lt_sis_busc extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
-
+	
 	public lt_sis_busc() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -68,21 +70,16 @@ public class lt_sis_busc extends HttpServlet {
 
 			}
 
-			/*
-			 * 
-			 * 
-			 * try { List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
-			 * request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
-			 * 
-			 * } catch (Exception e) { // TODO: handle exception e.printStackTrace();
-			 * request.getSession().setAttribute("h_titulo_pagina",
-			 * "SET DEV - ERRO BUSCAR TIPO DE ACESSO" + e.getMessage());
-			 * request.getRequestDispatcher(w_login.getPag_inicial()).forward(request,
-			 * response);
-			 * 
-			 * }
-			 * 
-			 */
+			try {
+				List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
+				request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
+			} catch (Exception e) {
+				// TODO: handle exception
+				request.getSession().setAttribute("h_titulo_pagina",
+						"SET DEV - ERRO BUSCAR TIPO DE ACESSO" + e.getMessage());
+				request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
+			}
+
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("cons_true", "true");
 				request.getSession().setAttribute("cons_false", "false");
