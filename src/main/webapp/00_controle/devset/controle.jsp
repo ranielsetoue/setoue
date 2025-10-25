@@ -129,7 +129,7 @@
 								</c:if>
 								<c:if test="${aces_cad_prod}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_PRO">PRODUTO</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">PRODUTO</a>
 								</c:if>
 								<c:if test="${aces_cad_serv}">
 									<a class="dropdown-item"
@@ -137,7 +137,23 @@
 								</c:if>
 							</div>
 						</div>
+						<c:if test="${aces_cad_sis}">
 
+							<div class="btn-group" role="group">
+
+								<button id="btnGroupDrop1" type="button" class="btn btn-primary"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">TESTE</button>
+								<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+									<a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_dev/?fun=pg_ini">
+										Pagina Inicial</a> <a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar_dado">Buscar
+										Dado</a>
+
+								</div>
+							</div>
+						</c:if>
 					</div>
 					<!-- coluna esquerda -->
 
@@ -159,7 +175,6 @@
 			</div>
 			<!-- Fim Container -->
 			<!--  -->
-
 
 			<!-- Borda -->
 		</div>

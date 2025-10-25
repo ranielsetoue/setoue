@@ -20,7 +20,8 @@ public class cla_perm_ace implements Serializable {
 	private Boolean aces_cad_forn;
 	private Boolean aces_cad_prod;
 	private Boolean aces_cad_serv;
-
+    private Boolean aces_desv;	
+	
 	public boolean nv_id() {
 		if (this.per_ace_id == null || this.per_ace_id == 0L) {
 			return true;
@@ -126,6 +127,16 @@ public class cla_perm_ace implements Serializable {
 	public void setAces_cad_serv(Boolean aces_cad_serv) {
 		this.aces_cad_serv = aces_cad_serv;
 	}
+	
+	public Boolean getAces_desv() {
+		return aces_desv;
+	}
+
+	public void setAces_desv(Boolean aces_desv) {
+		this.aces_desv = aces_desv;
+	}
+
+	
 
 	public void vz_id() {
 

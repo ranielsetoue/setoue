@@ -30,7 +30,6 @@ public class fun_sis {
 
 		while (cl_sis.next()) {
 
-
 			gra_inp.setTitutlo_web(cl_sis.getString("titutlo_web"));
 
 		}
@@ -39,46 +38,41 @@ public class fun_sis {
 
 	}
 
-public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
-		
+	public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
+
 		List<cla_list_cnpj_nome> retorno = new ArrayList<cla_list_cnpj_nome>();
-		
 
 		String bc_sql = "SELECT cnpj_cpf, nome_desc FROM tb_sis ORDER BY nome_desc";
 		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
 		ResultSet gran_inp = gra_bus.executeQuery();
-		
-		while (gran_inp.next()) { /*percorrer as linhas de resultado do SQL*/
-			
+
+		while (gran_inp.next()) { /* percorrer as linhas de resultado do SQL */
+
 			String cnpjCpf = gran_inp.getString("cnpj_cpf");
-            String nomeDesc = gran_inp.getString("nome_desc");
-            retorno.add(new cla_list_cnpj_nome(cnpjCpf, nomeDesc));
+			String nomeDesc = gran_inp.getString("nome_desc");
+			retorno.add(new cla_list_cnpj_nome(cnpjCpf, nomeDesc));
 		}
-		
-		
+
 		return retorno;
 	}
-	
-public List<cla_list_tipo_ace> cons_list_tipo_ace() throws Exception {
-	
-	List<cla_list_tipo_ace> retorno = new ArrayList<cla_list_tipo_ace>();
-	
 
-	String bc_sql = "SELECT nome_desc FROM tb_tipo_ace ORDER BY nome_desc";
-	PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+	public List<cla_list_tipo_ace> cons_list_tipo_ace() throws Exception {
 
-	ResultSet gran_inp = gra_bus.executeQuery();
-	
-	while (gran_inp.next()) { /*percorrer as linhas de resultado do SQL*/
-		
-		String tpnomeDesc = gran_inp.getString("nome_desc");
-        retorno.add(new cla_list_tipo_ace(tpnomeDesc));
+		List<cla_list_tipo_ace> retorno = new ArrayList<cla_list_tipo_ace>();
+
+		String bc_sql = "SELECT nome_desc FROM tb_tipo_ace ORDER BY nome_desc";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet gran_inp = gra_bus.executeQuery();
+
+		while (gran_inp.next()) { /* percorrer as linhas de resultado do SQL */
+
+			String tpnomeDesc = gran_inp.getString("nome_desc");
+			retorno.add(new cla_list_tipo_ace(tpnomeDesc));
+		}
+
+		return retorno;
 	}
-	
-	
-	return retorno;
-}
-	
-	
+
 }

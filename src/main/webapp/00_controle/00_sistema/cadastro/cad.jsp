@@ -448,9 +448,10 @@
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 							<label id="l_nome_fantasia" data-placeholder="Nome Fantasia"
-								class="me-2"></label> <input class="form-control" type="text"
-								name="nome_fantasia" id="nome_fantasia" autocomplete="off"
-								value="${sis_tel.nome_fantasia}" placeholder="Nome Fantasia">
+								class="me-2"></label> 						
+    <input class="form-control" type="text"
+           name="nome_fantasia" id="nome_fantasia" autocomplete="off"
+           value="${pre_glo.nome_fantasia}" placeholder="Nome Fantasia">
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->

@@ -9,6 +9,7 @@ import cla.cla_sis;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
+import func.busc_unico;
 import func.fun_blio;
 import func.fun_sis;
 import func.fun_sis_dom;
@@ -42,7 +43,7 @@ public class lt_sis_busc extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
-	
+
 	public lt_sis_busc() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -73,11 +74,14 @@ public class lt_sis_busc extends HttpServlet {
 			try {
 				List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
 				request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
+
 			} catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
 				request.getSession().setAttribute("h_titulo_pagina",
 						"SET DEV - ERRO BUSCAR TIPO DE ACESSO" + e.getMessage());
 				request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
+
 			}
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
@@ -91,6 +95,26 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_sis");
+					
+					
+					List<cla_sis> lista = busc_unico.busca("tb_sis", "a", cla_sis.class);
+					// Define o atributo de sessão: 1 se houver apenas 1 resultado, 2 se houver mais de 1
+					int b1Value = (lista.size() > 1) ? 2 : 1;
+				    
+					if (b1Value == 1) {
+						
+						  System.out.println(lista);
+						
+						
+					}else {
+					
+						  System.out.println(lista);
+						 
+						request.getSession().setAttribute("listaResultados", lista);
+
+					}
+					
+					
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
 				}

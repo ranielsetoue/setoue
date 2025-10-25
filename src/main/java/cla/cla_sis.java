@@ -2,7 +2,8 @@
 package cla;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class cla_sis implements Serializable {
 
@@ -10,9 +11,9 @@ public class cla_sis implements Serializable {
 
 	private Long id_sis;
 	private Long reg_id;
-	private Date reg_data;
+	private Timestamp reg_data;
 	private Long reg_alt;
-	private Date reg_data_alt;
+	private Timestamp reg_data_alt;
 	private Boolean truefalse;
 	private String ace_per_aut;
 	private String nome_desc;
@@ -60,13 +61,6 @@ public class cla_sis implements Serializable {
 		this.reg_id = reg_id;
 	}
 
-	public Date getReg_data() {
-		return reg_data;
-	}
-
-	public void setReg_data(Date reg_data) {
-		this.reg_data = reg_data;
-	}
 
 	public Long getReg_alt() {
 		return reg_alt;
@@ -76,11 +70,20 @@ public class cla_sis implements Serializable {
 		this.reg_alt = reg_alt;
 	}
 
-	public Date getReg_data_alt() {
+
+	public Timestamp getReg_data() {
+		return reg_data;
+	}
+
+	public void setReg_data(Timestamp reg_data) {
+		this.reg_data = reg_data;
+	}
+
+	public Timestamp getReg_data_alt() {
 		return reg_data_alt;
 	}
 
-	public void setReg_data_alt(Date reg_data_alt) {
+	public void setReg_data_alt(Timestamp reg_data_alt) {
 		this.reg_data_alt = reg_data_alt;
 	}
 
@@ -282,4 +285,46 @@ public class cla_sis implements Serializable {
 
 	}
 
+	@Override
+	public String toString() {
+		return "cla_sis [id_sis=" + id_sis + ", reg_id=" + reg_id + ", reg_data=" + reg_data + ", reg_alt=" + reg_alt
+				+ ", reg_data_alt=" + reg_data_alt + ", truefalse=" + truefalse + ", ace_per_aut=" + ace_per_aut
+				+ ", nome_desc=" + nome_desc + ", no_fan=" + no_fan + ", cnpj_cpf=" + cnpj_cpf + ", end_rua=" + end_rua
+				+ ", end_num=" + end_num + ", end_com=" + end_com + ", end_bar=" + end_bar + ", end_mun=" + end_mun
+				+ ", end_uf=" + end_uf + ", end_cep=" + end_cep + ", ins_est=" + ins_est + ", ins_mun=" + ins_mun
+				+ ", tel_1=" + tel_1 + ", email_1=" + email_1 + ", obs=" + obs + ", Titutlo_web=" + Titutlo_web + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Titutlo_web, ace_per_aut, cnpj_cpf, email_1, end_bar, end_cep, end_com, end_mun, end_num,
+				end_rua, end_uf, id_sis, ins_est, ins_mun, no_fan, nome_desc, obs, reg_alt, reg_data, reg_data_alt,
+				reg_id, tel_1, truefalse);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		cla_sis other = (cla_sis) obj;
+		return Objects.equals(Titutlo_web, other.Titutlo_web) && Objects.equals(ace_per_aut, other.ace_per_aut)
+				&& Objects.equals(cnpj_cpf, other.cnpj_cpf) && Objects.equals(email_1, other.email_1)
+				&& Objects.equals(end_bar, other.end_bar) && Objects.equals(end_cep, other.end_cep)
+				&& Objects.equals(end_com, other.end_com) && Objects.equals(end_mun, other.end_mun)
+				&& Objects.equals(end_num, other.end_num) && Objects.equals(end_rua, other.end_rua)
+				&& Objects.equals(end_uf, other.end_uf) && Objects.equals(id_sis, other.id_sis)
+				&& Objects.equals(ins_est, other.ins_est) && Objects.equals(ins_mun, other.ins_mun)
+				&& Objects.equals(no_fan, other.no_fan) && Objects.equals(nome_desc, other.nome_desc)
+				&& Objects.equals(obs, other.obs) && Objects.equals(reg_alt, other.reg_alt)
+				&& Objects.equals(reg_data, other.reg_data) && Objects.equals(reg_data_alt, other.reg_data_alt)
+				&& Objects.equals(reg_id, other.reg_id) && Objects.equals(tel_1, other.tel_1)
+				&& Objects.equals(truefalse, other.truefalse);
+	}
+
+
+	
 }

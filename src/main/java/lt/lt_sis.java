@@ -38,7 +38,6 @@ public class lt_sis extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
-	
 
 	public lt_sis() {
 		super();
@@ -53,9 +52,7 @@ public class lt_sis extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		
 		try {
-
 
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
