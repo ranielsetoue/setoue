@@ -165,14 +165,17 @@
 		resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
 		return resultado == digitos.charAt(1);
 	}
+	
+
 </script>
 <!--  -->
 </head>
 <body>
+	
 	<!-- ----- inicio body -->
 	<!--  -->
 	<!-- Borda -->
-	<div class="container-fluid	 mt-3 px-4">
+	<div class="container-fluid	 mt-3 px-4" >
 		<!-- Borda -->
 		<!-- inicio form -->
 		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
@@ -634,7 +637,7 @@
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 							<!--  -->
-							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse"
+							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse" onfocus="this.value=''"
 								type="text" autocomplete="off" value="${sis_tel.truefalse}"
 								class="form-control" placeholder="ACESSO ADMINISTRATOR">
 							<datalist id="listADMTRUEFALSE">
@@ -668,7 +671,7 @@
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 								
 				<input class="form-control" list="list_tipo_ace"
-										type="text" name="permissao" id="permissao"
+										type="text" name="permissao" id="permissao" onfocus="this.value=''"
 								autocomplete="off" value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
 									<datalist id="list_tipo_ace">
 										<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
