@@ -165,17 +165,15 @@
 		resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
 		return resultado == digitos.charAt(1);
 	}
-	
-
 </script>
 <!--  -->
 </head>
 <body>
-	
+
 	<!-- ----- inicio body -->
 	<!--  -->
 	<!-- Borda -->
-	<div class="container-fluid	 mt-3 px-4" >
+	<div class="container-fluid	 mt-3 px-4">
 		<!-- Borda -->
 		<!-- inicio form -->
 		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
@@ -427,8 +425,9 @@
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
-							<input class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
-								id="cnpj_cpf" maxlength="18"
+							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"
+								class="me-2"></label> <input class="form-control"
+								list="listcnpj_cpf" name="cnpj_cpf" id="cnpj_cpf" maxlength="18"
 								oninput="forCnpjCpf(this); valCnpjCpf(this)"
 								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
 						</div>
@@ -436,34 +435,21 @@
 						<!-- coluna Central -->
 						<div id="div_nome_desc"
 							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
+							<label id="l_nome_desc" data-placeholder="Nome" class="me-2"></label>
+
 							<textarea class="form-control" autocomplete="off"
 								name="nome_desc" id="nome_desc" placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
-							<script>
-								function adjustHeight(el) {
-									el.style.height = 'auto'; // reset height
-									const lineHeight = 24; // ajuste conforme seu CSS do textarea
-									const maxLines = 3;
-									const maxHeight = lineHeight * maxLines;
 
-									if (el.scrollHeight > maxHeight) {
-										el.style.height = maxHeight + 'px';
-										el.style.overflowY = 'auto'; // aparece scroll após 3 linhas
-									} else {
-										el.style.height = el.scrollHeight
-												+ 'px';
-										el.style.overflowY = 'hidden';
-									}
-								}
-							</script>
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-							<input class="form-control" type="text" name="nome_fantasia"
-								id="nome_fantasia" autocomplete="off"
+							<label id="l_nome_fantasia" data-placeholder="Nome Fantasia"
+								class="me-2"></label> <input class="form-control" type="text"
+								name="nome_fantasia" id="nome_fantasia" autocomplete="off"
 								value="${sis_tel.nome_fantasia}" placeholder="Nome Fantasia">
 						</div>
 						<!-- coluna Direita -->
@@ -487,19 +473,22 @@
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-							<input type="text" name="inscricao_estatual"
-								id="inscricao_estatual" autocomplete="off"
-								value="${sis_tel.inscricao_estatual}" class="form-control"
-								placeholder="Inscricao Estatual">
+
+							<label id="l_inscricao_estatual"
+								data-placeholder="Inscricao Estatual" class="me-2"></label> <input
+								type="text" name="inscricao_estatual" id="inscricao_estatual"
+								autocomplete="off" value="${sis_tel.inscricao_estatual}"
+								class="form-control" placeholder="Inscricao Estatual">
 						</div>
 						<!-- coluna esquerda -->
 
 						<!-- coluna Direita -->
 						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
-							<input type="text" name="inscricao_municipal"
-								id="inscricao_municipal" autocomplete="off"
-								value="${sis_tel.inscricao_municipal}" class="form-control"
-								placeholder="Inscricao Municipal">
+							<label id="l_inscricao_municipal"
+								data-placeholder="Inscricao Municipal" class="me-2"></label> <input
+								type="text" name="inscricao_municipal" id="inscricao_municipal"
+								autocomplete="off" value="${sis_tel.inscricao_municipal}"
+								class="form-control" placeholder="Inscricao Municipal">
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -521,6 +510,8 @@
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_endereco" data-placeholder="Enderenco" class="me-2"></label>
+							
 							<input type="text" name="endereco" id="endereco"
 								autocomplete="off" value="${sis_tel.endereco}"
 								class="form-control" placeholder="Enderenco">
@@ -529,6 +520,8 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+							<label id="l_numero" data-placeholder="Numero" class="me-2"></label>
+							
 							<input type="text" name="numero" id="numero" autocomplete="off"
 								value="${sis_tel.numero}" class="form-control"
 								placeholder="Numero">
@@ -537,6 +530,8 @@
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_complemento" data-placeholder="Complemento" class="me-2"></label>
+							
 							<input type="text" name="complemento" id="complemento"
 								autocomplete="off" value="${sis_tel.complemento}"
 								class="form-control" placeholder="Complemento">
@@ -561,6 +556,8 @@
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<label id="l_bairro" data-placeholder="Bairro" class="me-2"></label>
+							
 							<input type="text" name="bairro" id="bairro" autocomplete="off"
 								value="${sis_tel.bairro}" class="form-control"
 								placeholder="Bairro">
@@ -569,6 +566,8 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+<label id="l_municipio" data-placeholder="Municipio" class="me-2"></label>
+							
 							<input type="text" name="municipio" id="municipio"
 								autocomplete="off" value="${sis_tel.municipio}"
 								class="form-control" placeholder="Municipio">
@@ -594,6 +593,8 @@
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
+							<label id="l_estado" data-placeholder="UF" class="me-2"></label>
+							
 							<input type="text" maxlength="2" name="estado" id="estado"
 								autocomplete="off" value="${sis_tel.estado}"
 								class="form-control" placeholder="UF">
@@ -602,14 +603,47 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-							<input onblur="CEPPESQ();" type="text" maxlength="10" name="cep"
+							<label id="l_cep" data-placeholder="CEP" class="me-2"></label> <input
+								onblur="CEPPESQ();" type="text" maxlength="10" name="cep"
 								id="cep" autocomplete="off" value="${sis_tel.cep}"
 								class="form-control" placeholder="CEP">
+							<script>
+function toggleLabel(inputId, labelId) {
+    const input = document.getElementById(inputId);
+    const label = document.getElementById(labelId);
+
+    if (!input.value.trim()) {
+        label.style.display = 'none';
+    } else {
+        label.style.display = 'inline';
+        label.textContent = label.dataset.placeholder;
+    }
+}
+
+function initLabels() {
+    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+    inputs.forEach(input => {
+        const labelId = 'l_' + input.id; // label deve ter id = l_ + input id
+        const label = document.getElementById(labelId);
+        if (label) {
+            toggleLabel(input.id, labelId);
+            input.addEventListener('input', () => toggleLabel(input.id, labelId));
+            input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initLabels);
+
+</script>
+
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div id="col-obs"
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_observacao" data-placeholder="Observação" class="me-2"></label>
+							
 							<textarea name="observacao" id="observacao" class="form-control"
 								placeholder="Observação" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
@@ -637,9 +671,12 @@
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 							<!--  -->
-							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse" onfocus="this.value=''"
-								type="text" autocomplete="off" value="${sis_tel.truefalse}"
-								class="form-control" placeholder="ACESSO ADMINISTRATOR">
+							<label id="l_truefalse" data-placeholder="ACESSO ADMINISTRATOR" class="me-2"></label>
+							
+							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse"
+								onfocus="this.value=''" type="text" autocomplete="off"
+								value="${sis_tel.truefalse}" class="form-control"
+								placeholder="ACESSO ADMINISTRATOR">
 							<datalist id="listADMTRUEFALSE">
 								<option value="TRUE">
 								<option value="FALSE">
@@ -669,16 +706,18 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-								
-				<input class="form-control" list="list_tipo_ace"
-										type="text" name="permissao" id="permissao" onfocus="this.value=''"
-								autocomplete="off" value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
-									<datalist id="list_tipo_ace">
-										<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
-											<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
-										</c:forEach>
-									</datalist>
-								
+							<label id="l_permissao" data-placeholder="Tipo de Permissao" class="me-2"></label>
+
+							<input class="form-control" list="list_tipo_ace" type="text"
+								name="permissao" id="permissao" onfocus="this.value=''"
+								autocomplete="off" value="${sis_tel.permissao}"
+								placeholder="Tipo de Permissao">
+							<datalist id="list_tipo_ace">
+								<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
+									<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
+								</c:forEach>
+							</datalist>
+
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -704,7 +743,23 @@
 	</div>
 	<!-- Borda -->
 
+	<script type="text/javascript">
+								function adjustHeight(el) {
+									el.style.height = 'auto'; // reset height
+									const lineHeight = 24; // ajuste conforme seu CSS do textarea
+									const maxLines = 3;
+									const maxHeight = lineHeight * maxLines;
 
+									if (el.scrollHeight > maxHeight) {
+										el.style.height = maxHeight + 'px';
+										el.style.overflowY = 'auto'; // aparece scroll após 3 linhas
+									} else {
+										el.style.height = el.scrollHeight
+												+ 'px';
+										el.style.overflowY = 'hidden';
+									}
+								}
+							</script>
 
 
 	<!--  -->
