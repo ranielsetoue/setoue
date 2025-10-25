@@ -147,10 +147,7 @@ public class lt_sis_log extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			request.getSession().setAttribute("h_titulo_pagina", "SET DEV");
-
-			request.setAttribute("msg_erro",
-					"Informa o comando que foi executado ao Desensenvolverdor  e erro ocorrido = " + e.getMessage());
+			request.getSession().setAttribute("h_titulo_pagina", "SET DEV - ERRO LOGIN"  + e.getMessage());
 			request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
 
 		}

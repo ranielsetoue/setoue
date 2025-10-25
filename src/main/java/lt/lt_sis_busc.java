@@ -1,9 +1,7 @@
 package lt;
 
 import java.io.IOException;
-import java.util.List;
 
-import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
 import cla.cla_sis_d_log;
@@ -56,11 +54,35 @@ public class lt_sis_busc extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
-					Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
-			List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
-			request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
 
+			try {
+				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
+						Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				request.getSession().setAttribute("h_titulo_pagina",
+						"SET DEV - ERRO BUSCAR PERMISSAO ACESSO" + e.getMessage());
+				request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
+
+			}
+
+			/*
+			 * 
+			 * 
+			 * try { List<cla_list_tipo_ace> sis_list_tipo_ace = f_sis.cons_list_tipo_ace();
+			 * request.setAttribute("sis_list_tipo_ace", sis_list_tipo_ace);
+			 * 
+			 * } catch (Exception e) { // TODO: handle exception e.printStackTrace();
+			 * request.getSession().setAttribute("h_titulo_pagina",
+			 * "SET DEV - ERRO BUSCAR TIPO DE ACESSO" + e.getMessage());
+			 * request.getRequestDispatcher(w_login.getPag_inicial()).forward(request,
+			 * response);
+			 * 
+			 * }
+			 * 
+			 */
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("cons_true", "true");
 				request.getSession().setAttribute("cons_false", "false");
@@ -190,7 +212,8 @@ public class lt_sis_busc extends HttpServlet {
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			request.getSession().setAttribute("h_titulo_pagina", "SET DEV - ERRO BUSCAR");
+			e.printStackTrace();
+			request.getSession().setAttribute("h_titulo_pagina", "SET DEV - ERRO BUSCAR" + e.getMessage());
 			request.getRequestDispatcher(w_login.getPag_inicial()).forward(request, response);
 
 		}
