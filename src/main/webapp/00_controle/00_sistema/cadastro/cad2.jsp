@@ -32,7 +32,6 @@
 <c:set scope="session" var="cons_false"
 	value="${sessionScope.cons_false}" />
 <c:set scope="session" var="aces_desv" value="${sessionScope.aces_desv}" />
-
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -142,18 +141,12 @@ function valBusnome() {
 }
 
 function sis_busc() {
-    var tx_bus = document.getElementById('bus_cnpj_cpf').value.trim();
-    if (tx_bus === "") {
-        alert("Preencher para pode Consultar");
-        return false;
-    }else{
+
 	    document.getElementById('fun').value = "buscar";
 	    document.getElementById('cont_sis').value = "cad_sis";
 	    document.getElementById('fon_cad').submit();
 
-    }
 }
-
 </script>
 
 
@@ -295,7 +288,6 @@ function sis_busc() {
 			</div>
 			<!-- FIM Container -->
 			<!--  -->
-			<!--  -->
 			<!-- final form -->
 		</form>
 		<!-- final form -->
@@ -318,7 +310,7 @@ function sis_busc() {
 							class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
 							<input class="form-control" list="list_cnpj_cpf"
 								name="bus_cnpj_cpf" id="bus_cnpj_cpf" maxlength="18"
-								oninput="handleBusca(this); valBusnome();"
+								oninput="handleBusca(this); valBusnome()"
 								placeholder="CNPJ, CPF ou Nome">
 
 							<datalist id="list_cnpj_cpf">
@@ -337,8 +329,12 @@ function sis_busc() {
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
+<!--  							
+	onclick="sis_busc();window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar';">
+ -->
 							<button type="button" class="btn btn-info"
-								onclick="sis_busc();">Buscar</button>
+								onclick="sis_busc();">
+								Buscar</button>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -364,27 +360,25 @@ function sis_busc() {
 						<!-- coluna esquerda -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-info"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=novo';">
-								NOVO</button>
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=novo">
+								<button type="button" class="btn btn-info">NOVO</button>
+							</a>
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-
-							<button type="button" class="btn btn-success"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=salvar';">
-								SALVAR</button>
-
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+								<button type="button" class="btn btn-success">SALVAR</button>
+							</a>
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-danger"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=excluir';">
-								EXCLUIR</button>
+							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
+								<button type="button" class="btn btn-danger">EXCLUIR</button>
+							</a>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -395,10 +389,346 @@ function sis_busc() {
 			</c:if>
 			<!-- FIM Container -->
 			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
+							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"
+								class="me-2"></label> <input class="form-control"
+								name="cnpj_cpf" id="cnpj_cpf" maxlength="18"
+								oninput="forCnpjCpf(this); valCnpjCpf(this)"
+								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div id="div_nome_desc"
+							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
+							<label id="l_nome_desc" data-placeholder="Nome" class="me-2"></label>
+
+							<textarea class="form-control" autocomplete="off"
+								name="nome_desc" id="nome_desc" placeholder="Nome" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_nome_fantasia" data-placeholder="Nome Fantasia"
+								class="me-2"></label> <input class="form-control" type="text"
+								name="nome_fantasia" id="nome_fantasia" autocomplete="off"
+								value="${pre_glo.nome_fantasia}" placeholder="Nome Fantasia">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+
+							<label id="l_inscricao_estatual"
+								data-placeholder="Inscricao Estatual" class="me-2"></label> <input
+								type="text" name="inscricao_estatual" id="inscricao_estatual"
+								autocomplete="off" value="${sis_tel.inscricao_estatual}"
+								class="form-control" placeholder="Inscricao Estatual">
+						</div>
+						<!-- coluna esquerda -->
+
+						<!-- coluna Direita -->
+						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+							<label id="l_inscricao_municipal"
+								data-placeholder="Inscricao Municipal" class="me-2"></label> <input
+								type="text" name="inscricao_municipal" id="inscricao_municipal"
+								autocomplete="off" value="${sis_tel.inscricao_municipal}"
+								class="form-control" placeholder="Inscricao Municipal">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_endereco" data-placeholder="Enderenco" class="me-2"></label>
+
+							<input type="text" name="endereco" id="endereco"
+								autocomplete="off" value="${sis_tel.endereco}"
+								class="form-control" placeholder="Enderenco">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+							<label id="l_numero" data-placeholder="Numero" class="me-2"></label>
+
+							<input type="text" name="numero" id="numero" autocomplete="off"
+								value="${sis_tel.numero}" class="form-control"
+								placeholder="Numero">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_complemento" data-placeholder="Complemento"
+								class="me-2"></label> <input type="text" name="complemento"
+								id="complemento" autocomplete="off"
+								value="${sis_tel.complemento}" class="form-control"
+								placeholder="Complemento">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<label id="l_bairro" data-placeholder="Bairro" class="me-2"></label>
+
+							<input type="text" name="bairro" id="bairro" autocomplete="off"
+								value="${sis_tel.bairro}" class="form-control"
+								placeholder="Bairro">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<label id="l_municipio" data-placeholder="Municipio" class="me-2"></label>
+
+							<input type="text" name="municipio" id="municipio"
+								autocomplete="off" value="${sis_tel.municipio}"
+								class="form-control" placeholder="Municipio">
+						</div>
+						<!-- coluna Central -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
+							<label id="l_estado" data-placeholder="UF" class="me-2"></label>
+							<input type="text" maxlength="2" name="estado" id="estado"
+								autocomplete="off" value="${sis_tel.estado}"
+								class="form-control" placeholder="UF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+							<label id="l_cep" data-placeholder="CEP" class="me-2"></label> <input
+								onblur="CEPPESQ();" type="text" maxlength="10" name="cep"
+								id="cep" autocomplete="off" value="${sis_tel.cep}"
+								class="form-control" placeholder="CEP">
+							<script>
+function toggleLabel(inputId, labelId) {
+    const input = document.getElementById(inputId);
+    const label = document.getElementById(labelId);
+
+    if (!input.value.trim()) {
+        label.style.display = 'none';
+    } else {
+        label.style.display = 'inline';
+        label.textContent = label.dataset.placeholder;
+    }
+}
+
+function initLabels() {
+    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+    inputs.forEach(input => {
+        const labelId = 'l_' + input.id; // label deve ter id = l_ + input id
+        const label = document.getElementById(labelId);
+        if (label) {
+            toggleLabel(input.id, labelId);
+            input.addEventListener('input', () => toggleLabel(input.id, labelId));
+            input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initLabels);
+
+</script>
+
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div id="col-obs"
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_observacao" data-placeholder="Observação"
+								class="me-2"></label>
+
+							<textarea name="observacao" id="observacao" class="form-control"
+								placeholder="Observação" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${sis_tel.observacao}</textarea>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							<!--  -->
+							<label id="l_truefalse" data-placeholder="ACESSO ADMINISTRATOR"
+								class="me-2"></label> <input list="listADMTRUEFALSE"
+								name="truefalse" id="truefalse" onfocus="this.value=''"
+								type="text" autocomplete="off" value="${sis_tel.truefalse}"
+								class="form-control" placeholder="ACESSO ADMINISTRATOR">
+							<datalist id="listADMTRUEFALSE">
+								<option value="TRUE">
+								<option value="FALSE">
+							</datalist>
+
+							<script>
+								document
+										.getElementById("truefalse")
+										.addEventListener(
+												"change",
+												function() {
+													const valor = this.value
+															.toUpperCase();
+													if (valor !== "TRUE"
+															&& valor !== "FALSE"
+															&& valor !== " ") {
+														alert("Por favor, selecione apenas TRUE ou FALSE.");
+														this.value = ""; // limpa o campo
+													}
+												});
+							</script>
+
+							<!--  -->
+						</div>
+
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							<label id="l_permissao" data-placeholder="Tipo de Permissao"
+								class="me-2"></label> <input class="form-control"
+								list="list_tipo_ace" type="text" name="permissao" id="permissao"
+								onfocus="this.value=''" autocomplete="off"
+								value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
+							<datalist id="list_tipo_ace">
+								<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
+									<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
+								</c:forEach>
+							</datalist>
+
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			</c:if>
+			<!-- FIM Container -->
+			<!--  -->
+
+<c:if test="${cons_list}">
+  <c:when test="${cons_list}">
+        <p>unico</p>
+    </c:when>
+
+    <!-- Caso seja false -->
+    <c:otherwise>
+        <p>list</p>
+    </c:otherwise>
+</c:if>
+
+
+
 			<!-- final form -->
 		</form>
 		<!-- final form -->
+		
+		
+		
+		
 		<!-- Campo de entrada -->
+		
 		<!--  -->
 		<!-- Borda -->
 	</div>
@@ -425,7 +755,6 @@ function sis_busc() {
 
 	<!--  -->
 	<!-- ---- fim body-->
-
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
@@ -437,8 +766,28 @@ function sis_busc() {
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+		integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
 </body>
-
 </html>

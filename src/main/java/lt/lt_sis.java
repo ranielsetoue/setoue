@@ -54,6 +54,10 @@ public class lt_sis extends HttpServlet {
 
 		try {
 
+			request.getSession().setAttribute("cons_tx1", false);
+			request.getSession().setAttribute("cons_list", false);
+
+			
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 						Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));

@@ -62,10 +62,11 @@ public class lt_dev extends HttpServlet {
             request.getSession().setAttribute("cons_true", "false");
             request.getSession().setAttribute("cons_false", "true");
             request.getSession().setAttribute("cont_sis", "cad_sis");
-
+            
             List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
             request.setAttribute("sis_cons", sisCons);
 
+            
             String termo = request.getParameter("termo");
             List<cla_sis> lista = new ArrayList<>();
 

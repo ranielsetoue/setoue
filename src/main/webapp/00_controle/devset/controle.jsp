@@ -148,10 +148,10 @@
 									<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/lt_dev/?fun=pg_ini">
 										Pagina Inicial</a> <a class="dropdown-item"
-										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar_dado">Buscar
-										Dado</a>
- <a class="dropdown-item"
 										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar1">Buscar
+										Inicio</a>
+ <a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar_dado">Buscar Dado
 										</a>
 								</div>
 							</div>
