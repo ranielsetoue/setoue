@@ -54,9 +54,8 @@ public class lt_sis extends HttpServlet {
 
 		try {
 
-			request.getSession().setAttribute("cons_tx1", false);
 			request.getSession().setAttribute("cons_list", false);
-
+			request.getSession().setAttribute("cons_list_not", false);
 			
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
@@ -70,18 +69,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_sis");
-				/*
-				 * List<cla_list_cnpj_nome> dadosJsonUser = f_sis.cons_list_sis_cnpj();
-				 * 
-				 * ObjectMapper mapper = new ObjectMapper();
-				 * 
-				 * String json = mapper.writeValueAsString(dadosJsonUser);
-				 * 
-				 * response.getWriter().write(json);
-				 * 
-				 * System.out.println(json);
-				 * 
-				 */
+
 				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				request.setAttribute("sis_cons", sisCons);
 
@@ -101,8 +89,11 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_cli");
-				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-				request.setAttribute("sis_cons", sisCons);
+
+				/*
+				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+				 * request.setAttribute("sis_cons", sisCons);
+				 */
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
@@ -120,8 +111,10 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_for");
-				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-				request.setAttribute("sis_cons", sisCons);
+				/*
+				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+				 * request.setAttribute("sis_cons", sisCons);
+				 */
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
@@ -140,6 +133,11 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_pro");
 
+				/*
+				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+				 * request.setAttribute("sis_cons", sisCons);
+				 */
+
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
 						response);
@@ -157,6 +155,11 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_serv");
+
+				/*
+				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+				 * request.setAttribute("sis_cons", sisCons);
+				 */
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
