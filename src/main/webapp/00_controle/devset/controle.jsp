@@ -150,7 +150,9 @@
 										Pagina Inicial</a> <a class="dropdown-item"
 										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar_dado">Buscar
 										Dado</a>
-
+ <a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_dev/?fun=buscar1">Buscar
+										</a>
 								</div>
 							</div>
 						</c:if>

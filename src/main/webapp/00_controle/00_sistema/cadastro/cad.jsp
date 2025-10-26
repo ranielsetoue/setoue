@@ -43,129 +43,113 @@
 <!--  -->
 <title>${h_titulo_web}</title>
 
+
 <script type="text/javascript">
-	// Limpa o outro campo quando o atual for preenchido
+// Formata CPF ou CNPJ automaticamente
+function formatCpfCnpj(valor) {
+    let numeros = valor.replace(/\D/g, '');
+    if (numeros.length <= 11) { // CPF
+        numeros = numeros.replace(/(\d{3})(\d)/, '$1.$2')
+                         .replace(/(\d{3})(\d)/, '$1.$2')
+                         .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    } else { // CNPJ
+        numeros = numeros.replace(/^(\d{2})(\d)/, '$1.$2')
+                         .replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2')
+                         .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                         .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+    }
+    return numeros;
+}
 
-	function cnpjlimparnome(campoAtual, campoOutro) {
-		const atual = document.getElementById(campoAtual);
-		const outro = document.getElementById(campoOutro);
+// Valida CPF (simplificado)
+function isValidCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    let sum = 0, rest;
+    for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i-1, i)) * (11-i);
+    rest = (sum * 10) % 11;
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(cpf.substring(9, 10))) return false;
+    sum = 0;
+    for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i-1, i)) * (12-i);
+    rest = (sum * 10) % 11;
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(cpf.substring(10, 11))) return false;
+    return true;
+}
 
-		// Se o usuário digitar algo no campo atual, limpa o outro
-		if (atual.value.trim() !== "") {
-			outro.value = "";
-		}
+// Valida CNPJ (simplificado)
+function isValidCNPJ(cnpj) {
+    cnpj = cnpj.replace(/\D/g, '');
+    if (cnpj.length !== 14) return false;
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+    let tamanho = cnpj.length - 2;
+    let numeros = cnpj.substring(0, tamanho);
+    let digitos = cnpj.substring(tamanho);
+    let soma = 0, pos = tamanho - 7;
+    for (let i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
+    }
+    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0)) return false;
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0, tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (let i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1)) return false;
+    return true;
+}
 
-	}
+// Valida e formata input
+function handleBusca(input) {
+    let valor = input.value.trim();
 
-	//Atualiza estado do botão Buscar
-	function atualizarBotaoBuscar() {
-		const cnpjCpfInput = document.getElementById('cnpj_cpf');
-		const nomeDescInput = document.getElementById('nome_desc');
-		const valor = cnpjCpfInput.value.replace(/\D/g, '');
-		let valido = false;
+    // Se inicia com letra, não mostra erro
+    if (/^[a-zA-Z]/.test(valor)) {
+        document.getElementById('erro_busca').classList.add('d-none');
+        input.classList.remove('border-danger');
+        return;
+    }
 
-		if (valor.length === 11)
-			valido = validarCPF(valor);
-		else if (valor.length === 14)
-			valido = validarCNPJ(valor);
-		else if (nomeDescInput.value.trim() !== "")
-			valido = true;
+    // Formata CPF/CNPJ automaticamente
+    if (/^\d/.test(valor)) {
+        input.value = formatCpfCnpj(valor);
+    }
 
-	}
-	// Função que formata CPF ou CNPJ automaticamente
-	function forCnpjCpf(input) {
-		let valor = input.value.replace(/\D/g, ''); // remove tudo que não for número
+    // Valida CPF/CNPJ
+    let valido = true;
+    let numeros = valor.replace(/\D/g, '');
+    if (numeros.length === 11) {
+        valido = isValidCPF(valor);
+    } else if (numeros.length === 14) {
+        valido = isValidCNPJ(valor);
+    } else if (/^\d/.test(valor)) {
+        valido = false;
+    }
 
-		if (valor.length <= 11) {
-			// CPF -> 000.000.000-00
-			valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-			valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-			valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-		} else {
-			// CNPJ -> 00.000.000/0000-00
-			valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
-			valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-			valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
-			valor = valor.replace(/(\d{4})(\d)/, "$1-$2");
-		}
+    let erro = document.getElementById('erro_busca');
+    if (!valido) {
+        erro.classList.remove('d-none');
+        input.classList.add('border-danger');
+    } else {
+        erro.classList.add('d-none');
+        input.classList.remove('border-danger');
+    }
+}
 
-		input.value = valor;
-	}
-	// Valida CPF ou CNPJ em tempo real
-	function valCnpjCpf(input) {
-		const valor = input.value.replace(/\D/g, '');
-		const msgErro = document.getElementById('erro_cnpj_cpf');
-		let valido = false;
-
-		if (valor.length === 11) {
-			valido = validarCPF(valor);
-		} else if (valor.length === 14) {
-			valido = validarCNPJ(valor);
-		}
-
-		if (valor.length > 0 && !valido) {
-			input.style.borderColor = "red";
-			msgErro.classList.remove("d-none");
-			msgErro.textContent = valor.length <= 11 ? "dado inválido"
-					: "dado inválido";
-		} else {
-			input.style.borderColor = "";
-			msgErro.classList.add("d-none");
-		}
-
-	}
-
-	// Validação real de CPF
-	function validarCPF(cpf) {
-		if (/^(\d)\1{10}$/.test(cpf))
-			return false;
-		let soma = 0;
-		for (let i = 0; i < 9; i++)
-			soma += parseInt(cpf.charAt(i)) * (10 - i);
-		let resto = 11 - (soma % 11);
-		if (resto >= 10)
-			resto = 0;
-		if (resto !== parseInt(cpf.charAt(9)))
-			return false;
-		soma = 0;
-		for (let i = 0; i < 10; i++)
-			soma += parseInt(cpf.charAt(i)) * (11 - i);
-		resto = 11 - (soma % 11);
-		if (resto >= 10)
-			resto = 0;
-		return resto === parseInt(cpf.charAt(10));
-	}
-
-	// Validação real de CNPJ
-	function validarCNPJ(cnpj) {
-		if (/^(\d)\1{13}$/.test(cnpj))
-			return false;
-		let tamanho = cnpj.length - 2;
-		let numeros = cnpj.substring(0, tamanho);
-		let digitos = cnpj.substring(tamanho);
-		let soma = 0;
-		let pos = tamanho - 7;
-		for (let i = tamanho; i >= 1; i--) {
-			soma += numeros.charAt(tamanho - i) * pos--;
-			if (pos < 2)
-				pos = 9;
-		}
-		let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-		if (resultado != digitos.charAt(0))
-			return false;
-		tamanho = tamanho + 1;
-		numeros = cnpj.substring(0, tamanho);
-		soma = 0;
-		pos = tamanho - 7;
-		for (let i = tamanho; i >= 1; i--) {
-			soma += numeros.charAt(tamanho - i) * pos--;
-			if (pos < 2)
-				pos = 9;
-		}
-		resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-		return resultado == digitos.charAt(1);
-	}
+// Função placeholder para nome (se tiver alguma função extra)
+function valBusnome() {
+    // Pode colocar aqui validações adicionais de nome se precisar
+}
 </script>
+
+
 <!--  -->
 </head>
 <body>
@@ -232,9 +216,11 @@
 			</div>
 			<!-- FIM Container -->
 			<!--  -->
+
+
 			<!--  -->
 			<!-- Inicio Container -->
-			<div class="container mt-3">
+			<div class="container">
 				<!-- Inicio Container -->
 				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
@@ -270,7 +256,7 @@
 											</c:if>
 											<c:if test="${aces_cad_prod}">
 												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_PRO">PRODUTO</a>
+													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">PRODUTO</a>
 											</c:if>
 											<c:if test="${aces_cad_serv}">
 												<a class="dropdown-item"
@@ -285,26 +271,29 @@
 					<!-- coluna esquerda -->
 					<!-- coluna Central -->
 					<div
-						class="col-12 col-md-5 mb-2 mb-md-0 align-self-center text-center">
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12 col-md-2 mb-2 mb-md-0 align-items-center align-self-center ">
-							<!-- coluna Direita -->
-							<!-- FIM row -->
-						</div>
-						<!-- FIM row -->
-						<!-- FIM Container -->
+						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
 					</div>
-					<!-- FIM Container -->
-					<!-- final form -->
+					<!-- coluna Central -->
+					<!-- coluna Direita -->
+					<div
+						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
+					</div>
+					<!-- coluna Direita -->
+					<!-- FIM row -->
+				</div>
+				<!-- FIM row -->
+				<!-- FIM Container -->
+			</div>
+			<!-- FIM Container -->
+			<!--  -->
+			<!-- final form -->
 		</form>
 		<!-- final form -->
 
 		<form method="post"
-			action="<%=request.getContextPath()%>/lt_sis_busc/" style=""
+			action="<%=request.getContextPath()%>/lt_sis_busc/"
 			onsubmit="return validardados()? true : false">
-			<!--  -->
+
 			<!-- Inicio Container -->
 			<c:if test="${cons_false}">
 				<div class="container mt-md-3">
@@ -314,26 +303,28 @@
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div class="col-12  col-md-3 align-self-center align-items-center">
-							<input class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
-								id="cnpj_cpf" minlength="11" maxlength="18"
-								oninput="forCnpjCpf(this); cnpjlimparnome('cnpj_cpf', 'nome_desc'); valCnpjCpf(this)"
-								value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
-							<datalist id="listcnpj_cpf">
+							<input class="form-control" list="list_cnpj_cpf" name="cnpj_cpf"
+								id="cnpj_cpf" maxlength="18"
+								oninput="handleBusca(this); valBusnome()"
+								value="${pre_glo.cnpj_cpf != null ? pre_glo.cnpj_cpf : pre_glo.nome_desc}"
+								placeholder="CNPJ, CPF ou Nome">
+
+							<datalist id="list_cnpj_cpf">
 								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-									<option><c:out value="${l_cnpj_cpf.cnpjCpf}"></c:out></option>
+									<option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
 								</c:forEach>
 							</datalist>
+
 							<!-- Mensagem de erro -->
-							<small id="erro_cnpj_cpf" class="text-danger d-none">dado
+							<small id="erro_busca" class="text-danger d-none">Dado
 								inválido</small>
+
+
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-1 mb-2 mb-md-0 align-self-center text-center">
-							<h5>
-								<a>ou</a>
-							</h5>
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -343,15 +334,11 @@
 							<div class="row align-items-center text-center text-md-left">
 								<div
 									class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
-									<input class="form-control" list="list_nome_desc"
-										name="nome_desc" id="nome_desc"
-										oninput="cnpjlimparnome('nome_desc', 'cnpj_cpf')"
-										value="${pre_glo.nome_desc}" placeholder="Nome">
-									<datalist id="list_nome_desc">
-										<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-											<option><c:out value="${l_cnpj_cpf.nomeDesc}"></c:out></option>
-										</c:forEach>
-									</datalist>
+									<label id="l_nome_desc1" data-placeholder="Nome" class="me-2"></label>
+									<textarea class="form-control" autocomplete="off"
+										name="nome_desc1" id="nome_desc1" placeholder="Nome" rows="1"
+										style="overflow: hidden; resize: none;"
+										oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
 								</div>
 								<div
 									class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
@@ -448,10 +435,9 @@
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 							<label id="l_nome_fantasia" data-placeholder="Nome Fantasia"
-								class="me-2"></label> 						
-    <input class="form-control" type="text"
-           name="nome_fantasia" id="nome_fantasia" autocomplete="off"
-           value="${pre_glo.nome_fantasia}" placeholder="Nome Fantasia">
+								class="me-2"></label> <input class="form-control" type="text"
+								name="nome_fantasia" id="nome_fantasia" autocomplete="off"
+								value="${pre_glo.nome_fantasia}" placeholder="Nome Fantasia">
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -512,7 +498,7 @@
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 							<label id="l_endereco" data-placeholder="Enderenco" class="me-2"></label>
-							
+
 							<input type="text" name="endereco" id="endereco"
 								autocomplete="off" value="${sis_tel.endereco}"
 								class="form-control" placeholder="Enderenco">
@@ -522,7 +508,7 @@
 						<div
 							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 							<label id="l_numero" data-placeholder="Numero" class="me-2"></label>
-							
+
 							<input type="text" name="numero" id="numero" autocomplete="off"
 								value="${sis_tel.numero}" class="form-control"
 								placeholder="Numero">
@@ -531,11 +517,11 @@
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-							<label id="l_complemento" data-placeholder="Complemento" class="me-2"></label>
-							
-							<input type="text" name="complemento" id="complemento"
-								autocomplete="off" value="${sis_tel.complemento}"
-								class="form-control" placeholder="Complemento">
+							<label id="l_complemento" data-placeholder="Complemento"
+								class="me-2"></label> <input type="text" name="complemento"
+								id="complemento" autocomplete="off"
+								value="${sis_tel.complemento}" class="form-control"
+								placeholder="Complemento">
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -558,7 +544,7 @@
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
 							<label id="l_bairro" data-placeholder="Bairro" class="me-2"></label>
-							
+
 							<input type="text" name="bairro" id="bairro" autocomplete="off"
 								value="${sis_tel.bairro}" class="form-control"
 								placeholder="Bairro">
@@ -567,8 +553,8 @@
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-<label id="l_municipio" data-placeholder="Municipio" class="me-2"></label>
-							
+							<label id="l_municipio" data-placeholder="Municipio" class="me-2"></label>
+
 							<input type="text" name="municipio" id="municipio"
 								autocomplete="off" value="${sis_tel.municipio}"
 								class="form-control" placeholder="Municipio">
@@ -595,7 +581,6 @@
 						<div
 							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 							<label id="l_estado" data-placeholder="UF" class="me-2"></label>
-							
 							<input type="text" maxlength="2" name="estado" id="estado"
 								autocomplete="off" value="${sis_tel.estado}"
 								class="form-control" placeholder="UF">
@@ -643,8 +628,9 @@ document.addEventListener('DOMContentLoaded', initLabels);
 						<!-- coluna Direita -->
 						<div id="col-obs"
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-							<label id="l_observacao" data-placeholder="Observação" class="me-2"></label>
-							
+							<label id="l_observacao" data-placeholder="Observação"
+								class="me-2"></label>
+
 							<textarea name="observacao" id="observacao" class="form-control"
 								placeholder="Observação" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
@@ -672,12 +658,11 @@ document.addEventListener('DOMContentLoaded', initLabels);
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 							<!--  -->
-							<label id="l_truefalse" data-placeholder="ACESSO ADMINISTRATOR" class="me-2"></label>
-							
-							<input list="listADMTRUEFALSE" name="truefalse" id="truefalse"
-								onfocus="this.value=''" type="text" autocomplete="off"
-								value="${sis_tel.truefalse}" class="form-control"
-								placeholder="ACESSO ADMINISTRATOR">
+							<label id="l_truefalse" data-placeholder="ACESSO ADMINISTRATOR"
+								class="me-2"></label> <input list="listADMTRUEFALSE"
+								name="truefalse" id="truefalse" onfocus="this.value=''"
+								type="text" autocomplete="off" value="${sis_tel.truefalse}"
+								class="form-control" placeholder="ACESSO ADMINISTRATOR">
 							<datalist id="listADMTRUEFALSE">
 								<option value="TRUE">
 								<option value="FALSE">
@@ -707,12 +692,11 @@ document.addEventListener('DOMContentLoaded', initLabels);
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-							<label id="l_permissao" data-placeholder="Tipo de Permissao" class="me-2"></label>
-
-							<input class="form-control" list="list_tipo_ace" type="text"
-								name="permissao" id="permissao" onfocus="this.value=''"
-								autocomplete="off" value="${sis_tel.permissao}"
-								placeholder="Tipo de Permissao">
+							<label id="l_permissao" data-placeholder="Tipo de Permissao"
+								class="me-2"></label> <input class="form-control"
+								list="list_tipo_ace" type="text" name="permissao" id="permissao"
+								onfocus="this.value=''" autocomplete="off"
+								value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
 							<datalist id="list_tipo_ace">
 								<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
 									<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
