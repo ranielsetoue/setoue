@@ -220,7 +220,7 @@ function valBusnome() {
 
 			<!--  -->
 			<!-- Inicio Container -->
-			<div class="container">
+			<div class="container mt-3">
 				<!-- Inicio Container -->
 				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
@@ -302,7 +302,7 @@ function valBusnome() {
 					<div class="row align-items-center text-center text-md-left">
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
-						<div class="col-12  col-md-3 align-self-center align-items-center">
+						<div class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
 							<input class="form-control" list="list_cnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" maxlength="18"
 								oninput="handleBusca(this); valBusnome()"
@@ -322,31 +322,13 @@ function valBusnome() {
 
 						</div>
 						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-12 col-md-1 mb-2 mb-md-0 align-self-center text-center">
-						</div>
-						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
-							class="col-12 col-md-8 mb-2 mb-md-0 align-self-center text-center">
+							class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
 
-							<div class="row align-items-center text-center text-md-left">
-								<div
-									class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
-									<label id="l_nome_desc1" data-placeholder="Nome" class="me-2"></label>
-									<textarea class="form-control" autocomplete="off"
-										name="nome_desc1" id="nome_desc1" placeholder="Nome" rows="1"
-										style="overflow: hidden; resize: none;"
-										oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
-								</div>
-								<div
-									class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
 									<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=Buscar">
 										<button type="button" class="btn btn-info">Buscar</button>
 									</a>
-								</div>
-							</div>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -371,7 +353,7 @@ function valBusnome() {
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center"">
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
 							<a href="<%=request.getContextPath()%>/lt_sis_busc/?fun=novo">
 								<button type="button" class="btn btn-info">NOVO</button>
 							</a>
