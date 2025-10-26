@@ -86,7 +86,7 @@ public class lt_dev extends HttpServlet {
             // Define a página de destino
             if ("buscar_dado".equalsIgnoreCase(fun)) {
                 request.getSession().setAttribute("h_titulo_pagina", "Buscar Dado");
-                paginaDestino = "/00_controle/00_sistema/modelo/busca2.jsp";
+                paginaDestino = "/00_controle/00_sistema/modelo/busca3.jsp";
             } else if ("pg_ini".equalsIgnoreCase(fun)) {
                 request.getSession().setAttribute("h_titulo_pagina", "Pagina Inicial");
                 paginaDestino = "/00_controle/00_sistema/modelo/pag_ini.jsp";

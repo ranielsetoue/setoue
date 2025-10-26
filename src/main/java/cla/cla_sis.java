@@ -32,7 +32,7 @@ public class cla_sis implements Serializable {
 	private String email_1;
 	private String obs;
 	private String Titutlo_web;
-	
+	private String tipo_ace;
 	
 
 	public boolean nv_id() {
@@ -323,6 +323,14 @@ public class cla_sis implements Serializable {
 				&& Objects.equals(reg_data, other.reg_data) && Objects.equals(reg_data_alt, other.reg_data_alt)
 				&& Objects.equals(reg_id, other.reg_id) && Objects.equals(tel_1, other.tel_1)
 				&& Objects.equals(truefalse, other.truefalse);
+	}
+
+	public String getTipo_ace() {
+		return tipo_ace;
+	}
+
+	public void setTipo_ace(String tipo_ace) {
+		this.tipo_ace = tipo_ace;
 	}
 
 
