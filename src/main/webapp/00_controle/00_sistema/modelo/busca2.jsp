@@ -81,6 +81,10 @@
 			return false;
 		return true;
 	}
+	
+	function sel_clin() {
+		
+	}
 	</script>
 
 </head>
@@ -156,20 +160,27 @@
 		<!-- Resultados -->
 		<c:if test="${not empty listaResultados}">
 			<h4>Resultados encontrados: ${fn:length(listaResultados)}</h4>
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped text-center">
 				<thead>
 					<tr>
-						<th>Nome</th>
 						<th>CPF/CNPJ</th>
+						<th>Nome</th>
 						<th>Nome Fantasia</th>
+						<th>Selecionar</th>
+
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="item" items="${listaResultados}">
 						<tr>
-							<td>${item.nome_desc}</td>
 							<td>${item.cnpj_cpf}</td>
+							<td>${item.nome_desc}</td>
 							<td>${item.no_fan}</td>
+							<td><button type="button" class="btn btn-warning"
+									onclick="sel_clin(this);" data-cnpjcpf="${item.cnpj_cpf}"
+									data-nome="${item.nome_desc}" data-fantasia="${item.no_fan}">
+									SEL</button></td>
+
 						</tr>
 					</c:forEach>
 				</tbody>
