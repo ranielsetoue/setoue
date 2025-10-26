@@ -426,25 +426,40 @@
 							<!-- Inicio row -->
 							<div class="row align-items-center text-center text-md-left">
 								<!-- Inicio row -->
-								<!-- coluna esquerda -->
-								<div
-									class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-								</div>
-								<!-- coluna esquerda -->
 								<!-- coluna Central -->
 								<div
-									class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-									<h2>
-										<p>lista</p>
-									</h2>
-								</div>
-								<!-- coluna Central -->
-								<!-- coluna Direita -->
-								<div
-									class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+									class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+<!-- Inicio Resultado -->
+ <div style="height: 250px; overflow: scroll;">
+    <!-- Resultados -->
+    <c:if test="${not empty listaResultados}">
+        <h4>Resultados encontrados: ${fn:length(listaResultados)}</h4>
+        <table  class="table" id="tb02">
+            <thead>
+                <tr>
+                    <th>CPF/CNPJ</th>
+                    <th>Nome</th>
+                    <th>Nome Fantasia</th>
+                    <th>Endereço</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="item" items="${listaResultados}">
+                    <tr>
+                        <td>${item.cnpj_cpf}</td>
+                        <td>${item.nome_desc}</td>
+                        <td>${item.no_fan}</td>
+                        <td>${item.end_rua}, ${item.end_num} ${item.end_com}, ${item.end_bar} - ${item.end_mun}/${item.end_uf} CEP: ${item.end_cep}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
 
+</div>
+<!--  Fim Resultado -->
 								</div>
-								<!-- coluna Direita -->
+								<!-- coluna Central -->
 								<!-- FIM row -->
 							</div>
 							<!-- FIM row -->
