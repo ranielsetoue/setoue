@@ -2,92 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<html>
+
+<html lang="pt-br">
 <head>
 <title>Busca de Sistemas</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
-<script type="text/javascript">
-
-	function forCpfCnpj(valor) {
-		let numeros = valor.replace(/\D/g, '');
-		if (numeros.length <= 11) { // CPF
-			numeros = numeros.replace(/(\d{3})(\d)/, '$1.$2').replace(
-					/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/,
-					'$1-$2');
-		} else { // CNPJ
-			numeros = numeros.replace(/^(\d{2})(\d)/, '$1.$2').replace(
-					/^(\d{2}\.\d{3})(\d)/, '$1.$2').replace(/\.(\d{3})(\d)/,
-					'.$1/$2').replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-		}
-		return numeros;
-	}
-
-	// Valida CPF (simplificado)
-	function isValidCPF(cpf) {
-		cpf = cpf.replace(/\D/g, '');
-		if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf))
-			return false;
-		let sum = 0, rest;
-		for (let i = 1; i <= 9; i++)
-			sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-		rest = (sum * 10) % 11;
-		if (rest === 10 || rest === 11)
-			rest = 0;
-		if (rest !== parseInt(cpf.substring(9, 10)))
-			return false;
-		sum = 0;
-		for (let i = 1; i <= 10; i++)
-			sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-		rest = (sum * 10) % 11;
-		if (rest === 10 || rest === 11)
-			rest = 0;
-		if (rest !== parseInt(cpf.substring(10, 11)))
-			return false;
-		return true;
-	}
-
-	// Valida CNPJ (simplificado)
-	function isValidCNPJ(cnpj) {
-		cnpj = cnpj.replace(/\D/g, '');
-		if (cnpj.length !== 14)
-			return false;
-		if (/^(\d)\1+$/.test(cnpj))
-			return false;
-		let tamanho = cnpj.length - 2;
-		let numeros = cnpj.substring(0, tamanho);
-		let digitos = cnpj.substring(tamanho);
-		let soma = 0, pos = tamanho - 7;
-		for (let i = tamanho; i >= 1; i--) {
-			soma += numeros.charAt(tamanho - i) * pos--;
-			if (pos < 2)
-				pos = 9;
-		}
-		let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-		if (resultado != digitos.charAt(0))
-			return false;
-		tamanho = tamanho + 1;
-		numeros = cnpj.substring(0, tamanho);
-		soma = 0;
-		pos = tamanho - 7;
-		for (let i = tamanho; i >= 1; i--) {
-			soma += numeros.charAt(tamanho - i) * pos--;
-			if (pos < 2)
-				pos = 9;
-		}
-		resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-		if (resultado != digitos.charAt(1))
-			return false;
-		return true;
-	}
-	
-	function sel_clin() {
-		
-	}
-	</script>
-
 </head>
+
 <body>
 
 	<!-- Formulário de login -->
@@ -140,407 +62,416 @@
 		</div>
 	</form>
 
-	<!-- Formulário de busca -->
-	<div class="container mt-4">
-		<h2>Busca de Sistemas</h2>
 
+
+	<div class="container mt-4">
+		<!-- ====== FORM DE BUSCA ====== -->
 		<form id="formBusca" method="post"
 			action="<%=request.getContextPath()%>/lt_dev/" class="mb-3">
 			<input type="hidden" name="fun" id="fun" value="" /> <label
 				for="termo" class="form-label">Digite o nome, CPF/CNPJ ou
 				ID:</label> <input type="text" name="termo" id="termo" class="form-control"
-				value="${param.termo}" placeholder="Ex: Raniel Assis Setoue">
-
+				value="${param.termo}" placeholder="Ex: Raniel Assis Setoue"
+				onfocus="limparFormulario()">
 			<button type="button" class="btn btn-primary mt-2"
 				onclick="enviarForm('buscar_dado')">Buscar</button>
 		</form>
 
 		<hr />
 
-		<!-- Resultados -->
+		<!-- ====== RESULTADOS DA BUSCA ====== -->
 		<c:if test="${not empty listaResultados}">
-			<h4>Resultados encontrados: ${fn:length(listaResultados)}</h4>
-			<table class="table table-bordered table-striped text-center">
+
+			<table id="tab1-resul"
+				class="table table-bordered table-striped text-center">
 				<thead>
 					<tr>
 						<th>CPF/CNPJ</th>
 						<th>Nome</th>
 						<th>Nome Fantasia</th>
 						<th>Selecionar</th>
-
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tab1-corpo">
 					<c:forEach var="item" items="${listaResultados}">
 						<tr>
 							<td>${item.cnpj_cpf}</td>
 							<td>${item.nome_desc}</td>
 							<td>${item.no_fan}</td>
-							<td><button type="button" class="btn btn-warning"
+							<td>
+								<button type="button" class="btn btn-warning"
 									onclick="sel_clin(this);" data-cnpjcpf="${item.cnpj_cpf}"
-									data-nome="${item.nome_desc}" data-fantasia="${item.no_fan}">
-									SEL</button></td>
-
+									data-nome="${item.nome_desc}" data-fantasia="${item.no_fan}"
+									data-endereco="${item.end_rua}" data-numero="${item.end_num}"
+									data-complemento="${item.end_com}"
+									data-bairro="${item.end_bar}" data-municipio="${item.end_mun}"
+									data-estado="${item.end_uf}" data-cep="${item.end_cep}"
+									data-observacao="${item.obs}"
+									data-truefalse="${item.truefalse}"
+									data-permissao="${item.tipo_ace}">SEL</button>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-		</c:if>
 
-		<c:if test="${empty listaResultados}">
-			<div class="alert alert-warning">Nenhum registro encontrado.</div>
+			<!-- AUTO-SELEÇÃO SE HOUVER APENAS 1 RESULTADO -->
+			<c:if test="${fn:length(listaResultados) == 1}">
+				<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const tabela = document.querySelector("table.table");
+				if (tabela) tabela.style.display = "none";
+				const botao = tabela?.querySelector("button.btn-warning");
+				if (botao) sel_clin(botao);
+			});
+			</script>
+			</c:if>
 		</c:if>
+		<div class="container mt-3">
+			<div class="row align-items-center text-center text-md-left">
+				<div
+					class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+					<div id="paginacao" class="d-flex justify-content-center mt-2"></div>
+
+				</div>
+
+			</div>
+		</div>
+
 	</div>
 
 
-	<!--  Inico Dado Selecionado -->
+
+
+	<!-- ====== FORMULÁRIO DE DADOS ====== -->
 	<form id="fon_cad" method="post"
 		action="<%=request.getContextPath()%>/lt_sis_busc/"
-		onsubmit="return validardados()? true : false">
-		<input type="hidden" name="fun" id="fun" value="" />
-		<!-- Inicio Container -->
+		onsubmit="return validardados()">
 		<div class="container mt-md-3">
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container mt-3">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
-						<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF" class="me-2"></label>
-						<input class="form-control" name="cnpj_cpf" id="cnpj_cpf"
-							maxlength="18" oninput="forCpfCnpj(this);"
-							value="${pre_glo.cnpj_cpf}" placeholder="CNPJ ou CPF">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div id="div_nome_desc"
-						class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
-						<label id="l_nome_desc" data-placeholder="Nome" class="me-2"></label>
-
-						<textarea class="form-control" autocomplete="off" name="nome_desc"
-							id="nome_desc" placeholder="Nome" rows="1"
-							style="overflow: hidden; resize: none;"
-							oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
-
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-						<label id="l_nome_fantasia" data-placeholder="Nome Fantasia"
-							class="me-2"></label> <input class="form-control" type="text"
-							name="nome_fantasia" id="nome_fantasia" autocomplete="off"
-							value="${pre_glo.nome_fantasia}" placeholder="Nome Fantasia">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
+			<!-- CAMPOS PRINCIPAIS -->
+			<div class="row g-2">
+				<div class="col-md-4">
+					<label id="l_cnpj_cpf" data-placeholder="CNPJ/CPF">CNPJ/CPF</label>
+					<input id="cnpj_cpf" name="cnpj_cpf" class="form-control"
+						placeholder="CNPJ ou CPF">
 				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
 
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-
-						<label id="l_inscricao_estatual"
-							data-placeholder="Inscricao Estatual" class="me-2"></label> <input
-							type="text" name="inscricao_estatual" id="inscricao_estatual"
-							autocomplete="off" value="${sis_tel.inscricao_estatual}"
-							class="form-control" placeholder="Inscricao Estatual">
-					</div>
-					<!-- coluna esquerda -->
-
-					<!-- coluna Direita -->
-					<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
-						<label id="l_inscricao_municipal"
-							data-placeholder="Inscricao Municipal" class="me-2"></label> <input
-							type="text" name="inscricao_municipal" id="inscricao_municipal"
-							autocomplete="off" value="${sis_tel.inscricao_municipal}"
-							class="form-control" placeholder="Inscricao Municipal">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
+				<div class="col-md-4">
+					<label id="l_nome_desc" data-placeholder="Nome/Razão Social">Nome/Razão</label>
+					<input id="nome_desc" name="nome_desc" class="form-control"
+						placeholder="Nome ou Razão Social">
 				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-						<label id="l_endereco" data-placeholder="Enderenco" class="me-2"></label>
 
-						<input type="text" name="endereco" id="endereco"
-							autocomplete="off" value="${sis_tel.endereco}"
-							class="form-control" placeholder="Enderenco">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
-						<label id="l_numero" data-placeholder="Numero" class="me-2"></label>
-
-						<input type="text" name="numero" id="numero" autocomplete="off"
-							value="${sis_tel.numero}" class="form-control"
-							placeholder="Numero">
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-						<label id="l_complemento" data-placeholder="Complemento"
-							class="me-2"></label> <input type="text" name="complemento"
-							id="complemento" autocomplete="off"
-							value="${sis_tel.complemento}" class="form-control"
-							placeholder="Complemento">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
+				<div class="col-md-4">
+					<label id="l_no_fan" data-placeholder="Nome Fantasia">Nome
+						Fantasia</label> <input id="no_fan" name="no_fan" class="form-control"
+						placeholder="Nome Fantasia">
 				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
 			</div>
-			<!-- FIM Container -->
-			<!--  -->
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-						<label id="l_bairro" data-placeholder="Bairro" class="me-2"></label>
 
-						<input type="text" name="bairro" id="bairro" autocomplete="off"
-							value="${sis_tel.bairro}" class="form-control"
-							placeholder="Bairro">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-						<label id="l_municipio" data-placeholder="Municipio" class="me-2"></label>
-
-						<input type="text" name="municipio" id="municipio"
-							autocomplete="off" value="${sis_tel.municipio}"
-							class="form-control" placeholder="Municipio">
-					</div>
-					<!-- coluna Central -->
-					<!-- FIM row -->
+			<div class="row g-2 mt-2">
+				<div class="col-md-6">
+					<label id="l_end_rua" data-placeholder="Endereço">Endereço</label>
+					<input id="end_rua" name="end_rua" class="form-control"
+						placeholder="Endereço">
 				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
+				<div class="col-md-2">
+					<label id="l_end_num" data-placeholder="Número">Número</label> <input
+						id="end_num" name="end_num" class="form-control"
+						placeholder="Número">
+				</div>
+				<div class="col-md-4">
+					<label id="l_end_com" data-placeholder="Complemento">Complemento</label>
+					<input id="end_com" name="end_com" class="form-control"
+						placeholder="Complemento">
+				</div>
 			</div>
-			<!-- FIM Container -->
-			<!--  -->
 
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
-						<label id="l_estado" data-placeholder="UF" class="me-2"></label> <input
-							type="text" maxlength="2" name="estado" id="estado"
-							autocomplete="off" value="${sis_tel.estado}" class="form-control"
-							placeholder="UF">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-						<label id="l_cep" data-placeholder="CEP" class="me-2"></label> <input
-							onblur="CEPPESQ();" type="text" maxlength="10" name="cep"
-							id="cep" autocomplete="off" value="${sis_tel.cep}"
-							class="form-control" placeholder="CEP">
-						<script>
-function toggleLabel(inputId, labelId) {
-    const input = document.getElementById(inputId);
-    const label = document.getElementById(labelId);
+			<div class="row g-2 mt-2">
+				<div class="col-md-3">
+					<label id="l_end_bar" data-placeholder="Bairro">Bairro</label> <input
+						id="end_bar" name="end_bar" class="form-control"
+						placeholder="Bairro">
+				</div>
+				<div class="col-md-3">
+					<label id="l_end_mun" data-placeholder="Município">Município</label>
+					<input id="end_mun" name="end_mun" class="form-control"
+						placeholder="Município">
+				</div>
+				<div class="col-md-2">
+					<label id="l_end_uf" data-placeholder="UF">UF</label> <input
+						id="end_uf" name="end_uf" class="form-control" maxlength="2"
+						placeholder="UF">
+				</div>
+				<div class="col-md-4">
+					<label id="l_end_cep" data-placeholder="CEP">CEP</label> <input
+						id="end_cep" name="end_cep" class="form-control" placeholder="CEP">
+				</div>
+			</div>
 
-    if (!input.value.trim()) {
-        label.style.display = 'none';
-    } else {
-        label.style.display = 'inline';
-        label.textContent = label.dataset.placeholder;
-    }
+			<div class="row g-2 mt-2">
+				<div class="col-md-6">
+					<label id="l_obs" data-placeholder="Observações">Observações</label>
+					<textarea id="obs" name="obs" class="form-control"
+						placeholder="Observações"></textarea>
+				</div>
+				<div class="col-md-3">
+					<label id="l_truefalse" data-placeholder="Ativo">Ativo</label> <input
+						id="truefalse" name="truefalse" class="form-control"
+						placeholder="Ativo ou Inativo">
+				</div>
+				<div class="col-md-3">
+					<label id="l_tipo_ace" data-placeholder="Permissão">Permissão</label>
+					<input id="tipo_ace" name="tipo_ace" class="form-control"
+						placeholder="Permissão">
+				</div>
+			</div>
+
+		</div>
+	</form>
+
+	<!-- ====== SCRIPT PRINCIPAL ====== -->
+	<script>
+// Função principal: seleciona cliente
+function sel_clin(botao) {
+	if (!botao) return;
+	const campos = {
+		cnpjcpf: "cnpj_cpf",
+		nome: "nome_desc",
+		fantasia: "no_fan",
+		endereco: "end_rua",
+		numero: "end_num",
+		complemento: "end_com",
+		bairro: "end_bar",
+		municipio: "end_mun",
+		estado: "end_uf",
+		cep: "end_cep",
+		observacao: "obs",
+		truefalse: "truefalse",
+		permissao: "tipo_ace"
+	};
+
+	// Preenche os campos
+	for (const key in campos) {
+		const id = campos[key];
+		const input = document.getElementById(id);
+		if (input) input.value = botao.getAttribute("data-" + key) || "";
+	}
+
+	// Oculta e limpa a tabela após seleção
+	const tabela = document.querySelector("table.table");
+	if (tabela) {
+		tabela.style.opacity = "0"; // animação suave
+		setTimeout(() => {
+			tabela.style.display = "none";
+			const tbody = tabela.querySelector("tbody");
+			if (tbody) tbody.innerHTML = "";
+		}, 400);
+	}
+
+	initLabels();
+	highlightForm();
+
+	// Rola suavemente até o formulário
+	document.getElementById("fon_cad").scrollIntoView({ behavior: "smooth" });
 }
 
+// Efeito visual de destaque ao preencher
+function highlightForm() {
+	const form = document.getElementById("fon_cad");
+	form.style.transition = "box-shadow 0.6s ease";
+	form.style.boxShadow = "0 0 15px 3px gold";
+	setTimeout(() => form.style.boxShadow = "none", 1200);
+}
+
+// ====== LIMPAR CAMPOS AO ENTRAR NO CAMPO DE BUSCA ======
+function limparFormularioCadastro() {
+	const inputs = document.querySelectorAll('#fon_cad input, #fon_cad textarea');
+	inputs.forEach(input => input.value = '');
+	initLabels();
+
+	// Se quiser que a tabela reapareça limpa:
+	const tabela = document.querySelector("table.table");
+	if (tabela) {
+		tabela.style.display = "none";
+		const tbody = tabela.querySelector("tbody");
+		if (tbody) tbody.innerHTML = "";
+	}
+}
+
+// Detecta quando o usuário clica ou digita no campo de busca
+document.addEventListener('DOMContentLoaded', () => {
+	const campoBusca = document.getElementById('termo');
+	if (campoBusca) {
+		campoBusca.addEventListener('focus', limparFormularioCadastro);
+		campoBusca.addEventListener('input', limparFormularioCadastro);
+	}
+	initLabels();
+});
+
+// Labels dinâmicos
+function toggleLabel(inputId, labelId) {
+	const input = document.getElementById(inputId);
+	const label = document.getElementById(labelId);
+	if (!input || !label) return;
+	if (!input.value.trim()) {
+		label.style.display = 'none';
+	} else {
+		label.style.display = 'inline';
+		label.textContent = label.dataset.placeholder;
+	}
+}
 function initLabels() {
-    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
-    inputs.forEach(input => {
-        const labelId = 'l_' + input.id; // label deve ter id = l_ + input id
-        const label = document.getElementById(labelId);
-        if (label) {
-            toggleLabel(input.id, labelId);
-            input.addEventListener('input', () => toggleLabel(input.id, labelId));
-            input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+	document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
+		const labelId = 'l_' + input.id;
+		const label = document.getElementById(labelId);
+		if (label) {
+			toggleLabel(input.id, labelId);
+			input.addEventListener('input', () => toggleLabel(input.id, labelId));
+			input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+		}
+	});
+}
+
+// Validação e envio do formulário de busca
+function enviarForm(funcao) {
+	if (!validardados()) return false;
+	document.getElementById('fun').value = funcao;
+	document.getElementById('formBusca').submit();
+}
+function validardados() {
+	const termo = document.getElementById('termo').value.trim();
+	if (termo === "") {
+		alert("Digite algum valor para buscar.");
+		return false;
+	}
+	return true;
+}
+
+function limparFormulario() {
+    // Limpa campos do formulário de dados
+    const campos = [
+        'cnpj_cpf', 'nome_desc', 'no_fan',
+        'end_rua', 'end_num', 'end_com',
+        'end_bar', 'end_mun', 'end_uf', 'end_cep',
+        'obs', 'truefalse', 'tipo_ace','termo'
+    ];
+    campos.forEach(id => {
+        const input = document.getElementById(id);
+        if(input) input.value = '';
+    });
+
+    // Oculta a tabela de resultados antiga
+    const tabela = document.querySelector('table.table');
+    if(tabela) tabela.style.display = 'none';
+}
+
+//Paginação avançada com 3 páginas visíveis, reticências e atalhos de teclado
+function paginarTabela(tabelaId, linhasPorPagina = 20) {
+    const tabela = document.getElementById(tabelaId);
+    if (!tabela) return;
+
+    const tbody = tabela.querySelector('tbody');
+    const linhas = Array.from(tbody.querySelectorAll('tr'));
+    const totalPaginas = Math.ceil(linhas.length / linhasPorPagina);
+    let paginaAtual = 1;
+
+    function mostrarPagina(pagina) {
+        paginaAtual = Math.max(1, Math.min(pagina, totalPaginas));
+        const inicio = (paginaAtual - 1) * linhasPorPagina;
+        const fim = inicio + linhasPorPagina;
+
+        linhas.forEach((linha, i) => {
+            linha.style.display = i >= inicio && i < fim ? '' : 'none';
+        });
+
+        renderPaginacao();
+    }
+
+    function renderPaginacao() {
+        const container = document.getElementById('paginacao');
+        container.innerHTML = '';
+
+        if (totalPaginas <= 1) return;
+
+        const grupoMaximo = 3; // número máximo de páginas visíveis
+        let inicioGrupo = Math.max(1, paginaAtual - Math.floor(grupoMaximo / 2));
+        let fimGrupo = inicioGrupo + grupoMaximo - 1;
+
+        if (fimGrupo > totalPaginas) {
+            fimGrupo = totalPaginas;
+            inicioGrupo = Math.max(1, fimGrupo - grupoMaximo + 1);
+        }
+
+        // Botão "Anterior"
+        const btnAnterior = document.createElement('button');
+        btnAnterior.textContent = 'Anterior';
+        btnAnterior.className = 'btn btn-sm mx-1 btn-outline-primary';
+        btnAnterior.disabled = paginaAtual === 1;
+        btnAnterior.addEventListener('click', () => mostrarPagina(paginaAtual - 1));
+        container.appendChild(btnAnterior);
+
+        // Reticências no início
+        if (inicioGrupo > 1) {
+            const ellipsisInicio = document.createElement('span');
+            ellipsisInicio.textContent = '...';
+            ellipsisInicio.className = 'mx-1 align-self-center';
+            container.appendChild(ellipsisInicio);
+        }
+
+        // Botões de páginas
+        for (let i = inicioGrupo; i <= fimGrupo; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = 'btn btn-sm mx-1 ' + (i === paginaAtual ? 'btn-primary' : 'btn-outline-primary');
+            btn.addEventListener('click', () => mostrarPagina(i));
+            container.appendChild(btn);
+        }
+
+        // Reticências no final
+        if (fimGrupo < totalPaginas) {
+            const ellipsisFim = document.createElement('span');
+            ellipsisFim.textContent = '...';
+            ellipsisFim.className = 'mx-1 align-self-center';
+            container.appendChild(ellipsisFim);
+        }
+
+        // Botão "Próximo"
+        const btnProximo = document.createElement('button');
+        btnProximo.textContent = 'Próximo';
+        btnProximo.className = 'btn btn-sm mx-1 btn-outline-primary';
+        btnProximo.disabled = paginaAtual === totalPaginas;
+        btnProximo.addEventListener('click', () => mostrarPagina(paginaAtual + 1));
+        container.appendChild(btnProximo);
+    }
+
+    // Atalhos de teclado ← e →
+    document.addEventListener('keydown', (event) => {
+        const isInputActive =
+            document.activeElement.tagName === 'INPUT' ||
+            document.activeElement.tagName === 'TEXTAREA';
+        if (isInputActive) return; // evita conflito com campos de texto
+
+        if (event.key === 'ArrowLeft' && paginaAtual > 1) {
+            mostrarPagina(paginaAtual - 1);
+        } else if (event.key === 'ArrowRight' && paginaAtual < totalPaginas) {
+            mostrarPagina(paginaAtual + 1);
         }
     });
+
+    mostrarPagina(1);
 }
 
-document.addEventListener('DOMContentLoaded', initLabels);
+// Inicializa a paginação após carregar a tabela
+document.addEventListener('DOMContentLoaded', () => {
+    const tabela = document.querySelector('table.table');
+    if (tabela) {
+        paginarTabela('tab1-resul', 2);
+    }
+});
+
 
 </script>
 
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div id="col-obs"
-						class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-						<label id="l_observacao" data-placeholder="Observação"
-							class="me-2"></label>
-
-						<textarea name="observacao" id="observacao" class="form-control"
-							placeholder="Observação" autocomplete="off" rows="1"
-							style="overflow: hidden; resize: none;"
-							oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${sis_tel.observacao}</textarea>
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-						<!--  -->
-						<label id="l_truefalse" data-placeholder="ACESSO ADMINISTRATOR"
-							class="me-2"></label> <input list="listADMTRUEFALSE"
-							name="truefalse" id="truefalse" onfocus="this.value=''"
-							type="text" autocomplete="off" value="${sis_tel.truefalse}"
-							class="form-control" placeholder="ACESSO ADMINISTRATOR">
-						<datalist id="listADMTRUEFALSE">
-							<option value="TRUE">
-							<option value="FALSE">
-						</datalist>
-
-						<script>
-								document
-										.getElementById("truefalse")
-										.addEventListener(
-												"change",
-												function() {
-													const valor = this.value
-															.toUpperCase();
-													if (valor !== "TRUE"
-															&& valor !== "FALSE"
-															&& valor !== " ") {
-														alert("Por favor, selecione apenas TRUE ou FALSE.");
-														this.value = ""; // limpa o campo
-													}
-												});
-							</script>
-
-						<!--  -->
-					</div>
-
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-						<label id="l_permissao" data-placeholder="Tipo de Permissao"
-							class="me-2"></label> <input class="form-control"
-							list="list_tipo_ace" type="text" name="permissao" id="permissao"
-							onfocus="this.value=''" autocomplete="off"
-							value="${sis_tel.permissao}" placeholder="Tipo de Permissao">
-						<datalist id="list_tipo_ace">
-							<c:forEach items="${sis_list_tipo_ace}" var="l_tipo_ace">
-								<option><c:out value="${l_tipo_ace.tpnomeDesc}"></c:out></option>
-							</c:forEach>
-						</datalist>
-
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-		</div>
-
-
-		<!-- final form -->
-	</form>
-	<!-- final form -->
-	<!-- Fim Dado Selecionado -->
-
-
-
-
-	<script type="text/javascript">
-    function enviarForm(funcao) {
-        if (!validardados()) return false; // chama sua validação
-        document.getElementById('fun').value = funcao; // define o parâmetro fun
-        document.getElementById('formBusca').submit(); // envia o formulário
-    }
-
-    function validardados() {
-        // exemplo de validação simples
-        var termo = document.getElementById('termo').value.trim();
-        if (termo === "") {
-            alert("Digite algum valor para buscar.");
-            return false;
-        }
-        return true;
-    }
-
-    function validardadosLogin() {
-        var login = document.getElementById('l_usu').value.trim();
-        var senha = document.getElementById('l_sen').value.trim();
-        if (login === "" || senha === "") {
-            alert("Preencha usuário e senha.");
-            return false;
-        }
-        return true;
-    }
-</script>
 </body>
 </html>
