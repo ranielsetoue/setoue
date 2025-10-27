@@ -76,59 +76,49 @@
 			<button type="button" class="btn btn-primary mt-2"
 				onclick="enviarForm('buscar_dado')">Buscar</button>
 		</form>
-
-		<hr />
-
+		<!-- ------ -->
 		<!-- ====== RESULTADOS DA BUSCA ====== -->
-		<c:if test="${not empty listaResultados}">
+		<hr />
+		<div class="container mt-3" id="container_tabela">
 
-			<table id="tab1_result"
-				class="table table-bordered table-striped text-center">
-				<thead>
-					<tr>
-						<th>CPF/CNPJ</th>
-						<th>Nome</th>
-						<th>Nome Fantasia</th>
-						<th>Selecionar</th>
-					</tr>
-				</thead>
-				<tbody id="tab1-corpo">
-					<c:forEach var="item" items="${listaResultados}">
+			<c:if test="${not empty listaResultados}">
+
+				<table id="tab1_result"
+					class="table table-bordered table-striped text-center">
+					<thead>
 						<tr>
-							<td>${item.cnpj_cpf}</td>
-							<td>${item.nome_desc}</td>
-							<td>${item.no_fan}</td>
-							<td>
-								<button type="button" class="btn btn-warning"
-									onclick="sel_clin(this);" data-cnpjcpf="${item.cnpj_cpf}"
-									data-nome="${item.nome_desc}" data-fantasia="${item.no_fan}"
-									data-endereco="${item.end_rua}" data-numero="${item.end_num}"
-									data-complemento="${item.end_com}"
-									data-bairro="${item.end_bar}" data-municipio="${item.end_mun}"
-									data-estado="${item.end_uf}" data-cep="${item.end_cep}"
-									data-observacao="${item.obs}"
-									data-truefalse="${item.truefalse}"
-									data-permissao="${item.tipo_ace}">SEL</button>
-							</td>
+							<th>CPF/CNPJ</th>
+							<th>Nome</th>
+							<th>Nome Fantasia</th>
+							<th>Selecionar</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody id="tab1-corpo">
+						<c:forEach var="item" items="${listaResultados}">
+							<tr>
+								<td>${item.cnpj_cpf}</td>
+								<td>${item.nome_desc}</td>
+								<td>${item.no_fan}</td>
+								<td>
+									<button type="button" class="btn btn-warning"
+										onclick="sel_clin(this);" data-cnpjcpf="${item.cnpj_cpf}"
+										data-nome="${item.nome_desc}" data-fantasia="${item.no_fan}"
+										data-endereco="${item.end_rua}" data-numero="${item.end_num}"
+										data-complemento="${item.end_com}"
+										data-bairro="${item.end_bar}" data-municipio="${item.end_mun}"
+										data-estado="${item.end_uf}" data-cep="${item.end_cep}"
+										data-observacao="${item.obs}"
+										data-truefalse="${item.truefalse}"
+										data-permissao="${item.tipo_ace}">SEL</button>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 
-			<div class="container mt-3">
-				<div class="row align-items-center text-center text-md-left">
-					<div
-						class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-						<div id="paginacao" class="d-flex justify-content-center mt-2"></div>
-
-					</div>
-
-				</div>
-			</div>
-
-			<!-- AUTO-SELEÇÃO SE HOUVER APENAS 1 RESULTADO -->
-			<c:if test="${fn:length(listaResultados) == 1}">
-				<script>
+				<!-- AUTO-SELEÇÃO SE HOUVER APENAS 1 RESULTADO -->
+				<c:if test="${fn:length(listaResultados) == 1}">
+					<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const tabela = document.querySelector("table.table");
 				if (tabela) tabela.style.display = "none";
@@ -137,14 +127,28 @@
 			});
 			</script>
 
+				</c:if>
+
+				<div class="container mt-3">
+					<div class="row align-items-center text-center text-md-left">
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<div id="paginacao" class="d-flex justify-content-center mt-2"></div>
+
+						</div>
+
+					</div>
+				</div>
+
 			</c:if>
-
-
-		</c:if>
-		<!-- Paginação -->
+			<!-- Paginação -->
+		</div>
 
 	</div>
-
+	<hr>
+	<!--  fim resultado -->
+	<!-- ------ -->
+	<!-- ------ -->
 
 
 
@@ -152,7 +156,7 @@
 	<form id="fon_cad" method="post"
 		action="<%=request.getContextPath()%>/lt_sis_busc/"
 		onsubmit="return validardados()">
-		<div class="container mt-md-3">
+		<div class="container mt-md-3" id='cont1'>
 			<!-- CAMPOS PRINCIPAIS -->
 			<div class="row g-2">
 				<div class="col-md-4">
@@ -239,53 +243,57 @@
 	<script>
 // Função principal: seleciona cliente
 function sel_clin(botao) {
-	if (!botao) return;
-	const campos = {
-		cnpjcpf: "cnpj_cpf",
-		nome: "nome_desc",
-		fantasia: "no_fan",
-		endereco: "end_rua",
-		numero: "end_num",
-		complemento: "end_com",
-		bairro: "end_bar",
-		municipio: "end_mun",
-		estado: "end_uf",
-		cep: "end_cep",
-		observacao: "obs",
-		truefalse: "truefalse",
-		permissao: "tipo_ace"
-	};
+    if (!botao) return;
 
-	// Preenche os campos
-	for (const key in campos) {
-		const id = campos[key];
-		const input = document.getElementById(id);
-		if (input) input.value = botao.getAttribute("data-" + key) || "";
-	}
+    // Mapeamento de campos do formulário
+    const campos = {
+        cnpjcpf: "cnpj_cpf",
+        nome: "nome_desc",
+        fantasia: "no_fan",
+        endereco: "end_rua",
+        numero: "end_num",
+        complemento: "end_com",
+        bairro: "end_bar",
+        municipio: "end_mun",
+        estado: "end_uf",
+        cep: "end_cep",
+        observacao: "obs",
+        truefalse: "truefalse",
+        permissao: "tipo_ace"
+    };
 
-	// Oculta e limpa a tabela e a paginação após seleção
-	const tabela = document.querySelector("table.table");
-	if (tabela) {
-		tabela.style.opacity = "0"; // animação suave
-		setTimeout(() => {
-			tabela.style.display = "none";
-			const tbody = tabela.querySelector("tbody");
-			if (tbody) tbody.innerHTML = "";
+    // Preenche os campos
+    for (const key in campos) {
+        const input = document.getElementById(campos[key]);
+        if (input) input.value = botao.getAttribute("data-" + key) || "";
+    }
 
-			// 🔽 Oculta também a paginação
-			const paginacao = document.getElementById("paginacao");
-			if (paginacao) paginacao.style.display = "none";
-		}, 400);
-	}
-	initLabels();
-	highlightForm();
-	const paginacao = document.getElementById('paginacao');
-	if (paginacao) paginacao.style.display = 'none';
+    // Fade out da tabela e ocultar paginação
+    const tabela = document.querySelector("table.table");
+    if (tabela) {
+        tabela.style.transition = "opacity 0.4s ease";
+        tabela.style.opacity = "0";
 
-	// Rola suavemente até o formulário
-	document.getElementById("fon_cad").scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+            tabela.style.display = "none";
 
+            const tbody = tabela.querySelector("tbody");
+            if (tbody) tbody.innerHTML = "";
 
+            const paginacao = document.getElementById("paginacao");
+            if (paginacao) paginacao.style.display = "none";
+        }, 400);
+    }
+
+    // Destaca formulário
+    highlightForm();
+
+    // Atualiza labels dinamicamente
+    initLabels();
+
+    // Rola suavemente até o formulário
+    const form = document.getElementById("fon_cad");
+    if (form) form.scrollIntoView({ behavior: "smooth" });
 }
 
 // Efeito visual de destaque ao preencher
@@ -442,7 +450,7 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
 
     function renderPaginacao() {
         divBotoes.innerHTML = '';
-        contador.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+        contador.textContent = ` `;
 
         if (totalPaginas <= 1) return;
 
