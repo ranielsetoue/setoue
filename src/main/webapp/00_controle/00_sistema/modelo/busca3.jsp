@@ -82,7 +82,7 @@
 		<!-- ====== RESULTADOS DA BUSCA ====== -->
 		<c:if test="${not empty listaResultados}">
 
-			<table id="tab1-resul"
+			<table id="tab1_result"
 				class="table table-bordered table-striped text-center">
 				<thead>
 					<tr>
@@ -115,6 +115,17 @@
 				</tbody>
 			</table>
 
+			<div class="container mt-3">
+				<div class="row align-items-center text-center text-md-left">
+					<div
+						class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+						<div id="paginacao" class="d-flex justify-content-center mt-2"></div>
+
+					</div>
+
+				</div>
+			</div>
+
 			<!-- AUTO-SELEÇÃO SE HOUVER APENAS 1 RESULTADO -->
 			<c:if test="${fn:length(listaResultados) == 1}">
 				<script>
@@ -125,18 +136,12 @@
 				if (botao) sel_clin(botao);
 			});
 			</script>
+
 			</c:if>
+
+
 		</c:if>
-		<div class="container mt-3">
-			<div class="row align-items-center text-center text-md-left">
-				<div
-					class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-					<div id="paginacao" class="d-flex justify-content-center mt-2"></div>
-
-				</div>
-
-			</div>
-		</div>
+		<!-- Paginação -->
 
 	</div>
 
@@ -258,7 +263,7 @@ function sel_clin(botao) {
 		if (input) input.value = botao.getAttribute("data-" + key) || "";
 	}
 
-	// Oculta e limpa a tabela após seleção
+	// Oculta e limpa a tabela e a paginação após seleção
 	const tabela = document.querySelector("table.table");
 	if (tabela) {
 		tabela.style.opacity = "0"; // animação suave
@@ -266,14 +271,21 @@ function sel_clin(botao) {
 			tabela.style.display = "none";
 			const tbody = tabela.querySelector("tbody");
 			if (tbody) tbody.innerHTML = "";
+
+			// 🔽 Oculta também a paginação
+			const paginacao = document.getElementById("paginacao");
+			if (paginacao) paginacao.style.display = "none";
 		}, 400);
 	}
-
 	initLabels();
 	highlightForm();
+	const paginacao = document.getElementById('paginacao');
+	if (paginacao) paginacao.style.display = 'none';
 
 	// Rola suavemente até o formulário
 	document.getElementById("fon_cad").scrollIntoView({ behavior: "smooth" });
+
+
 }
 
 // Efeito visual de destaque ao preencher
@@ -290,6 +302,7 @@ function limparFormularioCadastro() {
 	inputs.forEach(input => input.value = '');
 	initLabels();
 
+	
 	// Se quiser que a tabela reapareça limpa:
 	const tabela = document.querySelector("table.table");
 	if (tabela) {
@@ -297,6 +310,11 @@ function limparFormularioCadastro() {
 		const tbody = tabela.querySelector("tbody");
 		if (tbody) tbody.innerHTML = "";
 	}
+
+	// Oculta também a paginação
+	const paginacao = document.getElementById('paginacao');
+	if (paginacao) paginacao.style.display = 'none';
+
 }
 
 // Detecta quando o usuário clica ou digita no campo de busca
@@ -364,9 +382,13 @@ function limparFormulario() {
     // Oculta a tabela de resultados antiga
     const tabela = document.querySelector('table.table');
     if(tabela) tabela.style.display = 'none';
+ // Oculta também a paginação
+    const paginacao = document.getElementById('paginacao');
+    if (paginacao) paginacao.style.display = 'none';
+
 }
 
-//Paginação avançada com 3 páginas visíveis, reticências e atalhos de teclado
+//Paginação avançada com contador, animação e teclas de atalho
 function paginarTabela(tabelaId, linhasPorPagina = 20) {
     const tabela = document.getElementById(tabelaId);
     if (!tabela) return;
@@ -375,26 +397,56 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
     const linhas = Array.from(tbody.querySelectorAll('tr'));
     const totalPaginas = Math.ceil(linhas.length / linhasPorPagina);
     let paginaAtual = 1;
+    let animando = false;
+
+    // Cria container de paginação se não existir
+    let container = document.getElementById('paginacao');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'paginacao';
+        container.className = 'd-flex justify-content-between align-items-center mt-3';
+        tabela.parentNode.appendChild(container);
+    }
+
+    // Área de botões (esquerda)
+    const divBotoes = document.createElement('div');
+    divBotoes.className = 'd-flex align-items-center';
+    container.appendChild(divBotoes);
+
+    // Área de contador (direita)
+    const contador = document.createElement('div');
+    contador.className = 'text-muted small me-2';
+    container.appendChild(contador);
 
     function mostrarPagina(pagina) {
+        if (animando) return;
         paginaAtual = Math.max(1, Math.min(pagina, totalPaginas));
+
         const inicio = (paginaAtual - 1) * linhasPorPagina;
         const fim = inicio + linhasPorPagina;
 
-        linhas.forEach((linha, i) => {
-            linha.style.display = i >= inicio && i < fim ? '' : 'none';
-        });
+        animando = true;
+        tbody.style.transition = 'opacity 0.3s ease';
+        tbody.style.opacity = '0';
+
+        setTimeout(() => {
+            linhas.forEach((linha, i) => {
+                linha.style.display = i >= inicio && i < fim ? '' : 'none';
+            });
+            tbody.style.opacity = '1';
+            setTimeout(() => (animando = false), 300);
+        }, 300);
 
         renderPaginacao();
     }
 
     function renderPaginacao() {
-        const container = document.getElementById('paginacao');
-        container.innerHTML = '';
+        divBotoes.innerHTML = '';
+        contador.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
 
         if (totalPaginas <= 1) return;
 
-        const grupoMaximo = 3; // número máximo de páginas visíveis
+        const grupoMaximo = 3;
         let inicioGrupo = Math.max(1, paginaAtual - Math.floor(grupoMaximo / 2));
         let fimGrupo = inicioGrupo + grupoMaximo - 1;
 
@@ -409,23 +461,24 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
         btnAnterior.className = 'btn btn-sm mx-1 btn-outline-primary';
         btnAnterior.disabled = paginaAtual === 1;
         btnAnterior.addEventListener('click', () => mostrarPagina(paginaAtual - 1));
-        container.appendChild(btnAnterior);
+        divBotoes.appendChild(btnAnterior);
 
         // Reticências no início
         if (inicioGrupo > 1) {
             const ellipsisInicio = document.createElement('span');
             ellipsisInicio.textContent = '...';
             ellipsisInicio.className = 'mx-1 align-self-center';
-            container.appendChild(ellipsisInicio);
+            divBotoes.appendChild(ellipsisInicio);
         }
 
         // Botões de páginas
         for (let i = inicioGrupo; i <= fimGrupo; i++) {
             const btn = document.createElement('button');
             btn.textContent = i;
-            btn.className = 'btn btn-sm mx-1 ' + (i === paginaAtual ? 'btn-primary' : 'btn-outline-primary');
+            btn.className =
+                'btn btn-sm mx-1 ' + (i === paginaAtual ? 'btn-primary' : 'btn-outline-primary');
             btn.addEventListener('click', () => mostrarPagina(i));
-            container.appendChild(btn);
+            divBotoes.appendChild(btn);
         }
 
         // Reticências no final
@@ -433,7 +486,7 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
             const ellipsisFim = document.createElement('span');
             ellipsisFim.textContent = '...';
             ellipsisFim.className = 'mx-1 align-self-center';
-            container.appendChild(ellipsisFim);
+            divBotoes.appendChild(ellipsisFim);
         }
 
         // Botão "Próximo"
@@ -442,15 +495,15 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
         btnProximo.className = 'btn btn-sm mx-1 btn-outline-primary';
         btnProximo.disabled = paginaAtual === totalPaginas;
         btnProximo.addEventListener('click', () => mostrarPagina(paginaAtual + 1));
-        container.appendChild(btnProximo);
+        divBotoes.appendChild(btnProximo);
     }
 
-    // Atalhos de teclado ← e →
+    // Atalhos ← e →
     document.addEventListener('keydown', (event) => {
         const isInputActive =
             document.activeElement.tagName === 'INPUT' ||
             document.activeElement.tagName === 'TEXTAREA';
-        if (isInputActive) return; // evita conflito com campos de texto
+        if (isInputActive || animando) return;
 
         if (event.key === 'ArrowLeft' && paginaAtual > 1) {
             mostrarPagina(paginaAtual - 1);
@@ -462,15 +515,10 @@ function paginarTabela(tabelaId, linhasPorPagina = 20) {
     mostrarPagina(1);
 }
 
-// Inicializa a paginação após carregar a tabela
-document.addEventListener('DOMContentLoaded', () => {
-    const tabela = document.querySelector('table.table');
-    if (tabela) {
-        paginarTabela('tab1-resul', 2);
-    }
-});
+</script>
 
-
+	<script>
+window.onload = () => paginarTabela('tab1_result', 2);
 </script>
 
 </body>
