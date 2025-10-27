@@ -486,6 +486,21 @@
 										</c:if>
 									</div>
 								</div>
+								<script>
+  const table = document.getElementById("tab1_result");
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+
+  // Ordena os rows pelo conteúdo da segunda coluna (índice 1)
+  rows.sort((a, b) => {
+    const nameA = a.cells[1].textContent.trim().toLowerCase();
+    const nameB = b.cells[1].textContent.trim().toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
+
+  // Remove todos os rows antigos e adiciona os ordenados
+  rows.forEach(row => tbody.appendChild(row));
+</script>
 								<!-- Inicio Dado -->
 								<!-- CAMPOS PRINCIPAIS -->
 
@@ -626,7 +641,7 @@
 											<div
 												class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 												<label id="l_end_uf" data-placeholder="UF"></label> <input
-													type="text" maxlength="2" name="estado" id="estado"
+													type="text" maxlength="2" name="end_uf" id="end_uf"
 													autocomplete="off" class="form-control" placeholder="UF">
 											</div>
 
@@ -656,7 +671,43 @@
 											<div class="row align-items-center text-center text-md-left">
 
 												<div
-													class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+													class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+													<label id="l_tel_1" data-placeholder="Telefone"></label> <input
+														type="text" maxlength="20" name="tel_1" id="tel_1"
+														autocomplete="off" class="form-control"
+														placeholder="Telefone">
+												</div>
+<script>
+const telInput = document.getElementById('tel_1');
+
+telInput.addEventListener('input', function(e) {
+  let cursorPosition = this.selectionStart; // salva posição do cursor
+  let value = this.value.replace(/\D/g, ''); // remove tudo que não é número
+
+  // Limita a 11 dígitos
+  if (value.length > 11) value = value.slice(0, 11);
+
+  // Formatação condicional
+  if (value.length > 6) {
+    value = value.replace(/^(\d{2})(\d{5})(\d{0,4})$/, '($1) $2-$3');
+  } else if (value.length > 2) {
+    value = value.replace(/^(\d{2})(\d{0,4})$/, '($1) $2');
+  } else if (value.length > 0) {
+    value = value.replace(/^(\d*)$/, '($1');
+  }
+
+  this.value = value;
+
+  // Ajusta cursor para permitir apagar normalmente
+  if (e.inputType === "deleteContentBackward") {
+    this.selectionStart = this.selectionEnd = cursorPosition;
+  }
+});
+</script>
+
+
+												<div
+													class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 
 													<label id="l_truefalse"
 														data-placeholder="ACESSO ADMINISTRATOR"></label> <input
@@ -795,8 +846,7 @@
 											<div
 												class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 												<input class="form-control" type="text" name="no_fan"
-													id="no_fan" autocomplete="off"
-													placeholder="Nome Fantasia">
+													id="no_fan" autocomplete="off" placeholder="Nome Fantasia">
 											</div>
 											<!-- coluna Direita -->
 											<!-- FIM row -->
@@ -819,18 +869,18 @@
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-												<input type="text" name="ins_est"
-													id="ins_est" autocomplete="off"
-													class="form-control" placeholder="Inscricao Estatual">
+												<input type="text" name="ins_est" id="ins_est"
+													autocomplete="off" class="form-control"
+													placeholder="Inscricao Estatual">
 											</div>
 											<!-- coluna esquerda -->
 
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
-												<input type="text" name="ins_mun"
-													id="ins_mun" autocomplete="off"
-													class="form-control" placeholder="Inscricao Municipal">
+												<input type="text" name="ins_mun" id="ins_mun"
+													autocomplete="off" class="form-control"
+													placeholder="Inscricao Municipal">
 											</div>
 											<!-- coluna Direita -->
 											<!-- FIM row -->
@@ -874,9 +924,9 @@
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-												<textarea name="end_com" id="end_com"
-													autocomplete="off" class="form-control"
-													placeholder="Complemento" autocomplete="off" rows="1"
+												<textarea name="end_com" id="end_com" autocomplete="off"
+													class="form-control" placeholder="Complemento"
+													autocomplete="off" rows="1"
 													style="overflow: hidden; resize: none;"
 													oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
@@ -948,16 +998,15 @@
 											<div
 												class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 												<input onblur="CEPPESQ();" type="text" maxlength="10"
-													name="end_cep" id="end_cep" autocomplete="off" class="form-control"
-													placeholder="CEP">
+													name="end_cep" id="end_cep" autocomplete="off"
+													class="form-control" placeholder="CEP">
 											</div>
 											<!-- coluna Central -->
 											<!-- coluna Direita -->
 											<div id="col-obs"
 												class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-												<textarea name="obs" id="obs"
-													class="form-control" placeholder="Observação"
-													autocomplete="off" rows="1"
+												<textarea name="obs" id="obs" class="form-control"
+													placeholder="Observação" autocomplete="off" rows="1"
 													style="overflow: hidden; resize: none;"
 													oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 											</div>
@@ -981,7 +1030,7 @@
 											<!-- Inicio row -->
 											<!-- coluna esquerda -->
 											<div
-												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 												<!--  -->
 												<input list="listADMTRUEFALSE" name="truefalse"
 													id="truefalse" type="text" autocomplete="off"
@@ -1060,11 +1109,11 @@
 
 			<!-- FIM Container -->
 			<!--  -->
-								<c:if
-									test="${not empty listaResultados 
+			<c:if
+				test="${not empty listaResultados 
              and fn:length(listaResultados) == 1 
              }">
-									<script>
+				<script>
              
     window.addEventListener('DOMContentLoaded', function() {
          document.getElementById('cnpj_cpf').value = '<c:out value="${listaResultados[0].cnpj_cpf}" escapeXml="true"/>';
@@ -1079,7 +1128,9 @@
           document.getElementById('end_mun').value = '<c:out value="${listaResultados[0].end_mun}" escapeXml="true"/>';
           document.getElementById('end_uf').value = '<c:out value="${listaResultados[0].end_uf}" escapeXml="true"/>';
           document.getElementById('end_cep').value = '<c:out value="${listaResultados[0].end_cep}" escapeXml="true"/>';
-          document.getElementById('end_cep').value = '<c:out value="${listaResultados[0].end_cep}" escapeXml="true"/>';
+          document.getElementById('obs').value = '<c:out value="${listaResultados[0].obs}" escapeXml="true"/>';
+          document.getElementById('tel_1').value = '<c:out value="${listaResultados[0].tel_1}" escapeXml="true"/>';
+          document.getElementById('email_1').value = '<c:out value="${listaResultados[0].email_1}" escapeXml="true"/>';
           document.getElementById('truefalse').value = '<c:out value="${listaResultados[0].truefalse}" escapeXml="true"/>';
           document.getElementById('tipo_ace').value = '<c:out value="${listaResultados[0].tipo_ace}" escapeXml="true"/>';
 
@@ -1088,7 +1139,7 @@
     });
     </script>
 
-								</c:if>
+			</c:if>
 
 
 			<!-- fim unico -->
