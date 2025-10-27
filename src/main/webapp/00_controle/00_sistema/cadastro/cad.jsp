@@ -431,12 +431,9 @@
 									class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 									<!-- Inicio Resultado -->
 									<!-- - -->
-
-
 									<!-- ------ -->
 									<!-- ====== RESULTADOS DA BUSCA ====== -->
-									<hr />
-
+	
 									<div class="container mt-3" id="container_tabela">
 
 										<c:if test="${not empty listaResultados}">
