@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import cbd.pos_cbd;
-import cla.cla_sis;
 import cla.cla_tab_bc;
 
 public class fun_tb {

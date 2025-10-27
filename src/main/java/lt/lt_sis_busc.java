@@ -246,8 +246,13 @@ public class lt_sis_busc extends HttpServlet {
 							int b1Value = (lista.size() > 1) ? 2 : 1;
 
 							if (b1Value == 1) {
+		
+								for (cla_sis item : lista) {
 								
-										request.getSession().setAttribute("listaResultados", lista);
+									tx1 = item.getCnpj_cpf(); // usando getter
+								}
+								List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
+										request.getSession().setAttribute("listaResultados", list_uni);
 									request.getSession().setAttribute("cons_list_dado", true);
 		
 							} else {
