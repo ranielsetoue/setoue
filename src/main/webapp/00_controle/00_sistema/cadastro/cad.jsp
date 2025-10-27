@@ -492,7 +492,7 @@
 									<!-- Inicio Dado -->
 									<!-- CAMPOS PRINCIPAIS -->
 
-									<div class="container mt-3" id="cont1">
+									<div class="container mt-3" id="cont1" style="display: none;">
 
 										<div class="row g-2">
 											<div class="col-md-4">
@@ -729,6 +729,14 @@ function sel_clin(botao) {
         }, 400);
     }
 
+ // MOSTRA formulário cont1
+    const formulario = document.getElementById("cont1");
+    if (formulario) {
+        formulario.style.display = "block";
+        formulario.style.opacity = "0";
+        formulario.style.transition = "opacity 0.4s ease";
+        setTimeout(() => formulario.style.opacity = "1", 50);
+    }
     highlightForm();
     initLabels();
 
@@ -743,7 +751,7 @@ function highlightForm() {
 	form.style.boxShadow = "0 0 15px 3px gold";
 	setTimeout(() => form.style.boxShadow = "none", 1200);
 }
-
+	
 // ====== LIMPAR CAMPOS AO ENTRAR NO CAMPO DE BUSCA ======
 function limparFormularioCadastro() {
 	const inputs = document.querySelectorAll('#fon_cad input, #fon_cad textarea');
@@ -763,6 +771,7 @@ function limparFormularioCadastro() {
 	const paginacao = document.getElementById('paginacao');
 	if (paginacao) paginacao.style.display = 'none';
 
+	
 }
 
 // Detecta quando o usuário clica ou digita no campo de busca
