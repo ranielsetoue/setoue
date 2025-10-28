@@ -23,14 +23,14 @@ public class fun_sis {
 
 		cla_sis gra_inp = new cla_sis();
 
-		String bc_sql = "select titutlo_web FROM tb_sis where id_sis = '" + id_sis + "'";
+		String bc_sql = "select titulo_web FROM tb_sis where id_sis = '" + id_sis + "'";
 		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
 		ResultSet cl_sis = gra_bus.executeQuery();
 
 		while (cl_sis.next()) {
 
-			gra_inp.setTitutlo_web(cl_sis.getString("titutlo_web"));
+			gra_inp.setTitulo_web(cl_sis.getString("tituto_web"));
 
 		}
 
