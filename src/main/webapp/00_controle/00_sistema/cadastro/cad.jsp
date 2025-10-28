@@ -333,7 +333,7 @@
 							<input class="form-control" list="list_cnpj_cpf"
 								name="bus_cnpj_cpf" id="bus_cnpj_cpf"
 								oninput="handleBusca(this); valBusnome();"
-								placeholder="CNPJ, CPF ou Nome">
+								placeholder="CNPJ, CPF ou Nome" >
 
 							<datalist id="list_cnpj_cpf">
 								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
@@ -908,7 +908,6 @@ telInput.addEventListener('input', function(e) {
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
 												<label id="l_ins_est" data-placeholder="Inscricao Estatual"></label>
-
 												<input type="text" name="ins_est" id="ins_est"
 													autocomplete="off" class="form-control"
 													placeholder="Inscricao Estatual">
@@ -917,9 +916,8 @@ telInput.addEventListener('input', function(e) {
 
 											<!-- coluna Direita -->
 											<div
-												class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+												class="col-12 col-md-6 mb-2 mb-0 align-self-end text-center">
 												<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
-
 												<input type="text" name="ins_mun" id="ins_mun"
 													autocomplete="off" class="form-control"
 													placeholder="Inscricao Municipal">
@@ -1237,7 +1235,11 @@ telInput.addEventListener('input', function(e) {
           document.getElementById('tipo_ace').value = '<c:out value="${listaResultados[0].tipo_ace}" escapeXml="true"/>';
           document.getElementById('titulo_web').value = '<c:out value="${listaResultados[0].titulo_web}" escapeXml="true"/>';
 
-          
+       // Dispara evento "input" para ativar labels flutuantes
+          const inputs = document.querySelectorAll('input, textarea, select');
+          inputs.forEach(el => {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+          });
           
     });
     </script>

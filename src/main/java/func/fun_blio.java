@@ -139,7 +139,7 @@ public class fun_blio {
 	// 🔢 Validação de CPF e CNPJ
 	// ==============================
 
-	private static boolean isCPF(String cpf) {
+	public static boolean isCPF(String cpf) {
 		cpf = cpf.replaceAll("\\D", "");
 		if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}"))
 			return false;
@@ -165,7 +165,7 @@ public class fun_blio {
 		}
 	}
 
-	private static boolean isCNPJ(String cnpj) {
+	public static boolean isCNPJ(String cnpj) {
 		cnpj = cnpj.replaceAll("\\D", "");
 		if (cnpj.length() != 14 || cnpj.matches("(\\d)\\1{13}"))
 			return false;

@@ -14,6 +14,34 @@
   </properties>
 
   <dependencies>
+  
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.11.0</version> <!-- versão estável mais recente (2025) -->
+</dependency>
+    <!-- Jackson Core: núcleo da biblioteca -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.17.2</version>
+    </dependency>
+
+    <!-- Jackson Databind: permite converter JSON <-> Objetos Java -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.17.2</version>
+    </dependency>
+
+    <!-- Jackson Annotations: suporte às anotações como @JsonIgnoreProperties -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.17.2</version>
+    </dependency>
+
+
     <!-- Jakarta Servlet API -->
     <dependency>
       <groupId>jakarta.servlet</groupId>

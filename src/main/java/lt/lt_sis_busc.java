@@ -1,8 +1,11 @@
 package lt;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import api_ext.api_cnpj;
+import cla.cla_cnpj;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
@@ -103,7 +106,6 @@ public class lt_sis_busc extends HttpServlet {
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
 
-					
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -130,7 +132,6 @@ public class lt_sis_busc extends HttpServlet {
 					 * request.setAttribute("sis_cons", sisCons);
 					 */
 
-				
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -146,7 +147,6 @@ public class lt_sis_busc extends HttpServlet {
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					 * request.setAttribute("sis_cons", sisCons);
 					 */
-
 
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -164,7 +164,6 @@ public class lt_sis_busc extends HttpServlet {
 					 * request.setAttribute("sis_cons", sisCons);
 					 */
 
-				
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))
 						|| ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
@@ -222,7 +221,6 @@ public class lt_sis_busc extends HttpServlet {
 
 				}
 
-
 				request.getSession().setAttribute("cons_true", true);
 				request.getSession().setAttribute("cons_false", false);
 				request.getSession().setAttribute("cons_list_not", false);
@@ -237,42 +235,84 @@ public class lt_sis_busc extends HttpServlet {
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
-						String tx1 = request.getParameter("bus_cnpj_cpf");
-						if (tx1 != null) {
+					String tx1 = request.getParameter("bus_cnpj_cpf");
+					if (tx1 != null) {
 
-							List<cla_sis> lista = busc_unico.busca("tb_sis", tx1, cla_sis.class);
-							// Define o atributo de sessão: 1 se houver apenas 1 resultado, 2 se houver mais
-							// de 1
-							int b1Value = (lista.size() > 1) ? 2 : 1;
+						
 
-							if (b1Value == 1) {
-		
-								for (cla_sis item : lista) {
-								
-									tx1 = item.getCnpj_cpf(); // usando getter
-								}
-								List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
-										request.getSession().setAttribute("listaResultados", list_uni);
-									request.getSession().setAttribute("cons_list_dado", true);
-		
-							} else {
-								if (b1Value > 1) {
+						List<cla_sis> lista = busc_unico.busca("tb_sis", tx1, cla_sis.class);
+						// Define o atributo de sessão: 1 se houver apenas 1 resultado, 2 se houver mais
+						// de 1
+						int b1Value = (lista.size() > 1) ? 2 : 1;
 
-										request.getSession().setAttribute("listaResultados", lista);
-										request.getSession().setAttribute("cons_list_dado", false);
-		
-								}
+						if (b1Value == 1) {
 
+							for (cla_sis item : lista) {
+
+								tx1 = item.getCnpj_cpf(); // usando getter
 							}
-							if (lista == null || lista.isEmpty()) {
-								request.getSession().setAttribute("cons_list_not", true);
-								request.getSession().setAttribute("cons_list_dado", true);
+							List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
+							request.getSession().setAttribute("listaResultados", list_uni);
+							request.getSession().setAttribute("cons_list_dado", true);
+
+						} else {
+							if (b1Value > 1) {
+
+								request.getSession().setAttribute("listaResultados", lista);
+								request.getSession().setAttribute("cons_list_dado", false);
+
 							}
 
 						}
+						if (lista == null || lista.isEmpty()) {
 
-						
-					
+							lista = new ArrayList<>();
+
+							cla_sis obj = new cla_sis();
+
+							// Remove possíveis espaços e pontuações antes de validar
+							String termo = tx1.trim().replaceAll("\\D", "");
+
+							// Se for CNPJ ou CPF, seta no campo correto
+							if (fun_blio.isCNPJ(termo) || fun_blio.isCPF(termo)) {
+								
+								if (fun_blio.isCNPJ(tx1)) {
+									/*
+									 
+									
+									obj.setCnpj_cpf(cl_cnpj.getCnpj());
+									
+									* 
+									 */
+									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(tx1);
+									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
+									cl_sis.setNome_desc(cl_cnpj.getNome());
+									cl_sis.setNo_fan(cl_cnpj.getFantasia());
+									cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+									cl_sis.setEnd_num(cl_cnpj.getNumero());
+									cl_sis.setEnd_com(cl_cnpj.getComplemento());
+									cl_sis.setEnd_bar(cl_cnpj.getBairro());
+									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+									cl_sis.setEnd_uf(cl_cnpj.getUf());
+									cl_sis.setEnd_cep(cl_cnpj.getCep());
+									cl_sis.setTel_1(cl_cnpj.getTelefone());
+									cl_sis.setEmail_1(cl_cnpj.getEmail());
+								lista.add(cl_sis);
+									
+								}
+								
+							} else {
+								obj.setNome_desc(tx1);
+								lista.add(obj);
+							}
+							// Adiciona o objeto à lista
+							request.getSession().setAttribute("listaResultados", lista);
+							request.getSession().setAttribute("cons_list_not", true);
+							request.getSession().setAttribute("cons_list_dado", true);
+						}
+
+					}
+
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
@@ -283,7 +323,6 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 
-								
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
