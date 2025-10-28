@@ -340,7 +340,19 @@
 									<option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
 								</c:forEach>
 							</datalist>
+<script>
+function controlarDatalist(input) {
+  const datalist = document.getElementById('list_cnpj_cpf');
 
+  // Se não tiver nada digitado, remove a associação com o datalist
+  if (input.value.length === 0) {
+    input.removeAttribute('list');
+  } else {
+    // Ao digitar a primeira letra, volta a associar
+    input.setAttribute('list', 'list_cnpj_cpf');
+  }
+}
+</script>
 							<!-- Mensagem de erro -->
 							<small id="erro_busca" class="text-danger d-none">Dado
 								inválido</small>

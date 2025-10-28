@@ -30,7 +30,7 @@ public class fun_sis {
 
 		while (cl_sis.next()) {
 
-			gra_inp.setTitulo_web(cl_sis.getString("tituto_web"));
+			gra_inp.setTitulo_web(cl_sis.getString("titulo_web"));
 
 		}
 
