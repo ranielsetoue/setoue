@@ -118,41 +118,68 @@
 	}
 
 	// Valida e formata input
-	function handleBusca(input) {
-		let valor = input.value.trim();
+function handleBusca(input) {
+    let valor = input.value.replace(/\D/g, ''); // remove tudo que não é número
+    const botaoBusca = document.getElementById('btn_busca'); // ID do botão de busca
 
-		// Se inicia com letra, não mostra erro
-		if (/^[a-zA-Z]/.test(valor)) {
-			document.getElementById('erro_busca').classList.add('d-none');
-			input.classList.remove('border-danger');
-			return;
-		}
+    // Se inicia com letra, não faz validação
+    if (/^[a-zA-Z]/.test(input.value)) {
+        document.getElementById('erro_busca').classList.add('d-none');
+        input.classList.remove('border-danger');
+        botaoBusca.disabled = false; // habilita botão se for letra
+        return;
+    }
 
-		// Formata CPF/CNPJ automaticamente
-		if (/^\d/.test(valor)) {
-			input.value = formatCpfCnpj(valor);
-		}
+    // Limita o tamanho conforme CPF ou CNPJ
+    if (valor.length <= 11) {
+        // CPF
+        input.value = formatCpf(valor);
+    } else if (valor.length <= 14) {
+        // CNPJ
+        input.value = formatCnpj(valor);
+    } else {
+        // Limita a 14 dígitos
+        valor = valor.slice(0, 14);
+        input.value = formatCnpj(valor);
+    }
 
-		// Valida CPF/CNPJ
-		let valido = true;
-		let numeros = valor.replace(/\D/g, '');
-		if (numeros.length === 11) {
-			valido = isValidCPF(valor);
-		} else if (numeros.length === 14) {
-			valido = isValidCNPJ(valor);
-		} else if (/^\d/.test(valor)) {
-			valido = false;
-		}
+    // Validação
+    let valido = true;
+    if (valor.length === 11) {
+        valido = isValidCPF(valor);
+    } else if (valor.length === 14) {
+        valido = isValidCNPJ(valor);
+    } else if (/^\d/.test(input.value)) {
+        valido = false;
+    }
 
-		let erro = document.getElementById('erro_busca');
-		if (!valido) {
-			erro.classList.remove('d-none');
-			input.classList.add('border-danger');
-		} else {
-			erro.classList.add('d-none');
-			input.classList.remove('border-danger');
-		}
-	}
+    let erro = document.getElementById('erro_busca');
+    if (!valido) {
+        erro.classList.remove('d-none');
+        input.classList.add('border-danger');
+        buc_dado.disabled = true; // desabilita botão se inválido
+    } else {
+        erro.classList.add('d-none');
+        input.classList.remove('border-danger');
+         buc_dado.disabled = false; // habilita botão se válido
+    }
+}
+
+// Funções de formatação
+function formatCpf(valor) {
+    valor = valor.replace(/\D/g, '');
+    return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, function(_, p1, p2, p3, p4) {
+        return p1 + '.' + p2 + '.' + p3 + (p4 ? '-' + p4 : '');
+    });
+}
+
+function formatCnpj(valor) {
+    valor = valor.replace(/\D/g, '');
+    return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, function(_, p1, p2, p3, p4, p5) {
+        return p1 + '.' + p2 + '.' + p3 + '/' + p4 + (p5 ? '-' + p5 : '');
+    });
+}
+
 
 	// Função placeholder para nome (se tiver alguma função extra)
 	function valBusnome() {
@@ -333,7 +360,7 @@
 							<input class="form-control" list="list_cnpj_cpf"
 								name="bus_cnpj_cpf" id="bus_cnpj_cpf"
 								oninput="handleBusca(this); valBusnome();"
-								placeholder="CNPJ, CPF ou Nome" >
+								placeholder="CNPJ, CPF ou Nome">
 
 							<datalist id="list_cnpj_cpf">
 								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
@@ -349,6 +376,7 @@ function controlarDatalist(input) {
     input.removeAttribute('list');
   } else {
     // Ao digitar a primeira letra, volta a associar
+    
     input.setAttribute('list', 'list_cnpj_cpf');
   }
 }
@@ -363,7 +391,7 @@ function controlarDatalist(input) {
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-info" onclick="sis_busc();">Buscar</button>
+							<button id="buc_dado" type="button" class="btn btn-info" onclick="sis_busc();">Buscar</button>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->

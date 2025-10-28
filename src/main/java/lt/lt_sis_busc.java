@@ -238,8 +238,6 @@ public class lt_sis_busc extends HttpServlet {
 					String tx1 = request.getParameter("bus_cnpj_cpf");
 					if (tx1 != null) {
 
-						
-
 						List<cla_sis> lista = busc_unico.busca("tb_sis", tx1, cla_sis.class);
 						// Define o atributo de sessão: 1 se houver apenas 1 resultado, 2 se houver mais
 						// de 1
@@ -252,7 +250,8 @@ public class lt_sis_busc extends HttpServlet {
 								tx1 = item.getCnpj_cpf(); // usando getter
 							}
 							List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
-							request.getSession().setAttribute("listaResultados", list_uni);
+
+						request.getSession().setAttribute("listaResultados", list_uni);
 							request.getSession().setAttribute("cons_list_dado", true);
 
 						} else {
@@ -275,15 +274,9 @@ public class lt_sis_busc extends HttpServlet {
 
 							// Se for CNPJ ou CPF, seta no campo correto
 							if (fun_blio.isCNPJ(termo) || fun_blio.isCPF(termo)) {
-								
+
 								if (fun_blio.isCNPJ(tx1)) {
-									/*
-									 
-									
-									obj.setCnpj_cpf(cl_cnpj.getCnpj());
-									
-									* 
-									 */
+
 									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(tx1);
 									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
 									cl_sis.setNome_desc(cl_cnpj.getNome());
@@ -295,12 +288,21 @@ public class lt_sis_busc extends HttpServlet {
 									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
 									cl_sis.setEnd_uf(cl_cnpj.getUf());
 									cl_sis.setEnd_cep(cl_cnpj.getCep());
-									cl_sis.setTel_1(cl_cnpj.getTelefone());
+
 									cl_sis.setEmail_1(cl_cnpj.getEmail());
-								lista.add(cl_sis);
-									
+									String telefone = cl_cnpj.getTelefone();
+
+									if (telefone != null
+											&& telefone.matches("^\\(?\\d{2}\\)?\\s?(?:9\\d{4}|\\d{4})-?\\d{4}$")) {
+										// telefones como (11) 98765-4321, 11987654321, (11) 3456-7890
+										cl_sis.setTel_1(telefone);
+									} else {
+										cl_sis.setObs(telefone);
+									}
+									lista.add(cl_sis);
+
 								}
-								
+
 							} else {
 								obj.setNome_desc(tx1);
 								lista.add(obj);

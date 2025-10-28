@@ -14,14 +14,12 @@ public class api_cnpj {
 
 	public static cla_cnpj cons_cnpj(String CNPJ) throws Exception {
 
-		/*
-		 * System.out.println(CNPJ);
-		 */
 
 		CNPJ = CNPJ.replaceAll("\\.", "");
 		CNPJ = CNPJ.replaceAll("\\/", "");
 		CNPJ = CNPJ.replaceAll("\\-", "");
-
+		CNPJ = CNPJ.replaceAll("[^\\d]", ""); 
+		
 		URL url = new URL("https://receitaws.com.br/v1/cnpj/" + CNPJ);
 		URLConnection connection = url.openConnection();
 		InputStream is = connection.getInputStream();
