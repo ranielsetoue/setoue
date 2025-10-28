@@ -340,7 +340,7 @@
 									<option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
 								</c:forEach>
 							</datalist>
-<script>
+							<script>
 function controlarDatalist(input) {
   const datalist = document.getElementById('list_cnpj_cpf');
 
@@ -842,6 +842,8 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
+												<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label>
+
 												<input class="form-control" list="listcnpj_cpf"
 													name="cnpj_cpf" id="cnpj_cpf" maxlength="18"
 													oninput="forCnpjCpf(this); valCnpjCpf(this)"
@@ -851,6 +853,8 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Central -->
 											<div id="div_nome_desc"
 												class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
+												<label id="l_nome_desc" data-placeholder="Nome"></label>
+
 												<textarea class="form-control" autocomplete="off"
 													name="nome_desc" id="nome_desc" placeholder="Nome" rows="1"
 													style="overflow: hidden; resize: none;"
@@ -877,6 +881,8 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+												<label id="l_no_fan" data-placeholder="Nome Fantasia"></label>
+
 												<input class="form-control" type="text" name="no_fan"
 													id="no_fan" autocomplete="off" placeholder="Nome Fantasia">
 											</div>
@@ -901,6 +907,8 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+												<label id="l_ins_est" data-placeholder="Inscricao Estatual"></label>
+
 												<input type="text" name="ins_est" id="ins_est"
 													autocomplete="off" class="form-control"
 													placeholder="Inscricao Estatual">
@@ -910,6 +918,8 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+												<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
+
 												<input type="text" name="ins_mun" id="ins_mun"
 													autocomplete="off" class="form-control"
 													placeholder="Inscricao Municipal">
@@ -934,6 +944,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+												<label id="l_end_rua" data-placeholder="Enderenco"></label>
 												<textarea name="end_rua" id="end_rua" autocomplete="off"
 													class="form-control" placeholder="Enderenco"
 													autocomplete="off" rows="1"
@@ -945,6 +956,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Central -->
 											<div
 												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+												<label id="l_end_num" data-placeholder="Numero"></label>
 												<textarea name="end_num" id="end_num" autocomplete="off"
 													class="form-control" placeholder="Numero"
 													autocomplete="off" rows="1"
@@ -956,6 +968,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+												<label id="l_end_com" data-placeholder="Complemento"></label>
 												<textarea name="end_com" id="end_com" autocomplete="off"
 													class="form-control" placeholder="Complemento"
 													autocomplete="off" rows="1"
@@ -983,6 +996,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+												<label id="l_end_bar" data-placeholder="Bairro"></label>
 												<textarea name="end_bar" id="end_bar" autocomplete="off"
 													class="form-control" placeholder="Bairro"
 													autocomplete="off" rows="1"
@@ -994,6 +1008,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Central -->
 											<div
 												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+												<label id="l_end_mun" data-placeholder="Municipio"></label>
 												<textarea name="end_mun" id="end_mun" autocomplete="off"
 													class="form-control" placeholder="Municipio"
 													autocomplete="off" rows="1"
@@ -1022,14 +1037,16 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
-												<input type="text" maxlength="2" name="end_uf" id="end_uf"
+												<label id="l_end_uf" data-placeholder="UF"></label> <input
+													type="text" maxlength="2" name="end_uf" id="end_uf"
 													autocomplete="off" class="form-control" placeholder="UF">
 											</div>
 											<!-- coluna esquerda -->
 											<!-- coluna Central -->
 											<div
 												class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-												<input onblur="CEPPESQ();" type="text" maxlength="10"
+												<label id="l_end_cep" data-placeholder="CEP"></label> <input
+													onblur="CEPPESQ();" type="text" maxlength="10"
 													name="end_cep" id="end_cep" autocomplete="off"
 													class="form-control" placeholder="CEP">
 											</div>
@@ -1037,6 +1054,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Direita -->
 											<div id="col-obs"
 												class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+												<label id="l_obs" data-placeholder="Observação"></label>
 												<textarea name="obs" id="obs" class="form-control"
 													placeholder="Observação" autocomplete="off" rows="1"
 													style="overflow: hidden; resize: none;"
@@ -1062,7 +1080,8 @@ telInput.addEventListener('input', function(e) {
 
 											<div
 												class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-												<label id="l_tel_1" data-placeholder="Telefone"></label> <input
+												<label id="l_tel_1" data-placeholder="Telefone"></label> <label
+													id="l_tel_1" data-placeholder="Telefone"></label> <input
 													type="text" maxlength="20" name="tel_1" id="tel_1"
 													autocomplete="off" class="form-control"
 													placeholder="Telefone">
@@ -1108,6 +1127,7 @@ telInput.addEventListener('input', function(e) {
 											<div
 												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 												<!--  -->
+												<label id="l_truefalse" data-placeholder="ACESSO ADM"></label>
 												<input list="listADMTRUEFALSE" name="truefalse"
 													id="truefalse" type="text" autocomplete="off"
 													class="form-control" placeholder="ACESSO ADM">
@@ -1140,7 +1160,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Central -->
 											<div
 												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
-
+												<label id="l_tipo_ace" data-placeholder="Tipo de Permissao"></label>
 												<textarea class="form-control" list="list_tipo_ace"
 													name="tipo_ace" id="tipo_ace" autocomplete="off"
 													placeholder="Tipo de Permissao" autocomplete="off" rows="1"
