@@ -466,6 +466,8 @@
 																	data-municipio="${item.end_mun}"
 																	data-estado="${item.end_uf}" data-cep="${item.end_cep}"
 																	data-observacao="${item.obs}"
+																	data-telefone="${item.tel_1}"
+																	data-email="${item.email_1}"
 																	data-truefalse="${item.truefalse}"
 																	data-permissao="${item.tipo_ace}">SEL</button>
 															</td>
@@ -677,7 +679,7 @@
 														autocomplete="off" class="form-control"
 														placeholder="Telefone">
 												</div>
-<script>
+												<script>
 const telInput = document.getElementById('tel_1');
 
 telInput.addEventListener('input', function(e) {
@@ -705,16 +707,23 @@ telInput.addEventListener('input', function(e) {
 });
 </script>
 
+												<div
+													class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+													<label id="l_email_1" data-placeholder="E-mail"></label>
+													<textarea name="email_1" id="email_1" class="form-control"
+														placeholder="E-mail" autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+												</div>
 
 												<div
-													class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+													class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 
-													<label id="l_truefalse"
-														data-placeholder="ACESSO ADMINISTRATOR"></label> <input
-														list="listADMTRUEFALSE" name="truefalse" id="truefalse"
-														type="text" autocomplete="off"
+													<label id="l_truefalse" data-placeholder="ACESSO ADM"></label>
+													<input list="listADMTRUEFALSE" name="truefalse"
+														id="truefalse" type="text" autocomplete="off"
 														value="${sis_tel.truefalse}" class="form-control"
-														placeholder="ACESSO ADMINISTRATOR">
+														placeholder="ACESSO ADM">
 													<datalist id="listADMTRUEFALSE">
 														<option value="TRUE">
 														<option value="FALSE">
@@ -797,7 +806,6 @@ telInput.addEventListener('input', function(e) {
 								<c:if test="${cons_list_not}">
 									<h2>Realiza Cadastro</h2>
 								</c:if>
-								<h2>unico</h2>
 								<!--  -->
 								<!--  inicio unico -->
 								<!-- Inicio Container -->
@@ -1027,14 +1035,58 @@ telInput.addEventListener('input', function(e) {
 										<!-- Inicio Container -->
 										<!-- Inicio row -->
 										<div class="row align-items-center text-center text-md-left">
-											<!-- Inicio row -->
+
+											<div
+												class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+												<label id="l_tel_1" data-placeholder="Telefone"></label> <input
+													type="text" maxlength="20" name="tel_1" id="tel_1"
+													autocomplete="off" class="form-control"
+													placeholder="Telefone">
+											</div>
+											<script>
+const telInput = document.getElementById('tel_1');
+
+telInput.addEventListener('input', function(e) {
+  let cursorPosition = this.selectionStart; // salva posição do cursor
+  let value = this.value.replace(/\D/g, ''); // remove tudo que não é número
+
+  // Limita a 11 dígitos
+  if (value.length > 11) value = value.slice(0, 11);
+
+  // Formatação condicional
+  if (value.length > 6) {
+    value = value.replace(/^(\d{2})(\d{5})(\d{0,4})$/, '($1) $2-$3');
+  } else if (value.length > 2) {
+    value = value.replace(/^(\d{2})(\d{0,4})$/, '($1) $2');
+  } else if (value.length > 0) {
+    value = value.replace(/^(\d*)$/, '($1');
+  }
+
+  this.value = value;
+
+  // Ajusta cursor para permitir apagar normalmente
+  if (e.inputType === "deleteContentBackward") {
+    this.selectionStart = this.selectionEnd = cursorPosition;
+  }
+});
+</script>
+
+											<div
+												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+												<label id="l_email_1" data-placeholder="E-mail"></label>
+												<textarea name="email_1" id="email_1" class="form-control"
+													placeholder="E-mail" autocomplete="off" rows="1"
+													style="overflow: hidden; resize: none;"
+													oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+											</div>
+
 											<!-- coluna esquerda -->
 											<div
 												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 												<!--  -->
 												<input list="listADMTRUEFALSE" name="truefalse"
 													id="truefalse" type="text" autocomplete="off"
-													class="form-control" placeholder="ACESSO ADMINISTRATOR">
+													class="form-control" placeholder="ACESSO ADM">
 												<datalist id="listADMTRUEFALSE">
 													<option value="TRUE">
 													<option value="FALSE">
@@ -1063,7 +1115,7 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna esquerda -->
 											<!-- coluna Central -->
 											<div
-												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 
 												<textarea class="form-control" list="list_tipo_ace"
 													name="tipo_ace" id="tipo_ace" autocomplete="off"
@@ -1212,7 +1264,9 @@ function sel_clin(botao) {
         estado: "end_uf",
         cep: "end_cep",
         observacao: "obs",
-        truefalse: "truefalse",
+        telefone:"tel_1",
+        email:"email_1",
+         truefalse: "truefalse",
         permissao: "tipo_ace"
     };
 
@@ -1332,7 +1386,7 @@ function limparFormulario() {
         'cnpj_cpf', 'nome_desc', 'no_fan',
         'end_rua', 'end_num', 'end_com',
         'end_bar', 'end_mun', 'end_uf', 'end_cep',
-        'obs', 'truefalse', 'tipo_ace','termo'
+        'obs','tel_1','email_1', 'truefalse', 'tipo_ace','termo'
     ];
     campos.forEach(id => {
         const input = document.getElementById(id);
