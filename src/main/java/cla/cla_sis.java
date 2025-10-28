@@ -31,7 +31,7 @@ public class cla_sis implements Serializable {
 	private String tel_1;
 	private String email_1;
 	private String obs;
-	private String Titutlo_web;
+	private String titulo_web;
 	private String tipo_ace;
 	
 
@@ -224,13 +224,7 @@ public class cla_sis implements Serializable {
 	}
 
 	
-	public String getTitutlo_web() {
-		return Titutlo_web;
-	}
 
-	public void setTitutlo_web(String titutlo_web) {
-		Titutlo_web = titutlo_web;
-	}
 
 	public void vz_id() {
 
@@ -292,12 +286,12 @@ public class cla_sis implements Serializable {
 				+ ", nome_desc=" + nome_desc + ", no_fan=" + no_fan + ", cnpj_cpf=" + cnpj_cpf + ", end_rua=" + end_rua
 				+ ", end_num=" + end_num + ", end_com=" + end_com + ", end_bar=" + end_bar + ", end_mun=" + end_mun
 				+ ", end_uf=" + end_uf + ", end_cep=" + end_cep + ", ins_est=" + ins_est + ", ins_mun=" + ins_mun
-				+ ", tel_1=" + tel_1 + ", email_1=" + email_1 + ", obs=" + obs + ", Titutlo_web=" + Titutlo_web + "]";
+				+ ", tel_1=" + tel_1 + ", email_1=" + email_1 + ", obs=" + obs + ", titutlo_web=" + titutlo_web + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Titutlo_web, ace_per_aut, cnpj_cpf, email_1, end_bar, end_cep, end_com, end_mun, end_num,
+		return Objects.hash(titutlo_web, ace_per_aut, cnpj_cpf, email_1, end_bar, end_cep, end_com, end_mun, end_num,
 				end_rua, end_uf, id_sis, ins_est, ins_mun, no_fan, nome_desc, obs, reg_alt, reg_data, reg_data_alt,
 				reg_id, tel_1, truefalse);
 	}
@@ -311,7 +305,7 @@ public class cla_sis implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		cla_sis other = (cla_sis) obj;
-		return Objects.equals(Titutlo_web, other.Titutlo_web) && Objects.equals(ace_per_aut, other.ace_per_aut)
+		return Objects.equals(titutlo_web, other.titutlo_web) && Objects.equals(ace_per_aut, other.ace_per_aut)
 				&& Objects.equals(cnpj_cpf, other.cnpj_cpf) && Objects.equals(email_1, other.email_1)
 				&& Objects.equals(end_bar, other.end_bar) && Objects.equals(end_cep, other.end_cep)
 				&& Objects.equals(end_com, other.end_com) && Objects.equals(end_mun, other.end_mun)
@@ -331,6 +325,14 @@ public class cla_sis implements Serializable {
 
 	public void setTipo_ace(String tipo_ace) {
 		this.tipo_ace = tipo_ace;
+	}
+
+	public String getTitutlo_web() {
+		return titutlo_web;
+	}
+
+	public void setTitutlo_web(String titutlo_web) {
+		this.titutlo_web = titutlo_web;
 	}
 
 

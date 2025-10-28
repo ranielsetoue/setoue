@@ -469,7 +469,9 @@
 																	data-telefone="${item.tel_1}"
 																	data-email="${item.email_1}"
 																	data-truefalse="${item.truefalse}"
-																	data-permissao="${item.tipo_ace}">SEL</button>
+																	data-permissao="${item.tipo_ace}"
+																	data-titulo_web="${item.titulo_web}">SEL</button>
+
 															</td>
 														</tr>
 													</c:forEach>
@@ -503,6 +505,8 @@
   // Remove todos os rows antigos e adiciona os ordenados
   rows.forEach(row => tbody.appendChild(row));
 </script>
+
+
 								<!-- Inicio Dado -->
 								<!-- CAMPOS PRINCIPAIS -->
 
@@ -708,7 +712,7 @@ telInput.addEventListener('input', function(e) {
 </script>
 
 												<div
-													class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+													class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
 													<label id="l_email_1" data-placeholder="E-mail"></label>
 													<textarea name="email_1" id="email_1" class="form-control"
 														placeholder="E-mail" autocomplete="off" rows="1"
@@ -763,7 +767,15 @@ telInput.addEventListener('input', function(e) {
 														</c:forEach>
 													</datalist>
 												</div>
-
+												<div
+													class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+													<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
+													<textarea name="titulo_webb" id="titulo_web"
+														class="form-control" placeholder="Titulo Web"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -1072,7 +1084,7 @@ telInput.addEventListener('input', function(e) {
 </script>
 
 											<div
-												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+												class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
 												<label id="l_email_1" data-placeholder="E-mail"></label>
 												<textarea name="email_1" id="email_1" class="form-control"
 													placeholder="E-mail" autocomplete="off" rows="1"
@@ -1082,7 +1094,7 @@ telInput.addEventListener('input', function(e) {
 
 											<!-- coluna esquerda -->
 											<div
-												class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
 												<!--  -->
 												<input list="listADMTRUEFALSE" name="truefalse"
 													id="truefalse" type="text" autocomplete="off"
@@ -1133,6 +1145,12 @@ telInput.addEventListener('input', function(e) {
 											<!-- coluna Direita -->
 											<div
 												class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+												<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
+												<textarea name="titulo_web" id="titulo_web"
+													class="form-control" placeholder="Titulo Web"
+													autocomplete="off" rows="1"
+													style="overflow: hidden; resize: none;"
+													oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 											</div>
 											<!-- coluna Direita -->
 											<!-- FIM row -->
@@ -1185,6 +1203,7 @@ telInput.addEventListener('input', function(e) {
           document.getElementById('email_1').value = '<c:out value="${listaResultados[0].email_1}" escapeXml="true"/>';
           document.getElementById('truefalse').value = '<c:out value="${listaResultados[0].truefalse}" escapeXml="true"/>';
           document.getElementById('tipo_ace').value = '<c:out value="${listaResultados[0].tipo_ace}" escapeXml="true"/>';
+          document.getElementById('titulo_web').value = '<c:out value="${listaResultados[0].titulo_web}" escapeXml="true"/>';
 
           
           
@@ -1267,7 +1286,8 @@ function sel_clin(botao) {
         telefone:"tel_1",
         email:"email_1",
          truefalse: "truefalse",
-        permissao: "tipo_ace"
+        permissao: "tipo_ace",
+        titulo_web:"titulo_web"
     };
 
     for (const key in campos) {
@@ -1386,7 +1406,8 @@ function limparFormulario() {
         'cnpj_cpf', 'nome_desc', 'no_fan',
         'end_rua', 'end_num', 'end_com',
         'end_bar', 'end_mun', 'end_uf', 'end_cep',
-        'obs','tel_1','email_1', 'truefalse', 'tipo_ace','termo'
+        'obs','tel_1','email_1', 'truefalse', 
+        'tipo_ace','termo','titulo_web'
     ];
     campos.forEach(id => {
         const input = document.getElementById(id);
