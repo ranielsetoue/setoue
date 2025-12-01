@@ -76,6 +76,13 @@
     <artifactId>postgresql</artifactId>
     <version>42.6.0</version> <!-- versão mais recente estável -->
 </dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.14</version>
+</dependency>
+
   </dependencies>
 
   <build>

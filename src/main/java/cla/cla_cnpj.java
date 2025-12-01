@@ -468,4 +468,19 @@ public class cla_cnpj implements Serializable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "cla_cnpj [id_cnpj=" + id_cnpj + ", status=" + status + ", ultima_atualizacao=" + ultima_atualizacao
+				+ ", cnpj=" + cnpj + ", tipo=" + tipo + ", porte=" + porte + ", nome=" + nome + ", fantasia=" + fantasia
+				+ ", abertura=" + abertura + ", atividade_principal=" + atividade_principal
+				+ ", atividades_secundarias=" + atividades_secundarias + ", natureza_juridica=" + natureza_juridica
+				+ ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", cep=" + cep
+				+ ", bairro=" + bairro + ", municipio=" + municipio + ", uf=" + uf + ", email=" + email + ", telefone="
+				+ telefone + ", efr=" + efr + ", situacao=" + situacao + ", data_situacao=" + data_situacao
+				+ ", motivo_situacao=" + motivo_situacao + ", situacao_especial=" + situacao_especial
+				+ ", data_situacao_especial=" + data_situacao_especial + ", capital_social=" + capital_social + ", qsa="
+				+ qsa + ", SimplesObject=" + SimplesObject + ", SimeiObject=" + SimeiObject + ", BillingObject="
+				+ BillingObject + "]";
+	}
+
 }

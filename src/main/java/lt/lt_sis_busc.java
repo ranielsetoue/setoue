@@ -249,9 +249,42 @@ public class lt_sis_busc extends HttpServlet {
 
 								tx1 = item.getCnpj_cpf(); // usando getter
 							}
+
 							List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
 
-						request.getSession().setAttribute("listaResultados", list_uni);
+							if (fun_blio.isCNPJ(list_uni.get(0).getCnpj_cpf())) {
+								
+		/*
+		 * 						 System.out.println(list_uni.get(0).getCnpj_cpf());
+		 */
+								
+
+ 								cla_cnpj cl_cnpj =	  api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+
+
+								
+								if (cl_cnpj.getNome() == null || cl_cnpj.getNome().isEmpty()) {
+									
+								} else {
+									list_uni.get(0).setNome_desc(cl_cnpj.getNome());
+									 list_uni.get(0).setNo_fan(cl_cnpj.getFantasia());
+									 list_uni.get(0).setEnd_rua(cl_cnpj.getLogradouro());
+									 list_uni.get(0).setEnd_num(cl_cnpj.getNumero());
+									 list_uni.get(0).setEnd_com(cl_cnpj.getComplemento());
+									 list_uni.get(0).setEnd_cep(cl_cnpj.getCep());
+									 list_uni.get(0).setEnd_bar(cl_cnpj.getBairro());
+									 list_uni.get(0).setEnd_mun(cl_cnpj.getMunicipio());
+									 list_uni.get(0).setEnd_uf(cl_cnpj.getUf());
+									 list_uni.get(0).setEmail_1(cl_cnpj.getEmail());
+									 list_uni.get(0).setTel_1(cl_cnpj.getTelefone());
+	
+								}
+									
+								
+																 
+							}
+
+							request.getSession().setAttribute("listaResultados", list_uni);
 							request.getSession().setAttribute("cons_list_dado", true);
 
 						} else {
