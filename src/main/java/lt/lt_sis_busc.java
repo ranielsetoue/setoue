@@ -259,9 +259,21 @@ public class lt_sis_busc extends HttpServlet {
 		 */
 								
 
- 								cla_cnpj cl_cnpj =	  api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+ 							/*
+ 							 * 	cla_cnpj cl_cnpj =	  api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+ 							 */
 
+ 								cla_cnpj cl_cnpj = null;
 
+ 								try {
+												
+ 									cl_cnpj = api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+ 					
+ 								
+ 								} catch (Exception e) {
+ 								    System.out.println("Erro ao consultar CNPJ: " + e.getMessage());
+ 								    // deixa cl_cnpj = null e continua
+ 								}
 								
 								if (cl_cnpj.getNome() == null || cl_cnpj.getNome().isEmpty()) {
 									

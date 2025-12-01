@@ -1381,8 +1381,33 @@ function sel_clin(botao) {
 
     const form = document.getElementById("fon_cad");
     if (form) form.scrollIntoView({ behavior: "smooth" });
-}
+    
+    
+    const cnpj = botao.getAttribute("data-cnpjcpf");
 
+    if (cnpj) {
+        fetch("/setoue/consultaCnpj?cnpj=" + cnpj)
+            .then(response => response.json())
+            .then(data => atualizarCamposCnpj(data))
+            .catch(err => console.error("Erro ao consultar CNPJ:", err));
+    }
+    
+}
+function atualizarCamposCnpj(data) {
+    if (!data) return;
+
+    if (data.nome) document.getElementById("nome_desc").value = data.nome;
+    if (data.fantasia) document.getElementById("no_fan").value = data.fantasia;
+    if (data.logradouro) document.getElementById("end_rua").value = data.logradouro;
+    if (data.numero) document.getElementById("end_num").value = data.numero;
+    if (data.complemento) document.getElementById("end_com").value = data.complemento;
+    if (data.bairro) document.getElementById("end_bar").value = data.bairro;
+    if (data.municipio) document.getElementById("end_mun").value = data.municipio;
+    if (data.uf) document.getElementById("end_uf").value = data.uf;
+    if (data.cep) document.getElementById("end_cep").value = data.cep;
+    if (data.telefone) document.getElementById("tel_1").value = data.telefone;
+    if (data.email) document.getElementById("email_1").value = data.email;
+}
 // Efeito visual de destaque ao preencher
 function highlightForm() {
 	const form = document.getElementById("fon_cad");

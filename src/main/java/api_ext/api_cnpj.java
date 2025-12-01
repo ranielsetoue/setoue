@@ -1,5 +1,6 @@
 package api_ext;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,10 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 
 import cla.cla_cnpj;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class api_cnpj {
 
@@ -53,9 +58,9 @@ public class api_cnpj {
 			CacheItem item = CACHE.get(CNPJ);
 
 			if (!item.expirado()) {
-	/*
-	 * 			System.out.println("CACHE → " + CNPJ);
-	 */
+				/*
+				 * System.out.println("CACHE → " + CNPJ);
+				 */
 				return new Gson().fromJson(item.json, cla_cnpj.class);
 			} else {
 				CACHE.remove(CNPJ); // remove expirada
@@ -114,4 +119,6 @@ public class api_cnpj {
 			ultimoCiclo = System.currentTimeMillis();
 		}
 	}
+
+
 }
