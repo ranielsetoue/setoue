@@ -190,4 +190,15 @@ public class fun_blio {
 		}
 	}
 	
+	
+	public void del_dado(String tb, String col,long t_uni) throws Exception {
+
+		String bc_sql = "DELETE FROM public." + tb + " WHERE " + col + " = ?;";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+		gra_bus.setLong(1, t_uni);
+		gra_bus.executeUpdate();
+		pos_cbd_con.commit();
+
+	}
+
 }

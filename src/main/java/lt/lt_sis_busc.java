@@ -1,7 +1,10 @@
 package lt;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import api_ext.api_cnpj;
@@ -47,6 +50,8 @@ public class lt_sis_busc extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
+	Calendar calend = Calendar.getInstance();
+	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public lt_sis_busc() {
 		super();
@@ -62,6 +67,7 @@ public class lt_sis_busc extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		try {
+			
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
 
@@ -165,6 +171,11 @@ public class lt_sis_busc extends HttpServlet {
 					 */
 
 				}
+				
+				
+				
+	
+				
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))
 						|| ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
 					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
@@ -191,6 +202,7 @@ public class lt_sis_busc extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
+		
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("cons_list", true);
@@ -236,6 +248,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
 					String tx1 = request.getParameter("bus_cnpj_cpf");
+
 					if (tx1 != null) {
 
 						List<cla_sis> lista = busc_unico.busca("tb_sis", tx1, cla_sis.class);
@@ -250,50 +263,92 @@ public class lt_sis_busc extends HttpServlet {
 								tx1 = item.getCnpj_cpf(); // usando getter
 							}
 
-							List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
+							cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
 
-							if (fun_blio.isCNPJ(list_uni.get(0).getCnpj_cpf())) {
-								
-		/*
-		 * 						 System.out.println(list_uni.get(0).getCnpj_cpf());
-		 */
-								
+							String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 
- 							/*
- 							 * 	cla_cnpj cl_cnpj =	  api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
- 							 */
+							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+								cl_sis.setCnpj_cpf(tx1);
+								cl_sis.setNome_desc(tx1);
+								cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis.setTruefalse(false);
+								cl_sis.setAce_per_aut("CLIENTE");
+								cl_sis.setTipo_ace("CLIENTE");
 
- 								cla_cnpj cl_cnpj = null;
-
- 								try {
-												
- 									cl_cnpj = api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
- 					
- 								
- 								} catch (Exception e) {
- 								    System.out.println("Erro ao consultar CNPJ: " + e.getMessage());
- 								    // deixa cl_cnpj = null e continua
- 								}
-								
-								if (cl_cnpj.getNome() == null || cl_cnpj.getNome().isEmpty()) {
-									
-								} else {
-									list_uni.get(0).setNome_desc(cl_cnpj.getNome());
-									 list_uni.get(0).setNo_fan(cl_cnpj.getFantasia());
-									 list_uni.get(0).setEnd_rua(cl_cnpj.getLogradouro());
-									 list_uni.get(0).setEnd_num(cl_cnpj.getNumero());
-									 list_uni.get(0).setEnd_com(cl_cnpj.getComplemento());
-									 list_uni.get(0).setEnd_cep(cl_cnpj.getCep());
-									 list_uni.get(0).setEnd_bar(cl_cnpj.getBairro());
-									 list_uni.get(0).setEnd_mun(cl_cnpj.getMunicipio());
-									 list_uni.get(0).setEnd_uf(cl_cnpj.getUf());
-									 list_uni.get(0).setEmail_1(cl_cnpj.getEmail());
-									 list_uni.get(0).setTel_1(cl_cnpj.getTelefone());
+								cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);
 	
+							}
+
+							List<cla_sis> list_uni = busc_unico.busca("tb_sis", tx1, cla_sis.class);
+							request.getSession().setAttribute("listaResultados", list_uni);
+							request.getSession().setAttribute("cons_list_dado", true);
+
+							
+							if (fun_blio.isCNPJ(list_uni.get(0).getCnpj_cpf())) {
+
+								/*
+								 * System.out.println(list_uni.get(0).getCnpj_cpf());
+								 */
+
+								/*
+								 * cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+								 */
+
+								cla_cnpj cl_cnpj = null;
+
+								try {
+
+									cl_cnpj = api_cnpj.cons_cnpj(list_uni.get(0).getCnpj_cpf());
+
+								} catch (Exception e) {
+									System.out.println("Erro ao consultar CNPJ: " + e.getMessage());
+									// deixa cl_cnpj = null e continua
 								}
-									
-								
-																 
+
+								if (cl_cnpj.getNome() == null || cl_cnpj.getNome().isEmpty()) {
+
+								} else {
+
+									cl_sis = f_sis.cons_sis_cnpj_cpf(cl_cnpj.getCnpj());
+																cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setNome_desc(cl_cnpj.getNome());
+									cl_sis.setNo_fan(cl_cnpj.getFantasia());
+									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
+									cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+									cl_sis.setEnd_num(cl_cnpj.getNumero());
+									cl_sis.setEnd_com(cl_cnpj.getComplemento());
+									cl_sis.setEnd_bar(cl_cnpj.getBairro());
+									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+									cl_sis.setEnd_uf(cl_cnpj.getUf());
+									cl_sis.setEnd_cep(cl_cnpj.getCep());
+									cl_sis.setTel_1(cl_cnpj.getTelefone());
+									cl_sis.setEmail_1(cl_cnpj.getEmail());
+
+									f_sis.sav_sis_consultar_refeita_federal(cl_sis);
+
+									list_uni.get(0).setNome_desc(cl_cnpj.getNome());
+									list_uni.get(0).setNo_fan(cl_cnpj.getFantasia());
+									list_uni.get(0).setEnd_rua(cl_cnpj.getLogradouro());
+									list_uni.get(0).setEnd_num(cl_cnpj.getNumero());
+									list_uni.get(0).setEnd_com(cl_cnpj.getComplemento());
+									list_uni.get(0).setEnd_cep(cl_cnpj.getCep());
+									list_uni.get(0).setEnd_bar(cl_cnpj.getBairro());
+									list_uni.get(0).setEnd_mun(cl_cnpj.getMunicipio());
+									list_uni.get(0).setEnd_uf(cl_cnpj.getUf());
+									list_uni.get(0).setEmail_1(cl_cnpj.getEmail());
+									list_uni.get(0).setTel_1(cl_cnpj.getTelefone());
+
+								}
+
 							}
 
 							request.getSession().setAttribute("listaResultados", list_uni);
@@ -344,14 +399,34 @@ public class lt_sis_busc extends HttpServlet {
 									} else {
 										cl_sis.setObs(telefone);
 									}
+									
+									
+								
 									lista.add(cl_sis);
 
 								}
+									
+								
+								
+								if (fun_blio.isCPF(termo)) {
 
+								
+									
+								
+									lista.add(cl_sis);
+
+								}
+								
+								
+								
+										
 							} else {
 								obj.setNome_desc(tx1);
 								lista.add(obj);
 							}
+
+							
+							
 							// Adiciona o objeto à lista
 							request.getSession().setAttribute("listaResultados", lista);
 							request.getSession().setAttribute("cons_list_not", true);
@@ -397,8 +472,14 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", "false");
 					request.getSession().setAttribute("cont_sis", "cad_serv");
-					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
+							request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 				}
+				
+				
+				
+				
+				
+				
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))
 						|| ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
 					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
