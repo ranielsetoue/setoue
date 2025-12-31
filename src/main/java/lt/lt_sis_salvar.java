@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import cla.cla_bc_cam;
-import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
@@ -25,16 +24,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import st.win_login;
 
 /**
- * Servlet implementation class lt_sis_busc
+ * Servlet implementation class lt_sis_salvar
  */
-@WebServlet(urlPatterns = { "/00_controle/lt_sis_excluir/", "/lt_sis_excluir/" })
+@WebServlet(urlPatterns = { "/00_controle/lt_sis_salvar/", "/lt_sis_salvar/" })
 
-public class lt_sis_excluir extends HttpServlet {
+public class lt_sis_salvar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
+
 	win_login w_login = new win_login();
 
 	fun_blio f_blio = new fun_blio();
@@ -51,7 +51,7 @@ public class lt_sis_excluir extends HttpServlet {
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public lt_sis_excluir() {
+	public lt_sis_salvar() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -62,10 +62,22 @@ public class lt_sis_excluir extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		String tx1 = request.getParameter("cnpj_cpf");
+		String tx2 = request.getParameter("nome_desc");
+	
+		
 		try {
-			if (request.getParameter("fun").equalsIgnoreCase("excluir")) {
+			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
 				request.getSession().setAttribute("cons_list", false);
 
 				try {
@@ -106,16 +118,10 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
-					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-					request.setAttribute("sis_cons", sisCons);
-
-					String tx1 = request.getParameter("busc_cnpj_cpf");
-					cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
+						cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
 					System.out.println(cl_sis.getId_sis() + " - " + cl_sis.getNome_desc());
-				f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
-				
-					
-					
+					System.out.println(tx2);
+
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -176,15 +182,21 @@ public class lt_sis_excluir extends HttpServlet {
 
 				}
 
-				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))
-						|| ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
-					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
-							response);
-
-				} else {
-					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
-
-				}
+				/*
+				 * 
+				 * if ("cad_prod".equals(request.getSession().getAttribute("cont_sis")) ||
+				 * ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
+				 * request.getRequestDispatcher(
+				 * "/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
+				 * response);
+				 * 
+				 * } else {
+				 * request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").
+				 * forward(request, response);
+				 * 
+				 * }
+				 * 
+				 */
 
 			}
 
@@ -194,14 +206,4 @@ public class lt_sis_excluir extends HttpServlet {
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-	
-
-	}
 }

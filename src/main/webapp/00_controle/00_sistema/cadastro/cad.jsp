@@ -232,6 +232,38 @@ function formatCnpj(valor) {
 			}
 		}
 	}
+	
+	
+	function salvar_dado() {
+		
+		var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar';
+
+		
+		$.ajax({
+
+			 type: "POST",
+	            url: urlAction,
+	            data: $("#fon_cad").serialize(),
+	            
+	            success : function(response) {
+
+				alert('Dado Atualizado');
+
+			
+			}
+
+		}).fail(
+				function(xhr, status, errorThrown) {
+					alert('Erro ao deletar usuário por id: '
+							+ xhr.responseText);
+				});
+		
+		
+		
+		
+	}
+	
+	
 </script>
 
 
@@ -245,6 +277,7 @@ function formatCnpj(valor) {
 	<div class="container-fluid	 mt-3 px-4">
 		<!-- Borda -->
 		<!-- inicio form -->
+
 
 		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
 			style="" onsubmit="return validardados()? true : false">
@@ -463,8 +496,10 @@ function controlarDatalist(input) {
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
 
 							<button type="button" class="btn btn-success"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=salvar';">
-								SALVAR</button>
+								onclick="salvar_dado();">SALVAR</button>
+
+<!--  								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=salvar';">
+-->
 
 						</div>
 						<!-- coluna Central -->
