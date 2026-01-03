@@ -1,6 +1,7 @@
 package lt;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -72,10 +73,26 @@ public class lt_sis_salvar extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String tx1 = request.getParameter("cnpj_cpf");
-		String tx2 = request.getParameter("nome_desc");
-	
-		
+		String t_nome_desc = request.getParameter("nome_desc");
+		String t_no_fan = request.getParameter("no_fan");
+		String t_cnpj_cpf = request.getParameter("cnpj_cpf");
+		String t_end_rua = request.getParameter("end_rua");
+		String t_end_num = request.getParameter("end_num");
+		String t_end_com = request.getParameter("end_com");
+		String t_end_bar = request.getParameter("end_bar");
+		String t_end_mun = request.getParameter("end_mun");
+		String t_end_uf = request.getParameter("end_uf");
+		String t_end_cep = request.getParameter("end_cep");
+		String t_ins_est = request.getParameter("ins_est");
+		String t_ins_mun = request.getParameter("ins_mun");
+		String t_tel_1 = request.getParameter("tel_1");
+		String t_email_1 = request.getParameter("email_1");
+		String t_obs = request.getParameter("obs");
+		String t_titulo_web = request.getParameter("titulo_web");
+		String t_email_rec = request.getParameter("email_rec");
+		String t_login = request.getParameter("login");
+		String t_senha = request.getParameter("senha");
+
 		try {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
 				request.getSession().setAttribute("cons_list", false);
@@ -118,9 +135,36 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
-						cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
-					System.out.println(cl_sis.getId_sis() + " - " + cl_sis.getNome_desc());
-					System.out.println(tx2);
+					cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+
+					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+
+					cl_sis.setId_sis(cl_sis.getId_sis());
+					cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setTruefalse(false);
+					cl_sis.setNome_desc(t_nome_desc);
+					cl_sis.setNo_fan(t_no_fan);
+					cl_sis.setCnpj_cpf(t_cnpj_cpf);
+					cl_sis.setEnd_rua(t_end_rua);
+					cl_sis.setEnd_num(t_end_num);
+					cl_sis.setEnd_com(t_end_com);
+					cl_sis.setEnd_bar(t_end_bar);
+					cl_sis.setEnd_mun(t_end_mun);
+					cl_sis.setEnd_uf(t_end_uf);
+					cl_sis.setEnd_cep(t_end_cep);
+					cl_sis.setIns_est(t_ins_est);
+					cl_sis.setIns_mun(t_ins_mun);
+					cl_sis.setTel_1(t_tel_1);
+					cl_sis.setEmail_1(t_email_1);
+					cl_sis.setObs(t_obs);
+					cl_sis.setTitulo_web(t_titulo_web);
+					cl_sis.setTipo_ace("CLIENTE");
+					cl_sis.setEmail_rec(t_email_rec);
+					cl_sis.setLogin(t_login);
+					cl_sis.setSenha(t_senha);
 
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {

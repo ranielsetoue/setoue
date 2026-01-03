@@ -109,44 +109,52 @@
 
 	// Valida e formata input
 function handleBusca(input) {
-    let valor = input.value.replace(/\D/g, '');
-    const botaoBusca = document.getElementById('buc_dado');
-    const erro = document.getElementById('erro_busca');
+    let valor = input.value.replace(/\D/g, ''); // remove tudo que não é número
+    const botaoBusca = document.getElementById('btn_busca'); // ID do botão de busca
 
-    // Se começa com letra (nome), libera busca
+    // Se inicia com letra, não faz validação
     if (/^[a-zA-Z]/.test(input.value)) {
-        erro.classList.add('d-none');
+        document.getElementById('erro_busca').classList.add('d-none');
         input.classList.remove('border-danger');
-        botaoBusca.disabled = false;
+        botaoBusca.disabled = false; // habilita botão se for letra
+
         return;
     }
 
-    // Formatação
+    // Limita o tamanho conforme CPF ou CNPJ
     if (valor.length <= 11) {
+        // CPF
         input.value = formatCpf(valor);
     } else if (valor.length <= 14) {
+        // CNPJ
         input.value = formatCnpj(valor);
     } else {
+        // Limita a 14 dígitos
         valor = valor.slice(0, 14);
         input.value = formatCnpj(valor);
     }
 
     // Validação
-    let valido = false;
+    let valido = true;
     if (valor.length === 11) {
         valido = isValidCPF(valor);
+
     } else if (valor.length === 14) {
         valido = isValidCNPJ(valor);
+
+    } else if (/^\d/.test(input.value)) {
+        valido = false;
     }
 
-    if (!valido && valor.length > 0) {
+    let erro = document.getElementById('erro_busca');
+    if (!valido) {
         erro.classList.remove('d-none');
         input.classList.add('border-danger');
-        botaoBusca.disabled = true;
+        buc_dado.disabled = true; // desabilita botão se inválido
     } else {
         erro.classList.add('d-none');
         input.classList.remove('border-danger');
-        botaoBusca.disabled = false;
+         buc_dado.disabled = false; // habilita botão se válido
     }
 }
 
@@ -182,8 +190,6 @@ function formatCnpj(valor) {
 
 		}
 	}
-
-
 	
 	function excluir_dado() {
 
@@ -225,23 +231,33 @@ function formatCnpj(valor) {
 		
 		var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar';
 
+		
 		$.ajax({
 
-			type : "POST",
-			url : urlAction,
-			data : $("#fon_cad").serialize(),
-
-			success : function(response) {
+			
+			 type: "POST",
+	            url: urlAction,
+	            data: $("#fon_cad").serialize(),
+	            
+	            success : function(response) {
 
 				alert('Dado Atualizado');
 
+			
 			}
 
-		}).fail(function(xhr, status, errorThrown) {
-			alert('Erro ao deletar usuário por id: ' + xhr.responseText);
-		});
-
+		}).fail(
+				function(xhr, status, errorThrown) {
+					alert('Erro ao deletar usuário por id: '
+							+ xhr.responseText);
+				});
+		
+		
+		
+		
 	}
+	
+	
 </script>
 
 
@@ -414,21 +430,19 @@ function formatCnpj(valor) {
 								</c:forEach>
 							</datalist>
 							<script>
-								function controlarDatalist(input) {
-									const datalist = document
-											.getElementById('list_cnpj_cpf');
+function controlarDatalist(input) {
+  const datalist = document.getElementById('list_cnpj_cpf');
 
-									// Se não tiver nada digitado, remove a associação com o datalist
-									if (input.value.length === 0) {
-										input.removeAttribute('list');
-									} else {
-										// Ao digitar a primeira letra, volta a associar
-
-										input.setAttribute('list',
-												'list_cnpj_cpf');
-									}
-								}
-							</script>
+  // Se não tiver nada digitado, remove a associação com o datalist
+  if (input.value.length === 0) {
+    input.removeAttribute('list');
+  } else {
+    // Ao digitar a primeira letra, volta a associar
+    
+    input.setAttribute('list', 'list_cnpj_cpf');
+  }
+}
+</script>
 							<!-- Mensagem de erro -->
 							<small id="erro_busca" class="text-danger d-none">Dado
 								inválido</small>
@@ -505,8 +519,8 @@ function formatCnpj(valor) {
 
 
 
-			<!--  -->
-			<!-- final form -->
+				<!--  -->
+				<!-- final form -->
 		</form>
 		<!-- final form -->
 		<!-- Campo de entrada -->
@@ -514,7 +528,7 @@ function formatCnpj(valor) {
 		<!-- Borda -->
 	</div>
 	<!-- Borda -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
 	<script
