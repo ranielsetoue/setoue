@@ -1,10 +1,13 @@
 package lt;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import api_ext.api_cnpj;
+import cla.cla_cnpj;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
@@ -12,6 +15,7 @@ import cla.cla_sis;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
+import func.busc_unico;
 import func.fun_blio;
 import func.fun_sis;
 import func.fun_sis_dom;
@@ -193,6 +197,7 @@ public class lt_sis_busc extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
+
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 
 			request.getSession().setAttribute("insc_ocult", true);
@@ -238,28 +243,104 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 
-					
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
-					
+
 					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
 					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
 						request.getSession().setAttribute("insc_ocult", true);
-						
-					}else {
+
+					} else {
 						request.getSession().setAttribute("insc_ocult", false);
-						
+
 					}
 
+					if (t_cnpj_cpf != null) {
 
-					
-					
-					
-					
-					
-					
-			
-				}
+						List<cla_sis> lista = busc_unico.busca("tb_sis", t_cnpj_cpf, cla_sis.class);
+
+						int b1Value = (lista.size() > 1) ? 2 : 1;
+
+						if (b1Value == 1) {
+
+							for (cla_sis item : lista) {
+
+								t_cnpj_cpf = item.getCnpj_cpf(); // usando getter
+
+							}
+
+							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+
+							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+
+								if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
+									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
+									cl_sis.setNome_desc(cl_cnpj.getNome());
+									cl_sis.setNo_fan(cl_cnpj.getFantasia());
+									cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+									cl_sis.setEnd_num(cl_cnpj.getNumero());
+									cl_sis.setEnd_com(cl_cnpj.getComplemento());
+									cl_sis.setEnd_bar(cl_cnpj.getBairro());
+									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+									cl_sis.setEnd_uf(cl_cnpj.getUf());
+									cl_sis.setEnd_cep(cl_cnpj.getCep());
+									cl_sis.setEmail_1(cl_cnpj.getEmail());
+									String telefone = cl_cnpj.getTelefone();
+
+									if (telefone != null
+											&& telefone.matches("^\\(?\\d{2}\\)?\\s?(?:9\\d{4}|\\d{4})-?\\d{4}$")) {
+										// telefones como (11) 98765-4321, 11987654321, (11) 3456-7890
+										cl_sis.setTel_1(telefone);
+									} else {
+										cl_sis.setObs(telefone);
+									}
+
+									cl_sis.setTruefalse(false);
+									cl_sis.setTipo_ace("CLIENTE");
+
+									f_sis.sav_sis_consultar_refeita_federal(cl_sis);
+
+								} 
+
+								if (fun_blio.isCPF(t_cnpj_cpf)) {
+
+									cl_sis.setCnpj_cpf(t_cnpj_cpf);
+									cl_sis.setNome_desc(t_cnpj_cpf);
+									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setTruefalse(false);
+									cl_sis.setTipo_ace("CLIENTE");
+
+									cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);	
+								}							
+							} //if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+
+							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+
+							request.getSession().setAttribute("pre_glo", cl_sis);
+							request.getSession().setAttribute("cons_true", true);
+							
+						} // (b1Value == 1)
+
+						if (b1Value > 1) {
+
+							request.getSession().setAttribute("listaResultados", lista);
+							request.getSession().setAttribute("cons_true", false);
+
+						} //(b1Value > 1)
+						
+					} /// 					if (t_cnpj_cpf != null) {
+
+				} // cad_sis
 
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());

@@ -29,6 +29,8 @@
 <c:set scope="session" var="aces_cad_serv"
 	value="${sessionScope.aces_cad_serv}" />
 <c:set scope="session" var="cons_true" value="${sessionScope.cons_true}" />
+<c:set scope="session" var="insc_ocult" value="${sessionScope.insc_ocult}" />
+
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -474,24 +476,15 @@ function formatCnpj(valor) {
 						<!-- coluna Central -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-
 							<button type="button" class="btn btn-success"
 								onclick="salvar_dado();">SALVAR</button>
-
-							<!--  								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=salvar';">
--->
-
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-
 							<button type="button" class="btn btn-danger"
 								onclick="excluir_dado();">EXCLUIR</button>
-							<!--  								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_excluir/?fun=excluir';">
--->
-
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -503,6 +496,292 @@ function formatCnpj(valor) {
 			</c:if>
 			<!-- FIM Container -->
 
+			<!-- INICIO DADO -->
+			<!-- Inicio Container -->
+			<c:if test="${cons_true}">
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
+							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
+								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
+								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
+								placeholder="CNPJ ou CPF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div id="div_nome_desc"
+							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
+							<label id="l_nome_desc" data-placeholder="Nome ou Razao Social"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="nome_desc" id="nome_desc"
+								placeholder="Nome ou Razao Social" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+							<script>
+								function adjustHeight(el) {
+									el.style.height = 'auto'; // reset height
+									const lineHeight = 24; // ajuste conforme seu CSS do textarea
+									const maxLines = 3;
+									const maxHeight = lineHeight * maxLines;
+
+									if (el.scrollHeight > maxHeight) {
+										el.style.height = maxHeight + 'px';
+										el.style.overflowY = 'auto'; // aparece scroll após 3 linhas
+									} else {
+										el.style.height = el.scrollHeight
+												+ 'px';
+										el.style.overflowY = 'hidden';
+									}
+								}
+							</script>
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_no_fan" data-placeholder="Nome Fantasia"></label>
+							<textarea class="form-control" name="no_fan" id="no_fan"
+								autocomplete="off" placeholder="Nome Fantasia" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+
+				<!--  -->
+				<!-- Inicio Container -->
+				<c:if test="${insc_ocult}">
+
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+
+							<label id="l_ins_est" data-placeholder="Inscricao Estatual"></label>
+							<input type="text" name="ins_est" id="ins_est" autocomplete="off"
+								class="form-control" placeholder="Inscricao Estatual">
+
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+
+							<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
+							<input type="text" name="ins_mun" id="ins_mun" autocomplete="off"
+								class="form-control" placeholder="Inscricao Municipal">
+
+						</div>
+						<!-- coluna Central -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				</c:if>
+	
+				<!-- FIM Container -->
+				<!--  -->
+
+
+
+				<!--  -->
+				<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_end_rua" data-placeholder="Enderenco"></label>
+							<textarea name="end_rua" id="end_rua" autocomplete="off"
+								class="form-control" placeholder="Enderenco" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+							<label id="l_end_num" data-placeholder="Número"></label> <input
+								id="end_num" name="end_num" class="form-control"
+								placeholder="Número">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_end_com" data-placeholder="Complemento"></label>
+							<textarea name="end_com" id="end_com" autocomplete="off"
+								class="form-control" placeholder="Complemento" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+
+
+
+
+
+				<!--  -->
+				<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
+							<label id="l_end_uf" data-placeholder="UF"></label> <input
+								type="text" maxlength="2" name="end_uf" id="end_uf"
+								autocomplete="off" class="form-control" placeholder="UF">
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+
+							<label id="l_end_cep" data-placeholder="CEP"></label> <input
+								onblur="CEPPESQ();" type="text" maxlength="10" name="end_cep"
+								id="end_cep" autocomplete="off" class="form-control"
+								placeholder="CEP">
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div id="col-obs"
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
+							<label id="l_obs" data-placeholder="Observações"></label>
+							<textarea name="obs" id="obs" class="form-control"
+								placeholder="Observação" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+
+				<!--  -->
+				<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+							<label id="l_tel_1" data-placeholder="Telefone"></label> <input
+								type="text" maxlength="20" name="tel_1" id="tel_1"
+								autocomplete="off" class="form-control" placeholder="Telefone">
+							<script>
+								const telInput = document
+										.getElementById('tel_1');
+
+								telInput
+										.addEventListener(
+												'input',
+												function(e) {
+													let cursorPosition = this.selectionStart; // salva posição do cursor
+													let value = this.value
+															.replace(/\D/g, ''); // remove tudo que não é número
+
+													// Limita a 11 dígitos
+													if (value.length > 11)
+														value = value.slice(0,
+																11);
+
+													// Formatação condicional
+													if (value.length > 6) {
+														value = value
+																.replace(
+																		/^(\d{2})(\d{5})(\d{0,4})$/,
+																		'($1) $2-$3');
+													} else if (value.length > 2) {
+														value = value
+																.replace(
+																		/^(\d{2})(\d{0,4})$/,
+																		'($1) $2');
+													} else if (value.length > 0) {
+														value = value.replace(
+																/^(\d*)$/,
+																'($1');
+													}
+
+													this.value = value;
+
+													// Ajusta cursor para permitir apagar normalmente
+													if (e.inputType === "deleteContentBackward") {
+														this.selectionStart = this.selectionEnd = cursorPosition;
+													}
+												});
+							</script>
+
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<label id="l_email_1" data-placeholder="E-mail"></label>
+							<textarea name="email_1" id="email_1" class="form-control"
+								placeholder="E-mail" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+
+							<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
+							<textarea name="titulo_web" id="titulo_web" class="form-control"
+								placeholder="Titulo Web" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+
+
+				<!-- FIM Ocultar-->
+			</c:if>
+			<!-- FIM Ocultar -->
+			<!-- FIM DADO -->
 
 
 			<!--  -->

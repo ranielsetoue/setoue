@@ -708,7 +708,7 @@ function controlarDatalist(input) {
 
 									<!--  -->
 									<!-- Inicio Container -->
-									<div class="container mt-3">
+									<div class="container">
 										<div class="row align-items-center text-center text-md-left">
 											<div
 												class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">

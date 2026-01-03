@@ -269,7 +269,7 @@ public class lt_sis_busc extends HttpServlet {
 
 							String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 
-							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+\							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 								cl_sis.setCnpj_cpf(tx1);
 								cl_sis.setNome_desc(tx1);
 								cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
