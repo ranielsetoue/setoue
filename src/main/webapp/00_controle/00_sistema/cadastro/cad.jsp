@@ -510,7 +510,7 @@ function formatCnpj(valor) {
 							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
 								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
-								placeholder="CNPJ ou CPF">
+								placeholder="CNPJ ou CPF"  value="${pre_glo.cnpj_cpf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -548,7 +548,7 @@ function formatCnpj(valor) {
 							<textarea class="form-control" name="no_fan" id="no_fan"
 								autocomplete="off" placeholder="Nome Fantasia" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.no_fan}</textarea>
 
 						</div>
 						<!-- coluna Direita -->
@@ -561,9 +561,8 @@ function formatCnpj(valor) {
 
 				<!--  -->
 				<!-- Inicio Container -->
-				<c:if test="${insc_ocult}">
-
-				<div class="container mt-3">
+		
+				<div class="container mt-3 ${!insc_ocult ? 'd-none' : ''}">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -574,7 +573,7 @@ function formatCnpj(valor) {
 
 							<label id="l_ins_est" data-placeholder="Inscricao Estatual"></label>
 							<input type="text" name="ins_est" id="ins_est" autocomplete="off"
-								class="form-control" placeholder="Inscricao Estatual">
+								class="form-control" placeholder="Inscricao Estatual" value="${pre_glo.ins_est}">
 
 						</div>
 						<!-- coluna esquerda -->
@@ -583,7 +582,7 @@ function formatCnpj(valor) {
 
 							<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
 							<input type="text" name="ins_mun" id="ins_mun" autocomplete="off"
-								class="form-control" placeholder="Inscricao Municipal">
+								class="form-control" placeholder="Inscricao Municipal" value="${pre_glo.ins_mun}">
 
 						</div>
 						<!-- coluna Central -->
@@ -592,7 +591,6 @@ function formatCnpj(valor) {
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>
-				</c:if>
 	
 				<!-- FIM Container -->
 				<!--  -->
@@ -613,7 +611,7 @@ function formatCnpj(valor) {
 							<textarea name="end_rua" id="end_rua" autocomplete="off"
 								class="form-control" placeholder="Enderenco" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.end_rua}</textarea>
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -621,7 +619,7 @@ function formatCnpj(valor) {
 							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
 							<label id="l_end_num" data-placeholder="Número"></label> <input
 								id="end_num" name="end_num" class="form-control"
-								placeholder="Número">
+								placeholder="Número" value="${pre_glo.end_num}">
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -631,7 +629,7 @@ function formatCnpj(valor) {
 							<textarea name="end_com" id="end_com" autocomplete="off"
 								class="form-control" placeholder="Complemento" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.end_com}</textarea>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -658,7 +656,7 @@ function formatCnpj(valor) {
 							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 							<label id="l_end_uf" data-placeholder="UF"></label> <input
 								type="text" maxlength="2" name="end_uf" id="end_uf"
-								autocomplete="off" class="form-control" placeholder="UF">
+								autocomplete="off" class="form-control" placeholder="UF" value="${pre_glo.end_uf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -668,7 +666,7 @@ function formatCnpj(valor) {
 							<label id="l_end_cep" data-placeholder="CEP"></label> <input
 								onblur="CEPPESQ();" type="text" maxlength="10" name="end_cep"
 								id="end_cep" autocomplete="off" class="form-control"
-								placeholder="CEP">
+								placeholder="CEP" value="${pre_glo.end_cep}">
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -678,7 +676,7 @@ function formatCnpj(valor) {
 							<textarea name="obs" id="obs" class="form-control"
 								placeholder="Observação" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.obs}</textarea>
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
