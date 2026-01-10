@@ -247,6 +247,8 @@ function formatCnpj(valor) {
 		});
 
 	}
+	
+	
 </script>
 
 
@@ -786,7 +788,7 @@ function formatCnpj(valor) {
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div
-							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
 							<label id="l_no_dom" data-placeholder="Busca Contato"></label> <input
 								type="text"  name="no_dom" id="no_dom"
 								autocomplete="off" class="form-control" placeholder="Busca Contato"
@@ -796,7 +798,7 @@ function formatCnpj(valor) {
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
-							class="col-12 col-md-4 mb-2 align-self-center text-center text-md-start">
+							class="col-12 col-md-1 mb-2 align-self-center text-center text-md-start">
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="button-addon2">Buscar</button>
 							
@@ -804,17 +806,45 @@ function formatCnpj(valor) {
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
-							class="col-12 col-md-4 mb-2 align-self-center text-center text-md-start">
+							class="col-12 col-md-2 mb-2 text-center text-md-start">
+<!--  -->
+	<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adi_dom">
+ Adiciona Dominio
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="adi_dom" tabindex="-1" aria-labelledby="m_adi_dom" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="m_adi_dom">Adiciona Dominio</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
 
 
 
 
 
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salva</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->
 												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
 					</div>
 					<!-- FIM row -->
+	<hr>
 					<!-- FIM Container -->
 				</div>
 			<!-- FIM Container -->
@@ -886,11 +916,12 @@ function initLabels() {
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
 		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
 		crossorigin="anonymous"></script>
-
 	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 		crossorigin="anonymous"></script>
+
+
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
