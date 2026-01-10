@@ -796,7 +796,7 @@ function formatCnpj(valor) {
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
-							class="col-12 col-md-6 mb-2 align-self-center text-center text-md-start">
+							class="col-12 col-md-4 mb-2 align-self-center text-center text-md-start">
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="button-addon2">Buscar</button>
 							
@@ -804,7 +804,11 @@ function formatCnpj(valor) {
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
-							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+							class="col-12 col-md-4 mb-2 align-self-center text-center text-md-start">
+
+
+
+
 
 												</div>
 						<!-- coluna Direita -->
