@@ -15,7 +15,8 @@ public class fun_sis_dom {
 		pos_cbd_con = pos_cbd.getPos_cbd();
 
 	}
-	
+
+
 	public cla_sis_dom cons_sis_dom_id_sis_dom(Long id_sis_log) throws Exception {
 
 		cla_sis_dom gra_inp = new cla_sis_dom();
@@ -40,6 +41,8 @@ public class fun_sis_dom {
 			gra_inp.setL_sen(cl_sis_dom.getString("l_sen"));
 			gra_inp.setTp_sit(cl_sis_dom.getString("tp_sit"));
 			gra_inp.setAce_per_aut(cl_sis_dom.getString("ace_per_aut"));
+			gra_inp.setTitulo_web(cl_sis_dom.getString("titulo_web"));
+			gra_inp.setEmail_1(cl_sis_dom.getString("email_1"));
 
 		}
 

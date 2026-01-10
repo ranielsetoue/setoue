@@ -88,10 +88,6 @@ public class lt_sis_salvar extends HttpServlet {
 		String t_tel_1 = request.getParameter("tel_1");
 		String t_email_1 = request.getParameter("email_1");
 		String t_obs = request.getParameter("obs");
-		String t_titulo_web = request.getParameter("titulo_web");
-		String t_email_rec = request.getParameter("email_rec");
-		String t_login = request.getParameter("login");
-		String t_senha = request.getParameter("senha");
 
 		try {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
@@ -160,12 +156,9 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setTel_1(t_tel_1);
 					cl_sis.setEmail_1(t_email_1);
 					cl_sis.setObs(t_obs);
-					cl_sis.setTitulo_web(t_titulo_web);
-					cl_sis.setTipo_ace("CLIENTE");
-					cl_sis.setEmail_rec(t_email_rec);
-					cl_sis.setLogin(t_login);
-					cl_sis.setSenha(t_senha);
-
+	
+					f_sis.sav_sis(cl_sis);
+					
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 

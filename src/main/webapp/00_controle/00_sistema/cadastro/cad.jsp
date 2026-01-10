@@ -29,14 +29,17 @@
 <c:set scope="session" var="aces_cad_serv"
 	value="${sessionScope.aces_cad_serv}" />
 <c:set scope="session" var="cons_true" value="${sessionScope.cons_true}" />
-<c:set scope="session" var="insc_ocult" value="${sessionScope.insc_ocult}" />
+<c:set scope="session" var="insc_ocult"
+	value="${sessionScope.insc_ocult}" />
 
 <!--  -->
 <title>${h_titulo_web}</title>
 
 
 <script type="text/javascript">
-	// Formata CPF ou CNPJ automaticamente
+
+
+// Formata CPF ou CNPJ automaticamente
 	function formatCpfCnpj(valor) {
 		let numeros = valor.replace(/\D/g, '');
 		if (numeros.length <= 11) { // CPF
@@ -510,7 +513,7 @@ function formatCnpj(valor) {
 							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
 								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
-								placeholder="CNPJ ou CPF"  value="${pre_glo.cnpj_cpf}">
+								placeholder="CNPJ ou CPF" value="${pre_glo.cnpj_cpf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -561,7 +564,7 @@ function formatCnpj(valor) {
 
 				<!--  -->
 				<!-- Inicio Container -->
-		
+
 				<div class="container mt-3 ${!insc_ocult ? 'd-none' : ''}">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
@@ -573,7 +576,8 @@ function formatCnpj(valor) {
 
 							<label id="l_ins_est" data-placeholder="Inscricao Estatual"></label>
 							<input type="text" name="ins_est" id="ins_est" autocomplete="off"
-								class="form-control" placeholder="Inscricao Estatual" value="${pre_glo.ins_est}">
+								class="form-control" placeholder="Inscricao Estatual"
+								value="${pre_glo.ins_est}">
 
 						</div>
 						<!-- coluna esquerda -->
@@ -582,7 +586,8 @@ function formatCnpj(valor) {
 
 							<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
 							<input type="text" name="ins_mun" id="ins_mun" autocomplete="off"
-								class="form-control" placeholder="Inscricao Municipal" value="${pre_glo.ins_mun}">
+								class="form-control" placeholder="Inscricao Municipal"
+								value="${pre_glo.ins_mun}">
 
 						</div>
 						<!-- coluna Central -->
@@ -591,7 +596,7 @@ function formatCnpj(valor) {
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>
-	
+
 				<!-- FIM Container -->
 				<!--  -->
 
@@ -599,7 +604,7 @@ function formatCnpj(valor) {
 
 				<!--  -->
 				<!-- Inicio Container -->
-				<div class="container mt-3">
+				<div class="container mt-1">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -646,7 +651,7 @@ function formatCnpj(valor) {
 
 				<!--  -->
 				<!-- Inicio Container -->
-				<div class="container mt-3">
+				<div class="container mt-1">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -656,7 +661,8 @@ function formatCnpj(valor) {
 							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 							<label id="l_end_uf" data-placeholder="UF"></label> <input
 								type="text" maxlength="2" name="end_uf" id="end_uf"
-								autocomplete="off" class="form-control" placeholder="UF" value="${pre_glo.end_uf}">
+								autocomplete="off" class="form-control" placeholder="UF"
+								value="${pre_glo.end_uf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -689,7 +695,7 @@ function formatCnpj(valor) {
 
 				<!--  -->
 				<!-- Inicio Container -->
-				<div class="container mt-3">
+				<div class="container mt-1">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -699,7 +705,8 @@ function formatCnpj(valor) {
 							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 							<label id="l_tel_1" data-placeholder="Telefone"></label> <input
 								type="text" maxlength="20" name="tel_1" id="tel_1"
-								autocomplete="off" class="form-control" placeholder="Telefone">
+								autocomplete="off" class="form-control" placeholder="Telefone"
+								value="${pre_glo.tel_1}">
 							<script>
 								const telInput = document
 										.getElementById('tel_1');
@@ -752,28 +759,63 @@ function formatCnpj(valor) {
 							<textarea name="email_1" id="email_1" class="form-control"
 								placeholder="E-mail" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.email_1}</textarea>
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 
-							<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
-							<textarea name="titulo_web" id="titulo_web" class="form-control"
-								placeholder="Titulo Web" autocomplete="off" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+						</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<hr>
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left g-1">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
+							<label id="l_no_dom" data-placeholder="Busca Contato"></label> <input
+								type="text"  name="no_dom" id="no_dom"
+								autocomplete="off" class="form-control" placeholder="Busca Contato"
+								value="">
 
 						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-6 mb-2 align-self-center text-center text-md-start">
+				<button onclick="bus_p1();" class="btn btn-success"
+						type="button" id="button-addon2">Buscar</button>
+							
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+
+												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
 					</div>
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>
-				<!-- FIM Container -->
-				<!--  -->
+			<!-- FIM Container -->
+			<!--  -->
+
 
 
 				<!-- FIM Ocultar-->
@@ -791,6 +833,48 @@ function formatCnpj(valor) {
 		<!-- Borda -->
 	</div>
 	<!-- Borda -->
+
+
+	<!-- ====== SCRIPT PRINCIPAL ====== -->
+	<script type="text/javascript">
+	// Detecta quando o usuário clica ou digita no campo de busca
+	document.addEventListener('DOMContentLoaded', () => {
+		const campoBusca = document.getElementById('termo');
+		if (campoBusca) {
+			campoBusca.addEventListener('focus', limparFormularioCadastro);
+			campoBusca.addEventListener('input', limparFormularioCadastro);
+		}
+		initLabels();
+	});
+
+	// Labels dinâmicos
+	function toggleLabel(inputId, labelId) {
+		const input = document.getElementById(inputId);
+		const label = document.getElementById(labelId);
+		if (!input || !label) return;
+		if (!input.value.trim()) {
+			label.style.display = 'none';
+		} else {
+			label.style.display = 'inline';
+			label.textContent = label.dataset.placeholder;
+		}
+	}
+
+function initLabels() {
+	document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
+		const labelId = 'l_' + input.id;
+		const label = document.getElementById(labelId);
+		if (label) {
+			toggleLabel(input.id, labelId);
+			input.addEventListener('input', () => toggleLabel(input.id, labelId));
+			input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+		}
+	});
+}
+
+</script>
+
+
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>

@@ -21,6 +21,25 @@ public class cla_sis_dom implements Serializable {
 	private String l_sen;
 	private String tp_sit;
 	private String ace_per_aut;
+	private String titulo_web;
+	private String email_1;
+
+
+	public String getEmail_1() {
+		return email_1;
+	}
+
+	public void setEmail_1(String email_1) {
+		this.email_1 = email_1;
+	}
+
+	public String getTitulo_web() {
+		return titulo_web;
+	}
+
+	public void setTitulo_web(String titulo_web) {
+		this.titulo_web = titulo_web;
+	}
 
 	public boolean nv_id() {
 		if (this.id_sis_dom == null || this.id_sis_dom == 0L) {

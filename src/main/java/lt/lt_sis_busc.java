@@ -303,7 +303,6 @@ public class lt_sis_busc extends HttpServlet {
 									}
 
 									cl_sis.setTruefalse(false);
-									cl_sis.setTipo_ace("CLIENTE");
 
 									f_sis.sav_sis_consultar_refeita_federal(cl_sis);
 
@@ -318,7 +317,6 @@ public class lt_sis_busc extends HttpServlet {
 									cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis.setTruefalse(false);
-									cl_sis.setTipo_ace("CLIENTE");
 
 									cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);	
 								}							

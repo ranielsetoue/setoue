@@ -19,24 +19,7 @@ public class fun_sis {
 		// TODO Auto-generated constructor stub
 	}
 
-	public cla_sis cons_titulo_web(long id_sis) throws Exception {
 
-		cla_sis gra_inp = new cla_sis();
-
-		String bc_sql = "select titulo_web FROM tb_sis where id_sis = '" + id_sis + "'";
-		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
-
-		ResultSet cl_sis = gra_bus.executeQuery();
-
-		while (cl_sis.next()) {
-
-			gra_inp.setTitulo_web(cl_sis.getString("titulo_web"));
-
-		}
-
-		return gra_inp;
-
-	}
 
 	public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
 
@@ -106,8 +89,6 @@ public class fun_sis {
 			gra_inp.setTel_1(cl_sis.getString("tel_1"));
 			gra_inp.setEmail_1(cl_sis.getString("email_1"));
 			gra_inp.setObs(cl_sis.getString("obs"));
-			gra_inp.setTitulo_web(cl_sis.getString("titulo_web"));
-			gra_inp.setTipo_ace(cl_sis.getString("tipo_ace"));
 
 		}
 
@@ -163,8 +144,8 @@ public class fun_sis {
 
 			String bc_sql = "INSERT INTO public.tb_sis(\r\n"
 
-					+ "reg_id, reg_data, reg_alt, reg_data_alt, truefalse,  nome_desc, no_fan, cnpj_cpf, end_rua, end_num, end_com, end_bar, end_mun, end_uf, end_cep, ins_est, ins_mun, tel_1, email_1, obs, titutlo_web) \r\n"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "reg_id, reg_data, reg_alt, reg_data_alt, truefalse,  nome_desc, no_fan, cnpj_cpf, end_rua, end_num, end_com, end_bar, end_mun, end_uf, end_cep, ins_est, ins_mun, tel_1, email_1, obs) \r\n"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?);";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -188,7 +169,6 @@ public class fun_sis {
 			gra_inp.setString(18, gra_bus.getTel_1());
 			gra_inp.setString(19, gra_bus.getEmail_1());
 			gra_inp.setString(20, gra_bus.getObs());
-			gra_inp.setString(21, gra_bus.getTitulo_web());
 			gra_inp.execute();
 			pos_cbd_con.commit();
 		} else {
@@ -197,7 +177,7 @@ public class fun_sis {
 
 					+ " SET reg_alt=?, reg_data_alt=?, truefalse=?, nome_desc=?, no_fan=?, cnpj_cpf=?, \r\n"
 					+ "end_rua=?, end_num=?, end_com=?, end_bar=?, end_mun=?, end_uf=?, end_cep=?, \r\n"
-					+ "ins_est=?, ins_mun=?, tel_1=?, email_1=?, obs=?, titulo_web=? ,tipo_ace=? \r\n"
+					+ "ins_est=?, ins_mun=?, tel_1=?, email_1=?, obs=? \r\n"
 					+ " WHERE id_sis = " + gra_bus.getId_sis() + ";";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
@@ -220,7 +200,6 @@ public class fun_sis {
 			gra_inp.setString(16, gra_bus.getTel_1());
 			gra_inp.setString(17, gra_bus.getEmail_1());
 			gra_inp.setString(18, gra_bus.getObs());
-			gra_inp.setString(19, gra_bus.getTitulo_web());
 
 			gra_inp.executeUpdate();
 			pos_cbd_con.commit();
@@ -235,9 +214,9 @@ public class fun_sis {
 
 			String bc_sql = "INSERT INTO public.tb_sis(\r\n"
 					+ " reg_id, reg_data, reg_alt, reg_data_alt, truefalse, \r\n"
-					+ " nome_desc,cnpj_cpf,tipo_ace) \r\n"
+					+ " nome_desc,cnpj_cpf) \r\n"
 					+ " VALUES (?, ?, ?, ?, ?,\r\n"
-					+ " ?, ?, ?);";
+					+ " ?,  ?);";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -248,7 +227,6 @@ public class fun_sis {
 			gra_inp.setBoolean(5,gra_bus.getTruefalse());
 			gra_inp.setString(6,gra_bus.getNome_desc());
 			gra_inp.setString(7,gra_bus.getCnpj_cpf());
-			gra_inp.setString(8, gra_bus.getTipo_ace());
 
 			gra_inp.execute();
 			pos_cbd_con.commit();

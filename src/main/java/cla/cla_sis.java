@@ -30,11 +30,6 @@ public class cla_sis implements Serializable {
 	private String tel_1;
 	private String email_1;
 	private String obs;
-	private String titulo_web;
-	private String tipo_ace;
-	private String email_rec;
-	private String login;
-	private String senha;
 	
 
 	public boolean nv_id() {
@@ -221,29 +216,6 @@ public class cla_sis implements Serializable {
 	
 
 
-	public String getEmail_rec() {
-		return email_rec;
-	}
-
-	public void setEmail_rec(String email_rec) {
-		this.email_rec = email_rec;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 
 	public void vz_id() {
 
@@ -306,16 +278,14 @@ public class cla_sis implements Serializable {
 				+ ", no_fan=" + no_fan + ", cnpj_cpf=" + cnpj_cpf + ", end_rua=" + end_rua + ", end_num=" + end_num
 				+ ", end_com=" + end_com + ", end_bar=" + end_bar + ", end_mun=" + end_mun + ", end_uf=" + end_uf
 				+ ", end_cep=" + end_cep + ", ins_est=" + ins_est + ", ins_mun=" + ins_mun + ", tel_1=" + tel_1
-				+ ", email_1=" + email_1 + ", obs=" + obs + ", titulo_web=" + titulo_web + ", tipo_ace=" + tipo_ace
-				+ ", email_rec=" + email_rec + ", login=" + login + ", senha=" + senha + "]";
+				+ ", email_1=" + email_1 + ", obs=" + obs + "]";
 	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cnpj_cpf, email_1, email_rec, end_bar, end_cep, end_com, end_mun, end_num, end_rua, end_uf,
-				id_sis, ins_est, ins_mun, login, no_fan, nome_desc, obs, reg_alt, reg_data, reg_data_alt, reg_id, senha,
-				tel_1, tipo_ace, titulo_web, truefalse);
+		return Objects.hash(cnpj_cpf, email_1, end_bar, end_cep, end_com, end_mun, end_num, end_rua, end_uf, id_sis,
+				ins_est, ins_mun, no_fan, nome_desc, obs, reg_alt, reg_data, reg_data_alt, reg_id, tel_1, truefalse);
 	}
 
 	@Override
@@ -328,36 +298,17 @@ public class cla_sis implements Serializable {
 			return false;
 		cla_sis other = (cla_sis) obj;
 		return Objects.equals(cnpj_cpf, other.cnpj_cpf) && Objects.equals(email_1, other.email_1)
-				&& Objects.equals(email_rec, other.email_rec) && Objects.equals(end_bar, other.end_bar)
-				&& Objects.equals(end_cep, other.end_cep) && Objects.equals(end_com, other.end_com)
-				&& Objects.equals(end_mun, other.end_mun) && Objects.equals(end_num, other.end_num)
-				&& Objects.equals(end_rua, other.end_rua) && Objects.equals(end_uf, other.end_uf)
-				&& Objects.equals(id_sis, other.id_sis) && Objects.equals(ins_est, other.ins_est)
-				&& Objects.equals(ins_mun, other.ins_mun) && Objects.equals(login, other.login)
+				&& Objects.equals(end_bar, other.end_bar) && Objects.equals(end_cep, other.end_cep)
+				&& Objects.equals(end_com, other.end_com) && Objects.equals(end_mun, other.end_mun)
+				&& Objects.equals(end_num, other.end_num) && Objects.equals(end_rua, other.end_rua)
+				&& Objects.equals(end_uf, other.end_uf) && Objects.equals(id_sis, other.id_sis)
+				&& Objects.equals(ins_est, other.ins_est) && Objects.equals(ins_mun, other.ins_mun)
 				&& Objects.equals(no_fan, other.no_fan) && Objects.equals(nome_desc, other.nome_desc)
 				&& Objects.equals(obs, other.obs) && Objects.equals(reg_alt, other.reg_alt)
 				&& Objects.equals(reg_data, other.reg_data) && Objects.equals(reg_data_alt, other.reg_data_alt)
-				&& Objects.equals(reg_id, other.reg_id) && Objects.equals(senha, other.senha)
-				&& Objects.equals(tel_1, other.tel_1) && Objects.equals(tipo_ace, other.tipo_ace)
-				&& Objects.equals(titulo_web, other.titulo_web) && Objects.equals(truefalse, other.truefalse);
+				&& Objects.equals(reg_id, other.reg_id) && Objects.equals(tel_1, other.tel_1)
+				&& Objects.equals(truefalse, other.truefalse);
 	}
-
-	public String getTipo_ace() {
-		return tipo_ace;
-	}
-
-	public void setTipo_ace(String tipo_ace) {
-		this.tipo_ace = tipo_ace;
-	}
-
-	public String getTitulo_web() {
-		return titulo_web;
-	}
-
-	public void setTitulo_web(String titulo_web) {
-		this.titulo_web = titulo_web;
-	}
-
 
 	
 }

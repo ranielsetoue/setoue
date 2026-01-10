@@ -8,18 +8,18 @@
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div
-							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
-							class="col-12 col-md-4 mb-2 mb-0 align-self-center text-center">
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 							
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
-												<div
-													class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
+						<div
+							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
 
 													<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
 													<textarea name="titulo_web" id="titulo_web"
