@@ -42,7 +42,7 @@ public class fun_sis_dom {
 			gra_inp.setTp_sit(cl_sis_dom.getString("tp_sit"));
 			gra_inp.setAce_per_aut(cl_sis_dom.getString("ace_per_aut"));
 			gra_inp.setTitulo_web(cl_sis_dom.getString("titulo_web"));
-			gra_inp.setEmail_1(cl_sis_dom.getString("email_1"));
+			gra_inp.setNome_desc(cl_sis_dom.getString("nome_desc"));
 
 		}
 

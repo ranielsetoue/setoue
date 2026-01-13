@@ -208,6 +208,8 @@ public class lt_sis_busc extends HttpServlet {
 				
 				 List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
 				request.setAttribute("sis_cons_tp_site", sisConstp_site);
+				 List<cla_list_tipo_ace> sisConstipoace = f_sis.cons_list_tipo_ace();
+					request.setAttribute("sis_cons_tip_ace", sisConstipoace);
 
 				try {
 					cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(

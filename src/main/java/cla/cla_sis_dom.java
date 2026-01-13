@@ -22,15 +22,15 @@ public class cla_sis_dom implements Serializable {
 	private String tp_sit;
 	private String ace_per_aut;
 	private String titulo_web;
-	private String email_1;
+	private String nome_desc;
 
 
-	public String getEmail_1() {
-		return email_1;
+	public String getNome_desc() {
+		return nome_desc;
 	}
 
-	public void setEmail_1(String email_1) {
-		this.email_1 = email_1;
+	public void setNome_desc(String nome_desc) {
+		this.nome_desc = nome_desc;
 	}
 
 	public String getTitulo_web() {

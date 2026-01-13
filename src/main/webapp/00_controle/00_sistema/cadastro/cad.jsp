@@ -827,7 +827,7 @@ function formatCnpj(valor) {
 
 			<!--  -->
 			<!-- Inicio Container -->
-				<div class="container mt-3">
+				<div class="container mt-1">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -861,15 +861,27 @@ function formatCnpj(valor) {
 						<div
 							class="col-12  mb-2  align-self-center text-center">
 										<label id="l_sis_tp_site" data-placeholder="Tipo de Site"></label>						
-				<input class="form-control" list="list_tp_site" value="${pre_glo.end_uf}"
-								name="sis_tp_site" id="sis_tp_sitef" placeholder="Tipo de Site">
+				<input class="form-control" list="list_tp_site" value="${pre_dom.sis_tp_site}"
+								name="sis_tp_site" id="sis_tp_site" placeholder="Tipo de Site"
+								onblur="validarTipoSite()">
 
 							<datalist id="list_tp_site">
 								<c:forEach items="${sis_cons_tp_site}" var="t_tp_site">
 									<option value="${t_tp_site.nomeDesc}"></option>
 								</c:forEach>
 							</datalist>
-		
+		<script>
+function validarTipoSite() {
+    const input = document.getElementById("sis_tp_site");
+    const datalist = document.getElementById("list_tp_site");
+    const opcoes = Array.from(datalist.options).map(o => o.value);
+
+    if (!opcoes.includes(input.value)) {
+        input.value = "";
+        alert("Selecione um valor válido da lista");
+    }
+}
+</script>
 
 
 												</div>
@@ -882,9 +894,126 @@ function formatCnpj(valor) {
 			<!-- FIM Container -->
 			<!--  -->
 
+		<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+			<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
+			<textarea name="titulo_web" id="titulo_web"
+			class="form-control" placeholder="Titulo Web"
+			autocomplete="off" rows="1"
+		style="overflow: hidden; resize: none;"
+		oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.titulo_web}</textarea>
+							
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+								<div
+							class="col-12  mb-2  align-self-center text-center">
+										<label id="l_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
+				<input class="form-control" list="list_tipo_ace" value="${pre_dom.ace_per_aut}"
+								name="sis_tipo_ace" id="sis_tipo_ace" placeholder="Autorização de Acesso"
+								onblur="validartipo_ace()">
+
+							<datalist id="list_tipo_ace">
+								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
+									<option value="${t_tipo_ace.nomeDesc}"></option>
+								</c:forEach>
+							</datalist>
+		<script>
+function validartipo_ace() {
+    const input = document.getElementById("sis_tipo_ace");
+    const datalist = document.getElementById("list_tipo_ace");
+    const opcoes = Array.from(datalist.options).map(o => o.value);
+
+    if (!opcoes.includes(input.value)) {
+        input.value = "";
+        alert("Selecione um valor válido da lista");
+    }
+}
+</script>
 
 
+												</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2  align-self-center text-center">
 
+													<label id="l_nome_desc_usu" data-placeholder="Nome do Usuario"></label>
+													<textarea name="nome_desc_usu" id="nome_desc_usu"
+														class="form-control" placeholder="Nome do Usuario"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.nome_desc}</textarea>
+
+												</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+
+
+	<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																				<label id="l_email_1_usu" data-placeholder="E-mail"></label>
+													<textarea name="email_1_usu" id="email_1_usu"
+														class="form-control" placeholder="E-mail"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.email}</textarea>
+				
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																		<label id="l_l_usu" data-placeholder="Usuario para Login"></label>
+													<textarea name="l_usu" id="l_usu"
+														class="form-control" placeholder="Usuario para Login"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_usu}</textarea>
+									
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																<label id="l_l_sen" data-placeholder="Senha para Login"></label>
+													<textarea name="l_sen" id="l_sen"
+														class="form-control" placeholder="Senha para Login"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_sen}</textarea>
+	
+																					</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
 
 
 

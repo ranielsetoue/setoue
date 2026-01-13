@@ -6,18 +6,20 @@ public class cla_list_tipo_ace implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String tpnomeDesc;
+	private String nomeDesc;
 
-	public cla_list_tipo_ace(String tpnomeDesc) {
-        this.tpnomeDesc = tpnomeDesc;
+	public cla_list_tipo_ace(String nomeDesc) {
+        this.nomeDesc = nomeDesc;
+    }
+	// TODO Auto-generated constructor stub
+
+
+	public String getNomeDesc() {
+		return nomeDesc;
 	}
 
-	public String getTpnomeDesc() {
-		return tpnomeDesc;
-	}
-
-	public void setTpnomeDesc(String tpnomeDesc) {
-		this.tpnomeDesc = tpnomeDesc;
+	public void setNomeDesc(String nomeDesc) {
+		this.nomeDesc = nomeDesc;
 	}
 
 	public static long getSerialversionuid() {
