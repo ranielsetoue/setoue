@@ -10,6 +10,7 @@ import api_ext.api_cnpj;
 import cla.cla_cnpj;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
+import cla.cla_list_tp_site;
 import cla.cla_perm_ace;
 import cla.cla_sis;
 import cla.cla_sis_d_log;
@@ -204,6 +205,9 @@ public class lt_sis_busc extends HttpServlet {
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("cons_list", true);
+				
+				 List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
+				request.setAttribute("sis_cons_tp_site", sisConstp_site);
 
 				try {
 					cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
@@ -306,7 +310,7 @@ public class lt_sis_busc extends HttpServlet {
 
 									f_sis.sav_sis_consultar_refeita_federal(cl_sis);
 
-								} 
+								}
 
 								if (fun_blio.isCPF(t_cnpj_cpf)) {
 
@@ -314,19 +318,20 @@ public class lt_sis_busc extends HttpServlet {
 									cl_sis.setNome_desc(t_cnpj_cpf);
 									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis.setTruefalse(false);
 
-									cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);	
-								}							
-							} //if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+									cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);
+								}
+							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
 							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
 
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
-							
+
 						} // (b1Value == 1)
 
 						if (b1Value > 1) {
@@ -334,9 +339,9 @@ public class lt_sis_busc extends HttpServlet {
 							request.getSession().setAttribute("listaResultados", lista);
 							request.getSession().setAttribute("cons_true", false);
 
-						} //(b1Value > 1)
-						
-					} /// 					if (t_cnpj_cpf != null) {
+						} // (b1Value > 1)
+
+					} /// if (t_cnpj_cpf != null) {
 
 				} // cad_sis
 

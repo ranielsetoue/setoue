@@ -789,8 +789,8 @@ function formatCnpj(valor) {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-							<label id="l_no_dom" data-placeholder="Busca Contato"></label> <input
-								type="text"  name="no_dom" id="no_dom"
+							<label id="l_cont_no_dom" data-placeholder="Busca Contato"></label> <input
+								type="text"  name="cont_no_dom" id="cont_no_dom"
 								autocomplete="off" class="form-control" placeholder="Busca Contato"
 								value="">
 
@@ -823,6 +823,69 @@ function formatCnpj(valor) {
       </div>
       <div class="modal-body">
         
+
+
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+											<label id="l_no_dom" data-placeholder="Nome do Dominio"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="no_dom" id="no_dom"
+								placeholder="Nome do Dominio" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.no_dom}</textarea>
+								
+							
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+									<label id="l_sis_url" data-placeholder="URL - Caminho do Sistema"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="sis_url" id="sis_url"
+								placeholder="URL - Caminho do Sistema" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.sis_url}</textarea>
+							
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2  align-self-center text-center">
+										<label id="l_sis_tp_site" data-placeholder="Tipo de Site"></label>						
+				<input class="form-control" list="list_tp_site" value="${pre_glo.end_uf}"
+								name="sis_tp_site" id="sis_tp_sitef" placeholder="Tipo de Site">
+
+							<datalist id="list_tp_site">
+								<c:forEach items="${sis_cons_tp_site}" var="t_tp_site">
+									<option value="${t_tp_site.nomeDesc}"></option>
+								</c:forEach>
+							</datalist>
+		
+
+
+												</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+
+
+
+
+
 
 
 

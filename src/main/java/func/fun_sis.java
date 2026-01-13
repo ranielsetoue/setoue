@@ -10,6 +10,7 @@ import cbd.pos_cbd;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_sis;
+import cla.cla_list_tp_site;
 
 public class fun_sis {
 	private static Connection pos_cbd_con;
@@ -19,7 +20,23 @@ public class fun_sis {
 		// TODO Auto-generated constructor stub
 	}
 
+	public List<cla_list_tp_site> cons_list_sis_tp_site() throws Exception {
 
+		List<cla_list_tp_site> retorno = new ArrayList<cla_list_tp_site>();
+
+		String bc_sql = "SELECT nome_desc FROM tb_sis_tp_site ORDER BY nome_desc";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet gran_inp = gra_bus.executeQuery();
+
+		while (gran_inp.next()) { /* percorrer as linhas de resultado do SQL */
+
+			String nomeDesc = gran_inp.getString("nome_desc");
+			retorno.add(new cla_list_tp_site(nomeDesc));
+		}
+
+		return retorno;
+	}
 
 	public List<cla_list_cnpj_nome> cons_list_sis_cnpj() throws Exception {
 

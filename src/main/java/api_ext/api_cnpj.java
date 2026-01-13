@@ -1,6 +1,5 @@
 package api_ext;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,10 +13,6 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 
 import cla.cla_cnpj;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class api_cnpj {
 
