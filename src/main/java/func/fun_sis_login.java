@@ -117,4 +117,46 @@ public class fun_sis_login {
 
 	}
 
+	
+	public boolean val_login_email(String email_1) throws Exception {
+
+		String bc_sql = "select count (1) > 0 as existe from tb_sis_d_log where upper(email_1) = upper('" + email_1
+		+ "')";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+		}
+
+	public boolean val_login(String l_usu) throws Exception {
+		
+		String bc_sql = "select count (1) > 0 as existe from tb_sis_log where upper(l_usu) = upper('" + l_usu
+		+ "')";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+		}
+
+	
+	public boolean val_login_Nome(String tx1) throws Exception {
+		
+		String bc_sql = "select count (1) > 0 as existe from tb_sis_d_log where upper(nome_desc) = upper('" + tx1
+		+ "')";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+		}
+	
+	
 }

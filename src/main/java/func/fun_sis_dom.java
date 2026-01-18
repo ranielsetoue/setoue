@@ -16,6 +16,22 @@ public class fun_sis_dom {
 
 	}
 
+	
+	
+	public boolean val_str1_sis_dom_no_dom(String no_dom) throws Exception {
+
+		String bc_sql = "select count (1) > 0 as existe from tb_sis_dom where upper(no_dom) = upper('" + no_dom
+		+ "')";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+		}
+
+	
 
 	public cla_sis_dom cons_sis_dom_id_sis_dom(Long id_sis_log) throws Exception {
 
@@ -42,7 +58,6 @@ public class fun_sis_dom {
 			gra_inp.setTp_sit(cl_sis_dom.getString("tp_sit"));
 			gra_inp.setAce_per_aut(cl_sis_dom.getString("ace_per_aut"));
 			gra_inp.setTitulo_web(cl_sis_dom.getString("titulo_web"));
-			gra_inp.setNome_desc(cl_sis_dom.getString("nome_desc"));
 
 		}
 
@@ -50,4 +65,9 @@ public class fun_sis_dom {
 
 	}
 
+	
+	
+	
+	
+	
 }

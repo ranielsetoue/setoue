@@ -73,6 +73,9 @@ public class lt_sis_salvar extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
 		String t_nome_desc = request.getParameter("nome_desc");
 		String t_no_fan = request.getParameter("no_fan");
 		String t_cnpj_cpf = request.getParameter("cnpj_cpf");
@@ -156,10 +159,11 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setTel_1(t_tel_1);
 					cl_sis.setEmail_1(t_email_1);
 					cl_sis.setObs(t_obs);
-	
+
 					f_sis.sav_sis(cl_sis);
-					
+
 				}
+
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
@@ -234,6 +238,111 @@ public class lt_sis_salvar extends HttpServlet {
 				 * }
 				 * 
 				 */
+
+			}
+
+			if (request.getParameter("fun").equalsIgnoreCase("salvar_dom")) {
+
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+
+					String t_no_dom = request.getParameter("no_dom");
+					String t_sis_url = request.getParameter("sis_url");
+					String t_sis_tp_site = request.getParameter("sis_tp_site");
+					String t_titulo_web = request.getParameter("titulo_web");
+					String t_sis_tipo_ace = request.getParameter("sis_tipo_ace");
+					String t_nome_desc_usu = request.getParameter("nome_desc_usu");
+					String t_email_1_usu = request.getParameter("email_1_usu");
+					String t_l_usu = request.getParameter("l_usu");
+					String t_l_sen = request.getParameter("l_sen");
+					boolean modal_dominio_visivel = false;
+					String msg_tela = "Cadastro Já Existe";
+
+					cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+
+					long id_sis = cl_sis.getId_sis();
+
+					System.out.println("----");
+
+					System.out.println(msg_tela);
+
+					cl_sis_dom.setId_sis(id_sis);
+					cl_sis_dom.setNo_dom(t_no_dom);
+					cl_sis_dom.setSis_url(t_sis_url);
+					cl_sis_dom.setTp_sit(t_sis_tp_site);
+					cl_sis_dom.setTitulo_web(t_titulo_web);
+					cl_sis_dom.setAce_per_aut(t_sis_tipo_ace);
+					cl_sis_dom.setNome_desc(t_nome_desc_usu);
+					cl_sis_dom.setEmail_1(t_email_1_usu);
+					cl_sis_dom.setL_usu(t_l_usu);
+					cl_sis_dom.setL_sen(t_l_sen);
+
+					if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false && f_sis_login.val_login(t_l_usu) == false
+							&& f_sis_login.val_login_email(t_email_1_usu) == false
+							&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
+
+						System.out.println("------");
+
+						System.out.println("Novo");
+
+						modal_dominio_visivel = true;
+
+					} else {
+
+						if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) || f_sis_login.val_login(t_l_usu)
+								|| f_sis_login.val_login_email(t_email_1_usu)
+								|| f_sis_login.val_login_Nome(t_nome_desc_usu)) {
+
+							if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom)) {
+
+								
+								
+								System.out.println("------");
+
+								System.out.println("Uptade");
+								modal_dominio_visivel = true;
+								
+								
+								
+							}else {
+								
+
+								if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false) {
+									modal_dominio_visivel = false;
+									
+									if (f_sis_login.val_login(t_l_usu)) {
+										msg_tela = "Cadastro Login Já Existe";	
+									}
+									
+									if (f_sis_login.val_login_email(t_email_1_usu)) {
+										msg_tela = "Cadastro E-mail Já Existe";	
+									}
+
+									if (f_sis_login.val_login_Nome(t_nome_desc_usu)) {
+										msg_tela = "Cadastro Nome do Usuario Já Existe";	
+									}
+
+									
+								}
+
+								
+								
+								
+								
+							}
+
+
+						}
+
+					}
+
+					if (modal_dominio_visivel) {
+						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
+					} else {
+						response.getWriter().write("{\"status\":\"erro\",\"msg\":\"" + msg_tela + "\"}");
+
+					}
+
+				}
 
 			}
 

@@ -247,9 +247,69 @@ function formatCnpj(valor) {
 		});
 
 	}
+
+	function sav_dom() {
+
+		if (document.getElementById("no_dom").value == ''
+				|| document.getElementById("sis_url").value == ''
+
+		) {
+			alert('Preencher Dado');
+		} else {
+
+			var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar_dom';
+
+			$.ajax({
+
+				type : "POST",
+				url : urlAction,
+				data : $("#fon_cad").serialize(),
+
+				success : function(response) {
+
+
+			        // ✅ FECHA O MODAL SOMENTE SE SALVAR
+
+					
+					if (response.status === 'ok') {
+
+
+		                // ✅ FECHA O MODAL
+		                const modalEl = document.getElementById('adi_dom');
+		                bootstrap.Modal.getInstance(modalEl).hide();
+		                alert(response.msg);
+
+		                
+		            } else {
+
+		                // ❌ NÃO FECHA
+		                alert(response.msg);
+		            }
+
+				}
+
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+			});
+
+		}
+
+	}
+	
+	function limpar_modal_dominio() {
+		document.getElementById('adi_dom')?.addEventListener('show.bs.modal', function () {
+			  this.querySelectorAll('input, textarea, select').forEach(campo => {
+			    if (campo.type !== 'button' && campo.type !== 'submit') {
+			      campo.value = '';
+			    }
+			  });
+			});
+		}
 	
 	
-</script>
+	
+	
+	</script>
 
 
 <!--  -->
@@ -809,7 +869,7 @@ function formatCnpj(valor) {
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adi_dom">
+<button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-toggle="modal" data-bs-target="#adi_dom">
  Adiciona Dominio
 </button>
 
@@ -819,7 +879,7 @@ function formatCnpj(valor) {
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="m_adi_dom">Adiciona Dominio</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         
@@ -1024,9 +1084,12 @@ function validartipo_ace() {
 
 
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salva</button>
+        <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
       </div>
+
+
     </div>
   </div>
 </div>

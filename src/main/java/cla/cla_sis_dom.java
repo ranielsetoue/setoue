@@ -23,7 +23,16 @@ public class cla_sis_dom implements Serializable {
 	private String ace_per_aut;
 	private String titulo_web;
 	private String nome_desc;
+	private String email_1;
 
+
+	public String getEmail_1() {
+		return email_1;
+	}
+
+	public void setEmail_1(String email_1) {
+		this.email_1 = email_1;
+	}
 
 	public String getNome_desc() {
 		return nome_desc;
