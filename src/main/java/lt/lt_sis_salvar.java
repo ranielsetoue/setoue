@@ -322,11 +322,11 @@ public class lt_sis_salvar extends HttpServlet {
 								} else {
 
 									
-								    String tx1 = t_l_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
-								    String tx2 = cl_sis_dom.getL_usu().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx1 = t_l_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx2 = cl_sis_dom.getL_usu().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
 								    
 									if (f_sis_login.val_login(t_l_usu) 
-											&& tx1.equals(tx2)
+											&& dom_tx1.equals(dom_tx2)
 											&& f_sis_login.val_login_email(t_email_1_usu) == false
 											&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
 										
@@ -337,13 +337,13 @@ public class lt_sis_salvar extends HttpServlet {
 
 									}
 
-								    String tx3 = t_email_1_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
-								    String tx4 = cl_sis_d_log.getEmail_1().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx3 = t_email_1_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx4 = cl_sis_d_log.getEmail_1().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
 
 									
 									if (f_sis_login.val_login(t_l_usu) == false
 											&& f_sis_login.val_login_email(t_email_1_usu)
-											&& tx3.equals(tx4)
+											&& dom_tx3.equals(dom_tx4)
 											&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
 
 										System.out.println("------");
@@ -353,14 +353,14 @@ public class lt_sis_salvar extends HttpServlet {
 
 									}
 
-								    String tx5 = t_nome_desc_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
-								    String tx6 = cl_sis_d_log.getNome_desc().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx5 = t_nome_desc_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String dom_tx6 = cl_sis_d_log.getNome_desc().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
 
 									
 									if (f_sis_login.val_login(t_l_usu) == false
 											&& f_sis_login.val_login_email(t_email_1_usu) == false
 											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
-											&& tx5.equals(tx6)) {
+											&& dom_tx5.equals(dom_tx6)) {
 										
 										System.out.println("------");
 
@@ -371,11 +371,11 @@ public class lt_sis_salvar extends HttpServlet {
 
 									
 									if (f_sis_login.val_login(t_l_usu) 
-											&& tx1.equals(tx2)
+											&& dom_tx1.equals(dom_tx2)
 											&& f_sis_login.val_login_email(t_email_1_usu)
-											&& tx3.equals(tx4)
+											&& dom_tx3.equals(dom_tx4)
 											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
-											&& tx5.equals(tx6)) {
+											&& dom_tx5.equals(dom_tx6)) {
 									
 										System.out.println("------");
 
@@ -384,6 +384,48 @@ public class lt_sis_salvar extends HttpServlet {
 
 									}
 
+									
+									if (f_sis_login.val_login(t_l_usu) == false 
+											&& f_sis_login.val_login_email(t_email_1_usu)
+											&& dom_tx3.equals(dom_tx4)
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
+											&& dom_tx5.equals(dom_tx6)) {
+									
+										System.out.println("------");
+
+										System.out.println("Uptade - 6");
+										modal_dominio_visivel = true;
+
+									}
+
+									if (f_sis_login.val_login(t_l_usu) 
+											&& dom_tx1.equals(dom_tx2)
+											&& f_sis_login.val_login_email(t_email_1_usu) == false
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
+											&& dom_tx5.equals(dom_tx6)) {
+									
+										System.out.println("------");
+
+										System.out.println("Uptade - 7");
+										modal_dominio_visivel = true;
+
+									}
+									
+									if (f_sis_login.val_login(t_l_usu) 
+											&& dom_tx1.equals(dom_tx2)
+											&& f_sis_login.val_login_email(t_email_1_usu)
+											&& dom_tx3.equals(dom_tx4)
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
+									
+										System.out.println("------");
+
+										System.out.println("Uptade - 8");
+										modal_dominio_visivel = true;
+
+									}
+
+									
+									
 								}
 
 							} else {
