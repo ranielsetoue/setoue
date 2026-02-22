@@ -2,7 +2,7 @@
 package cla;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class cla_sis_dom implements Serializable {
 
@@ -10,9 +10,9 @@ public class cla_sis_dom implements Serializable {
 
 	private Long id_sis;
 	private Long reg_id;
-	private Date reg_data;
+	private Timestamp reg_data;
 	private Long reg_alt;
-	private Date reg_data_alt;
+	private Timestamp reg_data_alt;
 	private Long id_sis_dom;
 	private String no_dom;
 	private String sis_url;
@@ -25,6 +25,14 @@ public class cla_sis_dom implements Serializable {
 	private String nome_desc;
 	private String email_1;
 
+	
+	public String getNome_desc() {
+		return nome_desc;
+	}
+
+	public void setNome_desc(String nome_desc) {
+		this.nome_desc = nome_desc;
+	}
 
 	public String getEmail_1() {
 		return email_1;
@@ -32,14 +40,6 @@ public class cla_sis_dom implements Serializable {
 
 	public void setEmail_1(String email_1) {
 		this.email_1 = email_1;
-	}
-
-	public String getNome_desc() {
-		return nome_desc;
-	}
-
-	public void setNome_desc(String nome_desc) {
-		this.nome_desc = nome_desc;
 	}
 
 	public String getTitulo_web() {
@@ -76,11 +76,11 @@ public class cla_sis_dom implements Serializable {
 		this.reg_id = reg_id;
 	}
 
-	public Date getReg_data() {
+	public Timestamp getReg_data() {
 		return reg_data;
 	}
 
-	public void setReg_data(Date reg_data) {
+	public void setReg_data(Timestamp reg_data) {
 		this.reg_data = reg_data;
 	}
 
@@ -92,11 +92,11 @@ public class cla_sis_dom implements Serializable {
 		this.reg_alt = reg_alt;
 	}
 
-	public Date getReg_data_alt() {
+	public Timestamp getReg_data_alt() {
 		return reg_data_alt;
 	}
 
-	public void setReg_data_alt(Date reg_data_alt) {
+	public void setReg_data_alt(Timestamp reg_data_alt) {
 		this.reg_data_alt = reg_data_alt;
 	}
 

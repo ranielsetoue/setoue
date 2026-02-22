@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Upload PDF</title>
+</head>
+<body>
+
+<h2>Enviar PDFs</h2>
+
+<form action="upload" method="post" enctype="multipart/form-data">
+    <input type="file"
+           name="arquivo"
+           accept="application/pdf"
+           multiple
+           required />
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+
+</body>
+</html>
+

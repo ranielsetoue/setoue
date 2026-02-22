@@ -261,21 +261,8 @@ public class lt_sis_salvar extends HttpServlet {
 
 					long id_sis = cl_sis.getId_sis();
 
-					System.out.println("----");
-
-					System.out.println(msg_tela);
-
-					cl_sis_dom.setId_sis(id_sis);
-					cl_sis_dom.setNo_dom(t_no_dom);
-					cl_sis_dom.setSis_url(t_sis_url);
-					cl_sis_dom.setTp_sit(t_sis_tp_site);
-					cl_sis_dom.setTitulo_web(t_titulo_web);
-					cl_sis_dom.setAce_per_aut(t_sis_tipo_ace);
-					cl_sis_dom.setNome_desc(t_nome_desc_usu);
-					cl_sis_dom.setEmail_1(t_email_1_usu);
-					cl_sis_dom.setL_usu(t_l_usu);
-					cl_sis_dom.setL_sen(t_l_sen);
-
+				
+					
 					if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false && f_sis_login.val_login(t_l_usu) == false
 							&& f_sis_login.val_login_email(t_email_1_usu) == false
 							&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
@@ -284,52 +271,141 @@ public class lt_sis_salvar extends HttpServlet {
 
 						System.out.println("Novo");
 
-						modal_dominio_visivel = true;
 
+						String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+
+						cl_sis_dom.setId_sis(id_sis);
+						cl_sis_dom.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+						cl_sis_dom.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+						cl_sis_dom.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+						cl_sis_dom.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+						cl_sis_dom.setId_sis_dom(0L);   
+						cl_sis_dom.setNo_dom(t_no_dom);
+						cl_sis_dom.setSis_url(t_sis_url);
+						cl_sis_dom.setTp_sit(t_sis_tp_site);
+						cl_sis_dom.setTitulo_web(t_titulo_web);
+						cl_sis_dom.setAce_per_aut(t_sis_tipo_ace);
+						cl_sis_dom.setNome_desc(t_nome_desc_usu);
+						cl_sis_dom.setEmail_1(t_email_1_usu);
+						cl_sis_dom.setId_sis_log(0L);
+						cl_sis_dom.setL_usu(t_l_usu);
+						cl_sis_dom.setL_sen(t_l_sen);
+
+						
+						
+						
+						
+						modal_dominio_visivel = true;
+						
 					} else {
 
 						if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) || f_sis_login.val_login(t_l_usu)
 								|| f_sis_login.val_login_email(t_email_1_usu)
 								|| f_sis_login.val_login_Nome(t_nome_desc_usu)) {
 
+							
+							
 							if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom)) {
 
-								
-								
-								System.out.println("------");
+								cl_sis_dom = f_sis_dom.cons_sis_dom_no_dom(t_no_dom);
+								cl_sis_d_log = f_sis_login.cons_sis_d_log_id_sis_log(cl_sis_dom.getId_sis_log());
 
-								System.out.println("Uptade");
-								modal_dominio_visivel = true;
-								
-								
-								
-							}else {
-								
+								if (f_sis_login.val_login(t_l_usu) == false
+										&& f_sis_login.val_login_email(t_email_1_usu) == false
+										&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
+
+									System.out.println("------");
+
+									System.out.println("Uptade - 1");
+									modal_dominio_visivel = true;
+
+								} else {
+
+									
+								    String tx1 = t_l_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String tx2 = cl_sis_dom.getL_usu().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    
+									if (f_sis_login.val_login(t_l_usu) 
+											&& tx1.equals(tx2)
+											&& f_sis_login.val_login_email(t_email_1_usu) == false
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
+										
+										System.out.println("------");
+
+										System.out.println("Uptade - 2");
+										modal_dominio_visivel = true;
+
+									}
+
+								    String tx3 = t_email_1_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String tx4 = cl_sis_d_log.getEmail_1().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+
+									
+									if (f_sis_login.val_login(t_l_usu) == false
+											&& f_sis_login.val_login_email(t_email_1_usu)
+											&& tx3.equals(tx4)
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
+
+										System.out.println("------");
+
+										System.out.println("Uptade - 3");
+										modal_dominio_visivel = true;
+
+									}
+
+								    String tx5 = t_nome_desc_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+								    String tx6 = cl_sis_d_log.getNome_desc().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+
+									
+									if (f_sis_login.val_login(t_l_usu) == false
+											&& f_sis_login.val_login_email(t_email_1_usu) == false
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
+											&& tx5.equals(tx6)) {
+										
+										System.out.println("------");
+
+										System.out.println("Uptade - 4");
+										modal_dominio_visivel = true;
+
+									}
+
+									
+									if (f_sis_login.val_login(t_l_usu) 
+											&& tx1.equals(tx2)
+											&& f_sis_login.val_login_email(t_email_1_usu)
+											&& tx3.equals(tx4)
+											&& f_sis_login.val_login_Nome(t_nome_desc_usu)
+											&& tx5.equals(tx6)) {
+									
+										System.out.println("------");
+
+										System.out.println("Uptade - 5");
+										modal_dominio_visivel = true;
+
+									}
+
+								}
+
+							} else {
 
 								if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false) {
 									modal_dominio_visivel = false;
-									
+
 									if (f_sis_login.val_login(t_l_usu)) {
-										msg_tela = "Cadastro Login Já Existe";	
+										msg_tela = "Cadastro Login Já Existe";
 									}
-									
+
 									if (f_sis_login.val_login_email(t_email_1_usu)) {
-										msg_tela = "Cadastro E-mail Já Existe";	
+										msg_tela = "Cadastro E-mail Já Existe";
 									}
 
 									if (f_sis_login.val_login_Nome(t_nome_desc_usu)) {
-										msg_tela = "Cadastro Nome do Usuario Já Existe";	
+										msg_tela = "Cadastro Nome do Usuario Já Existe";
 									}
 
-									
 								}
 
-								
-								
-								
-								
 							}
-
 
 						}
 

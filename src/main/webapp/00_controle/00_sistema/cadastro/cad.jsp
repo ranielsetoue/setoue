@@ -257,6 +257,11 @@ function formatCnpj(valor) {
 			alert('Preencher Dado');
 		} else {
 
+			var btn = document.getElementById("sal_dom");
+
+		    // 🔒 BLOQUEIA O BOTÃO
+		    btn.disabled = true;
+			
 			var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar_dom';
 
 			$.ajax({
@@ -279,17 +284,21 @@ function formatCnpj(valor) {
 		                bootstrap.Modal.getInstance(modalEl).hide();
 		                alert(response.msg);
 
-		                
+		                btn.disabled = false;		                
 		            } else {
 
 		                // ❌ NÃO FECHA
 		                alert(response.msg);
+		                btn.disabled = false;		                
+
 		            }
 
 				}
 
 			}).fail(function(xhr, status, errorThrown) {
+                btn.disabled = false;		                
 				alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+
 			});
 
 		}

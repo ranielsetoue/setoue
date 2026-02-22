@@ -123,9 +123,10 @@ public class fun_sis {
 /////////////////////////
 /////////////////////////
 ///	
-
+/*
+ * 
 	public boolean val_str1_sis_cnpj_cpf(String cnpj_cpf) throws Exception {
-
+		
 		String bc_sql = "select count (1) > 0 as existe from tb_sis where upper(cnpj_cpf) = upper('" + cnpj_cpf + "')";
 		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 		ResultSet resul = gra_bus.executeQuery();
@@ -134,14 +135,42 @@ public class fun_sis {
 		return resul.getBoolean("existe");
 
 	}
+	* 
+	 */
 
-	public boolean val_str1_sis_nome_desc(String nome_desc) throws Exception {
+	public boolean val_str1_sis_cnpj_cpf(String tx1) throws Exception {
 
-		String bc_sql = "select count (1) > 0 as existe from tb_sis where upper(nome_desc) = upper('" + nome_desc
-				+ "')";
-		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
+	    tx1 = tx1.toUpperCase();
 
-		ResultSet resul = gra_bus.executeQuery();
+	    String bc_sql =
+	        "SELECT  count (1) > 0 as existe " +
+	        "FROM tb_sis " +
+	        "WHERE REPLACE(UPPER(cnpj_cpf),' ','') = UPPER('" + tx1 + "')";
+
+	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+	    ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+	}
+
+	
+	public boolean val_str1_sis_nome_desc(String tx1) throws Exception {
+
+	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
+	    tx1 = tx1.toUpperCase();
+
+	    String bc_sql =
+	        "SELECT  count (1) > 0 as existe " +
+	        "FROM tb_sis " +
+	        "WHERE REPLACE(UPPER(nome_desc),' ','') = UPPER('" + tx1 + "')";
+
+	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+	    ResultSet resul = gra_bus.executeQuery();
 
 		resul.next();
 		return resul.getBoolean("existe");
