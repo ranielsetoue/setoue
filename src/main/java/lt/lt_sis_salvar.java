@@ -263,7 +263,8 @@ public class lt_sis_salvar extends HttpServlet {
 
 				
 					
-					if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false && f_sis_login.val_login(t_l_usu) == false
+					if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false 
+							&& f_sis_login.val_login(t_l_usu) == false
 							&& f_sis_login.val_login_email(t_email_1_usu) == false
 							&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
 
@@ -299,17 +300,26 @@ public class lt_sis_salvar extends HttpServlet {
 						
 					} else {
 
-						if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) || f_sis_login.val_login(t_l_usu)
+						if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) 
+								|| f_sis_login.val_login(t_l_usu)
 								|| f_sis_login.val_login_email(t_email_1_usu)
 								|| f_sis_login.val_login_Nome(t_nome_desc_usu)) {
 
-							
-							
-							if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom)) {
-
+							if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom)  ) {
 								cl_sis_dom = f_sis_dom.cons_sis_dom_no_dom(t_no_dom);
-								cl_sis_d_log = f_sis_login.cons_sis_d_log_id_sis_log(cl_sis_dom.getId_sis_log());
+								cl_sis_d_log = f_sis_login.cons_sis_d_log_id_sis_log(cl_sis_dom.getId_sis_log());	
+														
+										}					else {
+											msg_tela = "Cadastro Dominio Já Existe";
+											
+										}
 
+							
+														
+							if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) 
+									&& cl_sis.getId_sis().equals(cl_sis_dom.getId_sis()) ) {
+
+			
 								if (f_sis_login.val_login(t_l_usu) == false
 										&& f_sis_login.val_login_email(t_email_1_usu) == false
 										&& f_sis_login.val_login_Nome(t_nome_desc_usu) == false) {
@@ -319,11 +329,20 @@ public class lt_sis_salvar extends HttpServlet {
 									System.out.println("Uptade - 1");
 									modal_dominio_visivel = true;
 
+							
+								
+
 								} else {
 
+							
+									
 									
 								    String dom_tx1 = t_l_usu.replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
 								    String dom_tx2 = cl_sis_dom.getL_usu().replaceAll("\\s+", "").toUpperCase(); // remove TODOS os espaços
+
+								    
+
+								    
 								    
 									if (f_sis_login.val_login(t_l_usu) 
 											&& dom_tx1.equals(dom_tx2)
@@ -430,6 +449,10 @@ public class lt_sis_salvar extends HttpServlet {
 
 							} else {
 
+			
+								
+								
+									
 								if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom) == false) {
 									modal_dominio_visivel = false;
 
@@ -447,12 +470,23 @@ public class lt_sis_salvar extends HttpServlet {
 
 								}
 
+								if (f_sis_dom.val_str1_sis_dom_no_dom(t_no_dom)) {
+									modal_dominio_visivel = false;
+
+										msg_tela = "Cadastro Dominio Já Existe";
+									}
+
+								
+								
 							}
 
 						}
 
 					}
 
+				
+
+					
 					if (modal_dominio_visivel) {
 						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 					} else {
