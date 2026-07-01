@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import cbd.pos_cbd;
+import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
+import cla.cla_sis_log;
 
 public class fun_sis_dom {
 
@@ -50,7 +52,9 @@ public class fun_sis_dom {
 
 			gra_inp.setId_sis(cl_sis_dom.getLong("id_sis"));
 			gra_inp.setReg_id(cl_sis_dom.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis_dom.getTimestamp("reg_data"));
 			gra_inp.setReg_alt(cl_sis_dom.getLong("reg_alt"));
+			gra_inp.setReg_data_alt(cl_sis_dom.getTimestamp("reg_data_alt"));
 			gra_inp.setId_sis_dom(cl_sis_dom.getLong("id_sis_dom"));
 			gra_inp.setNo_dom(cl_sis_dom.getString("no_dom"));
 			gra_inp.setSis_url(cl_sis_dom.getString("sis_url"));
@@ -105,4 +109,131 @@ public class fun_sis_dom {
 
 	}
 
+	
+	public cla_sis_log id_ger(cla_sis_log gra_bus) throws Exception {
+
+	    String bc_sql = "SELECT nextval('seq_sis_log')";
+
+	    PreparedStatement stmt = pos_cbd_con.prepareStatement(bc_sql);
+
+	    ResultSet rs = stmt.executeQuery();
+
+	    Long idGerado = null;
+
+	    if (rs.next()) {
+	        idGerado = rs.getLong(1);
+	    }
+
+	    rs.close();
+	    stmt.close();
+
+	    pos_cbd_con.commit();
+
+	    System.out.println("Próximo ID: " + idGerado);
+
+
+	    return gra_bus;
+	}
+
+		
+	public cla_sis_d_log id_d_ger(cla_sis_d_log gra_bus) throws Exception {
+
+	    String bc_sql = "SELECT nextval('seq_sis_d_log')";
+
+	    PreparedStatement stmt = pos_cbd_con.prepareStatement(bc_sql);
+
+	    ResultSet rs = stmt.executeQuery();
+
+	    Long iddGerado = null;
+
+	    if (rs.next()) {
+	        iddGerado = rs.getLong(1);
+	    }
+
+	    rs.close();
+	    stmt.close();
+
+	    pos_cbd_con.commit();
+	    
+	    gra_bus.setId_sis_d_log(iddGerado);
+
+	    return gra_bus;
+	}
+
+		
+	public cla_sis_dom sav_dom(cla_sis_dom gra_bus,cla_sis_log gra_bus1) throws Exception {
+
+	    String bc_sql1 = "SELECT nextval('seq_sis_log')";
+
+	    PreparedStatement stmt = pos_cbd_con.prepareStatement(bc_sql1);
+
+	    ResultSet rs = stmt.executeQuery();
+
+	    Long id_log = null;
+
+	    if (rs.next()) {
+	    	id_log  = rs.getLong(1);
+	    }
+
+	    rs.close();
+	    stmt.close();
+
+	    pos_cbd_con.commit();
+
+	    
+	  
+	
+		if (gra_bus.nv_id() && !val_str1_sis_dom_no_dom(gra_bus.getNo_dom())
+				) {
+
+			String bc_sql = "INSERT INTO public.tb_sis_dom(\r\n"
+
+					+ "id_sis, reg_id, reg_data, reg_alt, reg_data_alt, \r\n"
+					+ "            no_dom, sis_url, id_sis_log, l_usu, l_sen, tp_sit, ace_per_aut, \r\n"
+					+ "            titulo_web) \r\n"
+					+ " VALUES (?,  ?, ?, ?, ?, \r\n"
+					+ "            ?, ?, ?, ?, ?, ?, ?, \r\n"
+					+ "            ?);";
+
+			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+
+			gra_inp.setLong(1, gra_bus.getId_sis());
+			gra_inp.setLong(2, gra_bus.getReg_id());
+			gra_inp.setTimestamp(3, gra_bus.getReg_data());
+			gra_inp.setLong(4, gra_bus.getReg_alt());
+			gra_inp.setTimestamp(5, gra_bus.getReg_data_alt());
+			gra_inp.setString(6, gra_bus.getNo_dom());
+			gra_inp.setString(7, gra_bus.getSis_url());
+			//gra_inp.setLong(8, gra_bus.getId_sis_log());
+			gra_inp.setLong(8, id_log);		
+			gra_inp.setString(9, gra_bus.getL_usu());
+			gra_inp.setString(10, gra_bus.getL_sen());
+			gra_inp.setString(11, gra_bus.getTp_sit());
+			gra_inp.setString(12, gra_bus.getAce_per_aut());
+			gra_inp.setString(13, gra_bus.getTitulo_web());
+			gra_inp.execute();
+			pos_cbd_con.commit();
+
+		
+		} else {
+
+			String bc_sql = "UPDATE public.tb_sis_dom\r\n"
+
+					+ " SET reg_alt=? \r\n"
+					+ " WHERE id_sis = " + gra_bus.getId_sis() + ";";
+
+			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+
+			gra_inp.setLong(1, gra_bus.getReg_alt());
+		
+
+			gra_inp.executeUpdate();
+			pos_cbd_con.commit();
+		}
+		return this.cons_sis_dom_no_dom(gra_bus.getNo_dom());
+	}
+	
+	
+	
+	
 }

@@ -24,9 +24,8 @@ public class cla_sis_dom implements Serializable {
 	private String titulo_web;
 	private String nome_desc;
 	private String email_1;
-
 	
-	public String getNome_desc() {
+		public String getNome_desc() {
 		return nome_desc;
 	}
 
@@ -204,5 +203,7 @@ public class cla_sis_dom implements Serializable {
 		id_sis_dom = 0L;
 
 	}
+
+	
 
 }

@@ -30,9 +30,9 @@ public class fun_sis_login {
 
 			gra_inp.setId_sis(cl_sis_log.getLong("id_sis"));
 			gra_inp.setReg_id(cl_sis_log.getLong("reg_id"));
-			gra_inp.setReg_data(cl_sis_log.getDate("reg_data"));
+			gra_inp.setReg_data(cl_sis_log.getTimestamp("reg_data"));
 			gra_inp.setReg_alt(cl_sis_log.getLong("reg_alt"));
-			gra_inp.setReg_data_alt(cl_sis_log.getDate("reg_data_alt"));
+			gra_inp.setReg_data_alt(cl_sis_log.getTimestamp("reg_data_alt"));
 			gra_inp.setId_sis_log(cl_sis_log.getLong("id_sis_log"));
 			gra_inp.setId_sis_dom(cl_sis_log.getLong("id_sis_dom"));
 			gra_inp.setL_usu(cl_sis_log.getString("l_usu"));
@@ -57,9 +57,9 @@ public class fun_sis_login {
 
 			gra_inp.setId_sis(cl_sis_log.getLong("id_sis"));
 			gra_inp.setReg_id(cl_sis_log.getLong("reg_id"));
-			gra_inp.setReg_data(cl_sis_log.getDate("reg_data"));
+			gra_inp.setReg_data(cl_sis_log.getTimestamp("reg_data"));
 			gra_inp.setReg_alt(cl_sis_log.getLong("reg_alt"));
-			gra_inp.setReg_data_alt(cl_sis_log.getDate("reg_data_alt"));
+			gra_inp.setReg_data_alt(cl_sis_log.getTimestamp("reg_data_alt"));
 			gra_inp.setId_sis_log(cl_sis_log.getLong("id_sis_log"));
 			gra_inp.setId_sis_dom(cl_sis_log.getLong("id_sis_dom"));
 			gra_inp.setL_usu(cl_sis_log.getString("l_usu"));
@@ -118,7 +118,7 @@ public class fun_sis_login {
 	}
 
 	
-	public boolean val_login_email(String tx1) throws Exception {
+	public boolean val_login_email(long nx1, String tx1) throws Exception {
 
 	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
 	    tx1 = tx1.toUpperCase();
@@ -126,7 +126,7 @@ public class fun_sis_login {
 	    String bc_sql =
 	        "SELECT  count (1) > 0 as existe " +
 	        "FROM tb_sis_d_log " +
-	        "WHERE REPLACE(UPPER(email_1),' ','') = UPPER('" + tx1 + "')";
+	        "WHERE id_sis = " + nx1 + " And REPLACE(UPPER(email_1),' ','') = UPPER('" + tx1 + "')";
 
 	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -158,7 +158,7 @@ public class fun_sis_login {
 		}
 
 	
-	public boolean val_login_Nome(String tx1) throws Exception {
+	public boolean val_login_Nome(long nx1,String tx1) throws Exception {
 		
 	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
 	    tx1 = tx1.toUpperCase();
@@ -166,7 +166,7 @@ public class fun_sis_login {
 	    String bc_sql =
 	        "SELECT  count (1) > 0 as existe " +
 	        "FROM tb_sis_d_log " +
-	        "WHERE REPLACE(UPPER(nome_desc),' ','') = UPPER('" + tx1 + "')";
+	        "WHERE id_sis = " + nx1 + " And REPLACE(UPPER(nome_desc),' ','') = UPPER('" + tx1 + "')";
 
 	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -177,5 +177,72 @@ public class fun_sis_login {
 
 		}
 	
-	
+	public cla_sis_log sav_login(cla_sis_log gra_bus) throws Exception {
+
+		if (gra_bus.nv_id() && !val_login(gra_bus.getL_usu())
+				) {
+
+			String bc_sql = "INSERT INTO public.tb_sis_log(\r\n"
+
+					+ "id_sis, reg_id, reg_data, reg_alt, reg_data_alt, \r\n"
+					+ "            id_sis_dom, l_usu, l_sen) \r\n"
+					+ " VALUES (?, ?, ?, ?, ?,  \r\n"
+					+ "            ?, ?, ?);";
+
+			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+
+			gra_inp.setLong(1, gra_bus.getId_sis());
+			gra_inp.setLong(2, gra_bus.getReg_id());
+			gra_inp.setTimestamp(3, gra_bus.getReg_data());
+			gra_inp.setLong(4, gra_bus.getReg_alt());
+			gra_inp.setTimestamp(5, gra_bus.getReg_data_alt());
+			gra_inp.setLong(6, gra_bus.getId_sis_dom());
+			gra_inp.setString(7, gra_bus.getL_usu());
+			gra_inp.setString(8, gra_bus.getL_sen());
+			gra_inp.execute(); 
+			pos_cbd_con.commit();
+		} else {
+
+			String bc_sql = "UPDATE public.tb_sis_log\r\n"
+
+					+ " SET reg_alt=?, reg_data_alt=?, l_usu=?, l_sen=? \r\n"
+					+ " WHERE id_sis_log = " + gra_bus.getId_sis_log() + ";";
+						
+			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+
+			gra_inp.setLong(1, gra_bus.getReg_alt());
+			gra_inp.setTimestamp(2, gra_bus.getReg_data_alt());
+			gra_inp.setString(3, gra_bus.getL_usu());
+			gra_inp.setString(4, gra_bus.getL_sen());
+		
+
+			gra_inp.executeUpdate();
+			pos_cbd_con.commit();
+		}
+		return this.cons_sis_log_id_sis_log(gra_bus.getId_sis_log());
+	}
+
+	public cla_sis_log sav_login_dom(cla_sis_log gra_bus) throws Exception {
+
+	    String bc_sql =
+	        "INSERT INTO public.tb_sis_log ( " +
+	        "id_sis, reg_id, reg_data, reg_alt, id_sis_dom, reg_data_alt, l_usu, l_sen " +
+	        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+	    PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+
+	    gra_inp.setLong(1, gra_bus.getId_sis());
+	    gra_inp.setLong(2, gra_bus.getReg_id());
+	    gra_inp.setTimestamp(3, gra_bus.getReg_data());
+	    gra_inp.setLong(4, gra_bus.getReg_alt());
+	    gra_inp.setLong(5, gra_bus.getId_sis_dom());
+	    gra_inp.setTimestamp(6, gra_bus.getReg_data_alt());
+	    gra_inp.setString(7, gra_bus.getL_usu());
+	    gra_inp.setString(8, gra_bus.getL_sen());
+
+	    gra_inp.execute();
+	    pos_cbd_con.commit();
+
+	    return gra_bus;
+	}
 }
