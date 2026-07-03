@@ -3,6 +3,8 @@ package func;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import cbd.pos_cbd;
 import cla.cla_sis_d_log;
@@ -234,6 +236,39 @@ public class fun_sis_dom {
 	}
 	
 	
-	
+	public List<cla_sis_dom> cons_dom_id_p1(long nx1, long offset) throws Exception {
+
+		/* 
+		 * limite de paginação
+		 * select * FROM tb_sistema_dominio where id_sistema = 1 order by id_sistema offset 0 limit 3		
+		 */
+				
+				List<cla_sis_dom> retorno = new ArrayList<>();
+
+				String bc_sql = "select * FROM tb_sis_dom where id_sis = " + nx1 + " order by no_dom offset " + offset + " limit 5 " ;
+				PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
+				ResultSet gra_bus = gra_dom.executeQuery();
+
+				while(gra_bus.next()){
+
+					cla_sis_dom gra_inp = new cla_sis_dom();
+
+					gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+					gra_inp.setId_sis_dom(gra_bus.getLong("id_sis_dom"));
+					gra_inp.setNo_dom(gra_bus.getString("no_dom"));
+					gra_inp.setSis_url(gra_bus.getString("sis_url"));
+					gra_inp.setId_sis_log(gra_bus.getLong("id_sis_log"));
+					gra_inp.setL_usu(gra_bus.getString("l_usu"));
+					gra_inp.setL_sen(gra_bus.getString("l_sen"));
+					gra_inp.setTp_sit(gra_bus.getString("tp_sit"));
+					gra_inp.setAce_per_aut(gra_bus.getString("ace_per_aut"));
+					gra_inp.setTitulo_web(gra_bus.getString("titulo_web"));
+					
+					retorno.add(gra_inp);
+
+				}
+
+				return retorno;
+			}
 	
 }

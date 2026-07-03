@@ -324,13 +324,16 @@ public class lt_sis_busc extends HttpServlet {
 											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis.setTruefalse(false);
-
 									cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);
 								}
 							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
 							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
-
+							
+							Integer offset = Integer.parseInt("0");
+ 							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
+							request.setAttribute("dom_list", dominio_list);	
+							
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
 

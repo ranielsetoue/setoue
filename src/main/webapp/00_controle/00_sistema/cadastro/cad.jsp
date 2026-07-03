@@ -847,7 +847,7 @@ function formatCnpj(valor) {
 				</div>
 				<!-- FIM Container -->
 				<!--  -->
-
+<!-- Inico Contado-->
 			<!--  -->
 			<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -857,19 +857,317 @@ function formatCnpj(valor) {
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div
-							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-							<label id="l_cont_no_dom" data-placeholder="Busca Contato"></label> <input
-								type="text"  name="cont_no_dom" id="cont_no_dom"
-								autocomplete="off" class="form-control" placeholder="Busca Contato"
-								value="">
-
+							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
+							
+							
+							<textarea name="cont_no_dom" id="cont_no_dom" class="form-control"
+								placeholder="Busca Contado" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
-							class="col-12 col-md-1 mb-2 align-self-center text-center text-md-start">
+							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
 				<button onclick="bus_p1();" class="btn btn-success"
-						type="button" id="button-addon2">Buscar</button>
+						type="button" id="button-addon2">Buscar Contado</button>
+							
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12 col-md-2 mb-2 text-center text-md-start">
+<!--  -->
+	<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-toggle="modal" data-bs-target="#adi_dom">
+ Adiciona Contado
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="adi_dom" tabindex="-1" aria-labelledby="m_adi_dom" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="m_adi_dom">Adiciona Contado</h1>
+        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+
+
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+											<label id="l_no_dom" data-placeholder="Nome do Dominio"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="no_dom" id="no_dom"
+								placeholder="Nome do Dominio" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.no_dom}</textarea>
+								
+							
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+									<label id="l_sis_url" data-placeholder="URL - Caminho do Sistema"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="sis_url" id="sis_url"
+								placeholder="URL - Caminho do Sistema" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.sis_url}</textarea>
+							
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2  align-self-center text-center">
+										<label id="l_sis_tp_site" data-placeholder="Tipo de Site"></label>						
+				<input class="form-control" list="list_tp_site" value="${pre_dom.sis_tp_site}"
+								name="sis_tp_site" id="sis_tp_site" placeholder="Tipo de Site"
+								onblur="validarTipoSite()">
+
+							<datalist id="list_tp_site">
+								<c:forEach items="${sis_cons_tp_site}" var="t_tp_site">
+									<option value="${t_tp_site.nomeDesc}"></option>
+								</c:forEach>
+							</datalist>
+		<script>
+function validarTipoSite() {
+    const input = document.getElementById("sis_tp_site");
+    const datalist = document.getElementById("list_tp_site");
+    const opcoes = Array.from(datalist.options).map(o => o.value);
+
+    if (!opcoes.includes(input.value)) {
+        input.value = "";
+        alert("Selecione um valor válido da lista");
+    }
+}
+</script>
+
+
+												</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+
+		<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+			<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
+			<textarea name="titulo_web" id="titulo_web"
+			class="form-control" placeholder="Titulo Web"
+			autocomplete="off" rows="1"
+		style="overflow: hidden; resize: none;"
+		oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.titulo_web}</textarea>
+							
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+								<div
+							class="col-12  mb-2  align-self-center text-center">
+										<label id="l_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
+				<input class="form-control" list="list_tipo_ace" value="${pre_dom.ace_per_aut}"
+								name="sis_tipo_ace" id="sis_tipo_ace" placeholder="Autorização de Acesso"
+								onblur="validartipo_ace()">
+
+							<datalist id="list_tipo_ace">
+								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
+									<option value="${t_tipo_ace.nomeDesc}"></option>
+								</c:forEach>
+							</datalist>
+		<script>
+function validartipo_ace() {
+    const input = document.getElementById("sis_tipo_ace");
+    const datalist = document.getElementById("list_tipo_ace");
+    const opcoes = Array.from(datalist.options).map(o => o.value);
+
+    if (!opcoes.includes(input.value)) {
+        input.value = "";
+        alert("Selecione um valor válido da lista");
+    }
+}
+</script>
+
+
+												</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2  align-self-center text-center">
+
+													<label id="l_nome_desc_usu" data-placeholder="Nome do Usuario"></label>
+													<textarea name="nome_desc_usu" id="nome_desc_usu"
+														class="form-control" placeholder="Nome do Usuario"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.nome_desc}</textarea>
+
+												</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+
+
+	<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																				<label id="l_email_1_usu" data-placeholder="E-mail"></label>
+													<textarea name="email_1_usu" id="email_1_usu"
+														class="form-control" placeholder="E-mail"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.email}</textarea>
+				
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																		<label id="l_l_usu" data-placeholder="Usuario para Login"></label>
+													<textarea name="l_usu" id="l_usu"
+														class="form-control" placeholder="Usuario para Login"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_usu}</textarea>
+									
+						</div>
+						<!-- coluna Central -->
+						<!-- coluna Direita -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+																<label id="l_l_sen" data-placeholder="Senha para Login"></label>
+													<textarea name="l_sen" id="l_sen"
+														class="form-control" placeholder="Senha para Login"
+														autocomplete="off" rows="1"
+														style="overflow: hidden; resize: none;"
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_sen}</textarea>
+	
+																					</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+      </div>
+
+      <div class="modal-footer">
+        <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--  -->
+												</div>
+						<!-- coluna Direita -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+	<hr>
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+<!--Tabela Contado  -->
+				<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+		<div style="height: 250px; overflow: scroll;">
+			<table class="table" id="tb02">
+				<thead>
+					<tr>
+						<th scope="col">Nome do Dominio</th>
+						<th scope="col">Deletar</th>
+						<th scope="col">Editar</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${dom_list}" var="ml">
+						<tr>
+							<td><c:out value="${ml.no_dom}"></c:out></td>
+							<td><a onclick="exc_don();"
+								href="<%=request.getContextPath()%>/cad_sis?fun=exc_id_dom&id_dominio=${ml.id_sis_dom}"
+								class="btn btn-danger">Excluir</a></td>
+							<td><button type="button" id="adicionar_dom"
+									onclick="edit_dom2('${ml.id_sis_dom}');edit_dom1('${ml.sis_url}');edit_dom('${ml.no_dom}');"
+									class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
+
+						</tr>
+
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+							<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+		
+<!-- Tabela Contado -->
+			<!-- FIM DADO -->
+<!-- FIM Contado -->
+
+<!-- Inicio Dominio -->
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left g-1">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
+							
+							
+							<textarea name="cont_no_dom" id="cont_no_dom" class="form-control"
+								placeholder="Busca Dominio" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+						</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
+				<button onclick="bus_p1();" class="btn btn-success"
+						type="button" id="button-addon2">Buscar Dominio</button>
 							
 						</div>
 						<!-- coluna Central -->
@@ -1083,21 +1381,11 @@ function validartipo_ace() {
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
-
-
-
-
-
-
-
-
-
       </div>
 
       <div class="modal-footer">
         <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
       </div>
-
 
     </div>
   </div>
@@ -1113,15 +1401,50 @@ function validartipo_ace() {
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
+<!--Tabela Dominio  -->
+				<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+		<div style="height: 250px; overflow: scroll;">
+			<table class="table" id="tb02">
+				<thead>
+					<tr>
+						<th scope="col">Nome do Dominio</th>
+						<th scope="col">Deletar</th>
+						<th scope="col">Editar</th>
 
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${dom_list}" var="ml">
+						<tr>
+							<td><c:out value="${ml.no_dom}"></c:out></td>
+							<td><a onclick="exc_don();"
+								href="<%=request.getContextPath()%>/cad_sis?fun=exc_id_dom&id_dominio=${ml.id_sis_dom}"
+								class="btn btn-danger">Excluir</a></td>
+							<td><button type="button" id="adicionar_dom"
+									onclick="edit_dom2('${ml.id_sis_dom}');edit_dom1('${ml.sis_url}');edit_dom('${ml.no_dom}');"
+									class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
 
+						</tr>
 
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+							<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+		
+<!-- Tabela Dominio -->
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->
 			<!-- FIM DADO -->
+<!-- FIM Dominio -->
 
-
+<!-- Fim Dominio -->
 			<!--  -->
 			<!-- final form -->
 		</form>
