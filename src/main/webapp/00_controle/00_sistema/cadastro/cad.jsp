@@ -315,6 +315,15 @@ function formatCnpj(valor) {
 			});
 		}
 	
+	function limpar_modal_contato() {
+		document.getElementById('adi_cont')?.addEventListener('show.bs.modal', function () {
+			  this.querySelectorAll('input, textarea, select').forEach(campo => {
+			    if (campo.type !== 'button' && campo.type !== 'submit') {
+			      campo.value = '';
+			    }
+			  });
+			});
+		}
 	
 	
 	
@@ -860,7 +869,7 @@ function formatCnpj(valor) {
 							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
 							
 							
-							<textarea name="cont_no_dom" id="cont_no_dom" class="form-control"
+							<textarea name="cont_bus_cont" id="cont_bus_cont" class="form-control"
 								placeholder="Busca Contado" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
@@ -879,12 +888,12 @@ function formatCnpj(valor) {
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-toggle="modal" data-bs-target="#adi_dom">
+<button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-toggle="modal" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="adi_dom" tabindex="-1" aria-labelledby="m_adi_dom" aria-hidden="true">
+<div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -905,12 +914,12 @@ function formatCnpj(valor) {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-											<label id="l_no_dom" data-placeholder="Nome do Dominio"></label>
+											<label id="l_cont_nome_desc" data-placeholder="Nome"></label>
 							<textarea class="form-control" autocomplete="off"
-								name="no_dom" id="no_dom"
-								placeholder="Nome do Dominio" rows="1"
+								name="cont_nome_desc" id="cont_nome_desc"
+								placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.no_dom}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.nome_desc}</textarea>
 								
 							
 						</div>
@@ -918,42 +927,24 @@ function formatCnpj(valor) {
 						<!-- coluna Central -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-									<label id="l_sis_url" data-placeholder="URL - Caminho do Sistema"></label>
+									<label id="l_cont_tel_1" data-placeholder="Telefone 1"></label>
 							<textarea class="form-control" autocomplete="off"
-								name="sis_url" id="sis_url"
-								placeholder="URL - Caminho do Sistema" rows="1"
+								name="cont_tel_1" id="cont_tel_1"
+								placeholder="Telefone 1" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.sis_url}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_1}</textarea>
 							
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12  mb-2  align-self-center text-center">
-										<label id="l_sis_tp_site" data-placeholder="Tipo de Site"></label>						
-				<input class="form-control" list="list_tp_site" value="${pre_dom.sis_tp_site}"
-								name="sis_tp_site" id="sis_tp_site" placeholder="Tipo de Site"
-								onblur="validarTipoSite()">
-
-							<datalist id="list_tp_site">
-								<c:forEach items="${sis_cons_tp_site}" var="t_tp_site">
-									<option value="${t_tp_site.nomeDesc}"></option>
-								</c:forEach>
-							</datalist>
-		<script>
-function validarTipoSite() {
-    const input = document.getElementById("sis_tp_site");
-    const datalist = document.getElementById("list_tp_site");
-    const opcoes = Array.from(datalist.options).map(o => o.value);
-
-    if (!opcoes.includes(input.value)) {
-        input.value = "";
-        alert("Selecione um valor válido da lista");
-    }
-}
-</script>
-
-
+									<label id="l_cont_tel_2" data-placeholder="Telefone 2"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="cont_tel_2" id="cont_tel_2"
+								placeholder="Telefone 2" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_2}</textarea>
 												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -974,55 +965,37 @@ function validarTipoSite() {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-			<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
-			<textarea name="titulo_web" id="titulo_web"
-			class="form-control" placeholder="Titulo Web"
-			autocomplete="off" rows="1"
-		style="overflow: hidden; resize: none;"
-		oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.titulo_web}</textarea>
+									<label id="l_cont_email_1" data-placeholder="Email 1"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="cont_email_1" id="cont_email_1"
+								placeholder="Email 1" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_1}</textarea>
 							
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 								<div
 							class="col-12  mb-2  align-self-center text-center">
-										<label id="l_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
-				<input class="form-control" list="list_tipo_ace" value="${pre_dom.ace_per_aut}"
-								name="sis_tipo_ace" id="sis_tipo_ace" placeholder="Autorização de Acesso"
-								onblur="validartipo_ace()">
-
-							<datalist id="list_tipo_ace">
-								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
-									<option value="${t_tipo_ace.nomeDesc}"></option>
-								</c:forEach>
-							</datalist>
-		<script>
-function validartipo_ace() {
-    const input = document.getElementById("sis_tipo_ace");
-    const datalist = document.getElementById("list_tipo_ace");
-    const opcoes = Array.from(datalist.options).map(o => o.value);
-
-    if (!opcoes.includes(input.value)) {
-        input.value = "";
-        alert("Selecione um valor válido da lista");
-    }
-}
-</script>
-
-
+									<label id="l_cont_email_2" data-placeholder="Email 2"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="cont_email_2" id="cont_email_2"
+								placeholder="Email 2" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_2}</textarea>
 												</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12  mb-2  align-self-center text-center">
+									<label id="l_cont_setor_1" data-placeholder="setor_1"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="cont_setor_1" id="cont_setor_1"
+								placeholder="Setor" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.setor_1}</textarea>
 
-													<label id="l_nome_desc_usu" data-placeholder="Nome do Usuario"></label>
-													<textarea name="nome_desc_usu" id="nome_desc_usu"
-														class="form-control" placeholder="Nome do Usuario"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.nome_desc}</textarea>
-
+	
 												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1044,37 +1017,38 @@ function validartipo_ace() {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-																				<label id="l_email_1_usu" data-placeholder="E-mail"></label>
-													<textarea name="email_1_usu" id="email_1_usu"
-														class="form-control" placeholder="E-mail"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.email}</textarea>
+									<label id="l_cont_obs" data-placeholder="obs"></label>
+							<textarea class="form-control" autocomplete="off"
+								name="cont_obs" id="cont_obs"
+								placeholder="Observação" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.obs}</textarea>
 				
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-																		<label id="l_l_usu" data-placeholder="Usuario para Login"></label>
-													<textarea name="l_usu" id="l_usu"
+<hr>
+																		<label id="l_cont_l_usu" data-placeholder="Usuario para Login"></label>
+													<textarea name="cont_l_usu" id="cont_l_usu"
 														class="form-control" placeholder="Usuario para Login"
 														autocomplete="off" rows="1"
 														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_usu}</textarea>
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.l_usu}</textarea>
 									
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-																<label id="l_l_sen" data-placeholder="Senha para Login"></label>
-													<textarea name="l_sen" id="l_sen"
+																<label id="l_cont_l_sen" data-placeholder="Senha para Login"></label>
+													<textarea name="cont_l_sen" id="cont_l_sen"
 														class="form-control" placeholder="Senha para Login"
 														autocomplete="off" rows="1"
 														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_sen}</textarea>
-	
+														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.l_sen}</textarea>
+
 																					</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1084,10 +1058,59 @@ function validartipo_ace() {
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
+				<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-12  mb-2 align-self-center text-center">
+															<label id="l_cont_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
+				<input class="form-control" list="list_cont_tipo_ace" value="${pre_dom.ace_per_aut}"
+								name="cont_tipo_ace" id="cont_tipo_ace" placeholder="Autorização de Acesso"
+								onblur="cont_validartipo_ace()">
+
+							<datalist id="list_cont_tipo_ace">
+								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
+									<option value="${t_tipo_ace.nomeDesc}"></option>
+								</c:forEach>
+							</datalist>
+		<script>
+function cont_validartipo_ace() {
+    const input = document.getElementById("cont_tipo_ace");
+    const datalist = document.getElementById("list_cont_tipo_ace");
+    const opcoes = Array.from(datalist.options).map(o => o.value);
+
+    if (!opcoes.includes(input.value)) {
+        input.value = "";
+        alert("Selecione um valor válido da lista");
+    }
+}
+</script>
+					
+						</div>
+						<!-- coluna esquerda -->
+
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+			
       </div>
 
       <div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+    Cancelar
+</button>
         <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
+        
+  
       </div>
 
     </div>
@@ -1112,7 +1135,7 @@ function validartipo_ace() {
 			<table class="table" id="tb02">
 				<thead>
 					<tr>
-						<th scope="col">Nome do Dominio</th>
+						<th scope="col">Nome</th>
 						<th scope="col">Deletar</th>
 						<th scope="col">Editar</th>
 
