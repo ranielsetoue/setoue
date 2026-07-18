@@ -248,15 +248,47 @@ function formatCnpj(valor) {
 
 	}
 
+	
+	
+	function carregarDominios() {
+
+	
+		    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=listar_dom';
+		    var dom_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+
+		    $.ajax({
+		        type: "POST",
+		        url: urlAction,
+		        data: {
+		            dom_cnpj_cpf: dom_cnpj_cpf
+		        },
+
+		        success: function(response) {
+
+		            $("#tb02 tbody").html(response);
+		        },
+
+		        error: function(xhr, status, error) {
+		            console.log(xhr.responseText);
+		            alert("Erro ao carregar domínios: " + error);
+		        }
+		    });
+		
+	}	
+	
 	function sav_dom() {
 
-		if (document.getElementById("no_dom").value == ''
+if (document.getElementById("no_dom").value == ''
 				|| document.getElementById("sis_url").value == ''
+					|| document.getElementById("sis_tipo_ace").value == ''
+						|| document.getElementById("sis_tp_site").value == ''
 
 		) {
 			alert('Preencher Dado');
 		} else {
 
+
+			
 			var btn = document.getElementById("sal_dom");
 
 		    // 🔒 BLOQUEIA O BOTÃO
@@ -274,15 +306,18 @@ function formatCnpj(valor) {
 
 
 			        // ✅ FECHA O MODAL SOMENTE SE SALVAR
-
 					
 					if (response.status === 'ok') {
 
 
 		                // ✅ FECHA O MODAL
+		                carregarDominios();
+
+		                
 		                const modalEl = document.getElementById('adi_dom');
-		                bootstrap.Modal.getInstance(modalEl).hide();
+		                bootstrap.Modal.getInstance(modalEl).hide();                	                
 		                alert(response.msg);
+		                
 
 		                btn.disabled = false;		                
 		            } else {
@@ -305,6 +340,75 @@ function formatCnpj(valor) {
 
 	}
 	
+	
+	function sav_cont() {
+
+
+			if (document.getElementById("cont_tipo_ace").value == '' && document.getElementById("cont_l_usu").value !== ''
+		
+		) {
+			alert('Preencher Dado');
+		} else {
+		
+		
+		if (document.getElementById("cont_nome_desc").value == ''
+				|| document.getElementById("cont_tel_1").value == ''
+		
+		) {
+			alert('Preencher Dado');
+		} else {
+
+			var btn = document.getElementById("sal_sis_cont");
+
+		    // 🔒 BLOQUEIA O BOTÃO
+		    btn.disabled = true;
+			
+			var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar_sis_cont';
+
+			$.ajax({
+
+				type : "POST",
+				url : urlAction,
+				data : $("#fon_cad").serialize(),
+
+				success : function(response) {
+
+
+			        // ✅ FECHA O MODAL SOMENTE SE SALVAR
+
+					
+					if (response.status === 'ok') {
+
+
+		                // ✅ FECHA O MODAL
+		                const modalEl = document.getElementById('adi_cont');
+		                bootstrap.Modal.getInstance(modalEl).hide();
+		                alert(response.msg);
+
+		                btn.disabled = false;		                
+		            } else {
+
+		                // ❌ NÃO FECHA
+		                alert(response.msg);
+		                btn.disabled = false;		                
+
+		            }
+
+				}
+
+			}).fail(function(xhr, status, errorThrown) {
+                btn.disabled = false;		                
+				alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+
+				
+			});
+
+		}
+
+	}
+	
+	}
+
 	function limpar_modal_dominio() {
 		document.getElementById('adi_dom')?.addEventListener('show.bs.modal', function () {
 			  this.querySelectorAll('input, textarea, select').forEach(campo => {
@@ -1068,10 +1172,11 @@ function formatCnpj(valor) {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-															<label id="l_cont_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
+					<label id="l_cont_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
 				<input class="form-control" list="list_cont_tipo_ace" value="${pre_dom.ace_per_aut}"
 								name="cont_tipo_ace" id="cont_tipo_ace" placeholder="Autorização de Acesso"
-								onblur="cont_validartipo_ace()">
+								onblur="validarcontTipoSite()"
+								>
 
 							<datalist id="list_cont_tipo_ace">
 								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
@@ -1079,17 +1184,20 @@ function formatCnpj(valor) {
 								</c:forEach>
 							</datalist>
 		<script>
-function cont_validartipo_ace() {
+function validarcontTipoSite() {
     const input = document.getElementById("cont_tipo_ace");
     const datalist = document.getElementById("list_cont_tipo_ace");
-    const opcoes = Array.from(datalist.options).map(o => o.value);
+    const opcoescont = Array.from(datalist.options).map(o => o.value);
 
-    if (!opcoes.includes(input.value)) {
+    if (input.value.trim() !== "" && !opcoescont.includes(input.value)) {
         input.value = "";
         alert("Selecione um valor válido da lista");
     }
 }
 </script>
+
+
+
 					
 						</div>
 						<!-- coluna esquerda -->
@@ -1108,7 +1216,7 @@ function cont_validartipo_ace() {
   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
     Cancelar
 </button>
-        <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
+        <button id="sal_sis_cont" type="button" class="btn btn-primary" onclick="sav_cont();" >Salva</button>
         
   
       </div>
@@ -1262,12 +1370,13 @@ function cont_validartipo_ace() {
 							</datalist>
 		<script>
 function validarTipoSite() {
-    const input = document.getElementById("sis_tp_site");
+    const inputSite = document.getElementById("sis_tp_site");
     const datalist = document.getElementById("list_tp_site");
     const opcoes = Array.from(datalist.options).map(o => o.value);
 
-    if (!opcoes.includes(input.value)) {
-        input.value = "";
+    if (inputSite.value.trim() !== '' && !opcoes.includes(inputSite.value)) {
+        inputSite.value = '';
+        document.getElementById("sis_tp_site") == '';
         alert("Selecione um valor válido da lista");
     }
 }
@@ -1318,13 +1427,15 @@ function validarTipoSite() {
 							</datalist>
 		<script>
 function validartipo_ace() {
-    const input = document.getElementById("sis_tipo_ace");
+    const inputace = document.getElementById("sis_tipo_ace");
     const datalist = document.getElementById("list_tipo_ace");
-    const opcoes = Array.from(datalist.options).map(o => o.value);
+    const opcoesace = Array.from(datalist.options).map(o => o.value);
 
-    if (!opcoes.includes(input.value)) {
-        input.value = "";
+    if (inputace.value.trim() !== '' && !opcoesace.includes(inputace.value)) {
+        inputace.value = '';
+        document.getElementById("sis_tipo_ace").value == '';
         alert("Selecione um valor válido da lista");
+
     }
 }
 </script>
@@ -1407,6 +1518,10 @@ function validartipo_ace() {
       </div>
 
       <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+    Cancelar
+</button>
+      
         <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
       </div>
 

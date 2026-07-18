@@ -243,9 +243,13 @@ public class lt_sis_salvar extends HttpServlet {
 				 */
 
 			}
+			
+			/*
+			 * salvar_dominio
+			 */
 
 			if (request.getParameter("fun").equalsIgnoreCase("salvar_dom")) {
-
+				
 				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					String t_no_dom = request.getParameter("no_dom");
@@ -531,10 +535,7 @@ public class lt_sis_salvar extends HttpServlet {
 
 					}
 
-				
-
-					
-					if (modal_dominio_visivel) {
+						if (modal_dominio_visivel) {
 						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 					} else {
 						response.getWriter().write("{\"status\":\"erro\",\"msg\":\"" + msg_tela + "\"}");
@@ -543,7 +544,119 @@ public class lt_sis_salvar extends HttpServlet {
 
 				}
 
+			
+				
 			}
+			/*
+			 * salvar_dominio
+			 */
+			/*
+			 * salvar_sis_cont
+			 */
+			if (request.getParameter("fun").equalsIgnoreCase("salvar_sis_cont")) {
+				
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+					
+
+					
+					String sis_cont_nome_desc = request.getParameter("cont_nome_desc");
+					String sis_cont_tel_1 = request.getParameter("cont_tel_1");
+					String sis_cont_tel_2 = request.getParameter("cont_tel_2");
+					String sis_cont_email_1 = request.getParameter("cont_email_1");
+					String sis_cont_email_2 = request.getParameter("cont_email_2");
+					String sis_cont_setor_1 = request.getParameter("cont_setor_1");
+					String sis_cont_obs = request.getParameter("cont_obs");
+					String sis_cont_l_usu = request.getParameter("cont_l_usu");
+					String sis_cont_l_sen = request.getParameter("cont_l_sen");
+					String sis_cont_tipo_ace = request.getParameter("cont_tipo_ace");
+
+					
+					System.out.println(sis_cont_nome_desc);
+					System.out.println(sis_cont_tel_1);
+					System.out.println(sis_cont_tel_2);
+					System.out.println(sis_cont_email_1);
+					System.out.println(sis_cont_email_2);
+					System.out.println(sis_cont_setor_1);
+					System.out.println(sis_cont_obs);
+					System.out.println(sis_cont_l_usu);
+					System.out.println(sis_cont_l_sen);
+					System.out.println(sis_cont_tipo_ace);
+					
+	
+					System.out.println("------");
+					System.out.println("Dado Contato");
+
+					boolean modal_dominio_visivel = false;
+					String msg_tela = "Cadastro Já Existe";
+					modal_dominio_visivel = true;
+					
+					if (modal_dominio_visivel) {
+						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
+					} else {
+						response.getWriter().write("{\"status\":\"erro\",\"msg\":\"" + msg_tela + "\"}");
+
+					}
+
+					
+				}
+
+				
+				
+				
+				
+			}
+			/*
+			 * salvar_sis_cont
+			 */
+			/*
+			 * fim lista 
+			 */
+
+			if (request.getParameter("fun").equalsIgnoreCase("listar_dom")) {
+
+ 				String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
+				cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
+				Integer offset = Integer.parseInt("0");
+					List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
+				request.setAttribute("dom_list", dominio_list);	
+
+
+				    StringBuilder html = new StringBuilder();
+
+				    for(cla_sis_dom d : dominio_list){
+
+				        html.append("<tr>");
+
+				        html.append("<td>")
+				            .append(d.getNo_dom())
+				            .append("</td>");
+
+				        html.append("<td>")
+				            .append("<a onclick=\"exc_don();\" href=\"cad_sis?fun=exc_id_dom&id_dominio=")
+				            .append(d.getId_sis_dom())
+				            .append("\" class=\"btn btn-danger\">Excluir</a>")
+				            .append("</td>");
+
+				        html.append("<td>")
+				            .append("<button type='button' class='btn btn-warning' ")
+				            .append("onclick=\"edit_dom2('")
+				            .append(d.getId_sis_dom())
+				            .append("');edit_dom1('")
+				            .append(d.getSis_url())
+				            .append("');edit_dom('")
+				            .append(d.getNo_dom())
+				            .append("');\">Detalhes</button>")
+				            .append("</td>");
+
+				        html.append("</tr>");
+				    }
+
+				    response.setContentType("text/html;charset=UTF-8");
+				    response.getWriter().print(html.toString());
+
+				    return;
+
+			}			
 
 		} catch (Exception e) {
 			// TODO: handle exception
