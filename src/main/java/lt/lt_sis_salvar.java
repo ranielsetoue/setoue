@@ -10,11 +10,13 @@ import cla.cla_bc_cam;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
+import cla.cla_sis_cont;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_sis;
+import func.fun_sis_cont;
 import func.fun_sis_d_log;
 import func.fun_sis_dom;
 import func.fun_sis_login;
@@ -54,7 +56,10 @@ public class lt_sis_salvar extends HttpServlet {
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	cla_sis_cont cl_sis_cont = new cla_sis_cont();
+	fun_sis_cont f_sis_cont = new fun_sis_cont();
 
+	
 	public lt_sis_salvar() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -556,9 +561,10 @@ public class lt_sis_salvar extends HttpServlet {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar_sis_cont")) {
 				
 				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
-					
 
-					
+					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+
+	 				String sis_cont_cnpj_cpf = request.getParameter("cnpj_cpf");
 					String sis_cont_nome_desc = request.getParameter("cont_nome_desc");
 					String sis_cont_tel_1 = request.getParameter("cont_tel_1");
 					String sis_cont_tel_2 = request.getParameter("cont_tel_2");
@@ -569,26 +575,50 @@ public class lt_sis_salvar extends HttpServlet {
 					String sis_cont_l_usu = request.getParameter("cont_l_usu");
 					String sis_cont_l_sen = request.getParameter("cont_l_sen");
 					String sis_cont_tipo_ace = request.getParameter("cont_tipo_ace");
-
-					
-					System.out.println(sis_cont_nome_desc);
-					System.out.println(sis_cont_tel_1);
-					System.out.println(sis_cont_tel_2);
-					System.out.println(sis_cont_email_1);
-					System.out.println(sis_cont_email_2);
-					System.out.println(sis_cont_setor_1);
-					System.out.println(sis_cont_obs);
-					System.out.println(sis_cont_l_usu);
-					System.out.println(sis_cont_l_sen);
-					System.out.println(sis_cont_tipo_ace);
-					
-	
-					System.out.println("------");
-					System.out.println("Dado Contato");
-
+/*
+ * Inicio dado para modal					
+ */
 					boolean modal_dominio_visivel = false;
 					String msg_tela = "Cadastro Já Existe";
-					modal_dominio_visivel = true;
+/*
+* Fim dado para modal					
+*/
+					
+					cl_sis = f_sis.cons_sis_cnpj_cpf(sis_cont_cnpj_cpf);
+					cl_sis_cont.setId_sis(cl_sis.getId_sis());			
+					cl_sis_cont.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_cont.setId_sis_cont(0L);
+					cl_sis_cont.setNome_desc(sis_cont_nome_desc);
+					cl_sis_cont.setTel_1(sis_cont_tel_1);
+					cl_sis_cont.setTel_2(sis_cont_tel_2);
+					cl_sis_cont.setEmail_1(sis_cont_email_1);
+					cl_sis_cont.setEmail_2(sis_cont_email_2);
+					cl_sis_cont.setSetor_1(sis_cont_setor_1);
+					cl_sis_cont.setObs(sis_cont_obs);
+					cl_sis_cont.setId_sis_log(0L);
+					cl_sis_cont.setL_usu(sis_cont_l_usu);
+					cl_sis_cont.setL_sen(sis_cont_l_sen);
+					cl_sis_cont.setTipo_ace(sis_cont_tipo_ace);
+			
+
+ 					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc) == false) {
+					
+ 						
+					  	cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+ 						
+						modal_dominio_visivel = true;
+
+					}else {
+						
+						modal_dominio_visivel = false;
+						
+					}
+						
+
+					
 					
 					if (modal_dominio_visivel) {
 						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
@@ -608,11 +638,12 @@ public class lt_sis_salvar extends HttpServlet {
 			/*
 			 * salvar_sis_cont
 			 */
+
 			/*
-			 * fim lista 
+			 * inicio atualizar lista dominio 
 			 */
 
-			if (request.getParameter("fun").equalsIgnoreCase("listar_dom")) {
+			if (request.getParameter("fun").equalsIgnoreCase("atual_list_sis_dom")) {
 
  				String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
 				cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
@@ -657,7 +688,72 @@ public class lt_sis_salvar extends HttpServlet {
 				    return;
 
 			}			
+/*
+ * fim atualizar lista dominio 
+ */
+			
+			/*
+			 * inicio atualizar Sistema lista Contato 
+			 */
 
+			if (request.getParameter("fun").equalsIgnoreCase("atual_list_sis_cont")) {
+
+ 				String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
+				cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
+				Integer offsetcont = Integer.parseInt("0");
+					List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
+					request.setAttribute("cont_list", cont_sis_list);	
+
+				    StringBuilder html = new StringBuilder();
+
+				    for(cla_sis_cont d : cont_sis_list){
+
+				        html.append("<tr>");
+
+				        html.append("<td>")
+				            .append(d.getNome_desc())
+				            .append("</td>");
+
+				        html.append("<td>")
+			            .append(d.getTel_1())
+			            .append("</td>");
+
+				        html.append("<td>")
+			            .append(d.getEmail_1())
+			            .append("</td>");
+				        
+				        html.append("<td>")
+				            .append("<a onclick=\"exc_don();\" href=\"cad_sis?fun=exc_id_cont&id_contato=")
+				            .append(d.getId_sis_cont())
+				            .append("\" class=\"btn btn-danger\">Excluir</a>")
+				            .append("</td>");
+
+				        html.append("<td>")
+				            .append("<button type='button' class='btn btn-warning' ")
+				            .append("onclick=\"edit_cont('")
+				            .append(d.getId_sis_cont())
+				            .append("');edit_cont1('")
+				            .append(d.getNome_desc())
+				            .append("');edit_cont2('")
+				            .append(d.getTel_1())
+				            .append("');edit_cont3('")
+				            .append(d.getEmail_1())
+				            .append("');\">Detalhes</button>")
+				            .append("</td>");
+
+				        html.append("</tr>");
+				    }
+
+				    response.setContentType("text/html;charset=UTF-8");
+				    response.getWriter().print(html.toString());
+
+				    return;
+
+			}			
+/*
+ * fim atualizar sistema lista Contato 
+ */
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -10,11 +10,13 @@ import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
+import cla.cla_sis_cont;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_sis;
+import func.fun_sis_cont;
 import func.fun_sis_dom;
 import func.fun_sis_login;
 import jakarta.servlet.ServletException;
@@ -50,6 +52,8 @@ public class lt_sis_excluir extends HttpServlet {
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	cla_sis_cont cl_sis_cont = new cla_sis_cont();
+	fun_sis_cont f_sis_cont = new fun_sis_cont();
 
 	public lt_sis_excluir() {
 		super();
@@ -112,10 +116,8 @@ public class lt_sis_excluir extends HttpServlet {
 					String tx1 = request.getParameter("busc_cnpj_cpf");
 					cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
 					System.out.println(cl_sis.getId_sis() + " - " + cl_sis.getNome_desc());
-				f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
-				
-					
-					
+					f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
+
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -200,8 +202,27 @@ public class lt_sis_excluir extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+/*
+ * inicio do post
+ */
+		try {
 
-	
+			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_cont")) {
+
+				String cont_id_sis_cont = request.getParameter("id_sis_cont");
+				f_sis_cont.del_sis_cont(cont_id_sis_cont);
+
+		        response.getWriter().print("OK");
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 	}
+	
+	/*
+	 * fim post
+	 */
 }

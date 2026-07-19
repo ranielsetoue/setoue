@@ -253,7 +253,7 @@ function formatCnpj(valor) {
 	function carregarDominios() {
 
 	
-		    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=listar_dom';
+		    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=atual_list_sis_dom';
 		    var dom_cnpj_cpf = document.getElementById('cnpj_cpf').value;
 
 		    $.ajax({
@@ -265,7 +265,7 @@ function formatCnpj(valor) {
 
 		        success: function(response) {
 
-		            $("#tb02 tbody").html(response);
+		            $("#t_list_dom tbody").html(response);
 		        },
 
 		        error: function(xhr, status, error) {
@@ -339,6 +339,53 @@ if (document.getElementById("no_dom").value == ''
 		}
 
 	}
+
+	function exc_dom(id, elemento) {
+
+
+	    // Após excluir no banco...
+	    elemento.closest("tr").remove();	    
+	    
+	}	
+
+	
+	function limpar_modal_dominio() {
+		document.getElementById('adi_dom')?.addEventListener('show.bs.modal', function () {
+			  this.querySelectorAll('input, textarea, select').forEach(campo => {
+			    if (campo.type !== 'button' && campo.type !== 'submit') {
+			      campo.value = '';
+			    }
+			  });
+			});
+		}
+
+	
+	function cartabcontato() {
+
+		
+	    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=atual_list_sis_cont';
+	    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+
+	    $.ajax({
+	        type: "POST",
+	        url: urlAction,
+	        data: {
+	        	cont_cnpj_cpf: cont_cnpj_cpf
+	        },
+
+	        success: function(response) {
+
+	            $("#t_list_cont tbody").html(response);
+	        },
+
+	        error: function(xhr, status, error) {
+	            console.log(xhr.responseText);
+	            alert("Erro ao carregar domínios: " + error);
+	        }
+	    });
+	
+}	
+
 	
 	
 	function sav_cont() {
@@ -380,6 +427,7 @@ if (document.getElementById("no_dom").value == ''
 					if (response.status === 'ok') {
 
 
+						cartabcontato();
 		                // ✅ FECHA O MODAL
 		                const modalEl = document.getElementById('adi_cont');
 		                bootstrap.Modal.getInstance(modalEl).hide();
@@ -409,15 +457,36 @@ if (document.getElementById("no_dom").value == ''
 	
 	}
 
-	function limpar_modal_dominio() {
-		document.getElementById('adi_dom')?.addEventListener('show.bs.modal', function () {
-			  this.querySelectorAll('input, textarea, select').forEach(campo => {
-			    if (campo.type !== 'button' && campo.type !== 'submit') {
-			      campo.value = '';
-			    }
-			  });
-			});
-		}
+	function exc_cont(id, elemento) {
+
+		 if (!confirm("Deseja excluir este registro?")) {
+		        return;
+		    }
+		 
+		 
+		    var urlAction = '<%=request.getContextPath()%>/lt_sis_excluir/?fun=excluir_sis_cont';
+
+		    $.ajax({
+		        type: "POST",
+		        url: urlAction,
+		        data: {
+		        	id_sis_cont: id
+		        },
+
+		        success: function(response) {
+		    	    // Após excluir no banco...
+		    	    elemento.closest("tr").remove();	    
+
+		        },
+
+		        error: function(xhr, status, error) {
+		            console.log(xhr.responseText);
+		            alert("Erro ao deletar contato: " + error);
+		        }
+		    });
+		 
+	    
+	}	
 	
 	function limpar_modal_contato() {
 		document.getElementById('adi_cont')?.addEventListener('show.bs.modal', function () {
@@ -1230,34 +1299,38 @@ function validarcontTipoSite() {
 						<!-- FIM row -->
 					</div>
 					<!-- FIM row -->
-	<hr>
 					<!-- FIM Container -->
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
 <!--Tabela Contado  -->
+<c:if test="${not empty cont_list}">
 				<!-- Inicio Container -->
 				<div class="container mt-1">
+	<hr>
+
 					<!-- Inicio Container -->
 		<div style="height: 250px; overflow: scroll;">
-			<table class="table" id="tb02">
+			<table class="table" id="t_list_cont">
 				<thead>
 					<tr>
 						<th scope="col">Nome</th>
+						<th scope="col">Telefone</th>
+						<th scope="col">E-mail</th>
 						<th scope="col">Deletar</th>
 						<th scope="col">Editar</th>
-
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${dom_list}" var="ml">
+					<c:forEach items="${cont_list}" var="ml">
 						<tr>
-							<td><c:out value="${ml.no_dom}"></c:out></td>
-							<td><a onclick="exc_don();"
-								href="<%=request.getContextPath()%>/cad_sis?fun=exc_id_dom&id_dominio=${ml.id_sis_dom}"
+							<td><c:out value="${ml.nome_desc}"></c:out></td>
+							<td><c:out value="${ml.tel_1}"></c:out></td>
+							<td><c:out value="${ml.email_1}"></c:out></td>
+							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_dom"
-									onclick="edit_dom2('${ml.id_sis_dom}');edit_dom1('${ml.sis_url}');edit_dom('${ml.no_dom}');"
+									onclick="edit_cont('${ml.id_sis_cont}');edit_cont1('${ml.nome_desc}');edit_cont2('${ml.tel_1}';edit_cont3('${ml.email_1}');"
 									class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
 
 						</tr>
@@ -1270,16 +1343,18 @@ function validarcontTipoSite() {
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
-		
+</c:if>		
 <!-- Tabela Contado -->
 			<!-- FIM DADO -->
 <!-- FIM Contado -->
-
 <!-- Inicio Dominio -->
 			<!--  -->
 			<!-- Inicio Container -->
 				<div class="container mt-1">
+<hr>
+
 					<!-- Inicio Container -->
+
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left g-1">
 						<!-- Inicio row -->
@@ -1540,11 +1615,13 @@ function validartipo_ace() {
 			<!-- FIM Container -->
 			<!--  -->
 <!--Tabela Dominio  -->
+<c:if test="${not empty dom_list}">
+
 				<!-- Inicio Container -->
 				<div class="container mt-1">
 					<!-- Inicio Container -->
 		<div style="height: 250px; overflow: scroll;">
-			<table class="table" id="tb02">
+			<table class="table" id="t_list_dom">
 				<thead>
 					<tr>
 						<th scope="col">Nome do Dominio</th>
@@ -1557,8 +1634,7 @@ function validartipo_ace() {
 					<c:forEach items="${dom_list}" var="ml">
 						<tr>
 							<td><c:out value="${ml.no_dom}"></c:out></td>
-							<td><a onclick="exc_don();"
-								href="<%=request.getContextPath()%>/cad_sis?fun=exc_id_dom&id_dominio=${ml.id_sis_dom}"
+							<td><a onclick="exc_dom(${ml.id_sis_dom}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_dom"
 									onclick="edit_dom2('${ml.id_sis_dom}');edit_dom1('${ml.sis_url}');edit_dom('${ml.no_dom}');"
@@ -1576,6 +1652,7 @@ function validartipo_ace() {
 			<!--  -->
 		
 <!-- Tabela Dominio -->
+</c:if>
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->

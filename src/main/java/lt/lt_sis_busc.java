@@ -13,12 +13,14 @@ import cla.cla_list_tipo_ace;
 import cla.cla_list_tp_site;
 import cla.cla_perm_ace;
 import cla.cla_sis;
+import cla.cla_sis_cont;
 import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.busc_unico;
 import func.fun_blio;
 import func.fun_sis;
+import func.fun_sis_cont;
 import func.fun_sis_dom;
 import func.fun_sis_login;
 import jakarta.servlet.ServletException;
@@ -50,6 +52,9 @@ public class lt_sis_busc extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
+	cla_sis_cont cl_sis_cont = new cla_sis_cont();
+	fun_sis_cont f_sis_cont = new fun_sis_cont();
+
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -333,6 +338,10 @@ public class lt_sis_busc extends HttpServlet {
 							Integer offset = Integer.parseInt("0");
  							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
 							request.setAttribute("dom_list", dominio_list);	
+
+							Integer offsetcont = Integer.parseInt("0");
+ 							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
+ 							request.setAttribute("cont_list", cont_sis_list);	
 							
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
