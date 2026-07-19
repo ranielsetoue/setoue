@@ -216,6 +216,18 @@ public class lt_sis_excluir extends HttpServlet {
 
 			}
 
+			
+			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_dom")) {
+
+				String dom_id_sis_dom = request.getParameter("id_sis_dom");
+
+				cl_sis_dom = f_sis_dom.cons_sis_dom_del(Long.parseLong(dom_id_sis_dom));
+				
+		        response.getWriter().print("OK");
+
+			}
+
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -270,5 +270,56 @@ public class fun_sis_dom {
 
 				return retorno;
 			}
+
+	public void del_sis_dom(String t_uni) throws Exception {
+
+		String bc_sql = "DELETE FROM public.tb_sis_dom WHERE id_sis_dom = ?;";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+		gra_bus.setLong(1, Long.parseLong(t_uni));
+		gra_bus.executeUpdate();
+		pos_cbd_con.commit();
+
+	}
+
+	public cla_sis_dom cons_sis_dom_del(Long nx1) throws Exception {
+
+		cla_sis_dom gra_inp = new cla_sis_dom();
+
+		String bc_sql = "select * FROM tb_sis_dom where id_sis_dom = '" + nx1 + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis_dom = gra_bus.executeQuery();
+
+		while (cl_sis_dom.next()) {
+
+			gra_inp.setId_sis(cl_sis_dom.getLong("id_sis"));
+			gra_inp.setId_sis_dom(cl_sis_dom.getLong("id_sis_dom"));
+			gra_inp.setId_sis_log(cl_sis_dom.getLong("id_sis_log"));
+
+		}
+
+
+			String bc_sql1 = "DELETE FROM public.tb_sis_d_log WHERE id_sis_log = ?;";
+			PreparedStatement gra_bus1 = pos_cbd_con.prepareStatement(bc_sql1);
+			gra_bus1.setLong(1, gra_inp.getId_sis_log());
+			gra_bus1.executeUpdate();
+			pos_cbd_con.commit();
+
+			String bc_sql2 = "DELETE FROM public.tb_sis_log WHERE id_sis_log = ?;";
+			PreparedStatement gra_bus2 = pos_cbd_con.prepareStatement(bc_sql2);
+			gra_bus2.setLong(1, gra_inp.getId_sis_log());
+			gra_bus2.executeUpdate();
+			pos_cbd_con.commit();
+
+			String bc_sql3 = "DELETE FROM public.tb_sis_dom WHERE id_sis_dom = ?;";
+			PreparedStatement gra_bus3 = pos_cbd_con.prepareStatement(bc_sql3);
+			gra_bus3.setLong(1, gra_inp.getId_sis_dom());
+			gra_bus3.executeUpdate();
+			pos_cbd_con.commit();
+
+			
+		return gra_inp;
+
+	}
 	
 }

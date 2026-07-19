@@ -572,9 +572,6 @@ public class lt_sis_salvar extends HttpServlet {
 					String sis_cont_email_2 = request.getParameter("cont_email_2");
 					String sis_cont_setor_1 = request.getParameter("cont_setor_1");
 					String sis_cont_obs = request.getParameter("cont_obs");
-					String sis_cont_l_usu = request.getParameter("cont_l_usu");
-					String sis_cont_l_sen = request.getParameter("cont_l_sen");
-					String sis_cont_tipo_ace = request.getParameter("cont_tipo_ace");
 /*
  * Inicio dado para modal					
  */
@@ -599,25 +596,9 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis_cont.setSetor_1(sis_cont_setor_1);
 					cl_sis_cont.setObs(sis_cont_obs);
 					cl_sis_cont.setId_sis_log(0L);
-					cl_sis_cont.setL_usu(sis_cont_l_usu);
-					cl_sis_cont.setL_sen(sis_cont_l_sen);
-					cl_sis_cont.setTipo_ace(sis_cont_tipo_ace);
 			
-
- 					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc) == false) {
-					
- 						
-					  	cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
- 						
+					  	cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);						
 						modal_dominio_visivel = true;
-
-					}else {
-						
-						modal_dominio_visivel = false;
-						
-					}
-						
-
 					
 					
 					if (modal_dominio_visivel) {
@@ -663,10 +644,10 @@ public class lt_sis_salvar extends HttpServlet {
 				            .append("</td>");
 
 				        html.append("<td>")
-				            .append("<a onclick=\"exc_don();\" href=\"cad_sis?fun=exc_id_dom&id_dominio=")
-				            .append(d.getId_sis_dom())
-				            .append("\" class=\"btn btn-danger\">Excluir</a>")
-				            .append("</td>");
+				        .append("<a onclick=\"exc_dom(")
+				        .append(d.getId_sis_dom())
+				        .append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>")
+				        .append("</td>");
 
 				        html.append("<td>")
 				            .append("<button type='button' class='btn btn-warning' ")
@@ -723,10 +704,10 @@ public class lt_sis_salvar extends HttpServlet {
 			            .append("</td>");
 				        
 				        html.append("<td>")
-				            .append("<a onclick=\"exc_don();\" href=\"cad_sis?fun=exc_id_cont&id_contato=")
-				            .append(d.getId_sis_cont())
-				            .append("\" class=\"btn btn-danger\">Excluir</a>")
-				            .append("</td>");
+				        .append("<a onclick=\"exc_cont(")
+				        .append(d.getId_sis_cont())
+				        .append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>")
+				        .append("</td>");
 
 				        html.append("<td>")
 				            .append("<button type='button' class='btn btn-warning' ")

@@ -113,24 +113,6 @@ public class fun_sis_cont {
 	}
 
 	public cla_sis_cont sav_sis_cont(cla_sis_cont gra_bus) throws Exception {
-
-	    String bc_sql1 = "SELECT nextval('seq_sis_log')";
-
-	    PreparedStatement stmt = pos_cbd_con.prepareStatement(bc_sql1);
-
-	    ResultSet rs = stmt.executeQuery();
-
-	    Long id_log = null;
-
-	    if (rs.next()) {
-	    	id_log  = rs.getLong(1);
-	    }
-
-	    rs.close();
-	    stmt.close();
-
-	    pos_cbd_con.commit();
-
 		
 		if (gra_bus.nv_id() && !val_1(gra_bus.getId_sis(), gra_bus.getNome_desc())) {
 
@@ -153,7 +135,7 @@ public class fun_sis_cont {
 			gra_inp.setString(10, gra_bus.getEmail_2());
 			gra_inp.setString(11, gra_bus.getSetor_1());
 			gra_inp.setString(12, gra_bus.getObs());
-			gra_inp.setLong(13, id_log);
+			gra_inp.setLong(13, gra_bus.getId_sis_log());
 
 			gra_inp.execute();
 			pos_cbd_con.commit();

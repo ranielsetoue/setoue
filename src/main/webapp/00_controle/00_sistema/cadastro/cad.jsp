@@ -343,8 +343,32 @@ if (document.getElementById("no_dom").value == ''
 	function exc_dom(id, elemento) {
 
 
-	    // Após excluir no banco...
-	    elemento.closest("tr").remove();	    
+		 if (!confirm("Deseja excluir este registro?")) {
+		        return;
+		    }
+		 
+		 
+		    var urlAction = '<%=request.getContextPath()%>/lt_sis_excluir/?fun=excluir_sis_dom';
+
+		    $.ajax({
+		        type: "POST",
+		        url: urlAction,
+		        data: {
+		        	id_sis_dom: id
+		        },
+
+		        success: function(response) {
+		    	    // Após excluir no banco...
+		    	    elemento.closest("tr").remove();	    
+
+		        },
+
+		        error: function(xhr, status, error) {
+		            console.log(xhr.responseText);
+		            alert("Erro ao deletar contato: " + error);
+		        }
+		    });
+		 
 	    
 	}	
 
@@ -391,11 +415,6 @@ if (document.getElementById("no_dom").value == ''
 	function sav_cont() {
 
 
-			if (document.getElementById("cont_tipo_ace").value == '' && document.getElementById("cont_l_usu").value !== ''
-		
-		) {
-			alert('Preencher Dado');
-		} else {
 		
 		
 		if (document.getElementById("cont_nome_desc").value == ''
@@ -452,8 +471,6 @@ if (document.getElementById("no_dom").value == ''
 			});
 
 		}
-
-	}
 	
 	}
 
@@ -1202,26 +1219,13 @@ if (document.getElementById("no_dom").value == ''
 						<!-- coluna Central -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-<hr>
-																		<label id="l_cont_l_usu" data-placeholder="Usuario para Login"></label>
-													<textarea name="cont_l_usu" id="cont_l_usu"
-														class="form-control" placeholder="Usuario para Login"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.l_usu}</textarea>
 									
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-																<label id="l_cont_l_sen" data-placeholder="Senha para Login"></label>
-													<textarea name="cont_l_sen" id="cont_l_sen"
-														class="form-control" placeholder="Senha para Login"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.l_sen}</textarea>
-
+														
 																					</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1241,32 +1245,6 @@ if (document.getElementById("no_dom").value == ''
 						<!-- coluna esquerda -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-					<label id="l_cont_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
-				<input class="form-control" list="list_cont_tipo_ace" value="${pre_dom.ace_per_aut}"
-								name="cont_tipo_ace" id="cont_tipo_ace" placeholder="Autorização de Acesso"
-								onblur="validarcontTipoSite()"
-								>
-
-							<datalist id="list_cont_tipo_ace">
-								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
-									<option value="${t_tipo_ace.nomeDesc}"></option>
-								</c:forEach>
-							</datalist>
-		<script>
-function validarcontTipoSite() {
-    const input = document.getElementById("cont_tipo_ace");
-    const datalist = document.getElementById("list_cont_tipo_ace");
-    const opcoescont = Array.from(datalist.options).map(o => o.value);
-
-    if (input.value.trim() !== "" && !opcoescont.includes(input.value)) {
-        input.value = "";
-        alert("Selecione um valor válido da lista");
-    }
-}
-</script>
-
-
-
 					
 						</div>
 						<!-- coluna esquerda -->
