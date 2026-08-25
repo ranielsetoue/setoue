@@ -20,10 +20,6 @@ public class fun_sis {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
-	
-	
 	public List<cla_list_tp_site> cons_list_sis_tp_site() throws Exception {
 
 		List<cla_list_tp_site> retorno = new ArrayList<cla_list_tp_site>();
@@ -113,64 +109,57 @@ public class fun_sis {
 
 		}
 
-		
 		return gra_inp;
 
 	}
 
-	
-
 /////////////////////////
 /////////////////////////
 ///	
-/*
- * 
-	public boolean val_str1_sis_cnpj_cpf(String cnpj_cpf) throws Exception {
-		
-		String bc_sql = "select count (1) > 0 as existe from tb_sis where upper(cnpj_cpf) = upper('" + cnpj_cpf + "')";
+	/*
+	 * 
+	 * public boolean val_str1_sis_cnpj_cpf(String cnpj_cpf) throws Exception {
+	 * 
+	 * String bc_sql =
+	 * "select count (1) > 0 as existe from tb_sis where upper(cnpj_cpf) = upper('"
+	 * + cnpj_cpf + "')"; PreparedStatement gra_bus =
+	 * pos_cbd_con.prepareStatement(bc_sql); ResultSet resul =
+	 * gra_bus.executeQuery();
+	 * 
+	 * resul.next(); return resul.getBoolean("existe");
+	 * 
+	 * }
+	 * 
+	 */
+
+	public boolean val_str1_sis_cnpj_cpf(String tx1) throws Exception {
+
+		tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
+		tx1 = tx1.toUpperCase();
+
+		String bc_sql = "SELECT  count (1) > 0 as existe " + "FROM tb_sis "
+				+ "WHERE REPLACE(UPPER(cnpj_cpf),' ','') = UPPER('" + tx1 + "')";
+
 		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
 		ResultSet resul = gra_bus.executeQuery();
 
 		resul.next();
 		return resul.getBoolean("existe");
 
 	}
-	* 
-	 */
 
-	public boolean val_str1_sis_cnpj_cpf(String tx1) throws Exception {
-
-	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
-	    tx1 = tx1.toUpperCase();
-
-	    String bc_sql =
-	        "SELECT  count (1) > 0 as existe " +
-	        "FROM tb_sis " +
-	        "WHERE REPLACE(UPPER(cnpj_cpf),' ','') = UPPER('" + tx1 + "')";
-
-	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
-
-	    ResultSet resul = gra_bus.executeQuery();
-
-		resul.next();
-		return resul.getBoolean("existe");
-
-	}
-
-	
 	public boolean val_str1_sis_nome_desc(String tx1) throws Exception {
 
-	    tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
-	    tx1 = tx1.toUpperCase();
+		tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
+		tx1 = tx1.toUpperCase();
 
-	    String bc_sql =
-	        "SELECT  count (1) > 0 as existe " +
-	        "FROM tb_sis " +
-	        "WHERE REPLACE(UPPER(nome_desc),' ','') = UPPER('" + tx1 + "')";
+		String bc_sql = "SELECT  count (1) > 0 as existe " + "FROM tb_sis "
+				+ "WHERE REPLACE(UPPER(nome_desc),' ','') = UPPER('" + tx1 + "')";
 
-	    PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
 
-	    ResultSet resul = gra_bus.executeQuery();
+		ResultSet resul = gra_bus.executeQuery();
 
 		resul.next();
 		return resul.getBoolean("existe");
@@ -193,7 +182,6 @@ public class fun_sis {
 				&& !val_str1_sis_nome_desc(gra_bus.getNome_desc())) {
 
 			String bc_sql = "INSERT INTO public.tb_sis(\r\n"
-
 					+ "reg_id, reg_data, reg_alt, reg_data_alt, truefalse,  nome_desc, no_fan, cnpj_cpf, end_rua, end_num, end_com, end_bar, end_mun, end_uf, end_cep, ins_est, ins_mun, tel_1, email_1, obs) \r\n"
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?);";
 
@@ -227,8 +215,8 @@ public class fun_sis {
 
 					+ " SET reg_alt=?, reg_data_alt=?, truefalse=?, nome_desc=?, no_fan=?, cnpj_cpf=?, \r\n"
 					+ "end_rua=?, end_num=?, end_com=?, end_bar=?, end_mun=?, end_uf=?, end_cep=?, \r\n"
-					+ "ins_est=?, ins_mun=?, tel_1=?, email_1=?, obs=? \r\n"
-					+ " WHERE id_sis = " + gra_bus.getId_sis() + ";";
+					+ "ins_est=?, ins_mun=?, tel_1=?, email_1=?, obs=? \r\n" + " WHERE id_sis = " + gra_bus.getId_sis()
+					+ ";";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -263,10 +251,8 @@ public class fun_sis {
 				&& !val_str1_sis_nome_desc(gra_bus.getNome_desc())) {
 
 			String bc_sql = "INSERT INTO public.tb_sis(\r\n"
-					+ " reg_id, reg_data, reg_alt, reg_data_alt, truefalse, \r\n"
-					+ " nome_desc,cnpj_cpf) \r\n"
-					+ " VALUES (?, ?, ?, ?, ?,\r\n"
-					+ " ?,  ?);";
+					+ " reg_id, reg_data, reg_alt, reg_data_alt, truefalse, \r\n" + " nome_desc,cnpj_cpf) \r\n"
+					+ " VALUES (?, ?, ?, ?, ?,\r\n" + " ?,  ?);";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -274,9 +260,9 @@ public class fun_sis {
 			gra_inp.setTimestamp(2, gra_bus.getReg_data());
 			gra_inp.setLong(3, gra_bus.getReg_alt());
 			gra_inp.setTimestamp(4, gra_bus.getReg_data_alt());
-			gra_inp.setBoolean(5,gra_bus.getTruefalse());
-			gra_inp.setString(6,gra_bus.getNome_desc());
-			gra_inp.setString(7,gra_bus.getCnpj_cpf());
+			gra_inp.setBoolean(5, gra_bus.getTruefalse());
+			gra_inp.setString(6, gra_bus.getNome_desc());
+			gra_inp.setString(7, gra_bus.getCnpj_cpf());
 
 			gra_inp.execute();
 			pos_cbd_con.commit();
@@ -284,11 +270,9 @@ public class fun_sis {
 
 			String bc_sql = "UPDATE public.tb_sis\r\n"
 
-					+ " SET reg_alt=?, reg_data_alt=?, \r\n"
-					+ " nome_desc=?, no_fan=?, cnpj_cpf=?, \r\n"
+					+ " SET reg_alt=?, reg_data_alt=?, \r\n" + " nome_desc=?, no_fan=?, cnpj_cpf=?, \r\n"
 					+ " end_rua=?, end_num=?, end_com=?, end_bar=?, end_mun=?, end_uf=?, end_cep=?, \r\n"
-					+ " tel_1=?, email_1=? \r\n"
-					+ " WHERE id_sis = " + gra_bus.getId_sis() + ";";
+					+ " tel_1=?, email_1=? \r\n" + " WHERE id_sis = " + gra_bus.getId_sis() + ";";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -311,5 +295,33 @@ public class fun_sis {
 		}
 		return this.cons_sis_cnpj_cpf(gra_bus.getCnpj_cpf());
 	}
-	
+
+	public void del_sis_tudo(long nx1) throws Exception {
+
+		String bc_sql = "DELETE FROM public.tb_sis_cont WHERE id_sis = ?;";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+		gra_bus.setLong(1, nx1);
+		gra_bus.executeUpdate();
+		pos_cbd_con.commit();
+
+		String bc_sql1 = "DELETE FROM public.tb_sis_log WHERE id_sis = ?;";
+		PreparedStatement gra_bus1 = pos_cbd_con.prepareStatement(bc_sql1);
+		gra_bus1.setLong(1, nx1);
+		gra_bus1.executeUpdate();
+		pos_cbd_con.commit();
+
+		String bc_sql2 = "DELETE FROM public.tb_sis_d_log WHERE id_sis = ?;";
+		PreparedStatement gra_bus2 = pos_cbd_con.prepareStatement(bc_sql2);
+		gra_bus2.setLong(1, nx1);
+		gra_bus2.executeUpdate();
+		pos_cbd_con.commit();
+
+		String bc_sql3 = "DELETE FROM public.tb_sis_dom WHERE id_sis = ?;";
+		PreparedStatement gra_bus3 = pos_cbd_con.prepareStatement(bc_sql3);
+		gra_bus3.setLong(1, nx1);
+		gra_bus3.executeUpdate();
+		pos_cbd_con.commit();
+
+	}
+
 }

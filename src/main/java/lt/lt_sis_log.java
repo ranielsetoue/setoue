@@ -111,6 +111,7 @@ public class lt_sis_log extends HttpServlet {
 
 					String usu_comp = cl_sis_d_log.getNome_desc();
 					String usu_nome = usu_comp.contains(" ") ? usu_comp.substring(0, usu_comp.indexOf(" ")) : usu_comp;
+					
 					request.getSession().setAttribute("usu_html", usu_nome);
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());

@@ -115,9 +115,13 @@ public class lt_sis_excluir extends HttpServlet {
 
 					String tx1 = request.getParameter("busc_cnpj_cpf");
 					cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
-					System.out.println(cl_sis.getId_sis() + " - " + cl_sis.getNome_desc());
-					f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
-
+					f_sis.del_sis_tudo(cl_sis.getId_sis());
+					
+					  f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
+					 
+					
+					
+					
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 

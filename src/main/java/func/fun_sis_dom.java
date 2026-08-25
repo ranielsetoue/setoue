@@ -73,6 +73,38 @@ public class fun_sis_dom {
 
 	}
 
+	public cla_sis_dom cons_sis_dom(Long nx1) throws Exception {
+
+		cla_sis_dom gra_inp = new cla_sis_dom();
+
+		String bc_sql = "select * FROM tb_sis_dom where id_sis_dom = '" + nx1 + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis_dom = gra_bus.executeQuery();
+
+		while (cl_sis_dom.next()) {
+
+			gra_inp.setId_sis(cl_sis_dom.getLong("id_sis"));
+			gra_inp.setReg_id(cl_sis_dom.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis_dom.getTimestamp("reg_data"));
+			gra_inp.setReg_alt(cl_sis_dom.getLong("reg_alt"));
+			gra_inp.setReg_data_alt(cl_sis_dom.getTimestamp("reg_data_alt"));
+			gra_inp.setId_sis_dom(cl_sis_dom.getLong("id_sis_dom"));
+			gra_inp.setNo_dom(cl_sis_dom.getString("no_dom"));
+			gra_inp.setSis_url(cl_sis_dom.getString("sis_url"));
+			gra_inp.setId_sis_log(cl_sis_dom.getLong("id_sis_log"));
+			gra_inp.setL_usu(cl_sis_dom.getString("l_usu"));
+			gra_inp.setL_sen(cl_sis_dom.getString("l_sen"));
+			gra_inp.setTp_sit(cl_sis_dom.getString("tp_sit"));
+			gra_inp.setAce_per_aut(cl_sis_dom.getString("ace_per_aut"));
+			gra_inp.setTitulo_web(cl_sis_dom.getString("titulo_web"));
+
+		}
+
+		return gra_inp;
+
+	}
+
 	public cla_sis_dom cons_sis_dom_no_dom(String tx1) throws Exception {
 
 		cla_sis_dom gra_inp = new cla_sis_dom();
@@ -245,7 +277,17 @@ public class fun_sis_dom {
 				
 				List<cla_sis_dom> retorno = new ArrayList<>();
 
-				String bc_sql = "select * FROM tb_sis_dom where id_sis = " + nx1 + " order by no_dom offset " + offset + " limit 5 " ;
+/*
+ * 				String bc_sql = "select * FROM tb_sis_dom where id_sis = " + nx1 + " order by no_dom offset " + offset + " limit 5 " ;
+ */
+
+				String bc_sql =
+					    "SELECT d.*, l.* " +
+					    "FROM tb_sis_dom d " +
+					    "INNER JOIN tb_sis_d_log l ON l.id_sis = d.id_sis " +
+					    "WHERE d.id_sis = " + nx1 + " " +
+					    "ORDER BY d.no_dom " +
+					    "LIMIT 5 OFFSET 0;";				
 				PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
 				ResultSet gra_bus = gra_dom.executeQuery();
 
@@ -263,6 +305,8 @@ public class fun_sis_dom {
 					gra_inp.setTp_sit(gra_bus.getString("tp_sit"));
 					gra_inp.setAce_per_aut(gra_bus.getString("ace_per_aut"));
 					gra_inp.setTitulo_web(gra_bus.getString("titulo_web"));
+					gra_inp.setNome_desc(gra_bus.getString("nome_desc"));
+					gra_inp.setEmail_1(gra_bus.getString("email_1"));
 					
 					retorno.add(gra_inp);
 
@@ -315,6 +359,12 @@ public class fun_sis_dom {
 			PreparedStatement gra_bus3 = pos_cbd_con.prepareStatement(bc_sql3);
 			gra_bus3.setLong(1, gra_inp.getId_sis_dom());
 			gra_bus3.executeUpdate();
+			pos_cbd_con.commit();
+
+			String bc_sql4 = "DELETE FROM public.tb_perm_ace WHERE id_sis_log = ?;";
+			PreparedStatement gra_bus4 = pos_cbd_con.prepareStatement(bc_sql4);
+			gra_bus4.setLong(1, gra_inp.getId_sis_log());
+			gra_bus4.executeUpdate();
 			pos_cbd_con.commit();
 
 			

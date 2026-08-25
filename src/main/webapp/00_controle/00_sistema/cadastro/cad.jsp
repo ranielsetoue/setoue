@@ -243,7 +243,7 @@ function formatCnpj(valor) {
 			}
 
 		}).fail(function(xhr, status, errorThrown) {
-			alert('Erro ao deletar usuário por id: ' + xhr.responseText);
+			alert('Erro ao deletar Cadastro: ' + xhr.responseText);
 		});
 
 	}
@@ -372,15 +372,48 @@ if (document.getElementById("no_dom").value == ''
 	    
 	}	
 
+	function detalhe_dom(textx) {
+
+		let no_dom = textx.dataset.no_dom;
+		let sis_url = textx.dataset.sis_url;
+		let tp_sit = textx.dataset.tp_sit;
+		let titulo_web = textx.dataset.titulo_web;
+		let ace_per_aut = textx.dataset.ace_per_aut;
+		let nome_desc = textx.dataset.nome_desc;
+		let email_1 = textx.dataset.email_1;
+		let l_usu = textx.dataset.l_usu;
+		let l_sen = textx.dataset.l_sen;
+
+		document.getElementById("no_dom").value = no_dom;
+		document.getElementById("sis_url").value = sis_url;
+		document.getElementById("sis_tp_site").value = tp_sit;
+		document.getElementById("titulo_web").value = titulo_web;
+		document.getElementById("sis_tipo_ace").value = ace_per_aut;
+		document.getElementById("nome_desc_usu").value = nome_desc;
+		document.getElementById("email_1_usu").value = email_1;
+		document.getElementById("l_usu").value = l_usu;
+		document.getElementById("l_sen").value = l_sen;
+
+		    let modal = new bootstrap.Modal(document.getElementById('adi_dom'));
+		    modal.show();
+		 
+	}
+
+	
 	
 	function limpar_modal_dominio() {
-		document.getElementById('adi_dom')?.addEventListener('show.bs.modal', function () {
-			  this.querySelectorAll('input, textarea, select').forEach(campo => {
-			    if (campo.type !== 'button' && campo.type !== 'submit') {
-			      campo.value = '';
-			    }
-			  });
-			});
+	
+		document.getElementById("no_dom").value = '';
+		document.getElementById("sis_url").value = '';
+		document.getElementById("sis_tp_site").value = '';
+		document.getElementById("titulo_web").value = '';
+		document.getElementById("sis_tipo_ace").value = '';
+		document.getElementById("nome_desc_usu").value = '';
+		document.getElementById("email_1_usu").value = '';
+		document.getElementById("l_usu").value = '';
+		document.getElementById("l_sen").value = '';
+		
+		
 		}
 
 	
@@ -504,15 +537,45 @@ if (document.getElementById("no_dom").value == ''
 		 
 	    
 	}	
-	
+
+	function detalhe_cont(textx) {
+
+		let nome_desc = textx.dataset.nome_desc;
+		let tel_1 = textx.dataset.tel_1;
+		let tel_2 = textx.dataset.tel_2;
+		let email_1 = textx.dataset.email_1;
+		let email_2 = textx.dataset.email_2;
+		let setor_1 = textx.dataset.setor_1;
+		let obs = textx.dataset.obs;
+
+
+		document.getElementById("cont_nome_desc").value = nome_desc;
+		document.getElementById("cont_tel_1").value = tel_1;
+		document.getElementById("cont_tel_2").value = tel_2;
+		document.getElementById("cont_email_1").value = email_1;
+		document.getElementById("cont_email_2").value = email_2;
+		document.getElementById("cont_setor_1").value = setor_1;
+		document.getElementById("cont_obs").value = obs;
+
+		    let modal = new bootstrap.Modal(document.getElementById('adi_cont'));
+		    modal.show();
+		 
+	}
+
 	function limpar_modal_contato() {
-		document.getElementById('adi_cont')?.addEventListener('show.bs.modal', function () {
-			  this.querySelectorAll('input, textarea, select').forEach(campo => {
-			    if (campo.type !== 'button' && campo.type !== 'submit') {
-			      campo.value = '';
-			    }
-			  });
-			});
+		
+		
+		document.getElementById("cont_nome_desc").value = '';
+		document.getElementById("cont_tel_1").value = '';
+		document.getElementById("cont_tel_2").value = '';
+		document.getElementById("cont_email_1").value = '';
+		document.getElementById("cont_email_2").value = '';
+		document.getElementById("cont_setor_1").value = '';
+		document.getElementById("cont_obs").value = '';
+
+
+			
+			
 		}
 	
 	
@@ -1070,8 +1133,8 @@ if (document.getElementById("no_dom").value == ''
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="button-addon2">Buscar Contado</button>
-							
 						</div>
+
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
@@ -1282,7 +1345,7 @@ if (document.getElementById("no_dom").value == ''
 			<!-- FIM Container -->
 			<!--  -->
 <!--Tabela Contado  -->
-<c:if test="${not empty cont_list}">
+<!--<c:if test="${not empty cont_list}">-->
 				<!-- Inicio Container -->
 				<div class="container mt-1">
 	<hr>
@@ -1308,7 +1371,16 @@ if (document.getElementById("no_dom").value == ''
 							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_dom"
-									onclick="edit_cont('${ml.id_sis_cont}');edit_cont1('${ml.nome_desc}');edit_cont2('${ml.tel_1}';edit_cont3('${ml.email_1}');"
+										 onclick="detalhe_cont(this)"
+										 data-nome_desc="${ml.nome_desc}"
+data-tel_1="${ml.tel_1}"
+data-tel_2="${ml.tel_2}"
+data-email_1="${ml.email_1}"
+data-email_2="${ml.email_2}"
+data-setor_1="${ml.setor_1}"
+data-obs="${ml.obs}"
+									
+									
 									class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
 
 						</tr>
@@ -1321,7 +1393,7 @@ if (document.getElementById("no_dom").value == ''
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
-</c:if>		
+<!--</c:if>-->		
 <!-- Tabela Contado -->
 			<!-- FIM DADO -->
 <!-- FIM Contado -->
@@ -1469,7 +1541,7 @@ function validarTipoSite() {
 								<div
 							class="col-12  mb-2  align-self-center text-center">
 										<label id="l_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
-				<input class="form-control" list="list_tipo_ace" value="${pre_dom.ace_per_aut}"
+				<input class="form-control" list="list_tipo_ace" value="${pre_dom.tipo_ace}"
 								name="sis_tipo_ace" id="sis_tipo_ace" placeholder="Autorização de Acesso"
 								onblur="validartipo_ace()">
 
@@ -1593,7 +1665,7 @@ function validartipo_ace() {
 			<!-- FIM Container -->
 			<!--  -->
 <!--Tabela Dominio  -->
-<c:if test="${not empty dom_list}">
+<!--<c:if test="${not empty dom_list}">-->
 
 				<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1615,8 +1687,17 @@ function validartipo_ace() {
 							<td><a onclick="exc_dom(${ml.id_sis_dom}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_dom"
-									onclick="edit_dom2('${ml.id_sis_dom}');edit_dom1('${ml.sis_url}');edit_dom('${ml.no_dom}');"
-									class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
+									 onclick="detalhe_dom(this)"
+										 data-no_dom="${ml.no_dom}"
+											 data-sis_url="${ml.sis_url}"
+											 data-tp_sit="${ml.tp_sit}"
+											 data-titulo_web="${ml.titulo_web}"
+											 data-ace_per_aut="${ml.ace_per_aut}"
+											 data-nome_desc="${ml.nome_desc}"
+											 data-email_1="${ml.email_1}"
+											 data-l_usu="${ml.l_usu}"
+											 data-l_sen="${ml.l_sen}"    
+								class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
 
 						</tr>
 
@@ -1630,7 +1711,7 @@ function validartipo_ace() {
 			<!--  -->
 		
 <!-- Tabela Dominio -->
-</c:if>
+<!--</c:if>-->
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->

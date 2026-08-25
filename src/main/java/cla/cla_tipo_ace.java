@@ -3,8 +3,9 @@ package cla;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
-public class cla_perm_ace implements Serializable {
+public class cla_tipo_ace implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,24 +14,23 @@ public class cla_perm_ace implements Serializable {
 	private Timestamp reg_data;
 	private Long reg_alt;
 	private Timestamp reg_data_alt;
-	private Long per_ace_id;
-	private Long id_sis_log;
+	private Long tipo_ace_id;
 	private String nome_desc;
 	private Boolean aces_cad_sis;
 	private Boolean aces_cad_clin;
 	private Boolean aces_cad_forn;
 	private Boolean aces_cad_prod;
 	private Boolean aces_cad_serv;
-    private Boolean aces_desv;	
-	
+	private Boolean aces_desv;
+
 	public boolean nv_id() {
-		if (this.per_ace_id == null || this.per_ace_id == 0L) {
+		if (this.tipo_ace_id == null || this.tipo_ace_id == 0L) {
 			return true;
 
-		} else if (this.per_ace_id != null || this.per_ace_id != 0L || this.per_ace_id > 0l) {
+		} else if (this.tipo_ace_id != null || this.tipo_ace_id != 0L || this.tipo_ace_id > 0l) {
 			return false;
 		}
-		return per_ace_id == null || per_ace_id == 0L;
+		return tipo_ace_id == null || tipo_ace_id == 0L;
 	}
 
 	public Long getId_sis() {
@@ -73,20 +73,20 @@ public class cla_perm_ace implements Serializable {
 		this.reg_data_alt = reg_data_alt;
 	}
 
-	public Long getPer_ace_id() {
-		return per_ace_id;
+	public Long getTipo_ace_id() {
+		return tipo_ace_id;
 	}
 
-	public void setPer_ace_id(Long per_ace_id) {
-		this.per_ace_id = per_ace_id;
+	public void setTipo_ace_id(Long tipo_ace_id) {
+		this.tipo_ace_id = tipo_ace_id;
 	}
 
-	public Long getId_sis_log() {
-		return id_sis_log;
+	public String getNome_desc() {
+		return nome_desc;
 	}
 
-	public void setId_sis_log(Long id_sis_log) {
-		this.id_sis_log = id_sis_log;
+	public void setNome_desc(String nome_desc) {
+		this.nome_desc = nome_desc;
 	}
 
 	public Boolean getAces_cad_sis() {
@@ -128,16 +128,6 @@ public class cla_perm_ace implements Serializable {
 	public void setAces_cad_serv(Boolean aces_cad_serv) {
 		this.aces_cad_serv = aces_cad_serv;
 	}
-	
-	public Boolean getAces_desv() {
-		return aces_desv;
-	}
-
-	public void setAces_desv(Boolean aces_desv) {
-		this.aces_desv = aces_desv;
-	}
-
-	
 
 	public void vz_id() {
 
@@ -146,8 +136,8 @@ public class cla_perm_ace implements Serializable {
 		reg_data = null;
 		reg_alt = 0L;
 		reg_data_alt = null;
-		per_ace_id = 0L;
-		id_sis_log = 0L;
+		tipo_ace_id = 0L;
+		nome_desc = "";
 		aces_cad_sis = false;
 		aces_cad_clin = false;
 		aces_cad_forn = false;
@@ -163,8 +153,8 @@ public class cla_perm_ace implements Serializable {
 		reg_data = null;
 		reg_alt = 0L;
 		reg_data_alt = null;
-		per_ace_id = 0L;
-		id_sis_log = 0L;
+		tipo_ace_id = 0L;
+		nome_desc = "";
 
 	}
 
@@ -175,17 +165,54 @@ public class cla_perm_ace implements Serializable {
 		reg_data = null;
 		reg_alt = 0L;
 		reg_data_alt = null;
-		per_ace_id = 0L;
-		id_sis_log = 0L;
+		tipo_ace_id = 0L;
+		nome_desc = "";
 
 	}
 
-	public String getNome_desc() {
-		return nome_desc;
+	@Override
+	public String toString() {
+		return "cla_tipo_ace [id_sis=" + id_sis + ", reg_id=" + reg_id + ", reg_data=" + reg_data + ", reg_alt="
+				+ reg_alt + ", reg_data_alt=" + reg_data_alt + ", tipo_ace_id=" + tipo_ace_id + ", nome_desc="
+				+ nome_desc + ", aces_cad_sis=" + aces_cad_sis + ", aces_cad_clin=" + aces_cad_clin + ", aces_cad_forn="
+				+ aces_cad_forn + ", aces_cad_prod=" + aces_cad_prod + ", aces_cad_serv=" + aces_cad_serv
+				+ ", aces_desv=" + aces_desv + "]";
 	}
 
-	public void setNome_desc(String nome_desc) {
-		this.nome_desc = nome_desc;
+	@Override
+	public int hashCode() {
+		return Objects.hash(aces_cad_clin, aces_cad_forn, aces_cad_prod, aces_cad_serv, aces_cad_sis, aces_desv, id_sis,
+				nome_desc, reg_alt, reg_data, reg_data_alt, reg_id, tipo_ace_id);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		cla_tipo_ace other = (cla_tipo_ace) obj;
+		return Objects.equals(aces_cad_clin, other.aces_cad_clin) && Objects.equals(aces_cad_forn, other.aces_cad_forn)
+				&& Objects.equals(aces_cad_prod, other.aces_cad_prod)
+				&& Objects.equals(aces_cad_serv, other.aces_cad_serv)
+				&& Objects.equals(aces_cad_sis, other.aces_cad_sis) && Objects.equals(aces_desv, other.aces_desv)
+				&& Objects.equals(id_sis, other.id_sis) && Objects.equals(nome_desc, other.nome_desc)
+				&& Objects.equals(reg_alt, other.reg_alt) && Objects.equals(reg_data, other.reg_data)
+				&& Objects.equals(reg_data_alt, other.reg_data_alt) && Objects.equals(reg_id, other.reg_id)
+				&& Objects.equals(tipo_ace_id, other.tipo_ace_id);
+	}
+
+	public Boolean getAces_desv() {
+		return aces_desv;
+	}
+
+	public void setAces_desv(Boolean aces_desv) {
+		this.aces_desv = aces_desv;
+	}
+
+	
+	
+	
 }

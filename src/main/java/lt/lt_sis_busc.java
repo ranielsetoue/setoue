@@ -204,8 +204,8 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 
+			
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-
 			request.getSession().setAttribute("insc_ocult", true);
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
