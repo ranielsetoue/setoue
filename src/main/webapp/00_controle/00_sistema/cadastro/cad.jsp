@@ -32,6 +32,9 @@
 <c:set scope="session" var="insc_ocult"
 	value="${sessionScope.insc_ocult}" />
 
+
+
+
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -671,36 +674,7 @@ if (document.getElementById("no_dom").value == ''
 										<button type="button" class="btn btn-primary">Pagina
 											Inicial</button>
 								</a></td>
-								<td>
-									<div class="btn-group" role="group">
-										<button id="btnGroupDrop1" type="button"
-											class="btn btn-primary dropdown-toggle"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false">Cadastro</button>
-										<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-											<c:if test="${aces_cad_sis}">
-												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">SISTEMA</a>
-											</c:if>
-											<c:if test="${aces_cad_clin}">
-												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">CLIENTE</a>
-											</c:if>
-											<c:if test="${aces_cad_forn}">
-												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">FORNECEDOR</a>
-											</c:if>
-											<c:if test="${aces_cad_prod}">
-												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">PRODUTO</a>
-											</c:if>
-											<c:if test="${aces_cad_serv}">
-												<a class="dropdown-item"
-													href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">SERVICO</a>
-											</c:if>
-										</div>
-									</div>
-								</td>
+								
 							</tr>
 						</table>
 					</div>

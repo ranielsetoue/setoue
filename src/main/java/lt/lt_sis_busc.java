@@ -73,6 +73,8 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 
+
+
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
 
@@ -116,9 +118,17 @@ public class lt_sis_busc extends HttpServlet {
 
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
+					
+				
+						
+						
+					
 
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
+					
+					System.out.println("Novo cliente GET");
+
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
@@ -127,6 +137,8 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
+					
+				
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -203,7 +215,8 @@ public class lt_sis_busc extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-
+			
+			
 			
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 			request.getSession().setAttribute("insc_ocult", true);
@@ -245,7 +258,13 @@ public class lt_sis_busc extends HttpServlet {
 				request.getSession().setAttribute("cons_true", true);
 				request.getSession().setAttribute("cons_false", false);
 				request.getSession().setAttribute("cons_list_not", false);
+				
+				
+				
 
+				
+				
+				
 				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", "false");
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
@@ -253,6 +272,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_sis");
+					request.getSession().setAttribute("cons_dom", true);
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
@@ -359,16 +379,20 @@ public class lt_sis_busc extends HttpServlet {
 
 				} // cad_sis
 
-				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
-					request.getSession().setAttribute("aces_cad_clin", "false");
-					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+					request.getSession().setAttribute("aces_cad_forn", "false");
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
-					request.getSession().setAttribute("cont_sis", "cad_cli");
-					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
+					request.getSession().setAttribute("cont_sis", "cad_for");
+					request.getSession().setAttribute("cons_dom", false);
+					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 
-				}
+
+
+				} // CADASTRO DE CLIENTE
+				
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
@@ -376,6 +400,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_for");
+					request.getSession().setAttribute("cons_dom", false);
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -386,7 +411,9 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
+					request.getSession().setAttribute("cons_dom", false);
 
+					
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
