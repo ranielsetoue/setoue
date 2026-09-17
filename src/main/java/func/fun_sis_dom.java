@@ -284,10 +284,11 @@ public class fun_sis_dom {
 				String bc_sql =
 					    "SELECT d.*, l.* " +
 					    "FROM tb_sis_dom d " +
-					    "INNER JOIN tb_sis_d_log l ON l.id_sis = d.id_sis " +
+					    "INNER JOIN tb_sis_d_log l ON l.id_sis_log = d.id_sis_log " +
 					    "WHERE d.id_sis = " + nx1 + " " +
 					    "ORDER BY d.no_dom " +
-					    "LIMIT 5 OFFSET 0;";				
+					    "LIMIT 5 OFFSET 0;";
+				
 				PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
 				ResultSet gra_bus = gra_dom.executeQuery();
 

@@ -1,6 +1,6 @@
 			<!--  -->
 			<!-- Inicio Container -->
-			<c:if test="${cons_true}">
+<c:if test="${not empty tab_dom_ocult and tab_dom_ocult eq 'true'}">
 				<div class="container mt-3">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->

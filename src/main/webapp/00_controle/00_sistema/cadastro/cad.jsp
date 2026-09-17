@@ -32,7 +32,11 @@
 <c:set scope="session" var="insc_ocult"
 	value="${sessionScope.insc_ocult}" />
 
+<c:set scope="session" var="tab_dom_ocult"
+	value="${sessionScope.tab_dom_ocult}" />
 
+<c:set scope="session" var="tab_cont_ocult"
+	value="${sessionScope.tab_cont_ocult}" />
 
 
 <!--  -->
@@ -1084,8 +1088,9 @@ if (document.getElementById("no_dom").value == ''
 				<!-- FIM Container -->
 				<!--  -->
 <!-- Inico Contado-->
-			<!--  -->
-			<!-- Inicio Container -->
+<c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+<!-- Ocultar Inico Contado-->
+		<!-- Inicio Container -->
 				<div class="container mt-1">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
@@ -1318,8 +1323,8 @@ if (document.getElementById("no_dom").value == ''
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
-<!--Tabela Contado  -->
-<!--<c:if test="${not empty cont_list}">-->
+
+<!--Inico Tabela Contado  -->
 				<!-- Inicio Container -->
 				<div class="container mt-1">
 	<hr>
@@ -1366,12 +1371,15 @@ data-obs="${ml.obs}"
 							<!-- FIM Container -->
 				</div>
 			<!-- FIM Container -->
-			<!--  -->
-<!--</c:if>-->		
-<!-- Tabela Contado -->
-			<!-- FIM DADO -->
-<!-- FIM Contado -->
-<!-- Inicio Dominio -->
+<!-- Fim Tabela Contado -->
+<!-- Ocultar Fim Contado-->
+</c:if>
+<!-- FIM Contado-->
+<!-- Inico Dominio-->
+<c:if test="${not empty tab_dom_ocult and tab_dom_ocult eq 'true'}">
+<!-- Ocultar Inico Dominio-->
+
+
 			<!--  -->
 			<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1400,11 +1408,14 @@ data-obs="${ml.obs}"
 						type="button" id="button-addon2">Buscar Dominio</button>
 							
 						</div>
+
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
+							
 <!--  -->
+
 	<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-toggle="modal" data-bs-target="#adi_dom">
  Adiciona Dominio
@@ -1418,6 +1429,7 @@ data-obs="${ml.obs}"
         <h1 class="modal-title fs-5" id="m_adi_dom">Adiciona Dominio</h1>
         <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      
       <div class="modal-body">
         
 
@@ -1638,9 +1650,10 @@ function validartipo_ace() {
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
-<!--Tabela Dominio  -->
-<!--<c:if test="${not empty dom_list}">-->
 
+
+
+<!-- Inicio Tabela Dominio  -->
 				<!-- Inicio Container -->
 				<div class="container mt-1">
 					<!-- Inicio Container -->
@@ -1684,8 +1697,10 @@ function validartipo_ace() {
 			<!-- FIM Container -->
 			<!--  -->
 		
-<!-- Tabela Dominio -->
-<!--</c:if>-->
+<!-- Fim Tabela Dominio -->
+<!-- Ocultar Fim Dominio-->
+</c:if>
+<!-- FIM Dominio-->
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->

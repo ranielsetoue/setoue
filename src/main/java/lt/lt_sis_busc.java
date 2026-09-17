@@ -137,7 +137,8 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
-					
+					request.getSession().setAttribute("tab_dom_ocult", false);
+
 				
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -273,6 +274,8 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("cons_dom", true);
+					request.getSession().setAttribute("tab_dom_ocult",true);
+					request.getSession().setAttribute("tab_cont_ocult",true);
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
@@ -366,6 +369,7 @@ public class lt_sis_busc extends HttpServlet {
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
 
+									
 						} // (b1Value == 1)
 
 						if (b1Value > 1) {
@@ -373,6 +377,8 @@ public class lt_sis_busc extends HttpServlet {
 							request.getSession().setAttribute("listaResultados", lista);
 							request.getSession().setAttribute("cons_true", false);
 
+							
+							
 						} // (b1Value > 1)
 
 					} /// if (t_cnpj_cpf != null) {
