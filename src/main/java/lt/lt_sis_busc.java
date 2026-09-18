@@ -223,6 +223,12 @@ public class lt_sis_busc extends HttpServlet {
 			request.getSession().setAttribute("insc_ocult", true);
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
+				
+				
+				
+				
+				
+				
 				request.getSession().setAttribute("cons_list", true);
 				
 				 List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
@@ -361,11 +367,17 @@ public class lt_sis_busc extends HttpServlet {
 							Integer offset = Integer.parseInt("0");
  							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
 							request.setAttribute("dom_list", dominio_list);	
+							List<cla_sis_dom> dom_list_qt = f_sis_dom.dom_list_qt(cl_sis.getId_sis());
+ 							request.setAttribute("dom_list_qt", dom_list_qt);	
 
+							
+							
 							Integer offsetcont = Integer.parseInt("0");
  							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
  							request.setAttribute("cont_list", cont_sis_list);	
-							
+ 							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
+ 							request.setAttribute("cont_list_qt", cont_list_qt);	
+ 							
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
 

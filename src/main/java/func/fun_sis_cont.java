@@ -164,4 +164,31 @@ public class fun_sis_cont {
 		return this.cons_sis_cont_id(gra_bus.getId_sis_cont());
 	}
 
+	
+	public List<cla_sis_cont> cont_list_qt(long nx1) throws Exception {
+
+	    List<cla_sis_cont> retorno = new ArrayList<>();
+
+	    String bc_sql =
+	        "SELECT d.id_sis_cont " +
+	        "FROM tb_sis_cont d " +
+	        "WHERE d.id_sis = " + nx1 + " " +
+	        "ORDER BY d.nome_desc;";
+
+	    PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
+	    ResultSet gra_bus = gra_dom.executeQuery();
+
+	    while (gra_bus.next()) {
+
+	    	cla_sis_cont gra_inp = new cla_sis_cont();
+
+	        gra_inp.setId_sis_cont(gra_bus.getLong("id_sis_cont"));
+
+	        retorno.add(gra_inp);
+	    }
+
+	    return retorno;
+	}	
+	
+	
 }

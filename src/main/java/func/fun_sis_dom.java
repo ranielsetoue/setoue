@@ -287,7 +287,7 @@ public class fun_sis_dom {
 					    "INNER JOIN tb_sis_d_log l ON l.id_sis_log = d.id_sis_log " +
 					    "WHERE d.id_sis = " + nx1 + " " +
 					    "ORDER BY d.no_dom " +
-					    "LIMIT 5 OFFSET 0;";
+					    "LIMIT 5 OFFSET " + offset + ";";
 				
 				PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
 				ResultSet gra_bus = gra_dom.executeQuery();
@@ -372,5 +372,29 @@ public class fun_sis_dom {
 		return gra_inp;
 
 	}
-	
+
+	public List<cla_sis_dom> dom_list_qt(long nx1) throws Exception {
+
+	    List<cla_sis_dom> retorno = new ArrayList<>();
+
+	    String bc_sql =
+	        "SELECT d.id_sis_dom " +
+	        "FROM tb_sis_dom d " +
+	        "WHERE d.id_sis = " + nx1 + " " +
+	        "ORDER BY d.no_dom;";
+
+	    PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
+	    ResultSet gra_bus = gra_dom.executeQuery();
+
+	    while (gra_bus.next()) {
+
+	        cla_sis_dom gra_inp = new cla_sis_dom();
+
+	        gra_inp.setId_sis_dom(gra_bus.getLong("id_sis_dom"));
+
+	        retorno.add(gra_inp);
+	    }
+
+	    return retorno;
+	}	
 }

@@ -1370,55 +1370,7 @@ data-obs="${ml.obs}"
 
 		</div>
 <hr>
-<div id="paginacao_cont">
-
-    <span>Primeira</span>
-    <span>|</span>
-    <span>Anterior</span>
-
-    &nbsp;&nbsp;
-
-<span onclick="atualizarInfocont(1);">1</span>
-<span>-</span>
-<span onclick="atualizarInfocont(2);">2</span>
-<span>-</span>
-<span onclick="atualizarInfocont(3);">3</span>
-
-    &nbsp;&nbsp;
-
-    <span>Próxima</span>
-    <span>|</span>
-    <span>Última</span>
-
-    &nbsp;&nbsp;
-
-    <span id="info_cont"></span>
-
-
-<script type="text/javascript">
-function atualizarInfocont(pagina) {
-
-	  var registrosPorPagina = 5;
-	    var totalRegistros = ${cont_list_qt.size()};
-
-	    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
-
-	    var fim = pagina * registrosPorPagina;
-
-	    if (fim > totalRegistros) {
-	        fim = totalRegistros;
-	        
-	    }
-
-	    document.getElementById("info_cont").innerHTML =
-	        inicio + " - " + fim + " de " + totalRegistros;
-	    }
-atualizarInfocont(1);
-
-</script>
-
-
-</div>
+<p>pagina 1</p>
 							<!-- FIM Container -->
 				</div>
 			<!-- FIM Container -->
@@ -1427,8 +1379,6 @@ atualizarInfocont(1);
 <!-- Ocultar Fim Contado-->
 </c:if>
 <!-- FIM Contado-->
-
-
 <!-- Inico Dominio-->
 <c:if test="${not empty tab_dom_ocult and tab_dom_ocult eq 'true'}">
 <!-- Ocultar Inico Dominio-->
@@ -1748,53 +1698,8 @@ function validartipo_ace() {
 		</div>
 							<!-- FIM Container -->
 							<hr>
-<div id="paginacao_dom">
-
-    <span>Primeira</span>
-    <span>|</span>
-    <span>Anterior</span>
-
-    &nbsp;&nbsp;
-
-<span onclick="atualizarInfodom(1);">1</span>
-<span>-</span>
-<span onclick="atualizarInfodom(2);">2</span>
-<span>-</span>
-<span onclick="atualizarInfodom(3);">3</span>
-    &nbsp;&nbsp;
-
-    <span>Próxima</span>
-    <span>|</span>
-    <span>Última</span>
-
-    &nbsp;&nbsp;
-
-    <span id="info_dom"></span>
-
-
-<script type="text/javascript">
-function atualizarInfodom(pagina) {
-
-	   var registrosPorPagina = 5;
-	    var totalRegistros = ${dom_list_qt.size()};
-
-	    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
-
-	    var fim = pagina * registrosPorPagina;
-
-	    if (fim > totalRegistros) {
-	        fim = totalRegistros;
-		   	    
-	    }
-	    document.getElementById("info_dom").innerHTML =
-	        inicio + " - " + fim  + " de " + totalRegistros;
-
-}
-
-atualizarInfodom(1);
-</script>
-
-</div>
+<p>pagina 1</p>
+<hr>
 							
 				</div>
 			<!-- FIM Container -->
