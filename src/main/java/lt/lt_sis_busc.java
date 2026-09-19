@@ -73,8 +73,6 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 
-
-
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
 
@@ -118,17 +116,11 @@ public class lt_sis_busc extends HttpServlet {
 
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
-					
-				
-						
-						
-					
 
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
-					
-					System.out.println("Novo cliente GET");
 
+					System.out.println("Novo cliente GET");
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
@@ -139,7 +131,6 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("tab_dom_ocult", false);
 
-				
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -220,10 +211,120 @@ public class lt_sis_busc extends HttpServlet {
 			
 			
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-			request.getSession().setAttribute("insc_ocult", true);
+		request.getSession().setAttribute("insc_ocult", true);
 
-			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
+			
+			
+				if (request.getParameter("fun").equalsIgnoreCase("pag_cont")) {
+
+					if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+
+						String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
+						cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
+
+					    int offsetcont = Integer.parseInt(request.getParameter("offset"));
+
+						List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(), offsetcont);
+						request.setAttribute("cont_list", cont_sis_list);
+
+						StringBuilder html = new StringBuilder();
+
+						for (cla_sis_cont d : cont_sis_list) {
+
+							html.append("<tr>");
+
+							html.append("<td>").append(d.getNome_desc()).append("</td>");
+
+							html.append("<td>").append(d.getTel_1()).append("</td>");
+
+							html.append("<td>").append(d.getEmail_1()).append("</td>");
+
+							html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
+									.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
+
+							html.append("<td>")
+						    .append("<button type='button' ")
+						    .append("onclick=\"detalhe_cont(this)\" ")
+						    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+						    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
+						    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
+						    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+						    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
+						    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
+						    .append("data-obs=\"").append(d.getObs()).append("\" ")
+						    .append("class=\"btn btn-warning\" ")
+						    .append("data-bs-toggle=\"modal\">")
+						    .append("Detalhes")
+						    .append("</button>")
+						    .append("</td>");
+
+							html.append("</tr>");
+						}
+
+						response.setContentType("text/html;charset=UTF-8");
+						response.getWriter().print(html.toString());
+
+						return;
+
+														    
+					}		    
+					    
 				
+			}
+			
+			
+				if (request.getParameter("fun").equalsIgnoreCase("pag_dom")) {
+
+					if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+
+						int offset = Integer.parseInt(request.getParameter("offset"));
+
+						String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
+						cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
+						List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(), offset);
+						request.setAttribute("dom_list", dominio_list);
+
+						StringBuilder html = new StringBuilder();
+
+						for (cla_sis_dom d : dominio_list) {
+
+							html.append("<tr>");
+
+							html.append("<td>").append(d.getNo_dom()).append("</td>");
+
+							html.append("<td>").append("<a onclick=\"exc_dom(").append(d.getId_sis_dom())
+									.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
+
+							html.append("<td>")
+						    .append("<button type='button' ")
+						    .append("id='adicionar_dom' ")
+						    .append("onclick=\"detalhe_dom(this)\" ")
+						    .append("data-no_dom=\"").append(d.getNo_dom()).append("\" ")
+						    .append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
+						    .append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ")
+						    .append("data-titulo_web=\"").append(d.getTitulo_web()).append("\" ")
+						    .append("data-ace_per_aut=\"").append(d.getAce_per_aut()).append("\" ")
+						    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+						    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+						    .append("data-l_usu=\"").append(d.getL_usu()).append("\" ")
+						    .append("data-l_sen=\"").append(d.getL_sen()).append("\" ")
+						    .append("class=\"btn btn-warning\" ")
+						    .append("data-bs-toggle=\"modal\">")
+						    .append("Detalhes")
+						    .append("</button>")
+						    .append("</td>");
+						}
+
+						response.setContentType("text/html;charset=UTF-8");
+						response.getWriter().print(html.toString());
+
+						return;
+					}	    
+				}
+
+				
+				
+			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				
 				
 				

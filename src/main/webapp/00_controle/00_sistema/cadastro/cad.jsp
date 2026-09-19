@@ -424,7 +424,7 @@ if (document.getElementById("no_dom").value == ''
 		}
 
 	
-	function cartabcontato() {
+	function carregacontato() {
 
 		
 	    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=atual_list_sis_cont';
@@ -486,7 +486,7 @@ if (document.getElementById("no_dom").value == ''
 					if (response.status === 'ok') {
 
 
-						cartabcontato();
+						carregacontato();
 		                // ✅ FECHA O MODAL
 		                const modalEl = document.getElementById('adi_cont');
 		                bootstrap.Modal.getInstance(modalEl).hide();
@@ -1349,7 +1349,7 @@ if (document.getElementById("no_dom").value == ''
 							<td><c:out value="${ml.email_1}"></c:out></td>
 							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
-							<td><button type="button" id="adicionar_dom"
+							<td><button type="button" id="adicionar_cont"
 										 onclick="detalhe_cont(this)"
 										 data-nome_desc="${ml.nome_desc}"
 data-tel_1="${ml.tel_1}"
@@ -1376,19 +1376,9 @@ data-obs="${ml.obs}"
     <span>|</span>
     <span>Anterior</span>
 
-    &nbsp;&nbsp;
-
-<span onclick="atualizarInfocont(1);">1</span>
-<span>-</span>
-<span onclick="atualizarInfocont(2);">2</span>
-<span>-</span>
-<span onclick="atualizarInfocont(3);">3</span>
-
-    &nbsp;&nbsp;
-
+ <span id="pag_cont"></span>
+ 
     <span>Próxima</span>
-    <span>|</span>
-    <span>Última</span>
 
     &nbsp;&nbsp;
 
@@ -1414,6 +1404,65 @@ function atualizarInfocont(pagina) {
 	        inicio + " - " + fim + " de " + totalRegistros;
 	    }
 atualizarInfocont(1);
+
+function montarPaginascont() {
+
+    var registrosPorPagina = 5;
+    var totalRegistros = ${cont_list_qt.size()};
+
+    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+
+    var html = "";
+
+    for (var pagina = 1; pagina <= totalPaginas; pagina++) {
+
+        if (pagina > 1) {
+            html += " - ";
+        }
+
+        html += '<span style="cursor:pointer;" ';
+        html += 'onclick="carregarPaginacont(' + pagina + ')">';
+        html += pagina;
+        html += '</span>';
+    }
+
+    document.getElementById("pag_cont").innerHTML = html;
+}
+
+montarPaginascont();
+
+function carregarPaginacont(pagina) {
+
+    atualizarInfocont(pagina);
+
+    var registrosPorPagina = 5;
+    var offset = (pagina - 1) * registrosPorPagina;
+
+    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cont';
+    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+
+    $.ajax({
+        type: "POST",
+        url: urlAction,
+        data: {
+            offset: offset,cont_cnpj_cpf: cont_cnpj_cpf
+
+        },
+        success: function(response) {
+
+            $("#t_list_cont tbody").html(response);
+
+        },
+        error: function(xhr, status, error) {
+
+            console.log(xhr.responseText);
+            alert("Erro ao carregar página contato: " + error);
+
+        }
+    });
+
+
+}
 
 </script>
 
@@ -1754,18 +1803,9 @@ function validartipo_ace() {
     <span>|</span>
     <span>Anterior</span>
 
-    &nbsp;&nbsp;
-
-<span onclick="atualizarInfodom(1);">1</span>
-<span>-</span>
-<span onclick="atualizarInfodom(2);">2</span>
-<span>-</span>
-<span onclick="atualizarInfodom(3);">3</span>
-    &nbsp;&nbsp;
-
+    <span id="pag_dom"></span>
+    
     <span>Próxima</span>
-    <span>|</span>
-    <span>Última</span>
 
     &nbsp;&nbsp;
 
@@ -1792,6 +1832,60 @@ function atualizarInfodom(pagina) {
 }
 
 atualizarInfodom(1);
+
+function montarPaginasDom() {
+
+    var registrosPorPagina = 5;
+    var totalRegistros = ${dom_list_qt.size()};
+
+    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+
+    var html = "";
+
+    for (var pagina = 1; pagina <= totalPaginas; pagina++) {
+
+        if (pagina > 1) {
+            html += " - ";
+        }
+
+        html += '<span style="cursor:pointer;" ';
+        html += 'onclick="carregarPaginaDom(' + pagina + ')">';
+        html += pagina;
+        html += '</span>';
+    }
+
+    document.getElementById("pag_dom").innerHTML = html;
+}
+
+montarPaginasDom();
+
+function carregarPaginaDom(pagina) {
+
+    atualizarInfoDom(pagina);
+
+    var registrosPorPagina = 5;
+    var offset = (pagina - 1) * registrosPorPagina;
+
+    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_dom';
+
+    $.ajax({
+        type: "POST",
+        url: urlAction,
+        data: {
+            offset: offset
+        },
+        success: function(response) {
+
+            $("#t_list_dom tbody").html(response);
+        },
+        error: function(xhr, status, error) {
+
+            console.log(xhr.responseText);
+            alert("Erro ao carregar página Dominio: " + error);
+
+        }
+    });
+}
 </script>
 
 </div>

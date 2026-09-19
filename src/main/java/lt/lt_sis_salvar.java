@@ -624,12 +624,24 @@ public class lt_sis_salvar extends HttpServlet {
 					html.append("<td>").append("<a onclick=\"exc_dom(").append(d.getId_sis_dom())
 							.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
 
-					html.append("<td>").append("<button type='button' class='btn btn-warning' ")
-							.append("onclick=\"edit_dom2('").append(d.getId_sis_dom()).append("');edit_dom1('")
-							.append(d.getSis_url()).append("');edit_dom('").append(d.getNo_dom())
-							.append("');\">Detalhes</button>").append("</td>");
-
-					html.append("</tr>");
+					html.append("<td>")
+				    .append("<button type='button' ")
+				    .append("id='adicionar_dom' ")
+				    .append("onclick=\"detalhe_dom(this)\" ")
+				    .append("data-no_dom=\"").append(d.getNo_dom()).append("\" ")
+				    .append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
+				    .append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ")
+				    .append("data-titulo_web=\"").append(d.getTitulo_web()).append("\" ")
+				    .append("data-ace_per_aut=\"").append(d.getAce_per_aut()).append("\" ")
+				    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+				    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+				    .append("data-l_usu=\"").append(d.getL_usu()).append("\" ")
+				    .append("data-l_sen=\"").append(d.getL_sen()).append("\" ")
+				    .append("class=\"btn btn-warning\" ")
+				    .append("data-bs-toggle=\"modal\">")
+				    .append("Detalhes")
+				    .append("</button>")
+				    .append("</td>");
 				}
 
 				response.setContentType("text/html;charset=UTF-8");
@@ -650,7 +662,9 @@ public class lt_sis_salvar extends HttpServlet {
 
 				String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
 				cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
+
 				Integer offsetcont = Integer.parseInt("0");
+
 				List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(), offsetcont);
 				request.setAttribute("cont_list", cont_sis_list);
 
@@ -669,11 +683,22 @@ public class lt_sis_salvar extends HttpServlet {
 					html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
 							.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
 
-					html.append("<td>").append("<button type='button' class='btn btn-warning' ")
-							.append("onclick=\"edit_cont('").append(d.getId_sis_cont()).append("');edit_cont1('")
-							.append(d.getNome_desc()).append("');edit_cont2('").append(d.getTel_1())
-							.append("');edit_cont3('").append(d.getEmail_1()).append("');\">Detalhes</button>")
-							.append("</td>");
+
+					html.append("<td>")
+				    .append("<button type='button' ")
+				    .append("onclick=\"detalhe_cont(this)\" ")
+				    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+				    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
+				    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
+				    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+				    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
+				    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
+				    .append("data-obs=\"").append(d.getObs()).append("\" ")
+				    .append("class=\"btn btn-warning\" ")
+				    .append("data-bs-toggle=\"modal\">")
+				    .append("Detalhes")
+				    .append("</button>")
+				    .append("</td>");
 
 					html.append("</tr>");
 				}
