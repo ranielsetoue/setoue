@@ -397,4 +397,49 @@ public class fun_sis_dom {
 
 	    return retorno;
 	}	
+
+
+	public List<cla_sis_dom> cons_dom_proc(long nx1, long offset, String tx1) throws Exception {
+
+
+					List<cla_sis_dom> retorno = new ArrayList<>();
+
+
+				String bc_sql =
+					    "SELECT d.*, l.* " +
+					    "FROM tb_sis_dom d " +
+					    "INNER JOIN tb_sis_d_log l ON l.id_sis_log = d.id_sis_log " +
+					    "WHERE d.id_sis = " + nx1 + " " +
+					    "AND d.no_dom ILIKE '%" + tx1 + "%' " +
+					    "ORDER BY d.no_dom " +
+					    "LIMIT 5 OFFSET " + offset + ";";
+
+				
+				PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
+				ResultSet gra_bus = gra_dom.executeQuery();
+
+				while(gra_bus.next()){
+
+					cla_sis_dom gra_inp = new cla_sis_dom();
+
+					gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+					gra_inp.setId_sis_dom(gra_bus.getLong("id_sis_dom"));
+					gra_inp.setNo_dom(gra_bus.getString("no_dom"));
+					gra_inp.setSis_url(gra_bus.getString("sis_url"));
+					gra_inp.setId_sis_log(gra_bus.getLong("id_sis_log"));
+					gra_inp.setL_usu(gra_bus.getString("l_usu"));
+					gra_inp.setL_sen(gra_bus.getString("l_sen"));
+					gra_inp.setTp_sit(gra_bus.getString("tp_sit"));
+					gra_inp.setAce_per_aut(gra_bus.getString("ace_per_aut"));
+					gra_inp.setTitulo_web(gra_bus.getString("titulo_web"));
+					gra_inp.setNome_desc(gra_bus.getString("nome_desc"));
+					gra_inp.setEmail_1(gra_bus.getString("email_1"));
+					
+					retorno.add(gra_inp);
+
+				}
+
+				return retorno;
+			}
+
 }

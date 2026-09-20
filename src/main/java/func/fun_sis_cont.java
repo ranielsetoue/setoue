@@ -190,5 +190,55 @@ public class fun_sis_cont {
 	    return retorno;
 	}	
 	
+
+	
+	public List<cla_sis_cont> list_sis_cont_proc(long nx1, long offset,String tx1) throws Exception {
+
+		/*
+		 * limite de paginação select * FROM tb_sistema_dominio where id_sistema = 1
+		 * order by id_sistema offset 0 limit 3
+		 */
+		List<cla_sis_cont> retorno = new ArrayList<>();
+
+		String bc_sql =
+			    "SELECT * FROM tb_sis_cont " +
+			    "WHERE id_sis = " + nx1 + " " +
+			    "AND nome_desc ILIKE '%" + tx1 + "%' " +
+			    "or id_sis = " + nx1 + " " +
+			    "AND tel_1 ILIKE '%" + tx1 + "%' " +		    
+			    "or id_sis = " + nx1 + " " +
+			    "AND tel_2 ILIKE '%" + tx1 + "%' " +		    
+			    "or id_sis = " + nx1 + " " +
+			    "AND email_1 ILIKE '%" + tx1 + "%' " +		    
+			    "or id_sis = " + nx1 + " " +
+			    "AND email_2 ILIKE '%" + tx1 + "%' " +		    
+			    "ORDER BY nome_desc " +
+			    "OFFSET " + offset + " LIMIT 5";
+		PreparedStatement gra_dado = pos_cbd_con.prepareStatement(bc_sql);
+		ResultSet gra_bus = gra_dado.executeQuery();
+
+		while (gra_bus.next()) {
+
+			cla_sis_cont gra_inp = new cla_sis_cont();
+
+			gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+			gra_inp.setId_sis_cont(gra_bus.getLong("id_sis_cont"));
+			gra_inp.setNome_desc(gra_bus.getString("nome_desc"));
+			gra_inp.setTel_1(gra_bus.getString("tel_1"));
+			gra_inp.setTel_2(gra_bus.getString("tel_2"));
+			gra_inp.setEmail_1(gra_bus.getString("email_1"));
+			gra_inp.setEmail_2(gra_bus.getString("email_2"));
+			gra_inp.setSetor_1(gra_bus.getString("setor_1"));
+			gra_inp.setObs(gra_bus.getString("obs"));
+			gra_inp.setId_sis_log(gra_bus.getLong("id_sis_log"));
+
+			retorno.add(gra_inp);
+
+		}
+
+		return retorno;
+	}
+
+	
 	
 }

@@ -120,8 +120,6 @@ public class lt_sis_busc extends HttpServlet {
 				}
 				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
 
-					System.out.println("Novo cliente GET");
-
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
 					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
@@ -129,7 +127,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
-					request.getSession().setAttribute("tab_dom_ocult", false);
+					request.getSession().setAttribute("tab_cont_ocult", true);
 
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -212,8 +210,6 @@ public class lt_sis_busc extends HttpServlet {
 			
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 		request.getSession().setAttribute("insc_ocult", true);
-
-			
 			
 				if (request.getParameter("fun").equalsIgnoreCase("pag_cont")) {
 
@@ -221,54 +217,55 @@ public class lt_sis_busc extends HttpServlet {
 
 						String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
 						cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
+						String cont_bus_cont = request.getParameter("cont_bus_cont");
 
 					    int offsetcont = Integer.parseInt(request.getParameter("offset"));
+							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_proc(cl_sis.getId_sis(), offsetcont,cont_bus_cont);
+							request.setAttribute("cont_list", cont_sis_list);
+							StringBuilder html = new StringBuilder();
 
-						List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(), offsetcont);
-						request.setAttribute("cont_list", cont_sis_list);
+							for (cla_sis_cont d : cont_sis_list) {
 
-						StringBuilder html = new StringBuilder();
+								html.append("<tr>");
 
-						for (cla_sis_cont d : cont_sis_list) {
+								html.append("<td>").append(d.getNome_desc()).append("</td>");
 
-							html.append("<tr>");
+								html.append("<td>").append(d.getTel_1()).append("</td>");
 
-							html.append("<td>").append(d.getNome_desc()).append("</td>");
+								html.append("<td>").append(d.getEmail_1()).append("</td>");
 
-							html.append("<td>").append(d.getTel_1()).append("</td>");
+								html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
+										.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
 
-							html.append("<td>").append(d.getEmail_1()).append("</td>");
+								html.append("<td>")
+							    .append("<button type='button' ")
+							    .append("onclick=\"detalhe_cont(this)\" ")
+							    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+							    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
+							    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
+							    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+							    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
+							    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
+							    .append("data-obs=\"").append(d.getObs()).append("\" ")
+							    .append("class=\"btn btn-warning\" ")
+							    .append("data-bs-toggle=\"modal\">")
+							    .append("Detalhes")
+							    .append("</button>")
+							    .append("</td>");
 
-							html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
-									.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
+								html.append("</tr>");
+							}
 
-							html.append("<td>")
-						    .append("<button type='button' ")
-						    .append("onclick=\"detalhe_cont(this)\" ")
-						    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
-						    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
-						    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
-						    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
-						    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
-						    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
-						    .append("data-obs=\"").append(d.getObs()).append("\" ")
-						    .append("class=\"btn btn-warning\" ")
-						    .append("data-bs-toggle=\"modal\">")
-						    .append("Detalhes")
-						    .append("</button>")
-						    .append("</td>");
+							response.setContentType("text/html;charset=UTF-8");
+							response.getWriter().print(html.toString());
 
-							html.append("</tr>");
-						}
-
-						response.setContentType("text/html;charset=UTF-8");
-						response.getWriter().print(html.toString());
-
-						return;
-
-														    
-					}		    
+							return;
 					    
+
+						}
+											
+						
+						
 				
 			}
 			
@@ -280,8 +277,18 @@ public class lt_sis_busc extends HttpServlet {
 						int offset = Integer.parseInt(request.getParameter("offset"));
 
 						String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
+						String cont_no_dom = request.getParameter("cont_no_dom");
+
+						
+						
 						cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
-						List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(), offset);
+
+						List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_proc(cl_sis.getId_sis(), offset,cont_no_dom);
+						/*
+						 * List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(), offset);
+						 */
+						
+						
 						request.setAttribute("dom_list", dominio_list);
 
 						StringBuilder html = new StringBuilder();

@@ -316,12 +316,14 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 
+						   document.getElementById('cont_no_dom').value = document.getElementById('no_dom').value;
 
+						
 						totalRegistrosdom++;
 
 						// Volta para a primeira página
-					    carregarPaginacont(1);
-						                
+						    carregarPaginadom(1);
+					                
 		                const modalEl = document.getElementById('adi_dom');
 		                bootstrap.Modal.getInstance(modalEl).hide();                	                
 		                alert(response.msg);
@@ -491,7 +493,11 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 		
-						   totalRegistrosCont++;
+		
+						   document.getElementById('cont_bus_cont').value = document.getElementById('cont_nome_desc').value;
+						
+						
+						totalRegistrosCont++;
 
 						// Volta para a primeira página
 						    carregarPaginacont(1);
@@ -505,7 +511,7 @@ if (document.getElementById("no_dom").value == ''
 			                // LIBERA O BOTÃO NOVAMENTE
 		                    btn.disabled = false;
 
-						    
+		                    document.getElementById('cont_bus_cont').value ="";
 		                alert(response.msg);
 		                
 
@@ -607,9 +613,41 @@ if (document.getElementById("no_dom").value == ''
 			
 		}
 	
+function bus_p1(){
+
+	if (document.getElementById("cont_bus_cont").value == ''
+) {
+	    carregarPaginacont(1);
+		alert('Preencher Dado');
+
+	} else {
+
+    carregarPaginacont(1);
+    document.getElementById('cont_bus_cont').value = "";
 	
+}	
+
+    
+}	
 	
-	</script>
+
+
+function bus_p2(){
+
+	if (document.getElementById("cont_no_dom").value == ''
+	) {
+	    carregarPaginadom(1);
+		alert('Preencher Dado');
+
+	} else {
+	
+    carregarPaginadom(1);
+    document.getElementById('cont_no_dom').value = "";
+
+	}    
+}	
+
+</script>
 
 
 <!--  -->
@@ -732,8 +770,9 @@ if (document.getElementById("no_dom").value == ''
 			onsubmit="return validardados()? true : false">
 			<input type="hidden" name="fun" id="fun" value="" />
 			<!-- Inicio Container -->
-			<c:if test="${cons_false}">
-				<div class="container mt-md-3">
+	
+<c:if test="${not empty cons_false and cons_false eq 'true'}">
+					<div class="container mt-md-3">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -795,7 +834,8 @@ if (document.getElementById("no_dom").value == ''
 
 			<!--  -->
 			<!-- Inicio Container -->
-			<c:if test="${cons_true}">
+
+<c:if test="${not empty cons_true and cons_true eq 'true'}">
 				<div class="container mt-3" id="html_true">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
@@ -834,7 +874,7 @@ if (document.getElementById("no_dom").value == ''
 
 			<!-- INICIO DADO -->
 			<!-- Inicio Container -->
-			<c:if test="${cons_true}">
+<c:if test="${not empty cons_true and cons_true eq 'true'}">
 				<div class="container mt-3">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
@@ -1035,11 +1075,16 @@ if (document.getElementById("no_dom").value == ''
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
 						<div
-							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-							<label id="l_tel_1" data-placeholder="Telefone"></label> <input
+							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
+							<label id="l_tel_1" data-placeholder="Telefone"></label> 
+							<input
 								type="text" maxlength="20" name="tel_1" id="tel_1"
 								autocomplete="off" class="form-control" placeholder="Telefone"
 								value="${pre_glo.tel_1}">
+															
+								
+								
+								
 							<script>
 								const telInput = document
 										.getElementById('tel_1');
@@ -1133,7 +1178,7 @@ if (document.getElementById("no_dom").value == ''
 						<div
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
 				<button onclick="bus_p1();" class="btn btn-success"
-						type="button" id="button-addon2">Buscar Contado</button>
+						type="button" id="busc_cont">Buscar Contado</button>
 						</div>
 
 						<!-- coluna Central -->
@@ -1352,7 +1397,7 @@ if (document.getElementById("no_dom").value == ''
 	<hr>
 
 					<!-- Inicio Container -->
-		<div style="height: 250px; overflow: scroll;">
+		<div style="height: 350px; overflow: scroll;">
 			<table class="table" id="t_list_cont">
 				<thead>
 					<tr>
@@ -1669,6 +1714,7 @@ data-obs="${ml.obs}"
         /* =================================================
            CNPJ / CPF
            ================================================= */
+   	    var cont_bus_cont = document.getElementById('cont_bus_cont').value;
 
         var campoCnpjCpf =
             document.getElementById('cnpj_cpf');
@@ -1695,7 +1741,7 @@ data-obs="${ml.obs}"
             data: {
 
                 offset: offset,
-
+                cont_bus_cont:cont_bus_cont,	
                 cont_cnpj_cpf: cont_cnpj_cpf
             },
 
@@ -1778,8 +1824,8 @@ data-obs="${ml.obs}"
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-				<button onclick="bus_p1();" class="btn btn-success"
-						type="button" id="button-addon2">Buscar Dominio</button>
+				<button onclick="bus_p2();" class="btn btn-success"
+						type="button" id="busc_dom">Buscar Dominio</button>
 							
 						</div>
 
@@ -2031,7 +2077,7 @@ function validartipo_ace() {
 				<!-- Inicio Container -->
 				<div class="container mt-1">
 					<!-- Inicio Container -->
-		<div style="height: 250px; overflow: scroll;">
+		<div style="height: 350px; overflow: scroll;">
 			<table class="table" id="t_list_dom">
 				<thead>
 					<tr>
@@ -2370,17 +2416,19 @@ function validartipo_ace() {
         /* =================================================
            CNPJ / CPF
            ================================================= */
-
+           
+      	    var cont_no_dom = document.getElementById('cont_no_dom').value;
+      
         var campoCnpjCpf =
             document.getElementById(
                 'cnpj_cpf'
             );
 
-        var cont_cnpj_cpf = "";
+        var dom_cnpj_cpf = "";
 
         if (campoCnpjCpf) {
 
-            cont_cnpj_cpf =
+        	dom_cnpj_cpf =
                 campoCnpjCpf.value;
         }
 
@@ -2398,8 +2446,8 @@ function validartipo_ace() {
             data: {
 
                 offset: offset,
-
-                cont_cnpj_cpf: cont_cnpj_cpf
+                cont_no_dom:cont_no_dom,
+                dom_cnpj_cpf: dom_cnpj_cpf
             },
 
 
