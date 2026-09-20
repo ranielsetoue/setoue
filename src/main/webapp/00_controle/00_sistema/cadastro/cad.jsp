@@ -319,9 +319,8 @@ if (document.getElementById("no_dom").value == ''
 
 						totalRegistrosdom++;
 
-					    montarPaginasdom();
-
-					    atualizarInfodom(1);		
+						// Volta para a primeira página
+					    carregarPaginacont(1);
 						                
 		                const modalEl = document.getElementById('adi_dom');
 		                bootstrap.Modal.getInstance(modalEl).hide();                	                
@@ -369,7 +368,12 @@ if (document.getElementById("no_dom").value == ''
 		        success: function(response) {
 		    	    // Após excluir no banco...
 		    	    elemento.closest("tr").remove();	    
+		            // Diminui o total
+		            totalRegistrosdom--;
+		         // Volta para a primeira página
+				    carregarPaginadom(1);
 
+		    	    
 		        },
 
 		        error: function(xhr, status, error) {
@@ -489,9 +493,8 @@ if (document.getElementById("no_dom").value == ''
 		
 						   totalRegistrosCont++;
 
-						    montarPaginascont();
-
-						    atualizarInfocont(1);		
+						// Volta para a primeira página
+						    carregarPaginacont(1);
 						
 						//<--! carregarcontato(); -->
 		                // ✅ FECHA O MODAL
@@ -545,9 +548,15 @@ if (document.getElementById("no_dom").value == ''
 
 		        success: function(response) {
 		    	    // Após excluir no banco...
-		    	    elemento.closest("tr").remove();	    
+		    	
 
-		        },
+		            elemento.closest("tr").remove();
+
+		            // Diminui o total
+		            totalRegistrosCont--;
+		         // Volta para a primeira página
+				    carregarPaginacont(1);
+					        },
 
 		        error: function(xhr, status, error) {
 		            console.log(xhr.responseText);
@@ -1384,162 +1393,352 @@ data-obs="${ml.obs}"
 		</div>
 <hr>
 
+<div id="paginacao_cont"
+     class="d-flex align-items-center justify-content-center flex-wrap mt-2">     
+    <!-- PAGINAÇÃO -->
+    <span id="pag_cont"
+          class="d-flex align-items-center">
+    </span>
 
-<div id="paginacao_cont">
+    <!-- SEPARADOR -->
+    <span class="text-secondary mx-2">|</span>
 
+    <!-- INFORMAÇÃO -->
+    <span id="info_cont"
+          class="text-secondary">
+    </span>
 
- <span id="pag_cont"></span>
- 
-    <span>|</span>
-
-    &nbsp;&nbsp;
-
-    <span id="info_cont"></span>
+</div>
 
 
 <script type="text/javascript">
 
-var totalRegistrosCont = ${cont_list_qt.size()};
-function atualizarInfocont(pagina) {
+    /* =====================================================
+       CONFIGURAÇÃO
+       ===================================================== */
 
-	   var registrosPorPagina = 5;
-	    var totalRegistros = totalRegistrosCont;
-
-	    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
-
-	    var fim = pagina * registrosPorPagina;
-
-	    if (fim > totalRegistros) {
-	        fim = totalRegistros;
-		   	    
-	    }
-	    document.getElementById("info_cont").innerHTML =
-	        inicio + " - " + fim  + " de " + totalRegistros;
-
-}
-
-atualizarInfocont(1);
-function montarPaginascont(paginaAtual) {
-
-	    var registrosPorPagina = 5;
-	    var totalRegistros = totalRegistrosCont || 0;
-	    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
-
-	    var html = "";
-
-	    // PRIMEIRA
-	    html += '<span style="cursor:pointer;" ';
-	    html += 'onclick="carregarPaginacont(1)">Primeira</span>';
-
-	    if (totalPaginas > 0) {
-	        html += " | ";
-	    }
-
-	    // Define quais páginas serão exibidas
-	    var inicio;
-	    var fim;
-
-	    if (totalPaginas <= 3) {
-
-	        inicio = 1;
-	        fim = totalPaginas;
-
-	    } else {
-
-	        inicio = paginaAtual - 1;
-	        fim = paginaAtual + 1;
-
-	        if (inicio < 1) {
-	            inicio = 1;
-	            fim = 3;
-	        }
-
-	        if (fim > totalPaginas) {
-	            fim = totalPaginas;
-	            inicio = totalPaginas - 2;
-	        }
-	    }
-
-	    // NÚMEROS DAS PÁGINAS
-	    for (var pagina = inicio; pagina <= fim; pagina++) {
-
-	        if (pagina > inicio) {
-	            html += " - ";
-	        }
-
-	        if (pagina == paginaAtual) {
-
-	            // PÁGINA ATUAL DESTACADA
-	            html += '<span style="cursor:pointer; font-weight:bold; text-decoration:underline;" ';
-	            html += 'onclick="carregarPaginacont(' + pagina + ')">';
-	            html += pagina;
-	            html += '</span>';
-
-	        } else {
-
-	            html += '<span style="cursor:pointer;" ';
-	            html += 'onclick="carregarPaginacont(' + pagina + ')">';
-	            html += pagina;
-	            html += '</span>';
-	        }
-	    }
-
-	    document.getElementById("pag_cont").innerHTML = html;
+    var totalRegistrosCont = ${cont_list_qt.size()};
+    var paginaAtualCont = 1;
+    var registrosPorPaginaCont = 5;
 
 
-}
+    /* =====================================================
+       ATUALIZA INFORMAÇÃO
+       Exemplo: 1 - 5 de 21
+       ===================================================== */
 
-montarPaginascont(1);
+    function atualizarInfocont(pagina) {
 
+        var registrosPorPagina = registrosPorPaginaCont;
+        var totalRegistros = totalRegistrosCont || 0;
 
-function carregarPaginacont(pagina) {
+        var infoCont = document.getElementById("info_cont");
 
-    atualizarInfocont(pagina);
+        /* Nenhum registro */
+        if (totalRegistros === 0) {
 
-    // Atualiza as páginas exibidas
-    montarPaginascont(pagina);
+            infoCont.innerHTML = "0 - 0 de 0";
 
-    var registrosPorPagina = 5;
-
-    var offset = (pagina - 1) * registrosPorPagina;
-
-    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cont';
-
-    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
-
-    $.ajax({
-
-        type: "POST",
-
-        url: urlAction,
-
-        data: {
-            offset: offset,
-            cont_cnpj_cpf: cont_cnpj_cpf
-        },
-
-        success: function(response) {
-
-            $("#t_list_cont tbody").html(response);
-
-        },
-
-        error: function(xhr, status, error) {
-
-            console.log(xhr.responseText);
-
-            alert("Erro ao carregar página Contato: " + error);
-
+            return;
         }
 
-    });
-}
 
+        /* Primeiro registro */
+        var inicio =
+            ((pagina - 1) * registrosPorPagina) + 1;
+
+
+        /* Último registro */
+        var fim =
+            pagina * registrosPorPagina;
+
+
+        /* Não ultrapassar total */
+        if (fim > totalRegistros) {
+
+            fim = totalRegistros;
+        }
+
+
+        infoCont.innerHTML =
+            inicio + " - " + fim + " de " + totalRegistros;
+    }
+
+
+    /* =====================================================
+       MONTA A PAGINAÇÃO
+       ===================================================== */
+
+    function montarPaginascont(paginaAtual) {
+
+        var registrosPorPagina = registrosPorPaginaCont;
+
+        var totalRegistros =
+            totalRegistrosCont || 0;
+
+        var totalPaginas =
+            Math.ceil(
+                totalRegistros / registrosPorPagina
+            );
+
+        var html = "";
+
+
+        /* =================================================
+           SEM REGISTROS
+           ================================================= */
+
+        if (totalPaginas === 0) {
+
+            document.getElementById("pag_cont").innerHTML = "";
+
+            return;
+        }
+
+
+        /* =================================================
+           BOTÃO PRIMEIRA
+           ================================================= */
+
+        if (paginaAtual === 1) {
+
+            html +=
+                '<button type="button" ' +
+                'class="btn btn-light border rounded-3 px-3 py-2" ' +
+                'disabled>' +
+                'Primeira' +
+                '</button>';
+
+        } else {
+
+            html +=
+                '<button type="button" ' +
+                'class="btn btn-light border rounded-3 px-3 py-2" ' +
+                'onclick="carregarPaginacont(1)">' +
+                'Primeira' +
+                '</button>';
+        }
+
+
+        /* =================================================
+           SEPARADOR
+           ================================================= */
+
+        html +=
+            '<span class="text-secondary mx-2">|</span>';
+
+
+        /* =================================================
+           DEFINE AS PÁGINAS VISÍVEIS
+
+           Até 3 páginas:
+           1 2 3
+
+           Página 3:
+           2 3 4
+
+           Última:
+           4 5 6
+           ================================================= */
+
+        var inicio;
+        var fim;
+
+
+        if (totalPaginas <= 3) {
+
+            inicio = 1;
+            fim = totalPaginas;
+
+        } else {
+
+            inicio = paginaAtual - 1;
+            fim = paginaAtual + 1;
+
+
+            /* Primeira ou segunda página */
+
+            if (paginaAtual <= 2) {
+
+                inicio = 1;
+                fim = 3;
+            }
+
+
+            /* Penúltima ou última página */
+
+            if (paginaAtual >= totalPaginas - 1) {
+
+                inicio = totalPaginas - 2;
+                fim = totalPaginas;
+            }
+        }
+
+
+        /* =================================================
+           NÚMEROS DAS PÁGINAS
+           ================================================= */
+
+        for (
+            var pagina = inicio;
+            pagina <= fim;
+            pagina++
+        ) {
+
+
+            /* ---------------------------------------------
+               PÁGINA ATUAL
+               --------------------------------------------- */
+
+            if (pagina === paginaAtual) {
+
+                html +=
+                    '<button type="button" ' +
+                    'class="btn btn-primary rounded-3 px-3 py-2 mx-1" ' +
+                    'disabled>' +
+                    pagina +
+                    '</button>';
+
+            }
+
+
+            /* ---------------------------------------------
+               OUTRAS PÁGINAS
+               --------------------------------------------- */
+
+            else {
+
+                html +=
+                    '<button type="button" ' +
+                    'class="btn btn-light border rounded-3 px-3 py-2 mx-1" ' +
+                    'onclick="carregarPaginacont(' +
+                    pagina +
+                    ')">' +
+                    pagina +
+                    '</button>';
+            }
+        }
+
+
+        /* =================================================
+           COLOCA PAGINAÇÃO NA TELA
+           ================================================= */
+
+        document.getElementById("pag_cont").innerHTML =
+            html;
+    }
+
+
+    /* =====================================================
+       CARREGA A PÁGINA
+       ===================================================== */
+
+    function carregarPaginacont(pagina) {
+
+        /* Guarda página atual */
+        paginaAtualCont = pagina;
+
+
+        /* Atualiza informação */
+        atualizarInfocont(pagina);
+
+
+        /* Atualiza botões */
+        montarPaginascont(pagina);
+
+
+        /* =================================================
+           OFFSET
+           ================================================= */
+
+        var registrosPorPagina =
+            registrosPorPaginaCont;
+
+        var offset =
+            (pagina - 1) * registrosPorPagina;
+
+
+        /* =================================================
+           URL
+           ================================================= */
+
+        var urlAction =
+            '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cont';
+
+
+        /* =================================================
+           CNPJ / CPF
+           ================================================= */
+
+        var campoCnpjCpf =
+            document.getElementById('cnpj_cpf');
+
+        var cont_cnpj_cpf = "";
+
+        if (campoCnpjCpf) {
+
+            cont_cnpj_cpf =
+                campoCnpjCpf.value;
+        }
+
+
+        /* =================================================
+           AJAX
+           ================================================= */
+
+        $.ajax({
+
+            type: "POST",
+
+            url: urlAction,
+
+            data: {
+
+                offset: offset,
+
+                cont_cnpj_cpf: cont_cnpj_cpf
+            },
+
+
+            /* ---------------------------------------------
+               SUCESSO
+               --------------------------------------------- */
+
+            success: function(response) {
+
+                $("#t_list_cont tbody").html(response);
+            },
+
+
+            /* ---------------------------------------------
+               ERRO
+               --------------------------------------------- */
+
+            error: function(xhr, status, error) {
+
+                console.log(xhr.responseText);
+
+                alert(
+                    "Erro ao carregar página Contato: " +
+                    error
+                );
+            }
+
+        });
+    }
+
+
+    /* =====================================================
+       INICIALIZA PAGINAÇÃO
+       ===================================================== */
+
+    atualizarInfocont(1);
+
+    montarPaginascont(1);
 
 </script>
 
 
-</div>
 							<!-- FIM Container -->
 				</div>
 			<!-- FIM Container -->
@@ -1869,160 +2068,385 @@ function validartipo_ace() {
 		</div>
 							<!-- FIM Container -->
 							<hr>
-<div id="paginacao_dom">
+<div id="paginacao_dom"
+     class="d-flex align-items-center justify-content-center flex-wrap mt-2">
 
-    <span id="pag_dom"></span>
-    
-    <span>|</span>
+    <!-- PAGINAÇÃO -->
+    <span id="pag_dom"
+          class="d-flex align-items-center">
+    </span>
 
-    &nbsp;&nbsp;
+    <!-- SEPARADOR -->
+    <span class="text-secondary mx-2">|</span>
 
-    <span id="info_dom"></span>
+    <!-- INFORMAÇÃO -->
+    <span id="info_dom"
+          class="text-secondary">
+    </span>
+
+</div>
+
 
 <script type="text/javascript">
 
-var totalRegistrosdom = ${dom_list_qt.size()};
-function atualizarInfodom(pagina) {
+    /* =====================================================
+       CONFIGURAÇÃO
+       ===================================================== */
 
-	   var registrosPorPagina = 5;
-	    var totalRegistros = totalRegistrosdom;
-
-	    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
-
-	    var fim = pagina * registrosPorPagina;
-
-	    if (fim > totalRegistros) {
-	        fim = totalRegistros;
-		   	    
-	    }
-	    document.getElementById("info_dom").innerHTML =
-	        inicio + " - " + fim  + " de " + totalRegistros;
-
-}
-
-atualizarInfodom(1);
-function montarPaginasdom(paginaAtual) {
-
-	    var registrosPorPagina = 5;
-	    var totalRegistros = totalRegistrosdom || 0;
-	    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
-
-	    var html = "";
-
-	    // PRIMEIRA
-	    html += '<span style="cursor:pointer;" ';
-	    html += 'onclick="carregarPaginadom(1)">Primeira</span>';
-
-	    if (totalPaginas > 0) {
-	        html += " | ";
-	    }
-
-	    // Define quais páginas serão exibidas
-	    var inicio;
-	    var fim;
-
-	    if (totalPaginas <= 3) {
-
-	        inicio = 1;
-	        fim = totalPaginas;
-
-	    } else {
-
-	        inicio = paginaAtual - 1;
-	        fim = paginaAtual + 1;
-
-	        if (inicio < 1) {
-	            inicio = 1;
-	            fim = 3;
-	        }
-
-	        if (fim > totalPaginas) {
-	            fim = totalPaginas;
-	            inicio = totalPaginas - 2;
-	        }
-	    }
-
-	    // NÚMEROS DAS PÁGINAS
-	    for (var pagina = inicio; pagina <= fim; pagina++) {
-
-	        if (pagina > inicio) {
-	            html += " - ";
-	        }
-
-	        if (pagina == paginaAtual) {
-
-	            // PÁGINA ATUAL DESTACADA
-	            html += '<span style="cursor:pointer; font-weight:bold; text-decoration:underline;" ';
-	            html += 'onclick="carregarPaginadom(' + pagina + ')">';
-	            html += pagina;
-	            html += '</span>';
-
-	        } else {
-
-	            html += '<span style="cursor:pointer;" ';
-	            html += 'onclick="carregarPaginadom(' + pagina + ')">';
-	            html += pagina;
-	            html += '</span>';
-	        }
-	    }
-
-	    document.getElementById("pag_dom").innerHTML = html;
+    var totalRegistrosdom = ${dom_list_qt.size()};
+    var paginaAtualDom = 1;
+    var registrosPorPaginaDom = 5;
 
 
-}
+    /* =====================================================
+       ATUALIZA INFORMAÇÃO
+       Exemplo: 1 - 5 de 21
+       ===================================================== */
 
-montarPaginasdom(1);
+    function atualizarInfodom(pagina) {
+
+        var registrosPorPagina =
+            registrosPorPaginaDom;
+
+        var totalRegistros =
+            totalRegistrosdom || 0;
+
+        var infoDom =
+            document.getElementById("info_dom");
 
 
-function carregarPaginadom(pagina) {
+        /* Nenhum registro */
 
-    atualizarInfodom(pagina);
+        if (totalRegistros === 0) {
 
-    // Atualiza as páginas exibidas
-    montarPaginasdom(pagina);
+            infoDom.innerHTML =
+                "0 - 0 de 0";
 
-    var registrosPorPagina = 5;
-
-    var offset = (pagina - 1) * registrosPorPagina;
-
-    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_dom';
-
-    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
-
-    $.ajax({
-
-        type: "POST",
-
-        url: urlAction,
-
-        data: {
-            offset: offset,
-            cont_cnpj_cpf: cont_cnpj_cpf
-        },
-
-        success: function(response) {
-
-            $("#t_list_dom tbody").html(response);
-
-        },
-
-        error: function(xhr, status, error) {
-
-            console.log(xhr.responseText);
-
-            alert("Erro ao carregar página Dominio: " + error);
-
+            return;
         }
 
-    });
-}
+
+        /* Primeiro registro */
+
+        var inicio =
+            ((pagina - 1) * registrosPorPagina) + 1;
 
 
-</script>
+        /* Último registro */
+
+        var fim =
+            pagina * registrosPorPagina;
 
 
-</div>
-							
+        /* Não ultrapassar total */
+
+        if (fim > totalRegistros) {
+
+            fim = totalRegistros;
+        }
+
+
+        infoDom.innerHTML =
+            inicio + " - " + fim +
+            " de " + totalRegistros;
+    }
+
+
+    /* =====================================================
+       MONTA PAGINAÇÃO
+       ===================================================== */
+
+    function montarPaginasdom(paginaAtual) {
+
+        var registrosPorPagina =
+            registrosPorPaginaDom;
+
+        var totalRegistros =
+            totalRegistrosdom || 0;
+
+        var totalPaginas =
+            Math.ceil(
+                totalRegistros / registrosPorPagina
+            );
+
+        var html = "";
+
+
+        /* =================================================
+           SEM REGISTROS
+           ================================================= */
+
+        if (totalPaginas === 0) {
+
+            document.getElementById(
+                "pag_dom"
+            ).innerHTML = "";
+
+            return;
+        }
+
+
+        /* =================================================
+           BOTÃO PRIMEIRA
+           ================================================= */
+
+        if (paginaAtual === 1) {
+
+            html +=
+                '<button type="button" ' +
+                'class="btn btn-light border rounded-3 px-3 py-2" ' +
+                'disabled>' +
+                'Primeira' +
+                '</button>';
+
+        } else {
+
+            html +=
+                '<button type="button" ' +
+                'class="btn btn-light border rounded-3 px-3 py-2" ' +
+                'onclick="carregarPaginadom(1)">' +
+                'Primeira' +
+                '</button>';
+        }
+
+
+        /* =================================================
+           SEPARADOR
+           ================================================= */
+
+        html +=
+            '<span class="text-secondary mx-2">|</span>';
+
+
+        /* =================================================
+           DEFINE AS PÁGINAS VISÍVEIS
+           
+           Página 1:
+           1 2 3
+
+           Página 2:
+           1 2 3
+
+           Página 3:
+           2 3 4
+
+           Página 4:
+           3 4 5
+
+           Última:
+           4 5 6
+           ================================================= */
+
+        var inicio;
+        var fim;
+
+
+        if (totalPaginas <= 3) {
+
+            inicio = 1;
+            fim = totalPaginas;
+
+        } else {
+
+            inicio = paginaAtual - 1;
+            fim = paginaAtual + 1;
+
+
+            /* Primeira ou segunda */
+
+            if (paginaAtual <= 2) {
+
+                inicio = 1;
+                fim = 3;
+            }
+
+
+            /* Penúltima ou última */
+
+            if (paginaAtual >= totalPaginas - 1) {
+
+                inicio = totalPaginas - 2;
+                fim = totalPaginas;
+            }
+        }
+
+
+        /* =================================================
+           NÚMEROS DAS PÁGINAS
+           ================================================= */
+
+        for (
+            var pagina = inicio;
+            pagina <= fim;
+            pagina++
+        ) {
+
+
+            /* ---------------------------------------------
+               PÁGINA ATUAL
+               --------------------------------------------- */
+
+            if (pagina === paginaAtual) {
+
+                html +=
+                    '<button type="button" ' +
+                    'class="btn btn-primary rounded-3 px-3 py-2 mx-1" ' +
+                    'disabled>' +
+                    pagina +
+                    '</button>';
+
+            }
+
+
+            /* ---------------------------------------------
+               OUTRAS PÁGINAS
+               --------------------------------------------- */
+
+            else {
+
+                html +=
+                    '<button type="button" ' +
+                    'class="btn btn-light border rounded-3 px-3 py-2 mx-1" ' +
+                    'onclick="carregarPaginadom(' +
+                    pagina +
+                    ')">' +
+                    pagina +
+                    '</button>';
+            }
+        }
+
+
+        /* =================================================
+           COLOCA NA TELA
+           ================================================= */
+
+        document.getElementById(
+            "pag_dom"
+        ).innerHTML = html;
+    }
+
+
+    /* =====================================================
+       CARREGA A PÁGINA
+       ===================================================== */
+
+    function carregarPaginadom(pagina) {
+
+        /* Guarda página atual */
+
+        paginaAtualDom = pagina;
+
+
+        /* Atualiza informação */
+
+        atualizarInfodom(pagina);
+
+
+        /* Atualiza paginação */
+
+        montarPaginasdom(pagina);
+
+
+        /* =================================================
+           OFFSET
+           ================================================= */
+
+        var registrosPorPagina =
+            registrosPorPaginaDom;
+
+        var offset =
+            (pagina - 1) *
+            registrosPorPagina;
+
+
+        /* =================================================
+           URL
+           ================================================= */
+
+        var urlAction =
+            '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_dom';
+
+
+        /* =================================================
+           CNPJ / CPF
+           ================================================= */
+
+        var campoCnpjCpf =
+            document.getElementById(
+                'cnpj_cpf'
+            );
+
+        var cont_cnpj_cpf = "";
+
+        if (campoCnpjCpf) {
+
+            cont_cnpj_cpf =
+                campoCnpjCpf.value;
+        }
+
+
+        /* =================================================
+           AJAX
+           ================================================= */
+
+        $.ajax({
+
+            type: "POST",
+
+            url: urlAction,
+
+            data: {
+
+                offset: offset,
+
+                cont_cnpj_cpf: cont_cnpj_cpf
+            },
+
+
+            /* ---------------------------------------------
+               SUCESSO
+               --------------------------------------------- */
+
+            success: function(response) {
+
+                $("#t_list_dom tbody")
+                    .html(response);
+            },
+
+
+            /* ---------------------------------------------
+               ERRO
+               --------------------------------------------- */
+
+            error: function(
+                xhr,
+                status,
+                error
+            ) {
+
+                console.log(
+                    xhr.responseText
+                );
+
+                alert(
+                    "Erro ao carregar página Dominio: " +
+                    error
+                );
+            }
+
+        });
+    }
+
+
+    /* =====================================================
+       INICIALIZAÇÃO
+       ===================================================== */
+
+    atualizarInfodom(1);
+
+    montarPaginasdom(1);
+
+</script>							
 				</div>
 			<!-- FIM Container -->
 			<!--  -->
