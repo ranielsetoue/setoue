@@ -317,10 +317,12 @@ if (document.getElementById("no_dom").value == ''
 					if (response.status === 'ok') {
 
 
-		                // ✅ FECHA O MODAL
-		                carregarDominios();
+						totalRegistrosdom++;
 
-		                
+					    montarPaginasdom();
+
+					    atualizarInfodom(1);		
+						                
 		                const modalEl = document.getElementById('adi_dom');
 		                bootstrap.Modal.getInstance(modalEl).hide();                	                
 		                alert(response.msg);
