@@ -1,6 +1,4 @@
 <script type="text/javascript">
-<span style="cursor:pointer;" onclick="carregarPaginacont(1)"></span>
-<span>|</span>
 
 var totalRegistrosCont = ${cont_list_qt.size()};
 function atualizarInfocont(pagina) {
@@ -22,63 +20,121 @@ function atualizarInfocont(pagina) {
 }
 
 atualizarInfocont(1);
+function montarPaginascont(paginaAtual) {
 
-function montarPaginascont() {
+	    var registrosPorPagina = 5;
+	    var totalRegistros = totalRegistrosCont || 0;
+	    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
 
- var registrosPorPagina = 5;
- var totalRegistros = totalRegistrosCont;
+	    var html = "";
 
- var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+	    // PRIMEIRA
+	    html += '<span style="cursor:pointer;" ';
+	    html += 'onclick="carregarPaginacont(1)">Primeira</span>';
 
- var html = "";
+	    if (totalPaginas > 0) {
+	        html += " | ";
+	    }
 
- for (var pagina = 1; pagina <= totalPaginas; pagina++) {
+	    // Define quais páginas serão exibidas
+	    var inicio;
+	    var fim;
 
-     if (pagina > 1) {
-         html += " - ";
-     }
+	    if (totalPaginas <= 3) {
 
-     html += '<span style="cursor:pointer;" ';
-     html += 'onclick="carregarPaginacont(' + pagina + ')">';
-     html += pagina;
-     html += '</span>';
- }
+	        inicio = 1;
+	        fim = totalPaginas;
 
- document.getElementById("pag_cont").innerHTML = html;
+	    } else {
+
+	        inicio = paginaAtual - 1;
+	        fim = paginaAtual + 1;
+
+	        if (inicio < 1) {
+	            inicio = 1;
+	            fim = 3;
+	        }
+
+	        if (fim > totalPaginas) {
+	            fim = totalPaginas;
+	            inicio = totalPaginas - 2;
+	        }
+	    }
+
+	    // NÚMEROS DAS PÁGINAS
+	    for (var pagina = inicio; pagina <= fim; pagina++) {
+
+	        if (pagina > inicio) {
+	            html += " - ";
+	        }
+
+	        if (pagina == paginaAtual) {
+
+	            // PÁGINA ATUAL DESTACADA
+	            html += '<span style="cursor:pointer; font-weight:bold; text-decoration:underline;" ';
+	            html += 'onclick="carregarPaginacont(' + pagina + ')">';
+	            html += pagina;
+	            html += '</span>';
+
+	        } else {
+
+	            html += '<span style="cursor:pointer;" ';
+	            html += 'onclick="carregarPaginacont(' + pagina + ')">';
+	            html += pagina;
+	            html += '</span>';
+	        }
+	    }
+
+	    document.getElementById("pag_cont").innerHTML = html;
+
+
 }
 
 montarPaginascont(1);
 
+
 function carregarPaginacont(pagina) {
 
- atualizarInfocont(pagina);
+    atualizarInfocont(pagina);
 
- var registrosPorPagina = 5;
- var offset = (pagina - 1) * registrosPorPagina;
+    // Atualiza as páginas exibidas
+    montarPaginascont(pagina);
 
- var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cont';
- var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
-     	
+    var registrosPorPagina = 5;
 
- 
- 
- $.ajax({
-     type: "POST",
-     url: urlAction,
-     data: {
-         offset: offset,cont_cnpj_cpf: cont_cnpj_cpf
-     },
-     success: function(response) {
+    var offset = (pagina - 1) * registrosPorPagina;
 
-         $("#t_list_cont tbody").html(response);
-     },
-     error: function(xhr, status, error) {
+    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cont';
 
-         console.log(xhr.responseText);
-         alert("Erro ao carregar página Contato: " + error);
+    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
 
-     }
- });
+    $.ajax({
+
+        type: "POST",
+
+        url: urlAction,
+
+        data: {
+            offset: offset,
+            cont_cnpj_cpf: cont_cnpj_cpf
+        },
+
+        success: function(response) {
+
+            $("#t_list_cont tbody").html(response);
+
+        },
+
+        error: function(xhr, status, error) {
+
+            console.log(xhr.responseText);
+
+            alert("Erro ao carregar página Contato: " + error);
+
+        }
+
+    });
 }
+
 
 </script>

@@ -1869,24 +1869,21 @@ function validartipo_ace() {
 							<hr>
 <div id="paginacao_dom">
 
-    <span>Primeira</span>
-    <span>|</span>
-    <span>Anterior</span>
-
     <span id="pag_dom"></span>
     
-    <span>Próxima</span>
+    <span>|</span>
 
     &nbsp;&nbsp;
 
     <span id="info_dom"></span>
 
-
 <script type="text/javascript">
+
+var totalRegistrosdom = ${dom_list_qt.size()};
 function atualizarInfodom(pagina) {
 
 	   var registrosPorPagina = 5;
-	    var totalRegistros = ${dom_list_qt.size()};
+	    var totalRegistros = totalRegistrosdom;
 
 	    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
 
@@ -1902,61 +1899,125 @@ function atualizarInfodom(pagina) {
 }
 
 atualizarInfodom(1);
+function montarPaginasdom(paginaAtual) {
 
-function montarPaginasDom() {
+	    var registrosPorPagina = 5;
+	    var totalRegistros = totalRegistrosdom || 0;
+	    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
 
-    var registrosPorPagina = 5;
-    var totalRegistros = ${dom_list_qt.size()};
+	    var html = "";
 
-    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+	    // PRIMEIRA
+	    html += '<span style="cursor:pointer;" ';
+	    html += 'onclick="carregarPaginadom(1)">Primeira</span>';
 
-    var html = "";
+	    if (totalPaginas > 0) {
+	        html += " | ";
+	    }
 
-    for (var pagina = 1; pagina <= totalPaginas; pagina++) {
+	    // Define quais páginas serão exibidas
+	    var inicio;
+	    var fim;
 
-        if (pagina > 1) {
-            html += " - ";
-        }
+	    if (totalPaginas <= 3) {
 
-        html += '<span style="cursor:pointer;" ';
-        html += 'onclick="carregarPaginaDom(' + pagina + ')">';
-        html += pagina;
-        html += '</span>';
-    }
+	        inicio = 1;
+	        fim = totalPaginas;
 
-    document.getElementById("pag_dom").innerHTML = html;
+	    } else {
+
+	        inicio = paginaAtual - 1;
+	        fim = paginaAtual + 1;
+
+	        if (inicio < 1) {
+	            inicio = 1;
+	            fim = 3;
+	        }
+
+	        if (fim > totalPaginas) {
+	            fim = totalPaginas;
+	            inicio = totalPaginas - 2;
+	        }
+	    }
+
+	    // NÚMEROS DAS PÁGINAS
+	    for (var pagina = inicio; pagina <= fim; pagina++) {
+
+	        if (pagina > inicio) {
+	            html += " - ";
+	        }
+
+	        if (pagina == paginaAtual) {
+
+	            // PÁGINA ATUAL DESTACADA
+	            html += '<span style="cursor:pointer; font-weight:bold; text-decoration:underline;" ';
+	            html += 'onclick="carregarPaginadom(' + pagina + ')">';
+	            html += pagina;
+	            html += '</span>';
+
+	        } else {
+
+	            html += '<span style="cursor:pointer;" ';
+	            html += 'onclick="carregarPaginadom(' + pagina + ')">';
+	            html += pagina;
+	            html += '</span>';
+	        }
+	    }
+
+	    document.getElementById("pag_dom").innerHTML = html;
+
+
 }
 
-montarPaginasDom();
+montarPaginasdom(1);
 
-function carregarPaginaDom(pagina) {
 
-    atualizarInfoDom(pagina);
+function carregarPaginadom(pagina) {
+
+    atualizarInfodom(pagina);
+
+    // Atualiza as páginas exibidas
+    montarPaginasdom(pagina);
 
     var registrosPorPagina = 5;
+
     var offset = (pagina - 1) * registrosPorPagina;
 
     var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_dom';
 
+    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+
     $.ajax({
+
         type: "POST",
+
         url: urlAction,
+
         data: {
-            offset: offset
+            offset: offset,
+            cont_cnpj_cpf: cont_cnpj_cpf
         },
+
         success: function(response) {
 
             $("#t_list_dom tbody").html(response);
+
         },
+
         error: function(xhr, status, error) {
 
             console.log(xhr.responseText);
+
             alert("Erro ao carregar página Dominio: " + error);
 
         }
+
     });
 }
+
+
 </script>
+
 
 </div>
 							
