@@ -66,6 +66,38 @@ public class fun_sis_cont {
 		return gra_inp;
 
 	}
+	
+	public cla_sis_cont cons_sis_cont(Long id_sis, String tx1) throws Exception {
+
+		cla_sis_cont gra_inp = new cla_sis_cont();
+
+		String bc_sql = "select * FROM tb_sis_cont where id_sis = " + id_sis + " AND nome_desc = '" + tx1 + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis_cont = gra_bus.executeQuery();
+
+		while (cl_sis_cont.next()) {
+
+			gra_inp.setId_sis(cl_sis_cont.getLong("id_sis"));
+			gra_inp.setReg_id(cl_sis_cont.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis_cont.getTimestamp("reg_data"));
+			gra_inp.setReg_alt(cl_sis_cont.getLong("reg_alt"));
+			gra_inp.setReg_data_alt(cl_sis_cont.getTimestamp("reg_data_alt"));
+			gra_inp.setId_sis_cont(cl_sis_cont.getLong("id_sis_cont"));
+			gra_inp.setNome_desc(cl_sis_cont.getString("nome_desc"));
+			gra_inp.setTel_1(cl_sis_cont.getString("tel_1"));
+			gra_inp.setTel_2(cl_sis_cont.getString("tel_2"));
+			gra_inp.setEmail_1(cl_sis_cont.getString("email_1"));
+			gra_inp.setEmail_2(cl_sis_cont.getString("email_2"));
+			gra_inp.setSetor_1(cl_sis_cont.getString("setor_1"));
+			gra_inp.setObs(cl_sis_cont.getString("obs"));
+			gra_inp.setId_sis_log(cl_sis_cont.getLong("id_sis_log"));
+
+		}
+
+		return gra_inp;
+
+	}
 
 	public List<cla_sis_cont> list_sis_cont_id(long nx1, long offset) throws Exception {
 

@@ -559,33 +559,63 @@ public class lt_sis_salvar extends HttpServlet {
 					String sis_cont_email_2 = request.getParameter("cont_email_2");
 					String sis_cont_setor_1 = request.getParameter("cont_setor_1");
 					String sis_cont_obs = request.getParameter("cont_obs");
-					/*
-					 * Inicio dado para modal
-					 */
 					boolean modal_dominio_visivel = false;
 					String msg_tela = "Cadastro Já Existe";
-					/*
-					 * Fim dado para modal
-					 */
 
+					
 					cl_sis = f_sis.cons_sis_cnpj_cpf(sis_cont_cnpj_cpf);
-					cl_sis_cont.setId_sis(cl_sis.getId_sis());
-					cl_sis_cont.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-					cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-					cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-					cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-					cl_sis_cont.setId_sis_cont(0L);
-					cl_sis_cont.setNome_desc(sis_cont_nome_desc);
-					cl_sis_cont.setTel_1(sis_cont_tel_1);
-					cl_sis_cont.setTel_2(sis_cont_tel_2);
-					cl_sis_cont.setEmail_1(sis_cont_email_1);
-					cl_sis_cont.setEmail_2(sis_cont_email_2);
-					cl_sis_cont.setSetor_1(sis_cont_setor_1);
-					cl_sis_cont.setObs(sis_cont_obs);
-					cl_sis_cont.setId_sis_log(0L);
+					
+					
+					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc)) {
+						
+						
+						cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(),sis_cont_nome_desc);
+						
+						cl_sis_cont.setId_sis(cl_sis.getId_sis());
+						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+						cl_sis_cont.setTel_1(sis_cont_tel_1);
+						cl_sis_cont.setTel_2(sis_cont_tel_2);
+						cl_sis_cont.setEmail_1(sis_cont_email_1);
+						cl_sis_cont.setEmail_2(sis_cont_email_2);
+						cl_sis_cont.setSetor_1(sis_cont_setor_1);
+						cl_sis_cont.setObs(sis_cont_obs);
+	 						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+ 						modal_dominio_visivel = true;
+						
+					}else {
+						
+						/*
+						 * Inicio dado para modal
+						 */
 
-					cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
-					modal_dominio_visivel = true;
+						cl_sis_cont.setId_sis(cl_sis.getId_sis());
+						cl_sis_cont.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+						cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+						cl_sis_cont.setId_sis_cont(0L);
+						cl_sis_cont.setNome_desc(sis_cont_nome_desc);
+						cl_sis_cont.setTel_1(sis_cont_tel_1);
+						cl_sis_cont.setTel_2(sis_cont_tel_2);
+						cl_sis_cont.setEmail_1(sis_cont_email_1);
+						cl_sis_cont.setEmail_2(sis_cont_email_2);
+						cl_sis_cont.setSetor_1(sis_cont_setor_1);
+						cl_sis_cont.setObs(sis_cont_obs);
+						cl_sis_cont.setId_sis_log(0L);
+
+ 						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);				
+						modal_dominio_visivel = true;
+						/*
+						 * Fim dado para modal
+						 */
+						
+					}
+						
+					
+					
+					
+
 
 					if (modal_dominio_visivel) {
 						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
