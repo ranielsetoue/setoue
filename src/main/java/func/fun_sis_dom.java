@@ -253,12 +253,22 @@ public class fun_sis_dom {
 
 			String bc_sql = "UPDATE public.tb_sis_dom\r\n"
 
-					+ " SET reg_alt=? \r\n"
-					+ " WHERE id_sis = " + gra_bus.getId_sis() + ";";
+					+ " SET reg_alt=?, reg_data_alt=?,  \r\n"
+					+ "		no_dom=?, sis_url=?, l_usu=?, l_sen=?, tp_sit=?, \r\n"
+					+ "		ace_per_aut=?, titulo_web=?\r\n"
+					+ " WHERE id_sis_dom = " + gra_bus.getId_sis_dom() + ";";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
-
+			
 			gra_inp.setLong(1, gra_bus.getReg_alt());
+			gra_inp.setTimestamp(2, gra_bus.getReg_data());
+			gra_inp.setString(3, gra_bus.getNo_dom());
+			gra_inp.setString(4, gra_bus.getSis_url());
+			gra_inp.setString(5, gra_bus.getL_usu());
+			gra_inp.setString(6, gra_bus.getL_sen());
+			gra_inp.setString(7, gra_bus.getTp_sit());
+			gra_inp.setString(8, gra_bus.getAce_per_aut());
+			gra_inp.setString(9, gra_bus.getTitulo_web());
 		
 
 			gra_inp.executeUpdate();

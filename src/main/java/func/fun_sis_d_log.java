@@ -101,9 +101,11 @@ public class fun_sis_d_log {
 
 			} else {
 
-			    String bc_sql = "UPDATE INTO public.tb_sis_d_log (reg_alt=?, reg_data_alt=?, nome_desc=?, email_1=?) WHERE id_sis = " + gra_bus.getId_sis() + ";";
-				
-				
+			    String bc_sql = "UPDATE public.tb_sis_d_log \r\n"
+			    		+ "SET reg_alt=?, reg_data_alt=?, \r\n"
+			    		+ "nome_desc=?, email_1=? \r\n"
+			    		+ "WHERE id_sis_log = " + gra_bus.getId_sis_log() + ";";
+			
 				PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
 				gra_inp.setLong(1, gra_bus.getReg_alt());

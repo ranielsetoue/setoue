@@ -9,13 +9,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-		
-		<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<!--  -->
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<!--  -->
 
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
@@ -754,78 +751,37 @@ function bus_p2(){
 				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
 					<!-- Inicio row -->
-				<!-- coluna esquerda -->
-<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-start 
-            text-start text-md-start text-center">
-
-    <div class="d-flex justify-content-center justify-content-md-start 
-                align-items-start gap-2">
-
-        <!-- Página Inicial -->
-        <a href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
-            <button type="button" class="btn btn-primary">
-                Pagina Inicial
-            </button>
-        </a>
-
-        <!-- Cadastro -->
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                Cadastro
-            </button>
-
-            <ul class="dropdown-menu">
-
-                <c:if test="${aces_cad_sis}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
-                        SISTEMA
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_clin}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">
-                        CLIENTE
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_forn}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">
-                        FORNECEDOR
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_prod}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">
-                        PRODUTO
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_serv}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">
-                        SERVICO
-                    </a>
-                </c:if>
-
-            </ul>
-        </div>
-
-    </div>
-
-</div>
-<!-- coluna esquerda -->
+					<!-- coluna esquerda -->
+					<div
+						class="col-12 col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start text-md-start text-center">
+						<table class="mx-auto mx-md-0">
+							<tr>
+								<td><a
+									href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
+										<button type="button" class="btn btn-primary">Pagina
+											Inicial</button>
+								</a></td>
+							</tr>
+						</table>
+						
+		
+						
+					</div>
+					<!-- coluna esquerda -->
 					<!-- coluna Central -->
 					<div
 						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
 						
-
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown button
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
 						
 						
 						
@@ -2677,7 +2633,10 @@ function initLabels() {
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
 		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
 		crossorigin="anonymous"></script>
-
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		crossorigin="anonymous"></script>
 
 
 	<script

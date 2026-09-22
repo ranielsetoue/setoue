@@ -376,9 +376,13 @@ public class lt_sis_salvar extends HttpServlet {
 										&& f_sis_login.val_login_email(id_sis, t_email_1_usu) == false
 										&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu) == false) {
 
-									System.out.println("------");
+									/*
+									 * System.out.println("------");
+									 */
 
-									System.out.println("Uptade - 1");
+									/*
+									 * System.out.println("Uptade - 1");
+									 */
 									modal_dominio_visivel = true;
 									SIMNAO = true;
 
@@ -395,9 +399,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& f_sis_login.val_login_email(id_sis, t_email_1_usu) == false
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu) == false) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 2");
+										/*
+										 * System.out.println("Uptade - 2");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -415,9 +423,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& dom_tx3.equals(dom_tx4)
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu) == false) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 3");
+										/*
+										 * System.out.println("Uptade - 3");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -435,9 +447,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu)
 											&& dom_tx5.equals(dom_tx6)) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 4");
+										/*
+										 * System.out.println("Uptade - 4");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -448,9 +464,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu)
 											&& dom_tx5.equals(dom_tx6)) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 5");
+										/*
+										 * System.out.println("Uptade - 5");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -461,9 +481,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu)
 											&& dom_tx5.equals(dom_tx6)) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 6");
+										/*
+										 * System.out.println("Uptade - 6");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -473,9 +497,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu)
 											&& dom_tx5.equals(dom_tx6)) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 7");
+										/*
+										 * System.out.println("Uptade - 7");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -485,9 +513,13 @@ public class lt_sis_salvar extends HttpServlet {
 											&& dom_tx3.equals(dom_tx4)
 											&& f_sis_login.val_login_Nome(id_sis, t_nome_desc_usu) == false) {
 
-										System.out.println("------");
+										/*
+										 * System.out.println("------");
+										 */
 
-										System.out.println("Uptade - 8");
+										/*
+										 * System.out.println("Uptade - 8");
+										 */
 										modal_dominio_visivel = true;
 										SIMNAO = true;
 									}
@@ -495,7 +527,52 @@ public class lt_sis_salvar extends HttpServlet {
 								}
 
 								if (SIMNAO) {
-									System.out.println("Uptade");
+
+									
+									String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+
+									cl_sis_dom = f_sis_dom.cons_sis_dom_no_dom(t_no_dom);
+									
+									cl_sis_dom.setId_sis(id_sis);
+									cl_sis_dom.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis_dom.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis_dom.setNo_dom(t_no_dom);
+									cl_sis_dom.setSis_url(t_sis_url);
+									cl_sis_dom.setTp_sit(t_sis_tp_site);
+									cl_sis_dom.setTitulo_web(t_titulo_web);
+									cl_sis_dom.setAce_per_aut(t_sis_tipo_ace);
+									cl_sis_dom.setNome_desc(t_nome_desc_usu);
+									cl_sis_dom.setEmail_1(t_email_1_usu);
+									cl_sis_dom.setL_usu(t_l_usu);
+									cl_sis_dom.setL_sen(t_l_sen);
+
+									cl_sis_log.setReg_alt(cl_sis_dom.getReg_alt());
+									cl_sis_log.setReg_data_alt(cl_sis_dom.getReg_data_alt());
+									cl_sis_log.setId_sis_dom(cl_sis_dom.getId_sis_dom());
+									cl_sis_log.setId_sis_log(cl_sis_dom.getId_sis_log());
+									cl_sis_log.setL_usu(cl_sis_dom.getL_usu());
+									cl_sis_log.setL_sen(cl_sis_dom.getL_sen());
+									
+									cl_sis_dom = f_sis_dom.sav_dom(cl_sis_dom, cl_sis_log);
+				 					
+	 								cl_sis_log = f_sis_login.sav_login_up(cl_sis_log);
+			
+	 			 					cl_sis_d_log = f_sis_d_log.cons_sis_d_log(cl_sis_log.getId_sis_log());
+	 			
+	  								cl_sis_d_log.setReg_alt(cl_sis_dom.getReg_alt());
+	 								cl_sis_d_log.setReg_data_alt(cl_sis_dom.getReg_data_alt());
+	 								cl_sis_d_log.setNome_desc(t_nome_desc_usu);
+	 								cl_sis_d_log.setEmail_1(t_email_1_usu);
+
+	 								cl_sis_d_log = f_sis_d_log.sav_d_log(cl_sis_d_log);
+
+	 			
+	 			
+	 								
+ 								/*
+ 								 * System.out.println("Uptade - DADO SALVO");
+ 								 */
+									
 								}
 
 							} else {

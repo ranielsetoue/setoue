@@ -390,6 +390,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cons_dom", true);
 					request.getSession().setAttribute("tab_dom_ocult",true);
 					request.getSession().setAttribute("tab_cont_ocult",true);
+					request.getSession().setAttribute("ocul_excluir",true);
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
@@ -512,8 +513,8 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_for");
-					request.getSession().setAttribute("cons_dom", false);
-					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
+					request.getSession().setAttribute("tab_cont_ocult",true);
+					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 
 
 

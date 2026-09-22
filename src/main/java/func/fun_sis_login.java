@@ -245,4 +245,29 @@ public class fun_sis_login {
 
 	    return gra_bus;
 	}
+	
+	
+	public cla_sis_log sav_login_up(cla_sis_log gra_bus) throws Exception {
+
+		String bc_sql = "UPDATE public.tb_sis_log\r\n"
+					+ " SET reg_alt=?, reg_data_alt=?,  \r\n"
+					+ "		l_usu=?, l_sen=? \r\n"
+					+ " WHERE id_sis_log = " + gra_bus.getId_sis_log() + ";";
+
+			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
+			
+			
+			gra_inp.setLong(1, gra_bus.getReg_alt());
+			gra_inp.setTimestamp(2, gra_bus.getReg_data_alt());
+			gra_inp.setString(3, gra_bus.getL_usu());
+			gra_inp.setString(4, gra_bus.getL_sen());
+		
+
+			gra_inp.executeUpdate();
+			pos_cbd_con.commit();
+		
+		return this.cons_sis_log_id_sis_log(gra_bus.getId_sis_log());
+	}
+	
+	
 }
