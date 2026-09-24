@@ -3,6 +3,7 @@ package lt;
 import java.io.IOException;
 import java.util.List;
 
+import cla.cla_clin;
 import cla.cla_list_cnpj_nome;
 import cla.cla_perm_ace;
 import cla.cla_sis;
@@ -10,6 +11,7 @@ import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
+import func.fun_clin;
 import func.fun_sis;
 import func.fun_sis_dom;
 import func.fun_sis_login;
@@ -38,6 +40,8 @@ public class lt_sis extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
+	fun_clin f_clin = new fun_clin();
+	cla_clin cl_clin = new cla_clin();
 
 	public lt_sis() {
 		super();
@@ -56,6 +60,7 @@ public class lt_sis extends HttpServlet {
 
 			request.getSession().setAttribute("cons_list", false);
 			request.getSession().setAttribute("cons_list_not", false);
+			request.getSession().setAttribute("tab_dom_ocult", false);
 			
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
@@ -89,11 +94,11 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_cli");
+				cl_sis.vz_id();
+				request.getSession().setAttribute("pre_glo", cl_sis);
 
-				/*
-				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-				 * request.setAttribute("sis_cons", sisCons);
-				 */
+				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj();
+				request.setAttribute("sis_cons", sisCons);
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
@@ -156,6 +161,9 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_serv");
 
+				
+				
+				
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				 * request.setAttribute("sis_cons", sisCons);

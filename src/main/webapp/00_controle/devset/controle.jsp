@@ -135,11 +135,13 @@
 									<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">SERVICO</a>
 								</c:if>
+																<c:if test="${aces_cad_sis}">
+								
 													<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/00_controle/devset/cadastro/pdf.html">PDF</a>
 										<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/00_controle/devset/treinamento/treinamento.html">treinamento</a>
-								
+								</c:if>
 								
 							</div>
 						</div>

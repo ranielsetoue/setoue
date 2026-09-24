@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import api_ext.api_cnpj;
+import cla.cla_clin;
 import cla.cla_cnpj;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
@@ -19,6 +20,7 @@ import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.busc_unico;
 import func.fun_blio;
+import func.fun_clin;
 import func.fun_sis;
 import func.fun_sis_cont;
 import func.fun_sis_dom;
@@ -54,7 +56,11 @@ public class lt_sis_busc extends HttpServlet {
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	cla_sis_cont cl_sis_cont = new cla_sis_cont();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
+	fun_clin f_clin = new fun_clin();
+	cla_clin cl_clin = new cla_clin();
 
+	
+	
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -128,6 +134,10 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("tab_cont_ocult", true);
+					
+					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj();
+					request.setAttribute("sis_cons", sisCons);
+
 
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -338,8 +348,12 @@ public class lt_sis_busc extends HttpServlet {
 				
 				
 				request.getSession().setAttribute("cons_list", true);
+				request.getSession().setAttribute("ocul_excluir", false);
+
 				
-				 List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
+
+				
+				List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
 				request.setAttribute("sis_cons_tp_site", sisConstp_site);
 				 List<cla_list_tipo_ace> sisConstipoace = f_sis.cons_list_tipo_ace();
 					request.setAttribute("sis_cons_tip_ace", sisConstipoace);
@@ -373,7 +387,8 @@ public class lt_sis_busc extends HttpServlet {
 				request.getSession().setAttribute("cons_true", true);
 				request.getSession().setAttribute("cons_false", false);
 				request.getSession().setAttribute("cons_list_not", false);
-				
+				request.getSession().setAttribute("tab_dom_ocult", false);
+
 				
 				
 
@@ -512,11 +527,20 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_forn", "false");
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
-					request.getSession().setAttribute("cont_sis", "cad_for");
+					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("tab_cont_ocult",true);
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 
+					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
+					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+						request.getSession().setAttribute("insc_ocult", true);
 
+					} else {
+						request.getSession().setAttribute("insc_ocult", false);
+
+					}
+					
+			
 
 				} // CADASTRO DE CLIENTE
 				
