@@ -6,7 +6,7 @@
                         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
     version="6.0">
 
-    <display-name>setoue2</display-name>
+    <display-name>setoue</display-name>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

@@ -3,7 +3,6 @@ package lt;
 import java.io.IOException;
 import java.util.List;
 
-import cla.cla_clin;
 import cla.cla_list_cnpj_nome;
 import cla.cla_perm_ace;
 import cla.cla_sis;
@@ -41,7 +40,6 @@ public class lt_sis extends HttpServlet {
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	fun_clin f_clin = new fun_clin();
-	cla_clin cl_clin = new cla_clin();
 
 	public lt_sis() {
 		super();
@@ -61,7 +59,7 @@ public class lt_sis extends HttpServlet {
 			request.getSession().setAttribute("cons_list", false);
 			request.getSession().setAttribute("cons_list_not", false);
 			request.getSession().setAttribute("tab_dom_ocult", false);
-			
+
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 				cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 						Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
@@ -161,9 +159,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_serv");
 
-				
-				
-				
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				 * request.setAttribute("sis_cons", sisCons);

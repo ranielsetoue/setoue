@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import api_ext.api_cnpj;
-import cla.cla_clin;
 import cla.cla_cnpj;
+import cla.cla_glo_ad;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_list_tp_site;
@@ -54,10 +54,11 @@ public class lt_sis_busc extends HttpServlet {
 	fun_sis f_sis = new fun_sis();
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
-	cla_sis_cont cl_sis_cont = new cla_sis_cont();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
 	fun_clin f_clin = new fun_clin();
-	cla_clin cl_clin = new cla_clin();
+	cla_glo_ad cl_glo_ad = new cla_glo_ad();
+
+	
 
 	
 	
@@ -409,7 +410,10 @@ public class lt_sis_busc extends HttpServlet {
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
-
+			
+					cl_glo_ad.vz_con();
+					cl_sis.vz_con();
+					
 					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
 					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
 						request.getSession().setAttribute("insc_ocult", true);
@@ -438,6 +442,7 @@ public class lt_sis_busc extends HttpServlet {
 							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
 								if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+									
 									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
 									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
@@ -455,7 +460,7 @@ public class lt_sis_busc extends HttpServlet {
 									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
 									cl_sis.setEnd_uf(cl_cnpj.getUf());
 									cl_sis.setEnd_cep(cl_cnpj.getCep());
-									cl_sis.setEmail_1(cl_cnpj.getEmail());
+									cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
 									String telefone = cl_cnpj.getTelefone();
 
 									if (telefone != null
@@ -463,7 +468,7 @@ public class lt_sis_busc extends HttpServlet {
 										// telefones como (11) 98765-4321, 11987654321, (11) 3456-7890
 										cl_sis.setTel_1(telefone);
 									} else {
-										cl_sis.setObs(telefone);
+										cl_glo_ad.setTel_2(telefone);
 									}
 
 									cl_sis.setTruefalse(false);
@@ -486,7 +491,30 @@ public class lt_sis_busc extends HttpServlet {
 								}
 							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
+							
 							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+													
+							if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+								
+								cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
+								cl_sis.setNome_desc(cl_cnpj.getNome());
+								cl_sis.setNo_fan(cl_cnpj.getFantasia());
+								cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+								cl_sis.setEnd_num(cl_cnpj.getNumero());
+								cl_sis.setEnd_com(cl_cnpj.getComplemento());
+								cl_sis.setEnd_bar(cl_cnpj.getBairro());
+								cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+								cl_sis.setEnd_uf(cl_cnpj.getUf());
+								cl_sis.setEnd_cep(cl_cnpj.getCep());
+								cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
+									cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
+
+							
+							}
+								
+							request.getSession().setAttribute("pre_glo", cl_sis);
+							
+							request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
 							
 							Integer offset = Integer.parseInt("0");
  							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
@@ -494,18 +522,16 @@ public class lt_sis_busc extends HttpServlet {
 							List<cla_sis_dom> dom_list_qt = f_sis_dom.dom_list_qt(cl_sis.getId_sis());
  							request.setAttribute("dom_list_qt", dom_list_qt);	
 
-							
-							
 							Integer offsetcont = Integer.parseInt("0");
  							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
  							request.setAttribute("cont_list", cont_sis_list);	
  							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
  							request.setAttribute("cont_list_qt", cont_list_qt);	
  							
-							request.getSession().setAttribute("pre_glo", cl_sis);
 							request.getSession().setAttribute("cons_true", true);
+							
 
-									
+
 						} // (b1Value == 1)
 
 						if (b1Value > 1) {
@@ -531,6 +557,9 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("tab_cont_ocult",true);
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 
+					cl_glo_ad.vz_con();
+					cl_sis.vz_con();
+					
 					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
 					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
 						request.getSession().setAttribute("insc_ocult", true);
@@ -539,9 +568,129 @@ public class lt_sis_busc extends HttpServlet {
 						request.getSession().setAttribute("insc_ocult", false);
 
 					}
-					
-			
 
+					if (t_cnpj_cpf != null) {
+
+						List<cla_sis> lista = busc_unico.busca("tb_sis", t_cnpj_cpf, cla_sis.class);
+
+						int b1Value = (lista.size() > 1) ? 2 : 1;
+
+						if (b1Value == 1) {
+
+							for (cla_sis item : lista) {
+
+								t_cnpj_cpf = item.getCnpj_cpf(); // usando getter
+
+							}
+
+							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+
+							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+
+								if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+									
+									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
+									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
+									cl_sis.setNome_desc(cl_cnpj.getNome());
+									cl_sis.setNo_fan(cl_cnpj.getFantasia());
+									cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+									cl_sis.setEnd_num(cl_cnpj.getNumero());
+									cl_sis.setEnd_com(cl_cnpj.getComplemento());
+									cl_sis.setEnd_bar(cl_cnpj.getBairro());
+									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+									cl_sis.setEnd_uf(cl_cnpj.getUf());
+									cl_sis.setEnd_cep(cl_cnpj.getCep());
+									cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
+									String telefone = cl_cnpj.getTelefone();
+
+									if (telefone != null
+											&& telefone.matches("^\\(?\\d{2}\\)?\\s?(?:9\\d{4}|\\d{4})-?\\d{4}$")) {
+										// telefones como (11) 98765-4321, 11987654321, (11) 3456-7890
+										cl_sis.setTel_1(telefone);
+									} else {
+										cl_glo_ad.setTel_2(telefone);
+									}
+
+									cl_sis.setTruefalse(false);
+
+							/*
+							 * 		f_sis.sav_sis_consultar_refeita_federal(cl_sis);
+							 */
+
+								}
+
+								if (fun_blio.isCPF(t_cnpj_cpf)) {
+
+									cl_sis.setCnpj_cpf(t_cnpj_cpf);
+									cl_sis.setNome_desc(t_cnpj_cpf);
+									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+									cl_sis.setTruefalse(false);
+								/*
+								 * 	cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);
+								 */
+								}
+							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
+
+							
+							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
+													
+							if (fun_blio.isCNPJ(t_cnpj_cpf)) {
+								
+								cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
+								cl_sis.setNome_desc(cl_cnpj.getNome());
+								cl_sis.setNo_fan(cl_cnpj.getFantasia());
+								cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+								cl_sis.setEnd_num(cl_cnpj.getNumero());
+								cl_sis.setEnd_com(cl_cnpj.getComplemento());
+								cl_sis.setEnd_bar(cl_cnpj.getBairro());
+								cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+								cl_sis.setEnd_uf(cl_cnpj.getUf());
+								cl_sis.setEnd_cep(cl_cnpj.getCep());
+								cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
+							    cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
+
+							
+							}
+								
+							request.getSession().setAttribute("pre_glo", cl_sis);
+							
+							request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
+						
+							if (fun_blio.isCPF(t_cnpj_cpf)) {
+							request.getSession().setAttribute("tab_cont_ocult",false);
+							}
+							Integer offsetcont = Integer.parseInt("0");
+ 							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
+ 							request.setAttribute("cont_list", cont_sis_list);	
+ 							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
+ 							request.setAttribute("cont_list_qt", cont_list_qt);	
+ 							
+							request.getSession().setAttribute("cons_true", true);
+							
+
+
+						} // (b1Value == 1)
+
+						if (b1Value > 1) {
+
+							request.getSession().setAttribute("listaResultados", lista);
+							request.getSession().setAttribute("cons_true", false);
+
+							
+							
+						} // (b1Value > 1)
+
+					} /// if (t_cnpj_cpf != null) {
 				} // CADASTRO DE CLIENTE
 				
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
