@@ -508,9 +508,13 @@ public class lt_sis_busc extends HttpServlet {
 								cl_sis.setEnd_cep(cl_cnpj.getCep());
 								cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
 									cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
+							}else {
 
+								cl_glo_ad = f_sis.cons_sis_adi(cl_sis.getId_sis());
 							
 							}
+							
+							
 								
 							request.getSession().setAttribute("pre_glo", cl_sis);
 							

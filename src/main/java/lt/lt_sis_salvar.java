@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import cla.cla_bc_cam;
+import cla.cla_glo_ad;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
 import cla.cla_sis;
@@ -16,6 +17,7 @@ import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import cla.cla_tipo_ace;
 import func.fun_blio;
+import func.fun_clin;
 import func.fun_perm_ace;
 import func.fun_sis;
 import func.fun_sis_cont;
@@ -60,11 +62,15 @@ public class lt_sis_salvar extends HttpServlet {
 	fun_perm_ace f_perm_ace = new fun_perm_ace();
 	cla_tipo_ace cl_tipo_ace = new cla_tipo_ace();
 	fun_tipo_ace f_tipo_ace = new fun_tipo_ace();
+	fun_clin f_clin = new fun_clin();
 
+	
+	
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	cla_sis_cont cl_sis_cont = new cla_sis_cont();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
+	cla_glo_ad cl_glo_ad = new cla_glo_ad();
 
 	public lt_sis_salvar() {
 		super();
@@ -105,6 +111,8 @@ public class lt_sis_salvar extends HttpServlet {
 		String t_tel_1 = request.getParameter("tel_1");
 		String t_email_1 = request.getParameter("email_1");
 		String t_obs = request.getParameter("obs");
+		String t_tel_2 = request.getParameter("tel_2");
+		String t_email_2 = request.getParameter("email_2");
 
 		try {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
@@ -173,23 +181,91 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setTel_1(t_tel_1);
 					cl_sis.setEmail_1(t_email_1);
 					cl_sis.setObs(t_obs);
+	
+					cl_sis = f_sis.sav_sis(cl_sis);
+					
+					cl_glo_ad.setId_sis(cl_sis.getId_sis());
+					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setTruefalse(false);	
+					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setTel_2(t_tel_2);
+					cl_glo_ad.setEmail_2(t_email_2);
 
-					f_sis.sav_sis(cl_sis);
+		
+		  			f_sis.sav_sis_adi(cl_glo_ad);
+		 
 
 					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 
 				}
 
-				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
+
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
 					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
-					request.getSession().setAttribute("cont_sis", "cad_cli");
+					request.getSession().setAttribute("cont_sis", "cad_clin");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
+
+  					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+  					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+  					
+  					cl_sis.setId_sis(id_sis);
+					cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setTruefalse(false);
+					cl_sis.setNome_desc(t_nome_desc);
+					cl_sis.setNo_fan(t_no_fan);
+					cl_sis.setCnpj_cpf(t_cnpj_cpf);
+					cl_sis.setEnd_rua(t_end_rua);
+					cl_sis.setEnd_num(t_end_num);
+					cl_sis.setEnd_com(t_end_com);
+					cl_sis.setEnd_bar(t_end_bar);
+					cl_sis.setEnd_mun(t_end_mun);
+					cl_sis.setEnd_uf(t_end_uf);
+					cl_sis.setEnd_cep(t_end_cep);
+					cl_sis.setIns_est(t_ins_est);
+					cl_sis.setIns_mun(t_ins_mun);
+					cl_sis.setTel_1(t_tel_1);
+					cl_sis.setEmail_1(t_email_1);
+					cl_sis.setObs(t_obs);
+					cl_sis.setAce_per_aut("CLIENTE");
+					
+	   		
+	   		 		cl_sis = f_clin.sav_clin(cl_sis);
+		
+		  			cl_glo_ad.setId_sis(id_sis);
+		 
+					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setTruefalse(false);	
+					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setTel_2(t_tel_2);
+					cl_glo_ad.setEmail_2(t_email_2);
+					cl_glo_ad.setClin_id(cl_sis.getClin_id());
+
+			   		cl_glo_ad = f_sis.sav_sis_adi(cl_glo_ad);
+			
+				  	System.out.println(cl_glo_ad.getLogin_id());
+				
+				
+				  	
+				  	
+				  	
+				  	
+					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
+
 				}
+				
+				
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());

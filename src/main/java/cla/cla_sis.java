@@ -9,7 +9,9 @@ public class cla_sis implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	
 	private Long id_sis;
+	private Long clin_id;
 	private Long reg_id;
 	private Timestamp reg_data;
 	private Long reg_alt;
@@ -30,7 +32,7 @@ public class cla_sis implements Serializable {
 	private String tel_1;
 	private String email_1;
 	private String obs;
-	
+	private String ace_per_aut;
 
 	public boolean nv_id() {
 		if (this.id_sis == null || this.id_sis == 0L) {
@@ -308,6 +310,22 @@ public class cla_sis implements Serializable {
 				&& Objects.equals(reg_data, other.reg_data) && Objects.equals(reg_data_alt, other.reg_data_alt)
 				&& Objects.equals(reg_id, other.reg_id) && Objects.equals(tel_1, other.tel_1)
 				&& Objects.equals(truefalse, other.truefalse);
+	}
+
+	public Long getClin_id() {
+		return clin_id;
+	}
+
+	public void setClin_id(Long clin_id) {
+		this.clin_id = clin_id;
+	}
+
+	public String getAce_per_aut() {
+		return ace_per_aut;
+	}
+
+	public void setAce_per_aut(String ace_per_aut) {
+		this.ace_per_aut = ace_per_aut;
 	}
 
 	
