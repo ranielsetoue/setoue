@@ -95,7 +95,7 @@ public class lt_sis_salvar extends HttpServlet {
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-
+		request.getSession().setAttribute("naoexitedado", false);
 		String t_nome_desc = request.getParameter("nome_desc");
 		String t_no_fan = request.getParameter("no_fan");
 		String t_cnpj_cpf = request.getParameter("cnpj_cpf");
@@ -117,8 +117,7 @@ public class lt_sis_salvar extends HttpServlet {
 		try {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
 				request.getSession().setAttribute("cons_list", false);
-
-				try {
+					try {
 					cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 							Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
 

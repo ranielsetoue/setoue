@@ -402,4 +402,68 @@ public class fun_sis {
 		return this.cons_sis_adi(gra_bus.getId_sis());
 	}
 
+	// 1. Alteramos o retorno de boolean para Integer
+		public Integer val_sis_nome(String tx1) throws Exception {
+
+		    // 2. Usamos '?' em vez de concatenar as variáveis (Isso evita erros e Injeção de SQL)
+		    String bc_sql = "SELECT count(1) AS total FROM tb_clin WHERE nome_desc ILIKE ?";
+		    
+		    // 3. O try-with-resources garante que o banco seja fechado corretamente após o uso
+		    try (PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql)) {
+		        
+		        // Substitui os '?' pelos valores de forma segura
+			        gra_bus.setString(1, "%" + tx1 + "%"); // Adiciona as % aqui, não na SQL
+
+		        try (ResultSet resul = gra_bus.executeQuery()) {
+		            if (resul.next()) {
+		                // Retorna a quantidade total encontrada
+		                return resul.getInt("total"); 
+		            }
+		        }
+		    }
+		    
+		    // Se não entrar no if, retorna 0 (que representará o "falso")
+		    return 0; 
+		}
+		
+		public cla_sis cons_sis_like(String tx1) throws Exception {
+
+			cla_sis gra_inp = new cla_sis();
+
+			String bc_sql = "select * FROM tb_sis where nome_desc ILIKE '%" + tx1 + "%'";
+			PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+			ResultSet cl_sis = gra_bus.executeQuery();
+
+			while (cl_sis.next()) {
+
+				gra_inp.setId_sis(cl_sis.getLong("id_sis"));
+				gra_inp.setReg_id(cl_sis.getLong("reg_id"));
+				gra_inp.setReg_data(cl_sis.getTimestamp("reg_data"));
+				gra_inp.setReg_data_alt(cl_sis.getTimestamp("reg_data_alt"));
+				gra_inp.setTruefalse(cl_sis.getBoolean("truefalse"));
+				gra_inp.setNome_desc(cl_sis.getString("nome_desc"));
+				gra_inp.setNo_fan(cl_sis.getString("no_fan"));
+				gra_inp.setCnpj_cpf(cl_sis.getString("cnpj_cpf"));
+				gra_inp.setEnd_rua(cl_sis.getString("end_rua"));
+				gra_inp.setEnd_num(cl_sis.getString("end_num"));
+				gra_inp.setEnd_com(cl_sis.getString("end_com"));
+				gra_inp.setEnd_bar(cl_sis.getString("end_bar"));
+				gra_inp.setEnd_mun(cl_sis.getString("end_mun"));
+				gra_inp.setEnd_uf(cl_sis.getString("end_uf"));
+				gra_inp.setEnd_cep(cl_sis.getString("end_cep"));
+				gra_inp.setIns_est(cl_sis.getString("ins_est"));
+				gra_inp.setIns_mun(cl_sis.getString("ins_mun"));
+				gra_inp.setTel_1(cl_sis.getString("tel_1"));
+				gra_inp.setEmail_1(cl_sis.getString("email_1"));
+				gra_inp.setObs(cl_sis.getString("obs"));
+
+			}
+
+			return gra_inp;
+
+		}
+
+
+		
 }

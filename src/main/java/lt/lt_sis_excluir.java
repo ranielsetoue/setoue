@@ -73,6 +73,7 @@ public class lt_sis_excluir extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		try {
+			request.getSession().setAttribute("naoexitedado", false);
 			if (request.getParameter("fun").equalsIgnoreCase("excluir")) {
 				request.getSession().setAttribute("cons_list", false);
 
@@ -212,7 +213,7 @@ public class lt_sis_excluir extends HttpServlet {
 		 * inicio do post
 		 */
 		try {
-
+			request.getSession().setAttribute("naoexitedado", false);
 			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_cont")) {
 
 				String cont_id_sis_cont = request.getParameter("id_sis_cont");

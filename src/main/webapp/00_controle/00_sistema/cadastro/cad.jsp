@@ -42,8 +42,9 @@
 	value="${sessionScope.tab_cont_ocult}" />
 
 <c:set scope="session" var="ocul_excluir"
-	value="${sessionScope.ocul_excluir}" />
-
+	value="${sessionScope.naoexitedado}" />
+<c:set scope="session" var="ocul_excluir"
+	value="${sessionScope.naoexitedado}" />
 
 <!--  -->
 <title>${h_titulo_web}</title>
@@ -677,6 +678,34 @@ function bus_p2(){
 }	
 
 </script>
+<style>
+  /* Por padrão (mobile): mostra a versão multi-linha */
+  .mensagem-desktop {
+    display: none;
+  }
+
+  .mensagem-mobile {
+    display: block;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+
+  /* A partir de 768px (tablet/desktop): mostra a versão linha única */
+  @media (min-width: 768px) {
+    .mensagem-desktop {
+      display: block;
+      text-align: center;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .mensagem-mobile {
+      display: none;
+    }
+  }
+</style>
 
 
 <!--  -->
@@ -905,6 +934,23 @@ function bus_p2(){
 							<button id="buc_dado" type="button" class="btn btn-info"
 								onclick="sis_busc();">Buscar</button>
 						</div>
+	
+	
+<c:if test="${not empty naoexitedado and naoexitedado eq 'true'}">						
+<div>
+  <hr>
+  <!-- Versão Desktop (linha única) -->
+  <p class="mensagem-desktop">Registro não localizado. Informe um CPF ou CNPJ válido para prosseguir com o cadastro</p>
+
+  <!-- Versão Mobile (múltiplas linhas) -->
+  <p class="mensagem-mobile">
+    Registro não localizado.<br>
+    Informe CPF ou CNPJ<br>
+    válido para prosseguir com o cadastro.
+  </p>
+  <hr>
+</div>
+</c:if>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
 					</div>
