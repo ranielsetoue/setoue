@@ -43,7 +43,8 @@ public class cla_sis implements Serializable {
 		}
 		return id_sis == null || id_sis == 0L;
 	}
-
+	
+	
 	public Long getId_sis() {
 		return id_sis;
 	}

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import cla.cla_bc_cam;
+import cla.cla_glo_ad;
 import cla.cla_list_cnpj_nome;
 import cla.cla_list_tipo_ace;
 import cla.cla_perm_ace;
@@ -15,6 +16,7 @@ import cla.cla_sis_d_log;
 import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
+import func.fun_clin;
 import func.fun_sis;
 import func.fun_sis_cont;
 import func.fun_sis_dom;
@@ -54,6 +56,8 @@ public class lt_sis_excluir extends HttpServlet {
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	cla_sis_cont cl_sis_cont = new cla_sis_cont();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
+	fun_clin f_clin = new fun_clin();
+	cla_glo_ad cl_glo_ad = new cla_glo_ad();
 
 	public lt_sis_excluir() {
 		super();
@@ -116,14 +120,11 @@ public class lt_sis_excluir extends HttpServlet {
 					String tx1 = request.getParameter("busc_cnpj_cpf");
 					cl_sis = f_sis.cons_sis_cnpj_cpf(tx1);
 					f_sis.del_sis_tudo(cl_sis.getId_sis());
-					
-					  f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
-					 
-					
-					
-					
+
+					f_blio.del_dado(win.getWin_sis(), win.getCol_sis_id(), cl_sis.getId_sis());
+
 				}
-				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
@@ -132,6 +133,17 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
+
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
+					request.setAttribute("sis_cons", sisCons);
+
+					String tx1 = request.getParameter("busc_cnpj_cpf");
+					cl_sis = f_clin.cons_clin(id_sis, tx1);
+					cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
+					f_clin.del_cli_tudo(cl_sis.getId_sis(), cl_sis.getClin_id(), cl_glo_ad.getLogin_id());
+
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 
@@ -143,10 +155,7 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_for");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 
-					/*
-					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-					 * request.setAttribute("sis_cons", sisCons);
-					 */
+					
 
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -159,10 +168,7 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 
-					/*
-					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-					 * request.setAttribute("sis_cons", sisCons);
-					 */
+					
 
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -175,10 +181,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 
-					/*
-					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-					 * request.setAttribute("sis_cons", sisCons);
-					 */
 
 				}
 
@@ -206,9 +208,9 @@ public class lt_sis_excluir extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-/*
- * inicio do post
- */
+		/*
+		 * inicio do post
+		 */
 		try {
 
 			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_cont")) {
@@ -216,28 +218,26 @@ public class lt_sis_excluir extends HttpServlet {
 				String cont_id_sis_cont = request.getParameter("id_sis_cont");
 				f_sis_cont.del_sis_cont(cont_id_sis_cont);
 
-		        response.getWriter().print("OK");
+				response.getWriter().print("OK");
 
 			}
 
-			
 			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_dom")) {
 
 				String dom_id_sis_dom = request.getParameter("id_sis_dom");
 
 				cl_sis_dom = f_sis_dom.cons_sis_dom_del(Long.parseLong(dom_id_sis_dom));
-				
-		        response.getWriter().print("OK");
+
+				response.getWriter().print("OK");
 
 			}
 
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
 	}
-	
+
 	/*
 	 * fim post
 	 */

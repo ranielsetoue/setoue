@@ -257,8 +257,8 @@ public class fun_clin {
 
 			String bc_sql = "UPDATE public.tb_clin_adi\r\n"
 
-					+ " SET reg_alt=?, reg_data_alt=?, tel_2=?, email_2=?, l_usu=?, l_sen=? WHERE id_sis = '" + gra_bus.getId_sis()
-					+ "'  and clin_id = '" + gra_bus.getClin_id() + "'";
+					+ " SET reg_alt=?, reg_data_alt=?, tel_2=?, email_2=?, l_usu=?, l_sen=? WHERE id_sis = '"
+					+ gra_bus.getId_sis() + "'  and clin_id = '" + gra_bus.getClin_id() + "'";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -269,16 +269,143 @@ public class fun_clin {
 			gra_inp.setString(5, gra_bus.getL_usu());
 			gra_inp.setString(6, gra_bus.getL_sen());
 
-			
 			gra_inp.executeUpdate();
 			pos_cbd_con.commit();
 		}
 		return this.cons_clin_adi(gra_bus.getId_sis(), gra_bus.getClin_id());
 	}
 
+	public List<cla_sis> list_clin_id(long nx1, long offset) throws Exception {
+
+		/*
+		 * limite de paginação select * FROM tb_sistema_dominio where id_sistema = 1
+		 * order by id_sistema offset 0 limit 10
+		 */
+		List<cla_sis> retorno = new ArrayList<>();
+
+		String bc_sql = "select * FROM tb_clin where id_sis = " + nx1 + " order by nome_desc offset " + offset
+				+ " limit 20 ";
+		PreparedStatement gra_dado = pos_cbd_con.prepareStatement(bc_sql);
+		ResultSet gra_bus = gra_dado.executeQuery();
+
+		while (gra_bus.next()) {
+
+			cla_sis gra_inp = new cla_sis();
+
+			gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+			gra_inp.setNome_desc(gra_bus.getString("cnpj_cpf"));
+			gra_inp.setNome_desc(gra_bus.getString("nome_desc"));
+			gra_inp.setTel_1(gra_bus.getString("tel_1"));
+			gra_inp.setEmail_1(gra_bus.getString("email_1"));
+			gra_inp.setObs(gra_bus.getString("obs"));
+
+			retorno.add(gra_inp);
+
+		}
+
+		return retorno;
+	}
+
+	public void del_cli_tudo(long nx1,long nx2,long nx3) throws Exception {
+
+
+		String bc_sql1 = "DELETE FROM public.tb_sis_log WHERE id_sis = '" + nx1 + "' and id_sis_log = '" + nx3 + "';";
+		PreparedStatement gra_bus1 = pos_cbd_con.prepareStatement(bc_sql1);
+		gra_bus1.executeUpdate();
+		gra_bus1.close();
+		pos_cbd_con.commit();
+
+		String bc_sql2 = "DELETE FROM public.tb_sis_d_log WHERE id_sis = '" + nx1 + "' and id_sis_log = '" + nx3 + "';";
+		PreparedStatement gra_bus2 = pos_cbd_con.prepareStatement(bc_sql2);
+		gra_bus2.executeUpdate();
+		gra_bus2.close();
+		pos_cbd_con.commit();
+
+		String bc_sql3 = "DELETE FROM public.tb_clin_cont WHERE id_sis = '" + nx1 + "' and clin_id = '" + nx2 + "';";
+		PreparedStatement gra_bus3 = pos_cbd_con.prepareStatement(bc_sql3);	
+		gra_bus3.executeUpdate();
+		gra_bus3.close();
+		pos_cbd_con.commit();
+		
+		String bc_sql4 = "DELETE FROM public.tb_clin_adi WHERE id_sis = '" + nx1 + "' and clin_id = '" + nx2 + "';";
+		PreparedStatement gra_bus4 = pos_cbd_con.prepareStatement(bc_sql4);
+		gra_bus4.executeUpdate();
+		gra_bus4.close();
+		pos_cbd_con.commit();
+
+		String bc_sql5 = "DELETE FROM public.tb_clin WHERE id_sis = '" + nx1 + "' and clin_id = '" + nx2 + "';";
+		PreparedStatement gra_bus5 = pos_cbd_con.prepareStatement(bc_sql5);
+		gra_bus5.executeUpdate();
+		gra_bus5.close();
+		pos_cbd_con.commit();
+		
+		
+	}
+
+	// 1. Alteramos o retorno de boolean para Integer
+	public Integer val_cli_nome(Long nx1, String tx1) throws Exception {
+
+	    // 2. Usamos '?' em vez de concatenar as variáveis (Isso evita erros e Injeção de SQL)
+	    String bc_sql = "SELECT count(1) AS total FROM tb_clin WHERE id_sis = ? AND nome_desc ILIKE ?";
+	    
+	    // 3. O try-with-resources garante que o banco seja fechado corretamente após o uso
+	    try (PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql)) {
+	        
+	        // Substitui os '?' pelos valores de forma segura
+	        gra_bus.setLong(1, nx1);
+	        gra_bus.setString(2, "%" + tx1 + "%"); // Adiciona as % aqui, não na SQL
+
+	        try (ResultSet resul = gra_bus.executeQuery()) {
+	            if (resul.next()) {
+	                // Retorna a quantidade total encontrada
+	                return resul.getInt("total"); 
+	            }
+	        }
+	    }
+	    
+	    // Se não entrar no if, retorna 0 (que representará o "falso")
+	    return 0; 
+	}
 	
 	
-	
-	
+	public cla_sis cons_clin_like(Long nx1, String tx1) throws Exception {
+
+		cla_sis gra_inp = new cla_sis();
+
+		String bc_sql = "select * FROM tb_clin where id_sis = '" + nx1 + "' and nome_desc ILIKE '%" + tx1 + "%'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis = gra_bus.executeQuery();
+
+		while (cl_sis.next()) {
+
+			gra_inp.setId_sis(cl_sis.getLong("id_sis"));
+			gra_inp.setClin_id(cl_sis.getLong("clin_id"));
+			gra_inp.setReg_id(cl_sis.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis.getTimestamp("reg_data"));
+			gra_inp.setReg_data_alt(cl_sis.getTimestamp("reg_data_alt"));
+			gra_inp.setTruefalse(cl_sis.getBoolean("truefalse"));
+			gra_inp.setNome_desc(cl_sis.getString("nome_desc"));
+			gra_inp.setNo_fan(cl_sis.getString("no_fan"));
+			gra_inp.setCnpj_cpf(cl_sis.getString("cnpj_cpf"));
+			gra_inp.setEnd_rua(cl_sis.getString("end_rua"));
+			gra_inp.setEnd_num(cl_sis.getString("end_num"));
+			gra_inp.setEnd_com(cl_sis.getString("end_com"));
+			gra_inp.setEnd_bar(cl_sis.getString("end_bar"));
+			gra_inp.setEnd_mun(cl_sis.getString("end_mun"));
+			gra_inp.setEnd_uf(cl_sis.getString("end_uf"));
+			gra_inp.setEnd_cep(cl_sis.getString("end_cep"));
+			gra_inp.setIns_est(cl_sis.getString("ins_est"));
+			gra_inp.setIns_mun(cl_sis.getString("ins_mun"));
+			gra_inp.setTel_1(cl_sis.getString("tel_1"));
+			gra_inp.setEmail_1(cl_sis.getString("email_1"));
+			gra_inp.setObs(cl_sis.getString("obs"));
+
+		}
+
+		return gra_inp;
+
+	}
+
 	
 }

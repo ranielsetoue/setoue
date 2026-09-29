@@ -1,4 +1,3 @@
-
 package cla;
 
 import java.io.Serializable;
@@ -129,9 +128,15 @@ public class cla_glo_ad implements Serializable {
 		reg_data = null;
 		reg_alt = 0L;
 		reg_data_alt = null;
-		login_id = 0L;
+		truefalse = false;
+		clin_id = 0L;
+		clin_adi_id = 0L;
 		tel_2 = "";
 		email_2 = "";
+		login_id = 0L;
+		l_usu = "";
+		l_sen = "";
+
 
 	}
 

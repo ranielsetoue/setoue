@@ -58,10 +58,6 @@ public class lt_sis_busc extends HttpServlet {
 	fun_clin f_clin = new fun_clin();
 	cla_glo_ad cl_glo_ad = new cla_glo_ad();
 
-	
-
-	
-	
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -121,7 +117,6 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
-					
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
 
@@ -136,12 +131,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("tab_cont_ocult", true);
-	
-  					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
 					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 					request.setAttribute("sis_cons", sisCons);
-
 
 				}
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -219,148 +213,120 @@ public class lt_sis_busc extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			
-			
-			
+
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-		request.getSession().setAttribute("insc_ocult", true);
-			
-				if (request.getParameter("fun").equalsIgnoreCase("pag_cont")) {
+			request.getSession().setAttribute("insc_ocult", true);
 
-					if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+			if (request.getParameter("fun").equalsIgnoreCase("pag_cont")) {
 
-						String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
-						cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
-						String cont_bus_cont = request.getParameter("cont_bus_cont");
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
 
-					    int offsetcont = Integer.parseInt(request.getParameter("offset"));
-							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_proc(cl_sis.getId_sis(), offsetcont,cont_bus_cont);
-							request.setAttribute("cont_list", cont_sis_list);
-							StringBuilder html = new StringBuilder();
+					String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
+					cl_sis = f_sis.cons_sis_cnpj_cpf(cont_cnpj_cpf);
+					String cont_bus_cont = request.getParameter("cont_bus_cont");
 
-							for (cla_sis_cont d : cont_sis_list) {
+					int offsetcont = Integer.parseInt(request.getParameter("offset"));
+					List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_proc(cl_sis.getId_sis(), offsetcont,
+							cont_bus_cont);
+					request.setAttribute("cont_list", cont_sis_list);
+					StringBuilder html = new StringBuilder();
 
-								html.append("<tr>");
+					for (cla_sis_cont d : cont_sis_list) {
 
-								html.append("<td>").append(d.getNome_desc()).append("</td>");
+						html.append("<tr>");
 
-								html.append("<td>").append(d.getTel_1()).append("</td>");
+						html.append("<td>").append(d.getNome_desc()).append("</td>");
 
-								html.append("<td>").append(d.getEmail_1()).append("</td>");
+						html.append("<td>").append(d.getTel_1()).append("</td>");
 
-								html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
-										.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
+						html.append("<td>").append(d.getEmail_1()).append("</td>");
 
-								html.append("<td>")
-							    .append("<button type='button' ")
-							    .append("onclick=\"detalhe_cont(this)\" ")
-							    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
-							    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
-							    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
-							    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
-							    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
-							    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
-							    .append("data-obs=\"").append(d.getObs()).append("\" ")
-							    .append("class=\"btn btn-warning\" ")
-							    .append("data-bs-toggle=\"modal\">")
-							    .append("Detalhes")
-							    .append("</button>")
-							    .append("</td>");
+						html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
+								.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>")
+								.append("</td>");
 
-								html.append("</tr>");
-							}
+						html.append("<td>").append("<button type='button' ").append("onclick=\"detalhe_cont(this)\" ")
+								.append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+								.append("data-tel_1=\"").append(d.getTel_1()).append("\" ").append("data-tel_2=\"")
+								.append(d.getTel_2()).append("\" ").append("data-email_1=\"").append(d.getEmail_1())
+								.append("\" ").append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
+								.append("data-setor_1=\"").append(d.getSetor_1()).append("\" ").append("data-obs=\"")
+								.append(d.getObs()).append("\" ").append("class=\"btn btn-warning\" ")
+								.append("data-bs-toggle=\"modal\">").append("Detalhes").append("</button>")
+								.append("</td>");
 
-							response.setContentType("text/html;charset=UTF-8");
-							response.getWriter().print(html.toString());
+						html.append("</tr>");
+					}
 
-							return;
-					    
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().print(html.toString());
 
-						}
-											
-						
-						
-				
-			}
-			
-			
-				if (request.getParameter("fun").equalsIgnoreCase("pag_dom")) {
+					return;
 
-					if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
-
-						int offset = Integer.parseInt(request.getParameter("offset"));
-
-						String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
-						String cont_no_dom = request.getParameter("cont_no_dom");
-
-						
-						
-						cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
-
-						List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_proc(cl_sis.getId_sis(), offset,cont_no_dom);
-						/*
-						 * List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(), offset);
-						 */
-						
-						
-						request.setAttribute("dom_list", dominio_list);
-
-						StringBuilder html = new StringBuilder();
-
-						for (cla_sis_dom d : dominio_list) {
-
-							html.append("<tr>");
-
-							html.append("<td>").append(d.getNo_dom()).append("</td>");
-
-							html.append("<td>").append("<a onclick=\"exc_dom(").append(d.getId_sis_dom())
-									.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
-
-							html.append("<td>")
-						    .append("<button type='button' ")
-						    .append("id='adicionar_dom' ")
-						    .append("onclick=\"detalhe_dom(this)\" ")
-						    .append("data-no_dom=\"").append(d.getNo_dom()).append("\" ")
-						    .append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
-						    .append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ")
-						    .append("data-titulo_web=\"").append(d.getTitulo_web()).append("\" ")
-						    .append("data-ace_per_aut=\"").append(d.getAce_per_aut()).append("\" ")
-						    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
-						    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
-						    .append("data-l_usu=\"").append(d.getL_usu()).append("\" ")
-						    .append("data-l_sen=\"").append(d.getL_sen()).append("\" ")
-						    .append("class=\"btn btn-warning\" ")
-						    .append("data-bs-toggle=\"modal\">")
-						    .append("Detalhes")
-						    .append("</button>")
-						    .append("</td>");
-						}
-
-						response.setContentType("text/html;charset=UTF-8");
-						response.getWriter().print(html.toString());
-
-						return;
-					}	    
 				}
 
-				
-				
+			}
+
+			if (request.getParameter("fun").equalsIgnoreCase("pag_dom")) {
+
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+
+					int offset = Integer.parseInt(request.getParameter("offset"));
+
+					String dom_cnpj_cpf = request.getParameter("dom_cnpj_cpf");
+					String cont_no_dom = request.getParameter("cont_no_dom");
+
+					cl_sis = f_sis.cons_sis_cnpj_cpf(dom_cnpj_cpf);
+
+					List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_proc(cl_sis.getId_sis(), offset, cont_no_dom);
+					/*
+					 * List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),
+					 * offset);
+					 */
+
+					request.setAttribute("dom_list", dominio_list);
+
+					StringBuilder html = new StringBuilder();
+
+					for (cla_sis_dom d : dominio_list) {
+
+						html.append("<tr>");
+
+						html.append("<td>").append(d.getNo_dom()).append("</td>");
+
+						html.append("<td>").append("<a onclick=\"exc_dom(").append(d.getId_sis_dom())
+								.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>")
+								.append("</td>");
+
+						html.append("<td>").append("<button type='button' ").append("id='adicionar_dom' ")
+								.append("onclick=\"detalhe_dom(this)\" ").append("data-no_dom=\"").append(d.getNo_dom())
+								.append("\" ").append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
+								.append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ")
+								.append("data-titulo_web=\"").append(d.getTitulo_web()).append("\" ")
+								.append("data-ace_per_aut=\"").append(d.getAce_per_aut()).append("\" ")
+								.append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+								.append("data-email_1=\"").append(d.getEmail_1()).append("\" ").append("data-l_usu=\"")
+								.append(d.getL_usu()).append("\" ").append("data-l_sen=\"").append(d.getL_sen())
+								.append("\" ").append("class=\"btn btn-warning\" ").append("data-bs-toggle=\"modal\">")
+								.append("Detalhes").append("</button>").append("</td>");
+					}
+
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().print(html.toString());
+
+					return;
+				}
+			}
+
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
-				
-				
-				
-				
-				
+
 				request.getSession().setAttribute("cons_list", true);
 				request.getSession().setAttribute("ocul_excluir", false);
 
-				
-
-				
 				List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
 				request.setAttribute("sis_cons_tp_site", sisConstp_site);
-				 List<cla_list_tipo_ace> sisConstipoace = f_sis.cons_list_tipo_ace();
-					request.setAttribute("sis_cons_tip_ace", sisConstipoace);
+				List<cla_list_tipo_ace> sisConstipoace = f_sis.cons_list_tipo_ace();
+				request.setAttribute("sis_cons_tip_ace", sisConstipoace);
 
 				try {
 					cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
@@ -393,12 +359,6 @@ public class lt_sis_busc extends HttpServlet {
 				request.getSession().setAttribute("cons_list_not", false);
 				request.getSession().setAttribute("tab_dom_ocult", false);
 
-				
-				
-
-				
-				
-				
 				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", "false");
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
@@ -407,16 +367,16 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("cons_dom", true);
-					request.getSession().setAttribute("tab_dom_ocult",true);
-					request.getSession().setAttribute("tab_cont_ocult",true);
-					request.getSession().setAttribute("ocul_excluir",true);
+					request.getSession().setAttribute("tab_dom_ocult", true);
+					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("ocul_excluir", true);
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
-			
+
 					cl_glo_ad.vz_con();
 					cl_sis.vz_con();
-					
+
 					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
 					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
 						request.getSession().setAttribute("insc_ocult", true);
@@ -445,7 +405,7 @@ public class lt_sis_busc extends HttpServlet {
 							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
 								if (fun_blio.isCNPJ(t_cnpj_cpf)) {
-									
+
 									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
 									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
@@ -494,11 +454,10 @@ public class lt_sis_busc extends HttpServlet {
 								}
 							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
 
-							
 							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
-													
+
 							if (fun_blio.isCNPJ(t_cnpj_cpf)) {
-								
+
 								cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
 								cl_sis.setNome_desc(cl_cnpj.getNome());
 								cl_sis.setNo_fan(cl_cnpj.getFantasia());
@@ -510,34 +469,31 @@ public class lt_sis_busc extends HttpServlet {
 								cl_sis.setEnd_uf(cl_cnpj.getUf());
 								cl_sis.setEnd_cep(cl_cnpj.getCep());
 								cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
-									cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
-							}else {
+								cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
+							} else {
 
 								cl_glo_ad = f_sis.cons_sis_adi(cl_sis.getId_sis());
-							
+
 							}
-							
-							
-								
+
 							request.getSession().setAttribute("pre_glo", cl_sis);
-							
+
 							request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
-							
+
 							Integer offset = Integer.parseInt("0");
- 							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(),offset);
-							request.setAttribute("dom_list", dominio_list);	
+							List<cla_sis_dom> dominio_list = f_sis_dom.cons_dom_id_p1(cl_sis.getId_sis(), offset);
+							request.setAttribute("dom_list", dominio_list);
 							List<cla_sis_dom> dom_list_qt = f_sis_dom.dom_list_qt(cl_sis.getId_sis());
- 							request.setAttribute("dom_list_qt", dom_list_qt);	
+							request.setAttribute("dom_list_qt", dom_list_qt);
 
 							Integer offsetcont = Integer.parseInt("0");
- 							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
- 							request.setAttribute("cont_list", cont_sis_list);	
- 							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
- 							request.setAttribute("cont_list_qt", cont_list_qt);	
- 							
-							request.getSession().setAttribute("cons_true", true);
-							
+							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),
+									offsetcont);
+							request.setAttribute("cont_list", cont_sis_list);
+							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
+							request.setAttribute("cont_list_qt", cont_list_qt);
 
+							request.getSession().setAttribute("cons_true", true);
 
 						} // (b1Value == 1)
 
@@ -546,8 +502,6 @@ public class lt_sis_busc extends HttpServlet {
 							request.getSession().setAttribute("listaResultados", lista);
 							request.getSession().setAttribute("cons_true", false);
 
-							
-							
 						} // (b1Value > 1)
 
 					} /// if (t_cnpj_cpf != null) {
@@ -561,145 +515,270 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("cont_sis", "cad_cli");
-					request.getSession().setAttribute("tab_cont_ocult",true);
+					request.getSession().setAttribute("tab_cont_ocult", true);
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
+					request.getSession().setAttribute("ocul_excluir", true);
+					Boolean simnao = true;
+					cl_glo_ad.vz_id();
+					cl_sis.vz_id();
+					cl_sis.setId_sis(0l);
+					cl_sis.setClin_id(0l);
+					cl_sis_log.setId_sis(0l);
 
-					cl_glo_ad.vz_con();
-					cl_sis.vz_con();
-					
+  					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+  		  			long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
+					request.getSession().setAttribute("insc_ocult", true);
+
 					String t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
 					if (fun_blio.isCNPJ(t_cnpj_cpf)) {
-						request.getSession().setAttribute("insc_ocult", true);
+						if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
+							cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
+							cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
 
-					} else {
-						request.getSession().setAttribute("insc_ocult", false);
-
-					}
-
-					if (t_cnpj_cpf != null) {
-
-						List<cla_sis> lista = busc_unico.busca("tb_sis", t_cnpj_cpf, cla_sis.class);
-
-						int b1Value = (lista.size() > 1) ? 2 : 1;
-
-						if (b1Value == 1) {
-
-							for (cla_sis item : lista) {
-
-								t_cnpj_cpf = item.getCnpj_cpf(); // usando getter
-
-							}
-
-							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
-
-							if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
-
-								if (fun_blio.isCNPJ(t_cnpj_cpf)) {
-									
-									cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
-									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setReg_alt(
-											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
-									cl_sis.setNome_desc(cl_cnpj.getNome());
-									cl_sis.setNo_fan(cl_cnpj.getFantasia());
-									cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
-									cl_sis.setEnd_num(cl_cnpj.getNumero());
-									cl_sis.setEnd_com(cl_cnpj.getComplemento());
-									cl_sis.setEnd_bar(cl_cnpj.getBairro());
-									cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
-									cl_sis.setEnd_uf(cl_cnpj.getUf());
-									cl_sis.setEnd_cep(cl_cnpj.getCep());
-									cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
-									String telefone = cl_cnpj.getTelefone();
-
-									if (telefone != null
-											&& telefone.matches("^\\(?\\d{2}\\)?\\s?(?:9\\d{4}|\\d{4})-?\\d{4}$")) {
-										// telefones como (11) 98765-4321, 11987654321, (11) 3456-7890
-										cl_sis.setTel_1(telefone);
-									} else {
-										cl_glo_ad.setTel_2(telefone);
-									}
-
-									cl_sis.setTruefalse(false);
-
-							/*
-							 * 		f_sis.sav_sis_consultar_refeita_federal(cl_sis);
-							 */
-
-								}
-
-								if (fun_blio.isCPF(t_cnpj_cpf)) {
-
-									cl_sis.setCnpj_cpf(t_cnpj_cpf);
-									cl_sis.setNome_desc(t_cnpj_cpf);
-									cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-									cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setReg_alt(
-											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-									cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-									cl_sis.setTruefalse(false);
-								/*
-								 * 	cl_sis = f_sis.sav_sis_consultar_refeita_federal(cl_sis);
-								 */
-								}
-							} // if (cl_sis.getId_sis() == null || cl_sis.getId_sis() == 0L) {
-
+						}else {
 							
-							cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
-													
-							if (fun_blio.isCNPJ(t_cnpj_cpf)) {
-								
-								cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
-								cl_sis.setNome_desc(cl_cnpj.getNome());
-								cl_sis.setNo_fan(cl_cnpj.getFantasia());
-								cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
-								cl_sis.setEnd_num(cl_cnpj.getNumero());
-								cl_sis.setEnd_com(cl_cnpj.getComplemento());
-								cl_sis.setEnd_bar(cl_cnpj.getBairro());
-								cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
-								cl_sis.setEnd_uf(cl_cnpj.getUf());
-								cl_sis.setEnd_cep(cl_cnpj.getCep());
-								cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
-							    cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
-
-							
-							}
-								
-							request.getSession().setAttribute("pre_glo", cl_sis);
-							
-							request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
+		  					cl_sis.setId_sis(id_sis);
+							cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_sis.setTruefalse(false);
+							cl_sis.setAce_per_aut("CLIENTE");
 						
-							if (fun_blio.isCPF(t_cnpj_cpf)) {
-							request.getSession().setAttribute("tab_cont_ocult",false);
+							cla_cnpj cl_cnpj = api_cnpj.cons_cnpj(t_cnpj_cpf);
+							cl_sis.setCnpj_cpf(cl_cnpj.getCnpj());
+							cl_sis.setNome_desc(cl_cnpj.getNome());
+							cl_sis.setNo_fan(cl_cnpj.getFantasia());
+							cl_sis.setEnd_rua(cl_cnpj.getLogradouro());
+							cl_sis.setEnd_num(cl_cnpj.getNumero());
+							cl_sis.setEnd_com(cl_cnpj.getComplemento());
+							cl_sis.setEnd_bar(cl_cnpj.getBairro());
+							cl_sis.setEnd_mun(cl_cnpj.getMunicipio());
+							cl_sis.setEnd_uf(cl_cnpj.getUf());
+							cl_sis.setEnd_cep(cl_cnpj.getCep());
+							cl_glo_ad.setEmail_2(cl_cnpj.getEmail());
+							cl_glo_ad.setTel_2(cl_cnpj.getTelefone());
+							cl_sis.setClin_id(0l);
+
+					
+							cl_sis = f_clin.sav_clin(cl_sis);
+			   		
+				  			cl_glo_ad.setId_sis(id_sis);
+							cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_glo_ad.setTruefalse(false);	
+							cl_glo_ad.setClin_id(cl_sis.getClin_id());
+							cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
+
+							
+							if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
+								String nh1 = fun_sis_login.gerarSenhaNumerica();
+						   		String nha2 = String.valueOf(nh1); // "99999"
+						        int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+						        String senha1 = nha2.substring(nha3, nha3 + 3);
+						        
+						   		String nhx2 = fun_sis_login.gerarSenhaForte();
+						   		String nha4 = String.valueOf(nhx2); // "99999"
+						        int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+						        String senha2 = nha4.substring(nha5, nha5 + 3);
+						   		
+								cl_glo_ad.setL_sen(senha1 + senha2);
+								
+								
+								if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
+									
+									String anh1 = fun_sis_login.gerarSenhaNumerica();
+							   		String anha2 = String.valueOf(anh1); // "99999"
+							        int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+							        String asenha1 = anha2.substring(anha3, anha3 + 3);
+							  
+							        String anh2x = fun_sis_login.gerarSenhaForte();
+							   		String anha4 = String.valueOf(anh2x); // "99999"
+							        int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+							        String asenha2 = nha4.substring(anha5, anha5 + 3);
+							   		
+									cl_glo_ad.setL_sen(asenha1 + asenha2);
+								
+								
+								}
+								
+								}
+								
+							
+				 			    	cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
+			 			   
+						
+							cl_sis_log.setId_sis(id_sis);
+							cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_sis_log.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+							cl_sis_log.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+							cl_sis_log.setId_sis_log(cl_glo_ad.getLogin_id());
+							cl_sis_log.setId_sis_dom(id_dom);
+							cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
+							cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
+												
+		 					 cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
+		 
+							
+						}
+					}else {
+
+						if (fun_blio.isCPF(t_cnpj_cpf)) {
+							request.getSession().setAttribute("insc_ocult", false);
+							if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
+								cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
+								cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
+
+								request.getSession().setAttribute("pre_glo", cl_sis);
+
+								request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
+
+							}else {
+								
+								
+								
+								cl_sis.setId_sis(id_sis);
+								cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis.setTruefalse(false);
+								cl_sis.setAce_per_aut("CLIENTE");
+								cl_sis.setCnpj_cpf(t_cnpj_cpf);
+								cl_sis.setNome_desc(t_cnpj_cpf);
+							     	
+								
+								cl_sis.setClin_id(0l);
+						
+								cl_sis = f_clin.sav_clin(cl_sis);
+				   		
+					  			cl_glo_ad.setId_sis(id_sis);
+								cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_glo_ad.setTruefalse(false);	
+								cl_glo_ad.setClin_id(cl_sis.getClin_id());
+								cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
+
+								
+								if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
+									String nh1 = fun_sis_login.gerarSenhaNumerica();
+							   		String nha2 = String.valueOf(nh1); // "99999"
+							        int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+							        String senha1 = nha2.substring(nha3, nha3 + 3);
+							        
+							   		String nhx2 = fun_sis_login.gerarSenhaForte();
+							   		String nha4 = String.valueOf(nhx2); // "99999"
+							        int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+							        String senha2 = nha4.substring(nha5, nha5 + 3);
+							   		
+									cl_glo_ad.setL_sen(senha1 + senha2);
+									
+									
+									if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
+										
+										String anh1 = fun_sis_login.gerarSenhaNumerica();
+								   		String anha2 = String.valueOf(anh1); // "99999"
+								        int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+								        String asenha1 = anha2.substring(anha3, anha3 + 3);
+								  
+								        String anh2x = fun_sis_login.gerarSenhaForte();
+								   		String anha4 = String.valueOf(anh2x); // "99999"
+								        int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+								        String asenha2 = nha4.substring(anha5, anha5 + 3);
+								   		
+										cl_glo_ad.setL_sen(asenha1 + asenha2);
+									
+									
+									}
+									
+									}
+									
+								
+					 			    	cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
+				 			   
+							
+								cl_sis_log.setId_sis(id_sis);
+								cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis_log.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+								cl_sis_log.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+								cl_sis_log.setId_sis_log(cl_glo_ad.getLogin_id());
+								cl_sis_log.setId_sis_dom(id_dom);
+								cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
+								cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
+													
+			 					 cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
+			 	
+
 							}
-							Integer offsetcont = Integer.parseInt("0");
- 							List<cla_sis_cont> cont_sis_list = f_sis_cont.list_sis_cont_id(cl_sis.getId_sis(),offsetcont);
- 							request.setAttribute("cont_list", cont_sis_list);	
- 							List<cla_sis_cont> cont_list_qt = f_sis_cont.cont_list_qt(cl_sis.getId_sis());
- 							request.setAttribute("cont_list_qt", cont_list_qt);	
- 							
-							request.getSession().setAttribute("cons_true", true);
+						}else {
 							
-
-
-						} // (b1Value == 1)
-
-						if (b1Value > 1) {
-
-							request.getSession().setAttribute("listaResultados", lista);
+							cl_glo_ad.vz_id();
+							cl_sis.vz_id();
+							cl_sis.setId_sis(0l);
+							cl_sis.setClin_id(0l);
+							cl_sis_log.setId_sis(0l);
+							request.getSession().setAttribute("cons_list", false);
 							request.getSession().setAttribute("cons_true", false);
+							request.getSession().setAttribute("cons_false", "true");
+							request.getSession().setAttribute("tab_cont_ocult", false);
+							request.getSession().setAttribute("insc_ocult", false);
+							simnao = false;
+							List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
+							request.setAttribute("sis_cons", sisCons);
+							
+							Integer cli_qt = f_clin.val_cli_nome(id_sis, t_cnpj_cpf);
 
 							
+							if (cli_qt > 0) {
+							     
+							     
+							     if (cli_qt == 1) {
+									
+								     	cl_sis = f_clin.cons_clin_like(id_sis, t_cnpj_cpf);
+							    		cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
+							    	 simnao = true;
+							    	 
+							    		request.getSession().setAttribute("cons_list", true);
+										request.getSession().setAttribute("cons_true", true);
+										request.getSession().setAttribute("cons_false", false);
+										request.getSession().setAttribute("tab_cont_ocult", true);
+										
+										if (fun_blio.isCNPJ(cl_sis.getCnpj_cpf())) {
+											request.getSession().setAttribute("insc_ocult", true);	
+										}
+									 
+								}else {
+									System.out.println("Encontrado quantidade: " + cli_qt);
+								}
+							     
+							} else {
+								    System.out.println("Não existem registros.");
+							    
+							}
+								
 							
-						} // (b1Value > 1)
+								
+							
+						}
+					}
+					
+					if (simnao) {
+	 					request.getSession().setAttribute("pre_glo", cl_sis);
 
-					} /// if (t_cnpj_cpf != null) {
-				} // CADASTRO DE CLIENTE
+						request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
+						
+					}
+						
+	
 				
+				} // CADASTRO DE CLIENTE
+
 				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
@@ -720,7 +799,6 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 					request.getSession().setAttribute("cons_dom", false);
 
-					
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());

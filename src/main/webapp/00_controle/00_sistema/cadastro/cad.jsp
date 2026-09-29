@@ -240,6 +240,7 @@ function formatCnpj(valor) {
 	
 	
 	function salvar_dado() {
+			
 		
 		var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar';
 
@@ -259,6 +260,8 @@ function formatCnpj(valor) {
 			alert('Erro ao deletar Cadastro: ' + xhr.responseText);
 		});
 
+		
+	
 	}
 
 	
@@ -974,7 +977,7 @@ function bus_p2(){
 							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
 								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
-								placeholder="CNPJ ou CPF" value="${pre_glo.cnpj_cpf}">
+								placeholder="CNPJ ou CPF" readonly value="${pre_glo.cnpj_cpf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
