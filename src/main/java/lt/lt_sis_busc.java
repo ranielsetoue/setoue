@@ -507,8 +507,7 @@ public class lt_sis_busc extends HttpServlet {
 
 							} else {
 								request.getSession().setAttribute("naoexitedado", true);
-								request.getSession().setAttribute("msg_naoexiste",
-										"Registro não localizado. Informe um CPF ou CNPJ válido para prosseguir com o cadastro.");
+								
 							}
 
 						}
