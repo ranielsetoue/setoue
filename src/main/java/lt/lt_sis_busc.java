@@ -121,11 +121,12 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 
+					
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
 
 				}
-				if ("cad_clin".equals(request.getSession().getAttribute("cont_sis"))) {
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
@@ -135,8 +136,10 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("tab_cont_ocult", true);
-					
-					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj();
+	
+  					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 					request.setAttribute("sis_cons", sisCons);
 
 

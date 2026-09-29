@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendimento - Simulação de Investimentos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a3a5c;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            border-bottom: 3px solid #2c7a4e;
+            padding-bottom: 10px;
+        }
+
+        .data-calc {
+            text-align: center;
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        h2 {
+            color: #1a3a5c;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 5px solid #2c7a4e;
+            padding-left: 12px;
+            font-size: 1.5em;
+        }
+
+        .info-box {
+            background-color: #eaf4fb;
+            border-left: 5px solid #1a3a5c;
+            padding: 25px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+            text-align: justify;
+        }
+
+        .info-box p {
+            margin-bottom: 15px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .contrast-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #f0a500;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            color: #856404;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table thead {
+            background-color: #1a3a5c;
+            color: #fff;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table th {
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        table th:first-child, table td:first-child {
+            text-align: center;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9fafc;
+        }
+
+        table tbody tr:hover {
+            background-color: #eaf4fb;
+            transition: background-color 0.3s;
+        }
+
+        .disclaimer {
+            background-color: #fff8e1;
+            border-left: 5px solid #f0a500;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            text-align: justify;
+        }
+
+        .disclaimer h3 {
+            color: #b37400;
+            margin-bottom: 10px;
+        }
+
+        .disclaimer p {
+            margin-bottom: 10px;
+        }
+
+        .disclaimer strong {
+            color: #8b5a00;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            table th, table td {
+                padding: 8px 6px;
+                font-size: 0.85em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+            
+            .info-box {
+                font-size: 0.95em;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>📊 Rendimento</h1>
+        <p class="data-calc">📅 Data do cálculo: <strong>27/09/2026</strong></p>
+
+        <h2>💡 Sobre a Aposentadoria pelo Regime Geral de Previdência Social (INSS)</h2>
+        <div class="info-box">
+            <p>
+                Se você começar a contribuir aos 20 anos de idade pelo Regime Geral de Previdência Social (RGPS/INSS), conforme as regras atuais da Reforma da Previdência (EC 103/2019), será necessário cumprir o tempo mínimo de contribuição de 20 anos e atingir a idade mínima de 65 anos para ter direito à aposentadoria.
+            </p>
+            <p>
+                Se você mantiver as contribuições por um tempo total de 45 anos, completará exatamente os 65 anos de idade, alinhando perfeitamente o período de contribuição com a idade mínima exigida pelo governo. Ou seja, mesmo que atinja o tempo mínimo de 20 anos de contribuição aos 40 anos de idade, só poderá se aposentar ao completar 65 anos.
+            </p>
+            <p>
+                O valor mínimo de contribuição mensal gira em torno de <strong>R$ 121,00</strong> (baseado no salário mínimo vigente). Isso demonstra a importância de começar a investir cedo, pois o poder dos juros compostos ao longo dessas 4 décadas e meia pode construir um patrimônio muito superior ao benefício oferecido pela previdência oficial.
+            </p>
+            <p>
+                Para comparar: se você fizer investimentos privados no mesmo período, a tabela abaixo mostra os valores acumulados e o rendimento mensal que você poderia obter considerando uma taxa de 1% ao mês. Ao final desse período, com aportes de apenas <strong>R$ 121,00</strong> mensais, você teria acumulado aproximadamente <strong>R$ 2.596.000,00</strong>. Com esse montante, mantendo o capital intacto e vivendo apenas dos rendimentos de 1% ao mês, você teria uma renda passiva de cerca de <strong>R$ 25.960,00</strong> por mês.
+            </p>
+            <p>
+                A diferença crucial não está apenas nos números, mas na propriedade do recurso. O dinheiro que você investe privadamente será seu. No final, você terá total liberdade para usufruir desse patrimônio: poderá sacar o valor integral para realizar sonhos, comprar imóveis ou garantir o futuro da sua família, e ainda deixar todo o montante como herança para seus herdeiros. Além disso, enquanto o capital permanecer investido, ele continuará gerando rendimentos altos mês após mês.
+            </p>
+            <div class="contrast-box">
+                <p style="margin-bottom: 0;">
+                    <strong>⚠️ Em contrapartida:</strong> no modelo do governo, o dinheiro das suas contribuições não fica guardado para você; ele é usado para pagar os aposentados da atualidade. Ao final de 45 anos, o que você receberá de volta será apenas o benefício da aposentadoria, que, no caso de quem sempre contribuiu pelo piso, será equivalente a 1 salário mínimo da época (no exemplo de hoje, isso seria <strong>R$ 1.621,00</strong>). Diferente do investimento privado, esse valor não vira um grande patrimônio acumulável, não pode ser sacado integralmente de uma vez e, em caso de falecimento, não se transforma em uma grande herança financeira para seus filhos, ficando restrito às regras limitadas da pensão por morte.
+                </p>
+            </div>
+        </div>
+
+        <h2>📅 Simulação de 5 Anos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aporte Mensal</th>
+                    <th>Total Investido</th>
+                    <th>Valor Líquido (após IR)</th>
+                    <th>Ganharia/Mês (1%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>R$ 10,00</td><td>R$ 600,00</td><td>R$ 784,19</td><td>R$ 7,84</td></tr>
+                <tr><td>R$ 50,00</td><td>R$ 3.000,00</td><td>R$ 3.920,96</td><td>R$ 39,21</td></tr>
+                <tr><td>R$ 120,00</td><td>R$ 7.200,00</td><td>R$ 9.410,31</td><td>R$ 94,10</td></tr>
+                <tr><td>R$ 271,00</td><td>R$ 16.260,00</td><td>R$ 21.251,61</td><td>R$ 212,52</td></tr>
+            </tbody>
+        </table>
+
+        <h2>📅 Simulação de 10 Anos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aporte Mensal</th>
+                    <th>Total Investido</th>
+                    <th>Valor Líquido (após IR)</th>
+                    <th>Ganharia/Mês (1%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>R$ 10,00</td><td>R$ 1.200,00</td><td>R$ 2.135,33</td><td>R$ 21,35</td></tr>
+                <tr><td>R$ 50,00</td><td>R$ 6.000,00</td><td>R$ 10.676,64</td><td>R$ 106,77</td></tr>
+                <tr><td>R$ 120,00</td><td>R$ 14.400,00</td><td>R$ 25.623,95</td><td>R$ 256,24</td></tr>
+                <tr><td>R$ 271,00</td><td>R$ 32.520,00</td><td>R$ 57.857,41</td><td>R$ 578,67</td></tr>
+            </tbody>
+        </table>
+
+        <h2>📅 Simulação de 20 Anos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aporte Mensal</th>
+                    <th>Total Investido</th>
+                    <th>Valor Líquido (após IR)</th>
+                    <th>Ganharia/Mês (1%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>R$ 10,00</td><td>R$ 2.400,00</td><td>R$ 8.768,67</td><td>R$ 87,69</td></tr>
+                <tr><td>R$ 50,00</td><td>R$ 12.000,00</td><td>R$ 43.843,35</td><td>R$ 438,43</td></tr>
+                <tr><td>R$ 120,00</td><td>R$ 28.800,00</td><td>R$ 105.224,05</td><td>R$ 1.052,24</td></tr>
+                <tr><td>R$ 271,00</td><td>R$ 65.040,00</td><td>R$ 237.630,97</td><td>R$ 2.376,31</td></tr>
+            </tbody>
+        </table>
+
+        <h2>📅 Simulação de 45 Anos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aporte Mensal</th>
+                    <th>Total Investido</th>
+                    <th>Valor Bruto Final (com juros)</th>
+                    <th>Ganharia/Mês (1%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>R$ 10,00</td><td>R$ 5.400,00</td><td>R$ 183.174,89</td><td>R$ 1.831,75</td></tr>
+                <tr><td>R$ 50,00</td><td>R$ 27.000,00</td><td>R$ 915.874,45</td><td>R$ 9.158,74</td></tr>
+                <tr><td>R$ 120,00</td><td>R$ 64.800,00</td><td>R$ 2.198.098,69</td><td>R$ 21.980,99</td></tr>
+                <tr><td>R$ 271,00</td><td>R$ 146.340,00</td><td>R$ 4.964.039,54</td><td>R$ 49.640,40</td></tr>
+            </tbody>
+        </table>
+
+        <div class="disclaimer">
+            <h3>⚠️ Aviso Legal (Disclaimer)</h3>
+            <p>
+                <strong>Não somos analistas de valores mobiliários registrados (CNPI)</strong> e não emitimos recomendações sobre compra e/ou venda de ativos. As opiniões expressas nos vídeos e imagens refletem exclusivamente nossa visão pessoal sobre as análises realizadas. Os canais e seus vídeos têm fins <strong>puramente educacionais</strong>.
+            </p>
+            <p>
+                É fundamental destacar que o <strong>investimento em renda variável envolve alto risco</strong> e pode resultar em perdas significativas. <strong>Rentabilidade passada não é garantia de ganhos futuros.</strong> Somente pessoas experientes devem realizar operações no mercado financeiro.
+            </p>
+            <p>
+                As informações, estimativas e projeções aqui apresentadas refletem a <strong>data de publicação (27/09/2026)</strong> e estão sujeitas a alterações, sem obrigação de comunicação para atualizações ou revisões.
+            </p>
+            <p>
+                O investidor que utiliza as informações deste site ou canal assume <strong>total responsabilidade</strong> por suas próprias decisões de investimento ou abstenção de investimento, sendo o único responsável pelo processo de tomada de decisão.
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>

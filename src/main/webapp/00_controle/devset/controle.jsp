@@ -142,7 +142,9 @@
 										<a class="dropdown-item"
 										href="<%=request.getContextPath()%>/00_controle/devset/treinamento/treinamento.html">treinamento</a>
 																			<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/00_controle/devset/blind/blind.html">Blind</a>
+										href="<%=request.getContextPath()%>/00_controle/Investimento/daytrade.html">DayTrade</a>
+										
+										
 										
 								</c:if>
 								

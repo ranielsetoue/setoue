@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Curso — Suporte, Resistência e Rompimentos</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            background-color: #060d19;
+            color: #f5f7fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .slide-section {
+            min-height: 100vh;
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 80% 0%, #294a70 0, #142943 38%, #060d19 100%);
+            border-bottom: 1px solid #506985;
+        }
+        .box {
+            background: rgba(24,45,73,.82);
+            border: 1px solid #506985;
+            border-radius: 18px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        .green-border { border-left: 5px solid #198754; }
+        .red-border { border-left: 5px solid #dc3545; }
+        .yellow-border { border-left: 5px solid #ffc107; }
+        
+        .text-green { color: #4ade80; }
+        .text-red { color: #f87171; }
+        .text-yellow { color: #facc15; }
+        
+        .note {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.95rem;
+        }
+        .green-note { border-left-color: #198754; }
+        .red-note { border-left-color: #dc3545; }
+        
+        h1 {
+            font-weight: 800;
+            margin-bottom: 20px;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        .hero-box {
+            text-align: center;
+            max-width: 1050px;
+            margin: 50px auto 0;
+        }
+        .flow span {
+            background: #142943;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Capa -->
+    <section class="slide-section">
+        <div class="container">
+            <h1 class="display-4 text-center">SUPORTE, RESISTÊNCIA E ROMPIMENTOS</h1>
+            <p class="lead text-center text-secondary">Do básico à leitura da estrutura do preço</p>
+            <div class="box hero-box">
+                <h2 class="mb-3">O objetivo desta aula</h2>
+                <p class="fs-5">Aprender a identificar <b>suporte</b>, <b>resistência</b>, <b>tendências</b> e <b>rompimentos</b>, usando exemplos reais de gráficos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Sequência -->
+    <section class="slide-section">
+        <div class="container">
+            <div class="box hero-box">
+                <p class="fs-4 mb-4"><b>Sequência de análise:</b> identificar a zona → observar a estrutura → acompanhar o rompimento → verificar fechamento e continuidade → observar possível reteste.</p>
+                <div class="mt-4 flow">
+                    <span class="text-green">SUPORTE</span> <b class="mx-2">→</b> 
+                    <span class="text-red">RESISTÊNCIA</span> <b class="mx-2">→</b> 
+                    <span class="text-yellow">TENDÊNCIA</span> <b class="mx-2">→</b> 
+                    <span class="text-info">ROMPIMENTO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: O que é suporte? -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>1. O que é suporte?</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box green-border">
+                        <h3 class="text-green">SUPORTE</h3>
+                        <p>É uma <b>região de preço</b> onde o mercado já mostrou interesse comprador e o preço encontrou dificuldade para continuar caindo.</p>
+                        <p>Quando o preço retorna à região, pode ocorrer nova reação compradora.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box">
+                        <h3>Como identificar</h3>
+                        <ul>
+                            <li>Fundos anteriores importantes.</li>
+                            <li>Regiões com várias reações.</li>
+                            <li>Áreas onde a queda perdeu força.</li>
+                            <li>Pense em uma <b>zona</b>, não em um preço exato.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: O que é resistência? -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>2. O que é resistência?</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box red-border">
+                        <h3 class="text-red">RESISTÊNCIA</h3>
+                        <p>É uma <b>região de preço</b> onde o mercado já mostrou interesse vendedor e o preço encontrou dificuldade para continuar subindo.</p>
+                        <p>Quando o preço retorna à região, pode ocorrer nova reação vendedora.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box">
+                        <h3>Como identificar</h3>
+                        <ul>
+                            <li>Topos anteriores importantes.</li>
+                            <li>Regiões com várias rejeições.</li>
+                            <li>Áreas onde a alta perdeu força.</li>
+                            <li>Também deve ser vista como uma <b>zona</b>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Mercado lateral -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>3. Mercado lateral: preço entre duas zonas</h1>
+            <p class="lead text-secondary">Em um mercado lateral, suporte e resistência aparecem principalmente como regiões horizontais.</p>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="box">
+                        <h3>Como ler um mercado lateral</h3>
+                        <ul>
+                            <li>O preço encontra suporte nas regiões inferiores.</li>
+                            <li>O preço encontra resistência nas regiões superiores.</li>
+                            <li>Enquanto permanece entre as zonas, não há uma direção predominante clara.</li>
+                            <li>Um rompimento pode tirar o mercado dessa faixa.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://ranielsetoue.dev.br/img/s1.jpg" class="img-fluid rounded shadow-lg" alt="Mercado Lateral">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Tendência de alta -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>4. Suporte e resistência na tendência de alta</h1>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="box">
+                        <ul>
+                            <li>A linha <b class="text-green">verde</b> acompanha os fundos e representa um suporte dinâmico.</li>
+                            <li>A linha <b class="text-red">vermelha</b> acompanha os topos e representa uma resistência dinâmica.</li>
+                            <li>O preço pode testar essas linhas e continuar a tendência.</li>
+                        </ul>
+                        <div class="note green-note">
+                            <b>Estrutura:</b> fundos mais altos + topos mais altos.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://ranielsetoue.dev.br/img/s2.jpg" class="img-fluid rounded shadow-lg" alt="Tendência de Alta">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Tendência de baixa -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>5. Suporte e resistência na tendência de baixa</h1>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="box">
+                        <ul>
+                            <li>A linha <b class="text-red">vermelha</b> representa uma resistência dinâmica.</li>
+                            <li>A linha <b class="text-green">verde</b> acompanha os fundos e representa suporte.</li>
+                            <li>O preço pode respeitar essas regiões e continuar a tendência.</li>
+                            <li>Um rompimento acompanhado de continuidade pode alterar a estrutura.</li>
+                        </ul>
+                        <div class="note red-note">
+                            <b>Estrutura:</b> topos mais baixos + fundos mais baixos.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://ranielsetoue.dev.br/img/s3.jpg" class="img-fluid rounded shadow-lg" alt="Tendência de Baixa">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Rompimento de resistência -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>6. Rompimento de resistência — exemplo 1</h1>
+            <p class="lead text-secondary">Observe a resistência horizontal sendo superada pelo preço.</p>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="box red-border">
+                                <h3 class="text-red">RESISTÊNCIA</h3>
+                                <p class="mb-0">Preço supera a região e passa a negociar acima dela.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="box green-border">
+                                <h3 class="text-green">SUPORTE</h3>
+                                <p class="mb-0">Preço perde a região e passa a negociar abaixo dela.</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="box yellow-border">
+                                <h3 class="text-yellow">CONFIRMAÇÃO</h3>
+                                <p class="mb-0">Observe fechamento, continuidade e comportamento posterior.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note mt-3">
+                        <b>Ponto de atenção:</b> depois do rompimento, observe se o preço consegue permanecer acima da antiga resistência.
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://ranielsetoue.dev.br/img/s4.jpg" class="img-fluid rounded shadow-lg" alt="Rompimento de Resistência">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Rompimento de suporte -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>7. Rompimento de suporte — exemplo 1</h1>
+            <p class="lead text-secondary">Agora o preço perde uma região de suporte.</p>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center">
+                    <img src="https://ranielsetoue.dev.br/img/s5.jpg" class="img-fluid rounded shadow-lg" alt="Rompimento de Suporte">
+                </div>
+                <div class="col-md-6">
+                    <div class="note">
+                        <b>Ponto de atenção:</b> depois de perder o suporte, observe se o preço permanece abaixo ou recupera rapidamente a região.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Reteste e troca de polaridade -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>8. Reteste e troca de polaridade</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box red-border">
+                        <h3 class="text-red">ANTES</h3>
+                        <p>Uma resistência impede ou dificulta o avanço do preço.</p>
+                    </div>
+                    <div class="box green-border">
+                        <h3 class="text-green">DEPOIS</h3>
+                        <p>Após um rompimento, essa mesma região pode passar a funcionar como suporte.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box yellow-border">
+                        <h3 class="text-yellow">TROCA DE POLARIDADE</h3>
+                        <p>O contrário também pode acontecer: um suporte rompido pode passar a atuar como resistência quando o preço retorna à região.</p>
+                    </div>
+                    <div class="note">
+                        O reteste não é obrigatório. Ele é apenas um comportamento que pode ocorrer depois do rompimento.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Verdadeiro x Falso -->
+    <section class="slide-section">
+        <div class="container">
+            <h1>9. Rompimento verdadeiro x falso rompimento</h1>
+            <div class="box">
+                <ul class="fs-5">
+                    <li>A perda da estrutura anterior merece atenção para uma possível mudança de comportamento.</li>
+                    <li>Analisar a estrutura de topos e fundos.</li>
+                    <li>Esperar informações adicionais antes de concluir.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Resumo -->
+    <section class="slide-section" style="border-bottom: none;">
+        <div class="container">
+            <h1 class="text-center mb-5">10. Resumo da aula</h1>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="box green-border h-100">
+                        <h3 class="text-green">SUPORTE</h3>
+                        <p>Região onde o preço encontrou interesse comprador.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box red-border h-100">
+                        <h3 class="text-red">RESISTÊNCIA</h3>
+                        <p>Região onde o preço encontrou interesse vendedor.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box yellow-border h-100">
+                        <h3 class="text-yellow">ROMPIMENTO</h3>
+                        <p>Passagem da região com possível continuidade além dela.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

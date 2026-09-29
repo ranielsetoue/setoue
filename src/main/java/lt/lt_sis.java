@@ -94,8 +94,9 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cont_sis", "cad_cli");
 				cl_sis.vz_id();
 				request.getSession().setAttribute("pre_glo", cl_sis);
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
-				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj();
+				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 				request.setAttribute("sis_cons", sisCons);
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
