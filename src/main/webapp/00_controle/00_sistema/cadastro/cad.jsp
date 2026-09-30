@@ -42,9 +42,14 @@
 	value="${sessionScope.tab_cont_ocult}" />
 
 <c:set scope="session" var="ocul_excluir"
+	value="${sessionScope.ocul_excluir}" />
+
+<c:set scope="session" var="naoexitedado"
 	value="${sessionScope.naoexitedado}" />
-<c:set scope="session" var="ocul_excluir"
-	value="${sessionScope.naoexitedado}" />
+
+<c:set scope="session" var="list_cons"
+	value="${sessionScope.list_cons}" />
+
 
 <!--  -->
 <title>${h_titulo_web}</title>
@@ -676,6 +681,13 @@ function bus_p2(){
 
 	}    
 }	
+
+
+function sel_cons(cnpj_cpf, element) {
+    // Define o valor e dispara o evento 'input' em cadeia
+    $('#bus_cnpj_cpf').val(cnpj_cpf).trigger('input');
+    sis_busc();
+}
 
 </script>
 <style>
@@ -2811,29 +2823,448 @@ function validartipo_ace() {
 	</div>
 
 </div>
-
-
-
-
-
 <!-- FIM DADO ABA -->
 		<!-- FIM row -->
 	</div>
-
 	<!-- FIM Container -->
 </div>
 <!-- FIM Container -->
 <!--  -->
-	
-	
-
-
-  
-<!-- Fim ABA  -->
-
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->
+
+
+
+
+
+
+
+
+
+<!-- INICIO CONSULTAR DADO CLIENTE -->
+<c:if test="${empty list_cons or list_cons eq 'true'}">
+<!-- INICIO CONSULTAR DADO CLIENTE -->
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+<hr>					
+<!-- INICIO CONSULTAR DADO  -->
+
+				<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+	
+<a>Cliente Encontrado</a>
+					<!-- FIM row -->
+					</div>
+
+
+
+<!--Inico Tabela Consultar Cliente Pelo Nome -->
+<!-- Inicio Container -->
+<div class="container mt-1">
+	<!-- Inicio Container -->
+
+	<div style="height: 350px; overflow: scroll;">
+	<table class="table" id="t_list_cons">
+    <thead>
+        <tr>
+            <th scope="col">CNPJ ou CPF</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Nome Fantasia</th>
+            <th scope="col">Selecionar</th>
+        </tr>
+    </thead>
+   <tbody>
+    <!-- Verifica se a lista existe e não está vazia no escopo da requisição -->
+    <c:choose>
+        <c:when test="${not empty requestScope.list_cons_dado}">
+            <c:forEach items="${requestScope.list_cons_dado}" var="ml">
+                <tr>
+                    <td><c:out value="${ml.cnpj_cpf}" /></td>
+                    <td><c:out value="${ml.nome_desc}" /></td>
+                    <td><c:out value="${ml.no_fan}" /></td>
+                    <td>
+                        <a onclick="sel_cons('${ml.cnpj_cpf}', this); return false;" 
+                           class="btn btn-warning text-dark">
+                           Selecionar
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    Nenhum registro encontrado ou tipo de dados inválido.
+                </td>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+</tbody></table>
+
+	</div>
+	<hr>
+
+	<div id="paginacao_cons"
+		class="d-flex align-items-center justify-content-center flex-wrap mt-2">
+		<!-- PAGINAÇÃO -->
+		<span id="pag_cons" class="d-flex align-items-center"> </span>
+
+		<!-- SEPARADOR -->
+		<span class="text-secondary mx-2">|</span>
+
+		<!-- INFORMAÇÃO -->
+		<span id="info_cons" class="text-secondary"> </span>
+
+	</div>
+	<script type="text/javascript">
+
+/* =====================================================
+CONFIGURAÇÃO
+===================================================== */
+
+var totalRegistroscons = ${cont_list_qt.size()};
+var paginaAtualcons = 1;
+var registrosPorPaginacons = 5;
+
+
+/* =====================================================
+ATUALIZA INFORMAÇÃO
+Exemplo: 1 - 5 de 21
+===================================================== */
+
+function atualizarInfocons(pagina) {
+
+var registrosPorPaginacons = registrosPorPaginacons;
+var totalRegistroscons = totalRegistroscons || 0;
+
+var infocons = document.getElementById("info_cons");
+
+/* Nenhum registro */
+if (totalRegistroscons === 0) {
+
+infocons.innerHTML = "0 - 0 de 0";
+
+return;
+}
+
+
+/* Primeiro registro */
+var iniciocons =
+((pagina - 1) * registrosPorPaginacons) + 1;
+
+
+/* Último registro */
+var fimcons =
+pagina * registrosPorPaginacons;
+
+
+/* Não ultrapassar total */
+if (fimcons > totalRegistroscons) {
+
+fimcons = totalRegistroscons;
+}
+
+
+infocons.innerHTML =
+iniciocons + " - " + fimcons + " de " + totalRegistroscons;
+}
+
+
+/* =====================================================
+MONTA A PAGINAÇÃO
+===================================================== */
+
+function montarPaginascons(paginaAtualcons) {
+
+var registrosPorPaginacons = registrosPorPaginacons;
+
+var totalRegistroscons =
+totalRegistroscons || 0;
+
+var totalPaginascons =
+Math.ceil(
+totalRegistroscons / registrosPorPaginacons
+);
+
+var html = "";
+
+
+/* =================================================
+SEM REGISTROS
+================================================= */
+
+if (totalPaginascons === 0) {
+
+document.getElementById("pag_cons").innerHTML = "";
+
+return;
+}
+
+
+/* =================================================
+BOTÃO PRIMEIRA
+================================================= */
+
+if (paginaAtualcons === 1) {
+
+html +=
+'<button type="button" ' +
+'class="btn btn-light border rounded-3 px-3 py-2" ' +
+'disabled>' +
+'Primeira' +
+'</button>';
+
+} else {
+
+html +=
+'<button type="button" ' +
+'class="btn btn-light border rounded-3 px-3 py-2" ' +
+'onclick="carregarPaginacons(1)">' +
+'Primeira' +
+'</button>';
+}
+
+
+/* =================================================
+SEPARADOR
+================================================= */
+
+html +=
+'<span class="text-secondary mx-2">|</span>';
+
+
+/* =================================================
+DEFINE AS PÁGINAS VISÍVEIS
+
+Até 3 páginas:
+1 2 3
+
+Página 3:
+2 3 4
+
+Última:
+4 5 6
+================================================= */
+
+var iniciocons;
+var fimcons;
+
+
+if (totalPaginascons <= 3) {
+
+iniciocons = 1;
+fimcons = totalPaginas;
+
+} else {
+
+iniciocons = paginaAtualcons - 1;
+fimcons = paginaAtualcons + 1;
+
+
+/* Primeira ou segunda página */
+
+if (paginaAtualcons <= 2) {
+
+iniciocons = 1;
+fimcons = 3;
+}
+
+
+/* Penúltima ou última página */
+
+if (paginaAtualcons >= totalPaginascons - 1) {
+
+iniciocons = totalPaginascons - 2;
+fimcons = totalPaginascons;
+}
+}
+
+
+/* =================================================
+NÚMEROS DAS PÁGINAS
+================================================= */
+
+for (
+var pagina = iniciocons;
+pagina <= fimcons;
+pagina++
+) {
+
+
+/* ---------------------------------------------
+PÁGINA ATUAL
+--------------------------------------------- */
+
+if (pagina === paginaAtualcons) {
+
+html +=
+'<button type="button" ' +
+'class="btn btn-primary rounded-3 px-3 py-2 mx-1" ' +
+'disabled>' +
+pagina +
+'</button>';
+
+}
+
+
+/* ---------------------------------------------
+OUTRAS PÁGINAS
+--------------------------------------------- */
+
+else {
+
+html +=
+'<button type="button" ' +
+'class="btn btn-light border rounded-3 px-3 py-2 mx-1" ' +
+'onclick="carregarPaginacons(' +
+pagina +
+')">' +
+pagina +
+'</button>';
+}
+}
+
+
+/* =================================================
+COLOCA PAGINAÇÃO NA TELA
+================================================= */
+
+document.getElementById("pag_cons").innerHTML =
+html;
+}
+
+
+/* =====================================================
+CARREGA A PÁGINA
+===================================================== */
+
+function carregarPaginacont(pagina) {
+
+/* Guarda página atual */
+paginaAtualcons = pagina;
+
+
+/* Atualiza informação */
+atualizarInfocons(pagina);
+
+
+/* Atualiza botões */
+montarPaginascons(pagina);
+
+
+/* =================================================
+OFFSET
+================================================= */
+
+var registrosPorPaginacons =
+registrosPorPaginacons;
+
+var offset =
+(pagina - 1) * registrosPorPaginacons;
+
+
+/* =================================================
+URL
+================================================= */
+
+var urlAction =
+'<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cons';
+
+
+/* =================================================
+CNPJ / CPF
+================================================= */
+var cont_bus_cons = document.getElementById('cont_bus_cons).value;
+
+var campoCnpjCpf =
+document.getElementById('cnpj_cpf');
+
+var cont_cnpj_cpf = "";
+
+if (campoCnpjCpf) {
+
+cont_cnpj_cpf =
+campoCnpjCpf.value;
+}
+
+
+/* =================================================
+AJAX
+================================================= */
+
+$.ajax({
+
+type: "POST",
+
+url: urlAction,
+
+data: {
+
+offset: offset,
+cont_bus_contcons:cont_bus_contcons,
+cont_cnpj_cpfcons: cont_cnpj_cpfcons
+},
+
+
+/* ---------------------------------------------
+SUCESSO
+--------------------------------------------- */
+
+success: function(response) {
+
+$("#t_list_cons tbody").html(response);
+},
+
+
+/* ---------------------------------------------
+ERRO
+--------------------------------------------- */
+
+error: function(xhr, status, error) {
+
+console.log(xhr.responseText);
+
+alert(
+"Erro ao carregar página Tabela cons: " +
+error
+);
+}
+
+});
+}
+
+
+/* =====================================================
+INICIALIZA PAGINAÇÃO
+===================================================== */
+
+atualizarInfocont(1)cons;
+
+montarPaginascons(1);
+
+</script>
+	<!-- FIM Container -->
+</div>
+<!-- FIM Container -->
+<!-- Fim Consultar Cliente Pelo Nome -->
+
+
+
+
+
+<!-- FIM CONSULTAR DADO -->
+					<!-- coluna Direita -->
+<hr>
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+<!-- FIM CONSULTAR DADO CLIENTE -->
+</c:if>
+<!-- FIM CONSULTAR DADO CLIENTE -->
 			<!-- FIM DADO -->
 			<!--  -->
 			<!-- final form -->

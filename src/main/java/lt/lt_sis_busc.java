@@ -74,6 +74,7 @@ public class lt_sis_busc extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		try {
+			request.getSession().setAttribute("list_cons", false);
 
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
@@ -213,6 +214,7 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
+			request.getSession().setAttribute("list_cons", false);
 
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 			request.getSession().setAttribute("insc_ocult", true);
@@ -502,9 +504,15 @@ public class lt_sis_busc extends HttpServlet {
 									}
 
 								} else {
-									System.out.println("Encontrado quantidade: " + sis_qt);
+									/*
+									 * System.out.println("Encontrado quantidade: " + sis_qt);
+									 */
+										
+									List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, 0); // Simplificado
+						            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
+						            request.getSession().setAttribute("list_cons", true);
+								
 								}
-
 							} else {
 								request.getSession().setAttribute("naoexitedado", true);
 								
@@ -765,13 +773,19 @@ public class lt_sis_busc extends HttpServlet {
 									}
 
 								} else {
-									System.out.println("Encontrado quantidade: " + cli_qt);
+									/*
+									 * System.out.println("Encontrado quantidade: " + cli_qt);
+									 */
+									
+									List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, 0); // Simplificado
+						            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
+						            request.getSession().setAttribute("list_cons", true);
+						            
 								}
 
 							} else {
 								request.getSession().setAttribute("naoexitedado", true);
-								request.getSession().setAttribute("msg_naoexiste",
-										"Registro não localizado. Informe um CPF ou CNPJ válido para prosseguir com o cadastro.");
+		
 							}
 
 						}

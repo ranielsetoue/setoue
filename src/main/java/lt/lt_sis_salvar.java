@@ -96,6 +96,8 @@ public class lt_sis_salvar extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		request.getSession().setAttribute("naoexitedado", false);
+		request.getSession().setAttribute("list_cons", false);
+
 		String t_nome_desc = request.getParameter("nome_desc");
 		String t_no_fan = request.getParameter("no_fan");
 		String t_cnpj_cpf = request.getParameter("cnpj_cpf");

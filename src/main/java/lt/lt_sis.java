@@ -56,6 +56,7 @@ public class lt_sis extends HttpServlet {
 
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
+			request.getSession().setAttribute("list_cons", false);
 
 			request.getSession().setAttribute("cons_list", false);
 			request.getSession().setAttribute("cons_list_not", false);
