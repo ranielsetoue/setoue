@@ -403,67 +403,137 @@ public class fun_sis {
 	}
 
 	// 1. Alteramos o retorno de boolean para Integer
-		public Integer val_sis_nome(String tx1) throws Exception {
+	public Integer val_sis_nome(String tx1) throws Exception {
 
-		    // 2. Usamos '?' em vez de concatenar as variáveis (Isso evita erros e Injeção de SQL)
-		    String bc_sql = "SELECT count(1) AS total FROM tb_clin WHERE nome_desc ILIKE ?";
-		    
-		    // 3. O try-with-resources garante que o banco seja fechado corretamente após o uso
-		    try (PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql)) {
-		        
-		        // Substitui os '?' pelos valores de forma segura
-			        gra_bus.setString(1, "%" + tx1 + "%"); // Adiciona as % aqui, não na SQL
+		// 2. Usamos '?' em vez de concatenar as variáveis (Isso evita erros e Injeção
+		// de SQL)
+		String bc_sql = "SELECT count(1) AS total FROM tb_clin WHERE nome_desc ILIKE ?";
 
-		        try (ResultSet resul = gra_bus.executeQuery()) {
-		            if (resul.next()) {
-		                // Retorna a quantidade total encontrada
-		                return resul.getInt("total"); 
-		            }
-		        }
-		    }
-		    
-		    // Se não entrar no if, retorna 0 (que representará o "falso")
-		    return 0; 
+		// 3. O try-with-resources garante que o banco seja fechado corretamente após o
+		// uso
+		try (PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql)) {
+
+			// Substitui os '?' pelos valores de forma segura
+			gra_bus.setString(1, "%" + tx1 + "%"); // Adiciona as % aqui, não na SQL
+
+			try (ResultSet resul = gra_bus.executeQuery()) {
+				if (resul.next()) {
+					// Retorna a quantidade total encontrada
+					return resul.getInt("total");
+				}
+			}
 		}
-		
-		public cla_sis cons_sis_like(String tx1) throws Exception {
+
+		// Se não entrar no if, retorna 0 (que representará o "falso")
+		return 0;
+	}
+
+	public cla_sis cons_sis_like(String tx1) throws Exception {
+
+		cla_sis gra_inp = new cla_sis();
+
+		String bc_sql = "select * FROM tb_sis where nome_desc ILIKE '%" + tx1 + "%'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis = gra_bus.executeQuery();
+
+		while (cl_sis.next()) {
+
+			gra_inp.setId_sis(cl_sis.getLong("id_sis"));
+			gra_inp.setReg_id(cl_sis.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis.getTimestamp("reg_data"));
+			gra_inp.setReg_data_alt(cl_sis.getTimestamp("reg_data_alt"));
+			gra_inp.setTruefalse(cl_sis.getBoolean("truefalse"));
+			gra_inp.setNome_desc(cl_sis.getString("nome_desc"));
+			gra_inp.setNo_fan(cl_sis.getString("no_fan"));
+			gra_inp.setCnpj_cpf(cl_sis.getString("cnpj_cpf"));
+			gra_inp.setEnd_rua(cl_sis.getString("end_rua"));
+			gra_inp.setEnd_num(cl_sis.getString("end_num"));
+			gra_inp.setEnd_com(cl_sis.getString("end_com"));
+			gra_inp.setEnd_bar(cl_sis.getString("end_bar"));
+			gra_inp.setEnd_mun(cl_sis.getString("end_mun"));
+			gra_inp.setEnd_uf(cl_sis.getString("end_uf"));
+			gra_inp.setEnd_cep(cl_sis.getString("end_cep"));
+			gra_inp.setIns_est(cl_sis.getString("ins_est"));
+			gra_inp.setIns_mun(cl_sis.getString("ins_mun"));
+			gra_inp.setTel_1(cl_sis.getString("tel_1"));
+			gra_inp.setEmail_1(cl_sis.getString("email_1"));
+			gra_inp.setObs(cl_sis.getString("obs"));
+
+		}
+
+		return gra_inp;
+
+	}
+
+	public List<cla_sis> list_sis_cons(long nx1, long offset, String tx1) throws Exception {
+
+		/*
+		 * limite de paginação select * FROM tb_sistema_dominio where id_sistema = 1
+		 * order by id_sistema offset 0 limit 10
+		 */
+		List<cla_sis> retorno = new ArrayList<>();
+
+		String bc_sql = "SELECT * FROM tb_sis " + "WHERE id_sis = " + nx1 + " " + "AND nome_desc ILIKE '%" + tx1 + "%' "
+				+ "or id_sis = " + nx1 + " " + "AND no_fan ILIKE '%" + tx1 + "%' " + "ORDER BY nome_desc " + "OFFSET "
+				+ offset + " LIMIT 5";
+		PreparedStatement gra_dado = pos_cbd_con.prepareStatement(bc_sql);
+		ResultSet gra_bus = gra_dado.executeQuery();
+
+		while (gra_bus.next()) {
 
 			cla_sis gra_inp = new cla_sis();
 
-			String bc_sql = "select * FROM tb_sis where nome_desc ILIKE '%" + tx1 + "%'";
-			PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+			gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+			gra_inp.setClin_id(gra_bus.getLong("clin_id"));
+			gra_inp.setReg_id(gra_bus.getLong("reg_id"));
+			gra_inp.setReg_data(gra_bus.getTimestamp("reg_data"));
+			gra_inp.setReg_data_alt(gra_bus.getTimestamp("reg_data_alt"));
+			gra_inp.setTruefalse(gra_bus.getBoolean("truefalse"));
+			gra_inp.setNome_desc(gra_bus.getString("nome_desc"));
+			gra_inp.setNo_fan(gra_bus.getString("no_fan"));
+			gra_inp.setCnpj_cpf(gra_bus.getString("cnpj_cpf"));
+			gra_inp.setEnd_rua(gra_bus.getString("end_rua"));
+			gra_inp.setEnd_num(gra_bus.getString("end_num"));
+			gra_inp.setEnd_com(gra_bus.getString("end_com"));
+			gra_inp.setEnd_bar(gra_bus.getString("end_bar"));
+			gra_inp.setEnd_mun(gra_bus.getString("end_mun"));
+			gra_inp.setEnd_uf(gra_bus.getString("end_uf"));
+			gra_inp.setEnd_cep(gra_bus.getString("end_cep"));
+			gra_inp.setIns_est(gra_bus.getString("ins_est"));
+			gra_inp.setIns_mun(gra_bus.getString("ins_mun"));
+			gra_inp.setTel_1(gra_bus.getString("tel_1"));
+			gra_inp.setEmail_1(gra_bus.getString("email_1"));
+			gra_inp.setObs(gra_bus.getString("obs"));
 
-			ResultSet cl_sis = gra_bus.executeQuery();
-
-			while (cl_sis.next()) {
-
-				gra_inp.setId_sis(cl_sis.getLong("id_sis"));
-				gra_inp.setReg_id(cl_sis.getLong("reg_id"));
-				gra_inp.setReg_data(cl_sis.getTimestamp("reg_data"));
-				gra_inp.setReg_data_alt(cl_sis.getTimestamp("reg_data_alt"));
-				gra_inp.setTruefalse(cl_sis.getBoolean("truefalse"));
-				gra_inp.setNome_desc(cl_sis.getString("nome_desc"));
-				gra_inp.setNo_fan(cl_sis.getString("no_fan"));
-				gra_inp.setCnpj_cpf(cl_sis.getString("cnpj_cpf"));
-				gra_inp.setEnd_rua(cl_sis.getString("end_rua"));
-				gra_inp.setEnd_num(cl_sis.getString("end_num"));
-				gra_inp.setEnd_com(cl_sis.getString("end_com"));
-				gra_inp.setEnd_bar(cl_sis.getString("end_bar"));
-				gra_inp.setEnd_mun(cl_sis.getString("end_mun"));
-				gra_inp.setEnd_uf(cl_sis.getString("end_uf"));
-				gra_inp.setEnd_cep(cl_sis.getString("end_cep"));
-				gra_inp.setIns_est(cl_sis.getString("ins_est"));
-				gra_inp.setIns_mun(cl_sis.getString("ins_mun"));
-				gra_inp.setTel_1(cl_sis.getString("tel_1"));
-				gra_inp.setEmail_1(cl_sis.getString("email_1"));
-				gra_inp.setObs(cl_sis.getString("obs"));
-
-			}
-
-			return gra_inp;
+			retorno.add(gra_inp);
 
 		}
 
+		return retorno;
+	}
 
-		
+
+	public List<cla_sis> sis_list_qt(long nx1) throws Exception {
+
+		List<cla_sis> retorno = new ArrayList<>();
+
+		String bc_sql = "SELECT d.id_sis " + "FROM tb_sis d " + "WHERE d.id_sis = " + nx1 + " "
+				+ "ORDER BY d.nome_desc;";
+
+		PreparedStatement gra_dom = pos_cbd_con.prepareStatement(bc_sql);
+		ResultSet gra_bus = gra_dom.executeQuery();
+
+		while (gra_bus.next()) {
+
+			cla_sis gra_inp = new cla_sis();
+
+			gra_inp.setId_sis(gra_bus.getLong("id_sis"));
+
+			retorno.add(gra_inp);
+		}
+
+		return retorno;
+	}
+
 }

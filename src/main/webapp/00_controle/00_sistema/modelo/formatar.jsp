@@ -1,387 +1,164 @@
-<!--Inico Tabela Consultar Cliente Pelo Nome -->
-<!-- Inicio Container -->
-<div class="container mt-1">
-	<!-- Inicio Container -->
+<!-- 
+/* =====================================================
+INICIO PAGINAÇÃO CONS
+===================================================== */
+ --> 
+<div id="paginacao_cons"
+class="d-flex align-items-center justify-content-center flex-wrap mt-2">
 
-	<div style="height: 350px; overflow: scroll;">
-		<table class="table" id="t_list_cons">
-			<thead>
-				<tr>
+<!-- PAGINAÇÃO -->
+<span id="pag_cons"
+class="d-flex align-items-center">
+</span>
 
-					<th scope="col">Nome</th>
-					<th scope="col">Telefone</th>
-					<th scope="col">E-mail</th>
+<!-- SEPARADOR -->
+<span class="text-secondary mx-2">|</span>
 
-					<th scope="col">Selecionar</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
+<!-- INFORMAÇÃO -->
+<span id="info_cons"
+class="text-secondary">
+</span>
 
-					<td><c:out value="${ml.nome_desc}"></c:out></td>
-					<td><c:out value="${ml.tel_1}"></c:out></td>
-					<td><c:out value="${ml.email_1}"></c:out></td>
-					 class="btn
-					btn-danger">Selecionar
-					</a>
-					</td>
-					<td><button type="button" id="sel_cons"
-							onclick="detalhe_cons(this)" data-nome_desc="${ml.nome_desc}"
-							data-tel_1="${ml.tel_1}" data-tel_2="${ml.tel_2}"
-							data-email_1="${ml.email_1}" data-email_2="${ml.email_2}"
-							data-setor_1="${ml.setor_1}" data-obs="${ml.obs}"
-							class="btn btn-warning" data-bs-toggle="modal">Seleção</button></td>
+</div>
+<script type="text/javascript">
 
-				</tr>
 
-			</tbody>
-		</table>
 
-	</div>
-	<hr>
-
-	<div id="paginacao_cons"
-		class="d-flex align-items-center justify-content-center flex-wrap mt-2">
-		<!-- PAGINAÇÃO -->
-		<span id="pag_cons" class="d-flex align-items-center"> </span>
-
-		<!-- SEPARADOR -->
-		<span class="text-secondary mx-2">|</span>
-
-		<!-- INFORMAÇÃO -->
-		<span id="info_cons" class="text-secondary"> </span>
-
-	</div>
-	<script type="text/javascript">
+/* ===================================================== 
+INICIO PAGINAÇÃO SCRIPT CONS
+===================================================== */
 
 /* =====================================================
 CONFIGURAÇÃO
 ===================================================== */
 
-var totalRegistroscons = ${cont_list_qt.size()};
+// CORREÇÃO 1: Garante que sempre será um número, evitando erro de sintaxe no JS.
+// Se 'cons_list_qt' for um número inteiro direto no Java, use apenas: ${empty cons_list_qt ? 0 : cons_list_qt}
+var totalRegistroscons = ${not empty cons_list_qt ? cons_list_qt : 0}; 
 var paginaAtualcons = 1;
 var registrosPorPaginacons = 5;
 
-
 /* =====================================================
 ATUALIZA INFORMAÇÃO
-Exemplo: 1 - 5 de 21
 ===================================================== */
-
 function atualizarInfocons(pagina) {
+    var registrosPorPagina = registrosPorPaginacons;
+    var totalRegistros = totalRegistroscons || 0;
+    var infocons = document.getElementById("info_cons");
 
-var registrosPorPaginacons = registrosPorPaginacons;
-var totalRegistroscons = totalRegistroscons || 0;
+    if (totalRegistros === 0) {
+        infocons.innerHTML = "0 - 0 de 0";
+        return;
+    }
 
-var infocons = document.getElementById("info_cons");
+    var inicio = ((pagina - 1) * registrosPorPagina) + 1;
+    var fim = pagina * registrosPorPagina;
 
-/* Nenhum registro */
-if (totalRegistroscons === 0) {
+    if (fim > totalRegistros) {
+        fim = totalRegistros;
+    }
 
-infocons.innerHTML = "0 - 0 de 0";
-
-return;
+    infocons.innerHTML = inicio + " - " + fim + " de " + totalRegistros;
 }
-
-
-/* Primeiro registro */
-var iniciocons =
-((pagina - 1) * registrosPorPaginacons) + 1;
-
-
-/* Último registro */
-var fimcons =
-pagina * registrosPorPaginacons;
-
-
-/* Não ultrapassar total */
-if (fimcons > totalRegistroscons) {
-
-fimcons = totalRegistroscons;
-}
-
-
-infocons.innerHTML =
-iniciocons + " - " + fimcons + " de " + totalRegistroscons;
-}
-
 
 /* =====================================================
-MONTA A PAGINAÇÃO
+MONTA PAGINAÇÃO
 ===================================================== */
+function montarPaginascons(paginaAtual) {
+    var registrosPorPagina = registrosPorPaginacons;
+    var totalRegistros = totalRegistroscons || 0;
+    var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+    var html = "";
 
-function montarPaginascons(paginaAtualcons) {
+    if (totalPaginas === 0) {
+        document.getElementById("pag_cons").innerHTML = "";
+        return;
+    }
 
-var registrosPorPaginacons = registrosPorPaginacons;
+    // Botão Primeira
+    if (paginaAtual === 1) {
+        html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2" disabled>Primeira</button>';
+    } else {
+        html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2" onclick="carregarPaginacons(1)">Primeira</button>';
+    }
 
-var totalRegistroscons =
-totalRegistroscons || 0;
+    html += '<span class="text-secondary mx-2">|</span>';
 
-var totalPaginascons =
-Math.ceil(
-totalRegistroscons / registrosPorPaginacons
-);
+    // Define as páginas visíveis
+    var inicio, fim;
 
-var html = "";
+    if (totalPaginas <= 3) {
+        inicio = 1;
+        fim = totalPaginas;
+    } else {
+        inicio = paginaAtual - 1;
+        fim = paginaAtual + 1;
 
+        if (paginaAtual <= 2) {
+            inicio = 1;
+            fim = 3;
+        }
+        if (paginaAtual >= totalPaginas - 1) {
+            inicio = totalPaginas - 2;
+            fim = totalPaginas;
+        }
+    }
 
-/* =================================================
-SEM REGISTROS
-================================================= */
+    // Números das páginas
+    for (var pagina = inicio; pagina <= fim; pagina++) {
+        if (pagina === paginaAtual) {
+            html += '<button type="button" class="btn btn-primary rounded-3 px-3 py-2 mx-1" disabled>' + pagina + '</button>';
+        } else {
+            html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2 mx-1" onclick="carregarPaginacons(' + pagina + ')">' + pagina + '</button>';
+        }
+    }
 
-if (totalPaginascons === 0) {
-
-document.getElementById("pag_cons").innerHTML = "";
-
-return;
+    document.getElementById("pag_cons").innerHTML = html;
 }
-
-
-/* =================================================
-BOTÃO PRIMEIRA
-================================================= */
-
-if (paginaAtualcons === 1) {
-
-html +=
-'<button type="button" ' +
-'class="btn btn-light border rounded-3 px-3 py-2" ' +
-'disabled>' +
-'Primeira' +
-'</button>';
-
-} else {
-
-html +=
-'<button type="button" ' +
-'class="btn btn-light border rounded-3 px-3 py-2" ' +
-'onclick="carregarPaginacons(1)">' +
-'Primeira' +
-'</button>';
-}
-
-
-/* =================================================
-SEPARADOR
-================================================= */
-
-html +=
-'<span class="text-secondary mx-2">|</span>';
-
-
-/* =================================================
-DEFINE AS PÁGINAS VISÍVEIS
-
-Até 3 páginas:
-1 2 3
-
-Página 3:
-2 3 4
-
-Última:
-4 5 6
-================================================= */
-
-var iniciocons;
-var fimcons;
-
-
-if (totalPaginascons <= 3) {
-
-iniciocons = 1;
-fimcons = totalPaginas;
-
-} else {
-
-iniciocons = paginaAtualcons - 1;
-fimcons = paginaAtualcons + 1;
-
-
-/* Primeira ou segunda página */
-
-if (paginaAtualcons <= 2) {
-
-iniciocons = 1;
-fimcons = 3;
-}
-
-
-/* Penúltima ou última página */
-
-if (paginaAtualcons >= totalPaginascons - 1) {
-
-iniciocons = totalPaginascons - 2;
-fimcons = totalPaginascons;
-}
-}
-
-
-/* =================================================
-NÚMEROS DAS PÁGINAS
-================================================= */
-
-for (
-var pagina = iniciocons;
-pagina <= fimcons;
-pagina++
-) {
-
-
-/* ---------------------------------------------
-PÁGINA ATUAL
---------------------------------------------- */
-
-if (pagina === paginaAtualcons) {
-
-html +=
-'<button type="button" ' +
-'class="btn btn-primary rounded-3 px-3 py-2 mx-1" ' +
-'disabled>' +
-pagina +
-'</button>';
-
-}
-
-
-/* ---------------------------------------------
-OUTRAS PÁGINAS
---------------------------------------------- */
-
-else {
-
-html +=
-'<button type="button" ' +
-'class="btn btn-light border rounded-3 px-3 py-2 mx-1" ' +
-'onclick="carregarPaginacons(' +
-pagina +
-')">' +
-pagina +
-'</button>';
-}
-}
-
-
-/* =================================================
-COLOCA PAGINAÇÃO NA TELA
-================================================= */
-
-document.getElementById("pag_cons").innerHTML =
-html;
-}
-
 
 /* =====================================================
-CARREGA A PÁGINA
+CARREGA A PÁGINA (AJAX)
 ===================================================== */
+function carregarPaginacons(pagina) {
+    paginaAtualcons = pagina;
 
-function carregarPaginacont(pagina) {
+    // CORREÇÃO 2: Trocado de 'dom' para 'cons'
+    atualizarInfocons(pagina); 
+    montarPaginascons(pagina); 
 
-/* Guarda página atual */
-paginaAtualcons = pagina;
+    var registrosPorPagina = registrosPorPaginacons;
+    var offset = (pagina - 1) * registrosPorPagina;
 
+    var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cons';
+    var cons = document.getElementById('bus_cnpj_cpf').value;
 
-/* Atualiza informação */
-atualizarInfocons(pagina);
-
-
-/* Atualiza botões */
-montarPaginascons(pagina);
-
-
-/* =================================================
-OFFSET
-================================================= */
-
-var registrosPorPaginacons =
-registrosPorPaginacons;
-
-var offset =
-(pagina - 1) * registrosPorPaginacons;
-
-
-/* =================================================
-URL
-================================================= */
-
-var urlAction =
-'<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cons';
-
-
-/* =================================================
-CNPJ / CPF
-================================================= */
-var cont_bus_cons = document.getElementById('cont_bus_cons).value;
-
-var campoCnpjCpf =
-document.getElementById('cnpj_cpf');
-
-var cont_cnpj_cpf = "";
-
-if (campoCnpjCpf) {
-
-cont_cnpj_cpf =
-campoCnpjCpf.value;
+    $.ajax({
+        type: "POST",
+        url: urlAction,
+        data: {
+            offset: offset,
+            cons: cons
+        },
+        success: function(response) {
+            $("#t_list_cons tbody").html(response);
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+            alert("Erro ao carregar página cons: " + error);
+        }
+    });
 }
-
-
-/* =================================================
-AJAX
-================================================= */
-
-$.ajax({
-
-type: "POST",
-
-url: urlAction,
-
-data: {
-
-offset: offset,
-cont_bus_contcons:cont_bus_contcons,
-cont_cnpj_cpfcons: cont_cnpj_cpfcons
-},
-
-
-/* ---------------------------------------------
-SUCESSO
---------------------------------------------- */
-
-success: function(response) {
-
-$("#t_list_cons tbody").html(response);
-},
-
-
-/* ---------------------------------------------
-ERRO
---------------------------------------------- */
-
-error: function(xhr, status, error) {
-
-console.log(xhr.responseText);
-
-alert(
-"Erro ao carregar página Tabela cons: " +
-error
-);
-}
-
-});
-}
-
 
 /* =====================================================
-INICIALIZA PAGINAÇÃO
+INICIALIZAÇÃO
 ===================================================== */
-
-atualizarInfocont(1)cons;
-
+atualizarInfocons(1);
 montarPaginascons(1);
 
 </script>
-	<!-- FIM Container -->
-</div>
-<!-- FIM Container -->
-<!-- Fim Consultar Cliente Pelo Nome -->
 
-
+<!-- 
+/* =====================================================
+FIM PAGINAÇÃO CONS
+===================================================== */
+ --> 

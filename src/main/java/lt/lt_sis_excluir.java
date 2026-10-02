@@ -74,7 +74,7 @@ public class lt_sis_excluir extends HttpServlet {
 
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
-			request.getSession().setAttribute("list_cons", false);
+			request.getSession().setAttribute("list_cons_ocult", false);
 
 			if (request.getParameter("fun").equalsIgnoreCase("excluir")) {
 				request.getSession().setAttribute("cons_list", false);
@@ -216,7 +216,7 @@ public class lt_sis_excluir extends HttpServlet {
 		 */
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
-			request.getSession().setAttribute("list_cons", false);
+			request.getSession().setAttribute("list_cons_ocult", false);
 
 			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_cont")) {
 

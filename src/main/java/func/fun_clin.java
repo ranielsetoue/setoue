@@ -406,16 +406,17 @@ public class fun_clin {
 
 	}
 
-	public List<cla_sis> list_clin_cons(long nx1, long offset) throws Exception {
+	public List<cla_sis> list_clin_cons(long nx1, long offset, String tx1) throws Exception {
 
 		/*
 		 * limite de paginação select * FROM tb_sistema_dominio where id_sistema = 1
-		 * order by id_sistema offset 0 limit 10
+		 * order by id_sistema offset 0 limit 2
 		 */
 		List<cla_sis> retorno = new ArrayList<>();
 
-		String bc_sql = "select * FROM tb_clin where id_sis = " + nx1 + " order by nome_desc offset " + offset
-				+ " limit 10 ";
+		String bc_sql = "SELECT * FROM tb_clin " + "WHERE id_sis = " + nx1 + " " + "AND nome_desc ILIKE '%" + tx1
+				+ "%' " + "or id_sis = " + nx1 + " " + "AND no_fan ILIKE '%" + tx1 + "%' " + "ORDER BY nome_desc "
+				+ "OFFSET " + offset + " LIMIT 5";
 		PreparedStatement gra_dado = pos_cbd_con.prepareStatement(bc_sql);
 		ResultSet gra_bus = gra_dado.executeQuery();
 
@@ -452,4 +453,33 @@ public class fun_clin {
 		return retorno;
 	}
 
+	public int cli_list_qt(long nx1, String tx1) throws Exception {
+	    
+	    // 1. SQL corrigido (sem WHERE duplicado, com parênteses no OR e usando ? para tudo)
+	    String bc_sql = "SELECT COUNT(*) AS total "
+	                  + "FROM tb_clin "
+	                  + "WHERE id_sis = ? "
+	                  + "  AND (cnpj_cpf ILIKE ? OR nome_desc ILIKE ? OR no_fan ILIKE ?)";
+
+	    // 2. Uso de try-with-resources para fechar ResultSet e PreparedStatement automaticamente
+	    try (PreparedStatement ps = pos_cbd_con.prepareStatement(bc_sql)) {
+	        
+	        String busca = "%" + tx1 + "%";
+	        
+	        // 3. Setando os parâmetros de forma segura
+	        ps.setLong(1, nx1);
+	        ps.setString(2, busca);
+	        ps.setString(3, busca);
+	        ps.setString(4, busca);
+
+	        // 4. Execução e leitura
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getInt("total");
+	            }
+	        }
+	    }
+	    
+	    return 0; // Retorna 0 se não encontrar nada ou der algum fluxo alternativo
+	}
 }

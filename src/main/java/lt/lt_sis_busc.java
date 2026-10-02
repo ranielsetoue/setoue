@@ -74,7 +74,7 @@ public class lt_sis_busc extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		try {
-			request.getSession().setAttribute("list_cons", false);
+			request.getSession().setAttribute("list_cons_ocult", false);
 
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
@@ -214,7 +214,7 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
-			request.getSession().setAttribute("list_cons", false);
+			request.getSession().setAttribute("list_cons_ocult", false);
 
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 			request.getSession().setAttribute("insc_ocult", true);
@@ -319,6 +319,100 @@ public class lt_sis_busc extends HttpServlet {
 					return;
 				}
 			}
+			
+			if (request.getParameter("fun").equalsIgnoreCase("pag_cons")) {
+
+				
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+
+					int offset = Integer.parseInt(request.getParameter("offset"));
+
+					String cons_tx1 = request.getParameter("cons");
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					cl_sis = f_sis.cons_sis_cnpj_cpf(cons_tx1);
+
+					List<cla_sis> list_cons = f_sis.list_sis_cons(id_sis, offset,cons_tx1); // Simplificado
+		            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
+		            request.getSession().setAttribute("list_cons_ocult", true);
+	
+		            
+					List<cla_sis> cons_list_qt = f_sis.sis_list_qt(cl_sis.getId_sis());
+					request.setAttribute("cons_list_qt", cons_list_qt);
+		            
+					
+					
+					StringBuilder html = new StringBuilder();
+
+					for (cla_sis d : list_cons) {
+
+						html.append("<tr>");
+
+						
+						html.append("<td>").append(d.getCnpj_cpf()).append("</td>");
+						html.append("<td>").append(d.getNome_desc()).append("</td>");
+						html.append("<td>").append(d.getNo_fan()).append("</td>");
+
+						html.append("<td>").append("<a onclick=\"sel_cons(").append(d.getCnpj_cpf())
+								.append(", this); return false;\" class=\"btn btn-danger\">Selecionarr</a>")
+								.append("</td>");
+
+
+					}
+
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().print(html.toString());
+
+					return;
+				}
+				
+				
+				
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
+
+					int offset = Integer.parseInt(request.getParameter("offset"));
+
+					String cons_tx1 = request.getParameter("cons");
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					cl_sis = f_clin.cons_clin(id_sis,cons_tx1 );
+
+					List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, offset,cons_tx1); // Simplificado
+		            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
+		            request.getSession().setAttribute("list_cons_ocult", true);
+	
+		            int cons_list_qt  = f_clin.cli_list_qt(id_sis,cons_tx1);
+					request.setAttribute("cons_list_qt", cons_list_qt);
+	
+
+					StringBuilder html = new StringBuilder();
+
+					for (cla_sis d : list_cons) {
+
+						html.append("<tr>");
+
+						
+						html.append("<td>").append(d.getCnpj_cpf()).append("</td>");
+						html.append("<td>").append(d.getNome_desc()).append("</td>");
+						html.append("<td>").append(d.getNo_fan()).append("</td>");
+
+						html.append("<td>").append("<a onclick=\"sel_cons(").append(d.getCnpj_cpf())
+								.append(", this); return false;\" class=\"btn btn-danger\">Selecionarr</a>")
+								.append("</td>");
+
+
+					}
+
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().print(html.toString());
+
+					return;
+				}
+				
+				
+				
+			}
+
 
 			if (request.getParameter("fun").equalsIgnoreCase("Buscar")) {
 				request.getSession().setAttribute("naoexitedado", false);
@@ -508,7 +602,7 @@ public class lt_sis_busc extends HttpServlet {
 									 * System.out.println("Encontrado quantidade: " + sis_qt);
 									 */
 										
-									List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, 0); // Simplificado
+									List<cla_sis> list_cons = f_sis.list_sis_cons(id_sis, 0,t_cnpj_cpf); // Simplificado
 						            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
 						            request.getSession().setAttribute("list_cons", true);
 								
@@ -776,11 +870,18 @@ public class lt_sis_busc extends HttpServlet {
 									/*
 									 * System.out.println("Encontrado quantidade: " + cli_qt);
 									 */
-									
-									List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, 0); // Simplificado
+
+									int offset = (request.getParameter("offset") != null) 
+										    ? Integer.parseInt(request.getParameter("offset")) 
+										    : 0;	
+																	  								    
+									List<cla_sis> list_cons = f_clin.list_clin_cons(id_sis, offset,t_cnpj_cpf); // Simplificado
 						            request.setAttribute("list_cons_dado", list_cons); // <-- AQUI ESTÁ A MUDANÇA
-						            request.getSession().setAttribute("list_cons", true);
-						            
+						            request.getSession().setAttribute("list_cons_ocult", true);
+					
+									int cons_list_qt = f_clin.cli_list_qt(id_sis,t_cnpj_cpf);
+									request.setAttribute("cons_list_qt", cons_list_qt);
+						          
 								}
 
 							} else {
