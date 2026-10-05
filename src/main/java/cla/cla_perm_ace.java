@@ -22,6 +22,8 @@ public class cla_perm_ace implements Serializable {
 	private Boolean aces_cad_prod;
 	private Boolean aces_cad_serv;
     private Boolean aces_desv;	
+    private Boolean aces_excluir;	
+    
 	
 	public boolean nv_id() {
 		if (this.per_ace_id == null || this.per_ace_id == 0L) {
@@ -186,6 +188,14 @@ public class cla_perm_ace implements Serializable {
 
 	public void setNome_desc(String nome_desc) {
 		this.nome_desc = nome_desc;
+	}
+
+	public Boolean getAces_excluir() {
+		return aces_excluir;
+	}
+
+	public void setAces_excluir(Boolean aces_excluir) {
+		this.aces_excluir = aces_excluir;
 	}
 
 }

@@ -12,6 +12,7 @@ public class cla_sis implements Serializable {
 	
 	private Long id_sis;
 	private Long clin_id;
+	private Long forn_id;
 	private Long reg_id;
 	private Timestamp reg_data;
 	private Long reg_alt;
@@ -327,6 +328,16 @@ public class cla_sis implements Serializable {
 
 	public void setAce_per_aut(String ace_per_aut) {
 		this.ace_per_aut = ace_per_aut;
+	}
+
+
+	public Long getForn_id() {
+		return forn_id;
+	}
+
+
+	public void setForn_id(Long forn_id) {
+		this.forn_id = forn_id;
 	}
 
 	

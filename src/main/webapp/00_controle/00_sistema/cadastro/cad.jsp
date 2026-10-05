@@ -901,53 +901,58 @@ function sel_cons(cnpj_cpf, element) {
 <c:if test="${not empty cons_false and cons_false eq 'true'}">
 					<div class="container mt-md-3">
 					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
-							<input class="form-control" list="list_cnpj_cpf"
-								name="bus_cnpj_cpf" id="bus_cnpj_cpf"
-								oninput="handleBusca(this); valBusnome();"
-								placeholder="CNPJ, CPF ou Nome">
-
-							<datalist id="list_cnpj_cpf">
-								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-									<option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
-								</c:forEach>
-							</datalist>
-							<script>
-								function controlarDatalist(input) {
-									const datalist = document
-											.getElementById('list_cnpj_cpf');
-
-									// Se não tiver nada digitado, remove a associação com o datalist
-									if (input.value.length === 0) {
-										input.removeAttribute('list');
-									} else {
-										// Ao digitar a primeira letra, volta a associar
-
-										input.setAttribute('list',
-												'list_cnpj_cpf');
-									}
-								}
-							</script>
-							<!-- Mensagem de erro -->
-							<small id="erro_busca" class="text-danger d-none">Dado
-								inválido</small>
 
 
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
-							<button id="buc_dado" type="button" class="btn btn-info"
-								onclick="sis_busc();">Buscar</button>
-						</div>
-	
-	
+
+<!-- Inicio row -->
+<div class="row align-items-center text-center text-md-left">
+    
+    <!-- Coluna única englobando o input-group -->
+    <div class="col-12 mb-2 mb-md-0 align-self-center text-center">
+        
+        <!-- O input-group une visualmente o input e o botão -->
+        <div class="input-group">
+            <input class="form-control" list="list_cnpj_cpf"
+                name="bus_cnpj_cpf" id="bus_cnpj_cpf"
+                oninput="handleBusca(this); valBusnome();"
+                placeholder="CNPJ, CPF ou Nome">
+
+            <datalist id="list_cnpj_cpf">
+                <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+                    <option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
+                </c:forEach>
+            </datalist>
+
+            <!-- 
+               IMPORTANTE: 
+               - Se estiver usando Bootstrap 5: O código abaixo já funciona direto.
+               - Se estiver usando Bootstrap 4: Você deve envolver o botão com: 
+                 <div class="input-group-append"> ... </div>
+            -->
+            <button onclick="sis_busc();" id="buc_dado" type="button" class="btn btn-outline-secondary" title="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <script>
+            function controlarDatalist(input) {
+                const datalist = document.getElementById('list_cnpj_cpf');
+                if (input.value.length === 0) {
+                    input.removeAttribute('list');
+                } else {
+                    input.setAttribute('list', 'list_cnpj_cpf');
+                }
+            }
+        </script>
+        
+        <!-- Mensagem de erro -->
+        <small id="erro_busca" class="text-danger d-none">Dado inválido</small>
+    </div>
+</div>
+<!-- FIM row -->
+
 <c:if test="${not empty naoexitedado and naoexitedado eq 'true'}">						
 <div>
   <hr>
@@ -963,9 +968,11 @@ function sel_cons(cnpj_cpf, element) {
   <hr>
 </div>
 </c:if>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
+
+
+
+
+
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>

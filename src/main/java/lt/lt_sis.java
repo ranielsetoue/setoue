@@ -11,6 +11,7 @@ import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_clin;
+import func.fun_forn;
 import func.fun_sis;
 import func.fun_sis_dom;
 import func.fun_sis_login;
@@ -40,6 +41,7 @@ public class lt_sis extends HttpServlet {
 	cla_sis cl_sis = new cla_sis();
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	fun_clin f_clin = new fun_clin();
+	fun_forn f_forn = new fun_forn();
 
 	public lt_sis() {
 		super();
@@ -74,6 +76,8 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_sis");
+				request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+
 
 				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				request.setAttribute("sis_cons", sisCons);
@@ -94,9 +98,11 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_cli");
+				request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+
 				cl_sis.vz_id();
 				request.getSession().setAttribute("pre_glo", cl_sis);
-					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+				long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
 				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 				request.setAttribute("sis_cons", sisCons);
@@ -117,10 +123,15 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_for");
-				/*
-				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-				 * request.setAttribute("sis_cons", sisCons);
-				 */
+				request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+
+				cl_sis.vz_id();
+				request.getSession().setAttribute("pre_glo", cl_sis);
+
+				long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+				List<cla_list_cnpj_nome> sisCons = f_forn.cons_list_cnpj(id_sis);
+				request.setAttribute("sis_cons", sisCons);
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
@@ -138,6 +149,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_pro");
+				request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
 
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
@@ -161,6 +173,7 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_serv");
+				request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
 
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();

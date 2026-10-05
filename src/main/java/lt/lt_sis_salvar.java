@@ -18,6 +18,7 @@ import cla.cla_sis_log;
 import cla.cla_tipo_ace;
 import func.fun_blio;
 import func.fun_clin;
+import func.fun_forn;
 import func.fun_perm_ace;
 import func.fun_sis;
 import func.fun_sis_cont;
@@ -63,9 +64,8 @@ public class lt_sis_salvar extends HttpServlet {
 	cla_tipo_ace cl_tipo_ace = new cla_tipo_ace();
 	fun_tipo_ace f_tipo_ace = new fun_tipo_ace();
 	fun_clin f_clin = new fun_clin();
+	fun_forn f_forn = new fun_forn();
 
-	
-	
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	cla_sis_cont cl_sis_cont = new cla_sis_cont();
@@ -119,7 +119,7 @@ public class lt_sis_salvar extends HttpServlet {
 		try {
 			if (request.getParameter("fun").equalsIgnoreCase("salvar")) {
 				request.getSession().setAttribute("cons_list", false);
-					try {
+				try {
 					cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 							Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
 
@@ -182,29 +182,25 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setTel_1(t_tel_1);
 					cl_sis.setEmail_1(t_email_1);
 					cl_sis.setObs(t_obs);
-	
+
 					cl_sis = f_sis.sav_sis(cl_sis);
-					
+
 					cl_glo_ad.setId_sis(cl_sis.getId_sis());
 					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-					cl_glo_ad.setTruefalse(false);	
+					cl_glo_ad.setTruefalse(false);
 					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
 					cl_glo_ad.setTel_2(t_tel_2);
 					cl_glo_ad.setEmail_2(t_email_2);
 
-		
-		  			f_sis.sav_sis_adi(cl_glo_ad);
-		 
+					f_sis.sav_sis_adi(cl_glo_ad);
 
 					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 
 				}
 
-				
 				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
-
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", "false");
@@ -218,15 +214,14 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis_log.setId_sis(0l);
 
 					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-  					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
-  		  			long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+					long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
 
-  		  		if (f_clin.val_clin(id_sis,t_cnpj_cpf)) {
-  		  		      cl_sis = f_clin.cons_clin(id_sis,t_cnpj_cpf);
- 					}
-  		  			
-  		  			
-  					cl_sis.setId_sis(id_sis);
+					if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
+						cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
+					}
+
+					cl_sis.setId_sis(id_sis);
 					cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 					cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
@@ -249,69 +244,62 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setObs(t_obs);
 					cl_sis.setAce_per_aut("CLIENTE");
 
-/*
- * 					System.out.println(" id_sis " +cl_sis.getId_sis() +" - id_cliente " + cl_sis.getClin_id() +" - CNPJ/CPF " + t_cnpj_cpf);
- */
-					
+					/*
+					 * System.out.println(" id_sis " +cl_sis.getId_sis() +" - id_cliente " +
+					 * cl_sis.getClin_id() +" - CNPJ/CPF " + t_cnpj_cpf);
+					 */
+
 					cl_sis = f_clin.sav_clin(cl_sis);
 					cl_glo_ad.vz_con();
-	   		
-	   		  	 	if (f_clin.val_clin_adi(id_sis,cl_sis.getClin_id())) {
-	   		  		  cl_glo_ad= f_clin.cons_clin_adi(id_sis,cl_sis.getClin_id());
+
+					if (f_clin.val_clin_adi(id_sis, cl_sis.getClin_id())) {
+						cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
 					}
-	   		  	 	
-					
-	   		
-	   		  	 	
-		  			cl_glo_ad.setId_sis(id_sis);
+
+					cl_glo_ad.setId_sis(id_sis);
 					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-					cl_glo_ad.setTruefalse(false);	
+					cl_glo_ad.setTruefalse(false);
 					cl_glo_ad.setClin_id(cl_sis.getClin_id());
 					cl_glo_ad.setTel_2(t_tel_2);
 					cl_glo_ad.setEmail_2(t_email_2);
 					cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
 
-					
 					if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
 						String nh1 = fun_sis_login.gerarSenhaNumerica();
-				   		String nha2 = String.valueOf(nh1); // "99999"
-				        int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
-				        String senha1 = nha2.substring(nha3, nha3 + 3);
-				        
-				   		String nhx2 = fun_sis_login.gerarSenhaForte();
-				   		String nha4 = String.valueOf(nhx2); // "99999"
-				        int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
-				        String senha2 = nha4.substring(nha5, nha5 + 3);
-				   		
+						String nha2 = String.valueOf(nh1); // "99999"
+						int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha1 = nha2.substring(nha3, nha3 + 3);
+
+						String nhx2 = fun_sis_login.gerarSenhaForte();
+						String nha4 = String.valueOf(nhx2); // "99999"
+						int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha2 = nha4.substring(nha5, nha5 + 3);
+
 						cl_glo_ad.setL_sen(senha1 + senha2);
-						
-						
+
 						if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
-							
+
 							String anh1 = fun_sis_login.gerarSenhaNumerica();
-					   		String anha2 = String.valueOf(anh1); // "99999"
-					        int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
-					        String asenha1 = anha2.substring(anha3, anha3 + 3);
-					  
-					        String anh2x = fun_sis_login.gerarSenhaForte();
-					   		String anha4 = String.valueOf(anh2x); // "99999"
-					        int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
-					        String asenha2 = nha4.substring(anha5, anha5 + 3);
-					   		
+							String anha2 = String.valueOf(anh1); // "99999"
+							int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha1 = anha2.substring(anha3, anha3 + 3);
+
+							String anh2x = fun_sis_login.gerarSenhaForte();
+							String anha4 = String.valueOf(anh2x); // "99999"
+							int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha2 = nha4.substring(anha5, anha5 + 3);
+
 							cl_glo_ad.setL_sen(asenha1 + asenha2);
-						
-						
+
 						}
-						
-						}
-						
-					
-		 			    	cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
-	 			   
-				
+
+					}
+
+					cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
+
 					cl_sis_log.setId_sis(id_sis);
 					cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -321,16 +309,14 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis_log.setId_sis_dom(id_dom);
 					cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
 					cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
-										
- 					 cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
- 
-					
+
+					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
+
 					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 
 				}
-				
-				
-				if ("cad_forn".equals(request.getSession().getAttribute("cont_sis"))) {
+
+				if ("cad_for".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
@@ -340,10 +326,110 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_for");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 
+					cl_sis.setId_sis(0l);
+					cl_sis.setForn_id(0l);
+					cl_sis_log.setId_sis(0l);
+
+					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+					long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
+
+					if (f_forn.val_forn(id_sis, t_cnpj_cpf)) {
+						cl_sis = f_forn.cons_forn(id_sis, t_cnpj_cpf);
+					}
+
+					cl_sis.setId_sis(id_sis);
+					cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setTruefalse(false);
+					cl_sis.setNome_desc(t_nome_desc);
+					cl_sis.setNo_fan(t_no_fan);
+					cl_sis.setCnpj_cpf(t_cnpj_cpf);
+					cl_sis.setEnd_rua(t_end_rua);
+					cl_sis.setEnd_num(t_end_num);
+					cl_sis.setEnd_com(t_end_com);
+					cl_sis.setEnd_bar(t_end_bar);
+					cl_sis.setEnd_mun(t_end_mun);
+					cl_sis.setEnd_uf(t_end_uf);
+					cl_sis.setEnd_cep(t_end_cep);
+					cl_sis.setIns_est(t_ins_est);
+					cl_sis.setIns_mun(t_ins_mun);
+					cl_sis.setTel_1(t_tel_1);
+					cl_sis.setEmail_1(t_email_1);
+					cl_sis.setObs(t_obs);
+					cl_sis.setAce_per_aut("CLIENTE");
+
 					/*
-					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
-					 * request.setAttribute("sis_cons", sisCons);
+					 * System.out.println(" id_sis " +cl_sis.getId_sis() +" - id_cliente " +
+					 * cl_sis.getClin_id() +" - CNPJ/CPF " + t_cnpj_cpf);
 					 */
+
+					cl_sis = f_forn.sav_forn(cl_sis);
+					cl_glo_ad.vz_con();
+
+					if (f_forn.val_forn_adi(id_sis, cl_sis.getForn_id())) {
+						cl_glo_ad = f_forn.cons_forn_adi(id_sis, cl_sis.getForn_id());
+					}
+
+					cl_glo_ad.setId_sis(id_sis);
+					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setTruefalse(false);
+					cl_glo_ad.setForn_id(cl_sis.getForn_id());
+					cl_glo_ad.setTel_2(t_tel_2);
+					cl_glo_ad.setEmail_2(t_email_2);
+					cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
+
+					if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
+						String nh1 = fun_sis_login.gerarSenhaNumerica();
+						String nha2 = String.valueOf(nh1); // "99999"
+						int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha1 = nha2.substring(nha3, nha3 + 3);
+
+						String nhx2 = fun_sis_login.gerarSenhaForte();
+						String nha4 = String.valueOf(nhx2); // "99999"
+						int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha2 = nha4.substring(nha5, nha5 + 3);
+
+						cl_glo_ad.setL_sen(senha1 + senha2);
+
+						if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
+
+							String anh1 = fun_sis_login.gerarSenhaNumerica();
+							String anha2 = String.valueOf(anh1); // "99999"
+							int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha1 = anha2.substring(anha3, anha3 + 3);
+
+							String anh2x = fun_sis_login.gerarSenhaForte();
+							String anha4 = String.valueOf(anh2x); // "99999"
+							int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha2 = nha4.substring(anha5, anha5 + 3);
+
+							cl_glo_ad.setL_sen(asenha1 + asenha2);
+
+						}
+
+					}
+
+					cl_glo_ad = f_forn.sav_forn_adi(cl_glo_ad);
+
+					cl_sis_log.setId_sis(id_sis);
+					cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_log.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_log.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_log.setId_sis_log(cl_glo_ad.getLogin_id());
+					cl_sis_log.setId_sis_dom(id_dom);
+					cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
+					cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
+
+					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
+
+					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -434,8 +520,6 @@ public class lt_sis_salvar extends HttpServlet {
 
 						cl_sis_dom = f_sis_dom.sav_dom(cl_sis_dom, cl_sis_log);
 
-						
-						
 						cl_sis_log.setId_sis(cl_sis_dom.getId_sis());
 						cl_sis_log.setReg_id(cl_sis_dom.getReg_id());
 						cl_sis_log.setReg_data(cl_sis_dom.getReg_data());
@@ -446,9 +530,7 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_log.setL_usu(cl_sis_dom.getL_usu());
 						cl_sis_log.setL_sen(cl_sis_dom.getL_sen());
 
-						
-	 					 cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
-
+						cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
 
 						/*
 						 * cl_sis_d_log = f_sis_dom.id_d_ger(cl_sis_d_log);
@@ -470,9 +552,8 @@ public class lt_sis_salvar extends HttpServlet {
 						 * PERMISSAO DE ACESSO
 						 */
 
-							
-						cl_tipo_ace  =  f_tipo_ace.cons_tipo_ace_tx1(1L,cl_sis_dom.getAce_per_aut());
-						
+						cl_tipo_ace = f_tipo_ace.cons_tipo_ace_tx1(1L, cl_sis_dom.getAce_per_aut());
+
 						cl_perm_ace.setId_sis(id_sis);
 						cl_perm_ace.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 						cl_perm_ace.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -487,11 +568,9 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_perm_ace.setAces_cad_prod(cl_tipo_ace.getAces_cad_prod());
 						cl_perm_ace.setAces_cad_serv(cl_tipo_ace.getAces_cad_serv());
 						cl_perm_ace.setAces_desv(cl_tipo_ace.getAces_desv());
-						
-	 					cl_perm_ace = f_perm_ace.sav_perm_ace(cl_perm_ace);
-	
-					
-	
+
+						cl_perm_ace = f_perm_ace.sav_perm_ace(cl_perm_ace);
+
 						// System.out.println(cl_sis_dom.getAce_per_aut());
 
 						modal_dominio_visivel = true;
@@ -670,13 +749,13 @@ public class lt_sis_salvar extends HttpServlet {
 
 								if (SIMNAO) {
 
-									
 									String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 
 									cl_sis_dom = f_sis_dom.cons_sis_dom_no_dom(t_no_dom);
-									
+
 									cl_sis_dom.setId_sis(id_sis);
-									cl_sis_dom.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+									cl_sis_dom.setReg_alt(
+											id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 									cl_sis_dom.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
 									cl_sis_dom.setNo_dom(t_no_dom);
 									cl_sis_dom.setSis_url(t_sis_url);
@@ -694,27 +773,24 @@ public class lt_sis_salvar extends HttpServlet {
 									cl_sis_log.setId_sis_log(cl_sis_dom.getId_sis_log());
 									cl_sis_log.setL_usu(cl_sis_dom.getL_usu());
 									cl_sis_log.setL_sen(cl_sis_dom.getL_sen());
-									
+
 									cl_sis_dom = f_sis_dom.sav_dom(cl_sis_dom, cl_sis_log);
-				 					
-	 								cl_sis_log = f_sis_login.sav_login_up(cl_sis_log);
-			
-	 			 					cl_sis_d_log = f_sis_d_log.cons_sis_d_log(cl_sis_log.getId_sis_log());
-	 			
-	  								cl_sis_d_log.setReg_alt(cl_sis_dom.getReg_alt());
-	 								cl_sis_d_log.setReg_data_alt(cl_sis_dom.getReg_data_alt());
-	 								cl_sis_d_log.setNome_desc(t_nome_desc_usu);
-	 								cl_sis_d_log.setEmail_1(t_email_1_usu);
 
-	 								cl_sis_d_log = f_sis_d_log.sav_d_log(cl_sis_d_log);
+									cl_sis_log = f_sis_login.sav_login_up(cl_sis_log);
 
-	 			
-	 			
-	 								
- 								/*
- 								 * System.out.println("Uptade - DADO SALVO");
- 								 */
-									
+									cl_sis_d_log = f_sis_d_log.cons_sis_d_log(cl_sis_log.getId_sis_log());
+
+									cl_sis_d_log.setReg_alt(cl_sis_dom.getReg_alt());
+									cl_sis_d_log.setReg_data_alt(cl_sis_dom.getReg_data_alt());
+									cl_sis_d_log.setNome_desc(t_nome_desc_usu);
+									cl_sis_d_log.setEmail_1(t_email_1_usu);
+
+									cl_sis_d_log = f_sis_d_log.sav_d_log(cl_sis_d_log);
+
+									/*
+									 * System.out.println("Uptade - DADO SALVO");
+									 */
+
 								}
 
 							} else {
@@ -781,15 +857,12 @@ public class lt_sis_salvar extends HttpServlet {
 					boolean modal_dominio_visivel = false;
 					String msg_tela = "Cadastro Já Existe";
 
-					
 					cl_sis = f_sis.cons_sis_cnpj_cpf(sis_cont_cnpj_cpf);
-					
-					
+
 					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc)) {
-						
-						
-						cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(),sis_cont_nome_desc);
-						
+
+						cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(), sis_cont_nome_desc);
+
 						cl_sis_cont.setId_sis(cl_sis.getId_sis());
 						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -799,11 +872,11 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setEmail_2(sis_cont_email_2);
 						cl_sis_cont.setSetor_1(sis_cont_setor_1);
 						cl_sis_cont.setObs(sis_cont_obs);
-	 						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
- 						modal_dominio_visivel = true;
-						
-					}else {
-						
+						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+						modal_dominio_visivel = true;
+
+					} else {
+
 						/*
 						 * Inicio dado para modal
 						 */
@@ -823,18 +896,13 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setObs(sis_cont_obs);
 						cl_sis_cont.setId_sis_log(0L);
 
- 						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);				
+						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
 						modal_dominio_visivel = true;
 						/*
 						 * Fim dado para modal
 						 */
-						
-					}
-						
-					
-					
-					
 
+					}
 
 					if (modal_dominio_visivel) {
 						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
@@ -873,24 +941,17 @@ public class lt_sis_salvar extends HttpServlet {
 					html.append("<td>").append("<a onclick=\"exc_dom(").append(d.getId_sis_dom())
 							.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
 
-					html.append("<td>")
-				    .append("<button type='button' ")
-				    .append("id='adicionar_dom' ")
-				    .append("onclick=\"detalhe_dom(this)\" ")
-				    .append("data-no_dom=\"").append(d.getNo_dom()).append("\" ")
-				    .append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
-				    .append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ")
-				    .append("data-titulo_web=\"").append(d.getTitulo_web()).append("\" ")
-				    .append("data-ace_per_aut=\"").append(d.getAce_per_aut()).append("\" ")
-				    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
-				    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
-				    .append("data-l_usu=\"").append(d.getL_usu()).append("\" ")
-				    .append("data-l_sen=\"").append(d.getL_sen()).append("\" ")
-				    .append("class=\"btn btn-warning\" ")
-				    .append("data-bs-toggle=\"modal\">")
-				    .append("Detalhes")
-				    .append("</button>")
-				    .append("</td>");
+					html.append("<td>").append("<button type='button' ").append("id='adicionar_dom' ")
+							.append("onclick=\"detalhe_dom(this)\" ").append("data-no_dom=\"").append(d.getNo_dom())
+							.append("\" ").append("data-sis_url=\"").append(d.getSis_url()).append("\" ")
+							.append("data-tp_sit=\"").append(d.getTp_sit()).append("\" ").append("data-titulo_web=\"")
+							.append(d.getTitulo_web()).append("\" ").append("data-ace_per_aut=\"")
+							.append(d.getAce_per_aut()).append("\" ").append("data-nome_desc=\"")
+							.append(d.getNome_desc()).append("\" ").append("data-email_1=\"").append(d.getEmail_1())
+							.append("\" ").append("data-l_usu=\"").append(d.getL_usu()).append("\" ")
+							.append("data-l_sen=\"").append(d.getL_sen()).append("\" ")
+							.append("class=\"btn btn-warning\" ").append("data-bs-toggle=\"modal\">").append("Detalhes")
+							.append("</button>").append("</td>");
 				}
 
 				response.setContentType("text/html;charset=UTF-8");
@@ -932,22 +993,14 @@ public class lt_sis_salvar extends HttpServlet {
 					html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
 							.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>").append("</td>");
 
-
-					html.append("<td>")
-				    .append("<button type='button' ")
-				    .append("onclick=\"detalhe_cont(this)\" ")
-				    .append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
-				    .append("data-tel_1=\"").append(d.getTel_1()).append("\" ")
-				    .append("data-tel_2=\"").append(d.getTel_2()).append("\" ")
-				    .append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
-				    .append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
-				    .append("data-setor_1=\"").append(d.getSetor_1()).append("\" ")
-				    .append("data-obs=\"").append(d.getObs()).append("\" ")
-				    .append("class=\"btn btn-warning\" ")
-				    .append("data-bs-toggle=\"modal\">")
-				    .append("Detalhes")
-				    .append("</button>")
-				    .append("</td>");
+					html.append("<td>").append("<button type='button' ").append("onclick=\"detalhe_cont(this)\" ")
+							.append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ").append("data-tel_1=\"")
+							.append(d.getTel_1()).append("\" ").append("data-tel_2=\"").append(d.getTel_2())
+							.append("\" ").append("data-email_1=\"").append(d.getEmail_1()).append("\" ")
+							.append("data-email_2=\"").append(d.getEmail_2()).append("\" ").append("data-setor_1=\"")
+							.append(d.getSetor_1()).append("\" ").append("data-obs=\"").append(d.getObs()).append("\" ")
+							.append("class=\"btn btn-warning\" ").append("data-bs-toggle=\"modal\">").append("Detalhes")
+							.append("</button>").append("</td>");
 
 					html.append("</tr>");
 				}

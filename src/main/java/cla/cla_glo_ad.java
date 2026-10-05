@@ -18,9 +18,12 @@ public class cla_glo_ad implements Serializable {
 	private String email_2;
 	private Long login_id;
 	private Long clin_id;
+	private Long forn_id;
+
 	private String l_usu;
 	private String l_sen;
 	private Long clin_adi_id;
+	private Long forn_adi_id;
 
 	
 	
@@ -194,6 +197,22 @@ public class cla_glo_ad implements Serializable {
 
 	public void setClin_adi_id(Long clin_adi_id) {
 		this.clin_adi_id = clin_adi_id;
+	}
+
+	public Long getForn_id() {
+		return forn_id;
+	}
+
+	public void setForn_id(Long forn_id) {
+		this.forn_id = forn_id;
+	}
+
+	public Long getForn_adi_id() {
+		return forn_adi_id;
+	}
+
+	public void setForn_adi_id(Long forn_adi_id) {
+		this.forn_adi_id = forn_adi_id;
 	}
 
 	

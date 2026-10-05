@@ -55,6 +55,7 @@ public class fun_perm_ace {
 			gra_inp.setAces_cad_forn(cl_perm_ace.getBoolean("aces_cad_forn"));
 			gra_inp.setAces_cad_prod(cl_perm_ace.getBoolean("aces_cad_prod"));
 			gra_inp.setAces_cad_serv(cl_perm_ace.getBoolean("aces_cad_serv"));
+			gra_inp.setAces_excluir(cl_perm_ace.getBoolean("aces_excluir"));
 
 		}
 
@@ -67,8 +68,8 @@ public class fun_perm_ace {
 		if (gra_bus.nv_id() && !val_1(gra_bus.getId_sis(), gra_bus.getId_sis_log())) {
 
 			String bc_sql = "INSERT INTO public.tb_perm_ace(\r\n"
-					+ "id_sis, reg_id, reg_data, reg_alt, reg_data_alt, id_sis_log, nome_desc, aces_cad_sis, aces_cad_clin, aces_cad_forn, aces_cad_prod, aces_cad_serv, aces_desv) \r\n"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "id_sis, reg_id, reg_data, reg_alt, reg_data_alt, id_sis_log, nome_desc, aces_cad_sis, aces_cad_clin, aces_cad_forn, aces_cad_prod, aces_cad_serv, aces_desv, aces_excluir) \r\n"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 					PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
 
@@ -86,6 +87,8 @@ public class fun_perm_ace {
 					gra_inp.setBoolean(11, gra_bus.getAces_cad_prod());
 					gra_inp.setBoolean(12, gra_bus.getAces_cad_serv());
 					gra_inp.setBoolean(13, gra_bus.getAces_desv());
+					gra_inp.setBoolean(14, gra_bus.getAces_excluir());
+					
 
 			gra_inp.execute();
 			pos_cbd_con.commit();
@@ -93,7 +96,7 @@ public class fun_perm_ace {
 
 			String bc_sql = "UPDATE public.tb_perm_ace\r\n"
 
-					+ "SET reg_alt=?, reg_data_alt=?, aces_cad_clin=?, aces_cad_forn=?, aces_cad_prod=?, aces_desv=?) \r\n"
+					+ "SET reg_alt=?, reg_data_alt=?, aces_cad_clin=?, aces_cad_forn=?, aces_cad_prod=?, aces_desv=?, aces_excluir=?) \r\n"
 					+ " WHERE id_sis_log = " + gra_bus.getId_sis_log() + ";";
 
 			PreparedStatement gra_inp = pos_cbd_con.prepareStatement(bc_sql);
@@ -106,6 +109,7 @@ public class fun_perm_ace {
 
 			gra_inp.setBoolean(5, gra_bus.getAces_cad_serv());
 			gra_inp.setBoolean(6, gra_bus.getAces_desv());
+			gra_inp.setBoolean(7, gra_bus.getAces_excluir());
 
 			gra_inp.executeUpdate();
 			pos_cbd_con.commit();

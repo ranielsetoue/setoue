@@ -111,6 +111,7 @@ public class fun_sis_login {
 			gra_inp.setAces_cad_forn(cl_perm_ace.getBoolean("aces_cad_forn"));
 			gra_inp.setAces_cad_prod(cl_perm_ace.getBoolean("aces_cad_prod"));
 			gra_inp.setAces_cad_serv(cl_perm_ace.getBoolean("aces_cad_serv"));
+			gra_inp.setAces_excluir(cl_perm_ace.getBoolean("aces_excluir"));
 
 		}
 
