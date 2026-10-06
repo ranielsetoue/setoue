@@ -119,7 +119,12 @@ public class lt_sis_log extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
 					request.getSession().setAttribute("aces_cad_serv", cl_perm_ace.getAces_cad_serv());
 					request.getSession().setAttribute("aces_desv", cl_perm_ace.getAces_desv());
-
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+				
+					
 					request.getSession().setAttribute("cons_true", "false");
 					request.getSession().setAttribute("cons_false", "true");
 

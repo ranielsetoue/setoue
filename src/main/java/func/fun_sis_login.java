@@ -112,7 +112,13 @@ public class fun_sis_login {
 			gra_inp.setAces_cad_prod(cl_perm_ace.getBoolean("aces_cad_prod"));
 			gra_inp.setAces_cad_serv(cl_perm_ace.getBoolean("aces_cad_serv"));
 			gra_inp.setAces_excluir(cl_perm_ace.getBoolean("aces_excluir"));
+			gra_inp.setAces_ven_pro(cl_perm_ace.getBoolean("aces_ven_pro"));
+			gra_inp.setAces_ven_orde(cl_perm_ace.getBoolean("aces_ven_orde"));
+			gra_inp.setAces_ven_orc(cl_perm_ace.getBoolean("aces_ven_orc"));
+			gra_inp.setAces_ven_cons_pro(cl_perm_ace.getBoolean("aces_ven_cons_pro"));
 
+			
+			
 		}
 
 		return gra_inp;

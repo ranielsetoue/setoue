@@ -121,6 +121,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
 					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
 
@@ -136,6 +141,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("tab_cont_ocult", true);
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
@@ -154,6 +164,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
 					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
 					List<cla_list_cnpj_nome> sisCons = f_forn.cons_list_cnpj(id_sis);
@@ -170,6 +185,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 
 					/*
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
@@ -187,6 +207,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 
 					/*
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
@@ -194,9 +219,83 @@ public class lt_sis_busc extends HttpServlet {
 					 */
 
 				}
+				
+				
+				
+				if ("ven_orde".equals(request.getSession().getAttribute("cont_sis"))) {
 
+					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
+					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
+					request.getSession().setAttribute("aces_cad_serv", "false");
+					request.getSession().setAttribute("cont_sis", "cad_serv");
+					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
+					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
+
+					/*
+					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+					 * request.setAttribute("sis_cons", sisCons);
+					 */
+
+				}
+				
+				
+				if ("ven_orc".equals(request.getSession().getAttribute("cont_sis"))) {
+
+					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
+					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
+					request.getSession().setAttribute("aces_cad_serv", "false");
+					request.getSession().setAttribute("cont_sis", "cad_serv");
+					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
+					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
+
+					/*
+					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
+					 * request.setAttribute("sis_cons", sisCons);
+					 */
+
+				}
+				
+				
+
+				if ("ven_cons_pro".equals(request.getSession().getAttribute("cont_sis"))
+						|| ("ven_pro".equals(request.getSession().getAttribute("cont_sis")))) {
+					request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
+					request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
+					request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
+					request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
+					request.getSession().setAttribute("aces_cad_serv", "false");
+					request.getSession().setAttribute("cont_sis", "ven_pro");
+					request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
+					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", false);
+					request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
+							response);
+
+				} else {
+					
+				
+				
+				
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))
 						|| ("cad_serv".equals(request.getSession().getAttribute("cont_sis")))) {
+					
 					request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
 							response);
 
@@ -205,6 +304,10 @@ public class lt_sis_busc extends HttpServlet {
 
 				}
 
+				}
+				
+				
+				
 			}
 
 		} catch (Exception e) {
@@ -460,6 +563,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("tab_dom_ocult", true);
 					request.getSession().setAttribute("tab_cont_ocult", true);
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("cons_true", true);
@@ -642,6 +750,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("tab_cont_ocult", true);
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 					Boolean simnaoclin = true;
 					cl_glo_ad.vz_id();
 					cl_sis.vz_id();
@@ -908,6 +1021,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 					request.getSession().setAttribute("ocul_excluir", cl_perm_ace.getAces_excluir());
 					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 					Boolean simnaoclin = true;
 					cl_glo_ad.vz_id();
 					cl_sis.vz_id();
@@ -1169,6 +1287,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 					request.getSession().setAttribute("cons_dom", false);
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -1179,6 +1302,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", "false");
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
+					request.getSession().setAttribute("aces_ven_pro", cl_perm_ace.getAces_ven_pro());
+					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
+					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
+					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+
 				}
 
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))

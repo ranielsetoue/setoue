@@ -28,6 +28,18 @@
 	value='<%=request.getSession().getAttribute("aces_cad_prod").toString()%>'></c:set>
 <c:set scope="session" var="aces_cad_serv"
 	value='<%=request.getSession().getAttribute("aces_cad_serv").toString()%>'></c:set>
+	
+<c:set scope="session" var="aces_ven_pro"
+	value='<%=request.getSession().getAttribute("aces_ven_pro").toString()%>'></c:set>
+<c:set scope="session" var="aces_ven_orde"
+	value='<%=request.getSession().getAttribute("aces_ven_orde").toString()%>'></c:set>
+<c:set scope="session" var="aces_ven_orc"
+	value='<%=request.getSession().getAttribute("aces_ven_orc").toString()%>'></c:set>
+
+<c:set scope="session" var="aces_ven_cons_pro"
+	value='<%=request.getSession().getAttribute("aces_ven_cons_pro").toString()%>'></c:set>
+	
+	
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -150,6 +162,38 @@
 								
 							</div>
 						</div>
+						
+						
+								<!-- Venda -->
+						<div class="btn-group" role="group">
+							<button id="btnGroupDrop1" type="button" class="btn btn-primary"
+								data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">Venda</button>
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+													<c:if test="${aces_ven_cons_pro}">
+									<a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_cons_pro">Consultar Proposta</a>
+								</c:if>
+							
+								<c:if test="${aces_ven_pro}">
+									<a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro">Proposta</a>
+								</c:if>
+								<c:if test="${aces_ven_orde}">
+									<a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_orde">Ordem de Serviço</a>
+								</c:if>
+								<c:if test="${aces_ven_orc}">
+									<a class="dropdown-item"
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_orc">Orçamento</a>
+								</c:if>
+							</div>
+						</div>
+						
+						<!-- Venda -->
+						
+						
+						
 						<c:if test="${aces_cad_sis}">
 
 							<div class="btn-group" role="group">

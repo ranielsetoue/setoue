@@ -23,8 +23,38 @@ public class cla_perm_ace implements Serializable {
 	private Boolean aces_cad_serv;
     private Boolean aces_desv;	
     private Boolean aces_excluir;	
+    private Boolean aces_ven_pro;	
+    private Boolean aces_ven_orde;	
+    private Boolean aces_ven_orc;	
+    private Boolean aces_ven_cons_pro;	
+
+    
     
 	
+	public Boolean getAces_ven_pro() {
+		return aces_ven_pro;
+	}
+
+	public void setAces_ven_pro(Boolean aces_ven_pro) {
+		this.aces_ven_pro = aces_ven_pro;
+	}
+
+	public Boolean getAces_ven_orde() {
+		return aces_ven_orde;
+	}
+
+	public void setAces_ven_orde(Boolean aces_ven_orde) {
+		this.aces_ven_orde = aces_ven_orde;
+	}
+
+	public Boolean getAces_ven_orc() {
+		return aces_ven_orc;
+	}
+
+	public void setAces_ven_orc(Boolean aces_ven_orc) {
+		this.aces_ven_orc = aces_ven_orc;
+	}
+
 	public boolean nv_id() {
 		if (this.per_ace_id == null || this.per_ace_id == 0L) {
 			return true;
@@ -196,6 +226,14 @@ public class cla_perm_ace implements Serializable {
 
 	public void setAces_excluir(Boolean aces_excluir) {
 		this.aces_excluir = aces_excluir;
+	}
+
+	public Boolean getAces_ven_cons_pro() {
+		return aces_ven_cons_pro;
+	}
+
+	public void setAces_ven_cons_pro(Boolean aces_ven_cons_pro) {
+		this.aces_ven_cons_pro = aces_ven_cons_pro;
 	}
 
 }
