@@ -177,7 +177,7 @@
 							
 								<c:if test="${aces_ven_pro}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro">Proposta</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro">Incluir Proposta</a>
 								</c:if>
 								<c:if test="${aces_ven_orde}">
 									<a class="dropdown-item"

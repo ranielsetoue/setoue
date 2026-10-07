@@ -887,7 +887,7 @@ function sel_cons(cnpj_cpf, element) {
 							
 								<c:if test="${aces_ven_pro}">
 									<a class="dropdown-item"
-										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro">Proposta</a>
+										href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro">Incluir Proposta</a>
 								</c:if>
 								<c:if test="${aces_ven_orde}">
 									<a class="dropdown-item"
@@ -957,16 +957,15 @@ function sel_cons(cnpj_cpf, element) {
 						<!-- coluna esquerda -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-info"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=novo';">
-								CANCELAR</button>
-						</div>
+							</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-success"
-								onclick="salvar_dado();">SALVAR</button>
+							<a href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro"
+   class="btn btn-success">
+   + Incluir Proposta
+</a>
 						</div>
 						<!-- coluna Central -->
 						<!-- FIM row -->
@@ -998,7 +997,7 @@ function sel_cons(cnpj_cpf, element) {
             <input class="form-control" list="list_cnpj_cpf"
                 name="bus_cnpj_cpf" id="bus_cnpj_cpf"
                 oninput="handleBusca(this); valBusnome();"
-                placeholder="CNPJ, CPF ou Nome">
+                placeholder="Consultar por CNPJ, CPF , Nome e Número da Proposta">
 
             <datalist id="list_cnpj_cpf">
                 <c:forEach items="${sis_cons}" var="l_cnpj_cpf">

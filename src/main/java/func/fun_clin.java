@@ -197,7 +197,9 @@ public class fun_clin {
 			gra_inp.setReg_alt(cl_glo_ad.getLong("reg_alt"));
 			gra_inp.setReg_data_alt(cl_glo_ad.getTimestamp("reg_data_alt"));
 			gra_inp.setTruefalse(cl_glo_ad.getBoolean("truefalse"));
+			gra_inp.setClin_id(cl_glo_ad.getLong("clin_id"));
 			gra_inp.setClin_adi_id(cl_glo_ad.getLong("clin_adi_id"));
+
 			gra_inp.setTel_2(cl_glo_ad.getString("tel_2"));
 			gra_inp.setEmail_2(cl_glo_ad.getString("email_2"));
 			gra_inp.setLogin_id(cl_glo_ad.getLong("login_id"));
