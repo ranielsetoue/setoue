@@ -1351,11 +1351,13 @@ function sel_cons(cnpj_cpf, element) {
 						<div
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
+<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
+
 	<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
-
+</c:if>
 <!-- Modal -->
 <div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
