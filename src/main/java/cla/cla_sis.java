@@ -13,6 +13,7 @@ public class cla_sis implements Serializable {
 	private Long id_sis;
 	private Long clin_id;
 	private Long forn_id;
+	private long pro_id;
 	private Long reg_id;
 	private Timestamp reg_data;
 	private Long reg_alt;
@@ -34,6 +35,8 @@ public class cla_sis implements Serializable {
 	private String email_1;
 	private String obs;
 	private String ace_per_aut;
+
+	
 
 	public boolean nv_id() {
 		if (this.id_sis == null || this.id_sis == 0L) {
@@ -224,6 +227,9 @@ public class cla_sis implements Serializable {
 	public void vz_id() {
 
 		id_sis = 0L;
+		clin_id= 0L;
+		forn_id= 0L;
+		pro_id= 0L;
 		reg_id = 0L;
 		reg_data = null;
 		reg_alt = 0L;
@@ -244,6 +250,7 @@ public class cla_sis implements Serializable {
 		tel_1 = "";
 		email_1 = "";
 		obs = "";
+	
 
 	}
 
@@ -338,6 +345,16 @@ public class cla_sis implements Serializable {
 
 	public void setForn_id(Long forn_id) {
 		this.forn_id = forn_id;
+	}
+
+
+	public long getPro_id() {
+		return pro_id;
+	}
+
+
+	public void setPro_id(long pro_id) {
+		this.pro_id = pro_id;
 	}
 
 	

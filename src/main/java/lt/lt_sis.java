@@ -1,6 +1,9 @@
 package lt;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import cla.cla_list_cnpj_nome;
@@ -12,6 +15,7 @@ import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_clin;
 import func.fun_forn;
+import func.fun_pro;
 import func.fun_sis;
 import func.fun_sis_dom;
 import func.fun_sis_login;
@@ -42,6 +46,10 @@ public class lt_sis extends HttpServlet {
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	fun_clin f_clin = new fun_clin();
 	fun_forn f_forn = new fun_forn();
+	fun_pro f_pro = new fun_pro();
+
+	Calendar calend = Calendar.getInstance();
+	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public lt_sis() {
 		super();
@@ -76,15 +84,12 @@ public class lt_sis extends HttpServlet {
 			request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 			request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
 
-			
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 
 				request.getSession().setAttribute("aces_cad_sis", "false");
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_sis");
-
-
 
 				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				request.setAttribute("sis_cons", sisCons);
@@ -99,7 +104,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_cli");
-
 
 				cl_sis.vz_id();
 				request.getSession().setAttribute("pre_glo", cl_sis);
@@ -118,7 +122,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_for");
-
 
 				cl_sis.vz_id();
 				request.getSession().setAttribute("pre_glo", cl_sis);
@@ -139,7 +142,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_pro");
 
-
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				 * request.setAttribute("sis_cons", sisCons);
@@ -157,7 +159,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_serv");
 
-
 				/*
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				 * request.setAttribute("sis_cons", sisCons);
@@ -170,7 +171,6 @@ public class lt_sis extends HttpServlet {
 
 			if (request.getParameter("fun").equalsIgnoreCase("ven_cons_pro")) {
 
-
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("h_titulo_pagina",
@@ -181,14 +181,12 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_ven_cons_pro", false);
 				request.getSession().setAttribute("aces_ven_pro", false);
 
-				
-	
 				request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
 				request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
 						response);
 
 			}
-			
+
 			if (request.getParameter("fun").equalsIgnoreCase("ven_pro")) {
 
 				request.getSession().setAttribute("cons_true", "false");
@@ -203,13 +201,28 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_ven_orc", false);
 				request.getSession().setAttribute("aces_ven_cons_pro", false);
 
+				cl_sis.vz_id();
+							
+				cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+/*
+ * cl_sis.setPro_id(f_pro.pro_nun());
+ */
+				cl_sis.setPro_id(1);
 
+				request.getSession().setAttribute("pre_glo", cl_sis);
+
+				
+				long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
+				request.setAttribute("sis_cons", sisCons);
+
+				
 				request.getSession().setAttribute("h_titulo_pagina", "PROPOSTA");
-				request.getRequestDispatcher("/00_controle/00_sistema/venda/proposta.jsp").forward(request,
-						response);
+				request.getRequestDispatcher("/00_controle/00_sistema/venda/proposta.jsp").forward(request, response);
 
 			}
-			
+
 			if (request.getParameter("fun").equalsIgnoreCase("ven_orde")) {
 
 				request.getSession().setAttribute("cons_true", "false");
@@ -220,13 +233,12 @@ public class lt_sis extends HttpServlet {
 						request.getSession().getAttribute("h_titulo_web_ini"));
 				request.getSession().setAttribute("cont_sis", "ven_orde");
 
-
 				request.getSession().setAttribute("h_titulo_pagina", "Ordem de Serviço");
 				request.getRequestDispatcher("/00_controle/00_sistema/venda/ordem_servico.jsp").forward(request,
 						response);
 
 			}
-			
+
 			if (request.getParameter("fun").equalsIgnoreCase("ven_orc")) {
 
 				request.getSession().setAttribute("cons_true", "false");
@@ -237,19 +249,12 @@ public class lt_sis extends HttpServlet {
 						request.getSession().getAttribute("h_titulo_web_ini"));
 				request.getSession().setAttribute("cont_sis", "ven_orc");
 
-
 				request.getSession().setAttribute("h_titulo_pagina", "Orçamento");
-				request.getRequestDispatcher("/00_controle/00_sistema/venda/orcamento.jsp").forward(request,
-						response);
+				request.getRequestDispatcher("/00_controle/00_sistema/venda/orcamento.jsp").forward(request, response);
 
 			}
-			
-			
-			
-			
-			
-			if (request.getParameter("fun").equalsIgnoreCase("ini_cont")) {
 
+			if (request.getParameter("fun").equalsIgnoreCase("ini_cont")) {
 
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
@@ -258,7 +263,6 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("h_titulo_web",
 						request.getSession().getAttribute("h_titulo_web_ini"));
 				request.getSession().setAttribute("cont_sis", "cad_empty");
-
 
 				String web_url = String.valueOf(request.getSession().getAttribute("web_url_pre"));
 				request.getRequestDispatcher(web_url).forward(request, response);

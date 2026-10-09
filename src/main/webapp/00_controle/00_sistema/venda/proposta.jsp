@@ -844,36 +844,66 @@ function sel_cons(cnpj_cpf, element) {
 			<!-- Inicio Container -->
 	
 	
-			<!--  -->
-			<!-- Inicio Container -->
+<!-- Inicio Cabecalho Proposta -->
+<div class="container mt-3">
+    <div class="row align-items-end">
+        <!-- coluna esquerda - Número da Proposta -->
+        <div class="col-12 col-md-3 mb-2 mb-md-0">
+            <label>Número da Proposta</label>
+            <input class="form-control" name="pro_id" id="pro_id" 
+                   maxlength="18" placeholder="Número da Proposta" 
+                   readonly value="${not empty pre_glo.pro_id ? pre_glo.pro_id : ''}">
+        </div>
+        
+        <!-- coluna Central - Data -->
+        <div class="col-12 col-md-2 mb-2 mb-md-0">
+            <label>Data</label>
 
-				<div class="container mt-3" id="html_true">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-info"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=novo';">
-								CANCELAR</button>
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-success"
-								onclick="salvar_dado();">SALVAR</button>
-						</div>
-						<!-- coluna Central -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-					<hr>
-				</div>
-			<!-- FIM Container -->
+            <c:choose>
+                <c:when test="${not empty pre_glo.reg_data}">
+                    <fmt:formatDate value="${pre_glo.reg_data}" pattern="dd/MM/yyyy HH:mm" var="dataFormatada"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="dataFormatada" value=""/>
+                </c:otherwise>
+            </c:choose>
+
+            <input class="form-control" name="pro_dat" id="pro_dat" 
+                   placeholder="Data" readonly 
+                   value="${dataFormatada}">
+        </div>
+        
+        <!-- coluna Direita - Botões -->
+        <div class="col-12 col-md-7">
+            <div class="row align-items-end">
+                <div class="col-6 col-md-3 mb-2 mb-md-0">
+                    <!-- Espaçador invisível para alinhar com os inputs -->
+                    <div style="height: 24px;"></div>
+                    <button type="button" class="btn btn-info w-100"
+                            onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=novo';">
+                        CANCELAR
+                    </button>
+                </div>
+                <div class="col-6 col-md-3 mb-2 mb-md-0">
+                    <!-- Espaçador invisível para alinhar com os inputs -->
+                    <div style="height: 24px;"></div>
+                    <button type="button" class="btn btn-success w-100"
+                            onclick="salvar_dado();">
+                        SALVAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim Cabecalho Proposta -->	
+	
+	
+	
+	
+	
+	
+	
 	
 <c:if test="${not empty cons_false and cons_false eq 'true'}">
 					<div class="container mt-md-3">

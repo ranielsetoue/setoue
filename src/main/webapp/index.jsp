@@ -64,11 +64,11 @@
             <div class="row align-items-center text-center text-md-left">
                 
                 <div class="col-12 col-md-5 mb-2 mb-md-0">
-                    <input class="form-control" placeholder="Login Usuario" type="text" name="l_usu" id="l_usu" autocomplete="off" value="">
+                    <input class="form-control" placeholder="Login Usuario" type="text" name="l_usu" id="l_usu" autocomplete="off" value="setran">
                 </div>
 
                 <div class="col-12 col-md-5 mb-2 mb-md-0">
-                    <input class="form-control" placeholder="Login Senha" type="text" name="l_sen" id="l_sen" autocomplete="off" value="">
+                    <input class="form-control" placeholder="Login Senha" type="text" name="l_sen" id="l_sen" autocomplete="off" value="1234">
                 </div>
 
                 <div class="col-12 col-md-2 mb-2 mb-md-0">
