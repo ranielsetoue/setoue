@@ -1001,11 +1001,7 @@ public class lt_sis_busc extends HttpServlet {
 									cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
 									simnaoclin = true;
 
-									request.getSession().setAttribute("cons_list", true);
-									request.getSession().setAttribute("cons_true", true);
-									request.getSession().setAttribute("cons_false", false);
-									request.getSession().setAttribute("tab_cont_ocult", true);
-
+	
 									if (fun_blio.isCNPJ(cl_sis.getCnpj_cpf())) {
 										request.getSession().setAttribute("insc_ocult", true);
 									}

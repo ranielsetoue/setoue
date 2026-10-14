@@ -9,10 +9,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-<!--  -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+		
+		<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!--  -->
 
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
@@ -40,6 +43,12 @@
 
 <c:set scope="session" var="ocul_excluir"
 	value="${sessionScope.ocul_excluir}" />
+
+<c:set scope="session" var="naoexitedado"
+	value="${sessionScope.naoexitedado}" />
+
+<c:set scope="session" var="list_cons_ocult"
+	value="${sessionScope.list_cons_ocult}" />
 
 
 <!--  -->
@@ -189,7 +198,7 @@ function formatCnpj(valor) {
 	function sis_busc() {
 		var tx_bus = document.getElementById('bus_cnpj_cpf').value.trim();
 		if (tx_bus === "") {
-			alert("Preencher para pode Consultar");
+			alert("Preencher Dado");
 			return false;
 		} else {
 			document.getElementById('fun').value = "buscar";
@@ -237,6 +246,7 @@ function formatCnpj(valor) {
 	
 	
 	function salvar_dado() {
+			
 		
 		var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar';
 
@@ -256,6 +266,8 @@ function formatCnpj(valor) {
 			alert('Erro ao deletar Cadastro: ' + xhr.responseText);
 		});
 
+		
+	
 	}
 
 	
@@ -509,7 +521,8 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 		
-		
+						 
+						 
 						   document.getElementById('cont_bus_cont').value = document.getElementById('cont_nome_desc').value;
 						
 						
@@ -670,7 +683,42 @@ function bus_p2(){
 	}    
 }	
 
+
+function sel_cons(cnpj_cpf, element) {
+    // Define o valor e dispara o evento 'input' em cadeia
+    $('#bus_cnpj_cpf').val(cnpj_cpf).trigger('input');
+    sis_busc();
+}
+
 </script>
+<style>
+  /* Por padrão (mobile): mostra a versão multi-linha */
+  .mensagem-desktop {
+    display: none;
+  }
+
+  .mensagem-mobile {
+    display: block;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+
+  /* A partir de 768px (tablet/desktop): mostra a versão linha única */
+  @media (min-width: 768px) {
+    .mensagem-desktop {
+      display: block;
+      text-align: center;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .mensagem-mobile {
+      display: none;
+    }
+  }
+</style>
 
 
 <!--  -->
@@ -751,37 +799,78 @@ function bus_p2(){
 				<!-- Inicio row -->
 				<div class="row align-items-center text-center text-md-left">
 					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div
-						class="col-12 col-md-5 mb-2 mb-md-0 align-self-start align-items-start text-start text-md-start text-center">
-						<table class="mx-auto mx-md-0">
-							<tr>
-								<td><a
-									href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
-										<button type="button" class="btn btn-primary">Pagina
-											Inicial</button>
-								</a></td>
-							</tr>
-						</table>
-						
-		
-						
-					</div>
-					<!-- coluna esquerda -->
+				<!-- coluna esquerda -->
+<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-start 
+            text-start text-md-start text-center">
+
+    <div class="d-flex justify-content-center justify-content-md-start 
+                align-items-start gap-2">
+
+        <!-- Página Inicial -->
+        <a href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
+            <button type="button" class="btn btn-primary">
+                Pagina Inicial
+            </button>
+        </a>
+
+        <!-- Cadastro -->
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Cadastro
+            </button>
+
+            <ul class="dropdown-menu">
+
+                <c:if test="${aces_cad_sis}">
+                    <a class="dropdown-item"
+                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
+                        SISTEMA
+                    </a>
+                </c:if>
+
+                <c:if test="${aces_cad_clin}">
+                    <a class="dropdown-item"
+                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">
+                        CLIENTE
+                    </a>
+                </c:if>
+
+                <c:if test="${aces_cad_forn}">
+                    <a class="dropdown-item"
+                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">
+                        FORNECEDOR
+                    </a>
+                </c:if>
+
+                <c:if test="${aces_cad_prod}">
+                    <a class="dropdown-item"
+                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">
+                        PRODUTO
+                    </a>
+                </c:if>
+
+                <c:if test="${aces_cad_serv}">
+                    <a class="dropdown-item"
+                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">
+                        SERVICO
+                    </a>
+                </c:if>
+
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<!-- coluna esquerda -->
 					<!-- coluna Central -->
 					<div
 						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
 						
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown button
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div>
+
 						
 						
 						
@@ -813,54 +902,78 @@ function bus_p2(){
 <c:if test="${not empty cons_false and cons_false eq 'true'}">
 					<div class="container mt-md-3">
 					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-10 mb-2 mb-md-0 align-self-center text-center">
-							<input class="form-control" list="list_cnpj_cpf"
-								name="bus_cnpj_cpf" id="bus_cnpj_cpf"
-								oninput="handleBusca(this); valBusnome();"
-								placeholder="CNPJ, CPF ou Nome">
-
-							<datalist id="list_cnpj_cpf">
-								<c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-									<option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
-								</c:forEach>
-							</datalist>
-							<script>
-								function controlarDatalist(input) {
-									const datalist = document
-											.getElementById('list_cnpj_cpf');
-
-									// Se não tiver nada digitado, remove a associação com o datalist
-									if (input.value.length === 0) {
-										input.removeAttribute('list');
-									} else {
-										// Ao digitar a primeira letra, volta a associar
-
-										input.setAttribute('list',
-												'list_cnpj_cpf');
-									}
-								}
-							</script>
-							<!-- Mensagem de erro -->
-							<small id="erro_busca" class="text-danger d-none">Dado
-								inválido</small>
 
 
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12 col-md-2 mb-2 mb-md-0 align-self-center text-center">
-							<button id="buc_dado" type="button" class="btn btn-info"
-								onclick="sis_busc();">Buscar</button>
-						</div>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
+
+<!-- Inicio row -->
+<div class="row align-items-center text-center text-md-left">
+    
+    <!-- Coluna única englobando o input-group -->
+    <div class="col-12 mb-2 mb-md-0 align-self-center text-center">
+        
+        <!-- O input-group une visualmente o input e o botão -->
+        <div class="input-group">
+            <input class="form-control" list="list_cnpj_cpf"
+                name="bus_cnpj_cpf" id="bus_cnpj_cpf"
+                oninput="handleBusca(this); valBusnome();"
+                placeholder="CNPJ, CPF ou Nome">
+
+            <datalist id="list_cnpj_cpf">
+                <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+                    <option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
+                </c:forEach>
+            </datalist>
+
+            <!-- 
+               IMPORTANTE: 
+               - Se estiver usando Bootstrap 5: O código abaixo já funciona direto.
+               - Se estiver usando Bootstrap 4: Você deve envolver o botão com: 
+                 <div class="input-group-append"> ... </div>
+            -->
+            <button onclick="sis_busc();" id="buc_dado" type="button" class="btn btn-outline-secondary" title="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <script>
+            function controlarDatalist(input) {
+                const datalist = document.getElementById('list_cnpj_cpf');
+                if (input.value.length === 0) {
+                    input.removeAttribute('list');
+                } else {
+                    input.setAttribute('list', 'list_cnpj_cpf');
+                }
+            }
+        </script>
+        
+        <!-- Mensagem de erro -->
+        <small id="erro_busca" class="text-danger d-none">Dado inválido</small>
+    </div>
+</div>
+<!-- FIM row -->
+
+<c:if test="${not empty naoexitedado and naoexitedado eq 'true'}">						
+<div>
+  <hr>
+  <!-- Versão Desktop (linha única) -->
+  <p class="mensagem-desktop">Registro não localizado. Informe um CPF ou CNPJ válido para prosseguir com o cadastro</p>
+
+  <!-- Versão Mobile (múltiplas linhas) -->
+  <p class="mensagem-mobile">
+    Registro não localizado.<br>
+    Informe CPF ou CNPJ<br>
+    válido para prosseguir com o cadastro.
+  </p>
+  <hr>
+</div>
+</c:if>
+
+
+
+
+
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>
@@ -930,16 +1043,16 @@ function bus_p2(){
 							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
 								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
 								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
-								placeholder="CNPJ ou CPF" value="${pre_glo.cnpj_cpf}">
+								placeholder="CNPJ ou CPF" readonly value="${pre_glo.cnpj_cpf}">
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div id="div_nome_desc"
 							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
-							<label id="l_nome_desc" data-placeholder="Nome ou Razao Social"></label>
+							<label id="l_nome_desc" data-placeholder="Nome"></label>
 							<textarea class="form-control" autocomplete="off"
 								name="nome_desc" id="nome_desc"
-								placeholder="Nome ou Razao Social" rows="1"
+								placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
 							<script>
@@ -961,7 +1074,9 @@ function bus_p2(){
 							</script>
 						</div>
 						<!-- coluna Central -->
-						<!-- coluna Direita -->
+						<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
+						
+												<!-- coluna Direita -->
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
 							<label id="l_no_fan" data-placeholder="Nome Fantasia"></label>
@@ -972,6 +1087,7 @@ function bus_p2(){
 
 						</div>
 						<!-- coluna Direita -->
+						</c:if>
 						<!-- FIM row -->
 					</div>
 					<!-- FIM row -->
@@ -1120,10 +1236,10 @@ function bus_p2(){
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-3 mb-2 mb-0 align-self-center text-center">
-							<label id="l_tel_1" data-placeholder="Telefone"></label> 
+							<label id="l_tel_1" data-placeholder="Whatshapp"></label> 
 							<input
 								type="text" maxlength="20" name="tel_1" id="tel_1"
-								autocomplete="off" class="form-control" placeholder="Telefone"
+								autocomplete="off" class="form-control" placeholder="Whatshapp"
 								value="${pre_glo.tel_1}">
 															
 								
@@ -1177,9 +1293,9 @@ function bus_p2(){
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-6 mb-2 mb-0 align-self-center text-center">
-							<label id="l_email_1" data-placeholder="E-mail"></label>
+							<label id="l_email_1" data-placeholder="E-mail envio Nota Fiscal"></label>
 							<textarea name="email_1" id="email_1" class="form-control"
-								placeholder="E-mail" autocomplete="off" rows="1"
+								placeholder="E-mail envio Nota Fiscal" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.email_1}</textarea>
 						</div>
@@ -1199,7 +1315,8 @@ function bus_p2(){
 				<!-- FIM Container -->
 				<!--  -->
 <!-- Inico Contado-->
-<c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+ <c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+
 <!-- Ocultar Inico Contado-->
 		<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1210,25 +1327,26 @@ function bus_p2(){
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
-										<c:if test="${not empty cont_list}">
-							
+	
+	
+ 							
 							
 							
 							<textarea name="cont_bus_cont" id="cont_bus_cont" class="form-control"
 								placeholder="Busca Contado" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-						</c:if>
+ 	
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-								<c:if test="${not empty cont_list}">
 							
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="busc_cont">Buscar Contado</button>
-						</c:if>
+			 			
+						
 						</div>
 
 						<!-- coluna Central -->
@@ -1236,11 +1354,11 @@ function bus_p2(){
 						<div
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
+
 	<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
@@ -1445,7 +1563,7 @@ function bus_p2(){
 
 				<!-- Inicio Container -->
 				<div class="container mt-1">
-			<c:if test="${not empty cont_list}">
+ 
 <hr>
 
 					<!-- Inicio Container -->
@@ -1489,9 +1607,7 @@ data-obs="${ml.obs}"
 			</table>
 
 		</div>
-</c:if>
 
-				<c:if test="${not empty cont_list}">
 		
 <hr>
 
@@ -1511,7 +1627,6 @@ data-obs="${ml.obs}"
     </span>
 
 </div>
-</c:if>
 <script type="text/javascript">
 
     /* =====================================================
@@ -2568,13 +2683,429 @@ function validartipo_ace() {
 <!-- Ocultar Fim Dominio-->
 </c:if>
 <!-- FIM Dominio-->
+
+
+<!-- Inicio ABA  -->
+
+	
+<!--  -->
+<!-- Inicio Container -->
+<div class="container mt-3">
+	<!-- Inicio Container -->
+	<!-- Inicio row -->
+	<div class="row align-items-center text-center text-md-left">
+		<!-- Inicio row -->
+
+<!-- INICIO DADO ABA -->
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button class="nav-link active" id="dados-tab" data-bs-toggle="tab"
+			data-bs-target="#dados" type="button" role="tab">Dado
+			Adicional</button>
+	</li>
+
+	<li class="nav-item" role="presentation">
+		<button class="nav-link" id="financeiro-tab" data-bs-toggle="tab"
+			data-bs-target="#financeiro" type="button" role="tab">
+			Financeiro</button>
+	</li>
+
+	<li class="nav-item" role="presentation">
+		<button class="nav-link" id="endereco-tab" data-bs-toggle="tab"
+			data-bs-target="#endereco" type="button" role="tab">
+			Endereço de Envio</button>
+	</li>
+
+</ul>
+
+
+<div class="tab-content border border-top-0 p-3" id="myTabContent">
+
+	<!-- DADO ADICIONAL -->
+	<div class="tab-pane fade show active" id="dados" role="tabpanel"
+		aria-labelledby="dados-tab">
+
+		<div class="row align-items-center text-center text-md-left">
+
+<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
+
+<fieldset class="border rounded p-3">
+
+    <legend class="float-none w-auto px-2 text-start fs-6">
+        Consultar na Receita Federal
+    </legend>
+    		<div class="row align-items-center text-center text-md-left">
+    
+			<div class="col-12 col-md-5 mb-2 mb-0 align-self-center text-center">
+				<label id="l_tel_2" data-placeholder="Telefone"></label> <input
+					type="text" maxlength="20" name="tel_2" id="tel_2"
+					autocomplete="off" class="form-control" placeholder="Telefone"
+					value="${pre_glo_ad.tel_2}">
+			</div>
+
+			<div class="col-12 col-md-7 mb-2 mb-0 align-self-center text-center">
+				<label id="l_email_2" data-placeholder="E-mail"></label>
+				<textarea name="email_2" id="email_2" class="form-control"
+					placeholder="E-mail" autocomplete="off" rows="1"
+					style="overflow: hidden; resize: none;"
+					oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo_ad.email_2}</textarea>
+
+			</div>
+			</div>
+</fieldset>
+						</c:if>
+
+<c:if test="${empty insc_ocult or insc_ocult eq 'false'}">
+    		<div class="row align-items-center text-center text-md-left">
+    
+			<div class="col-12 col-md-5 mb-2 mb-0 align-self-center text-center">
+				<label id="l_tel_2" data-placeholder="Telefone"></label> <input
+					type="text" maxlength="20" name="tel_2" id="tel_2"
+					autocomplete="off" class="form-control" placeholder="Telefone"
+					value="${pre_glo_ad.tel_2}">
+			</div>
+
+			<div class="col-12 col-md-7 mb-2 mb-0 align-self-center text-center">
+				<label id="l_email_2" data-placeholder="E-mail"></label>
+				<textarea name="email_2" id="email_2" class="form-control"
+					placeholder="E-mail" autocomplete="off" rows="1"
+					style="overflow: hidden; resize: none;"
+					oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo_ad.email_2}</textarea>
+
+			</div>
+			</div>
+
+</c:if>
+		</div>
+
+	</div>
+
+
+	<!-- FINANCEIRO -->
+	<div class="tab-pane fade" id="financeiro" role="tabpanel"
+		aria-labelledby="financeiro-tab">
+
+		<div class="row">
+
+			<div class="col-md-6 mb-3">
+				<label for="chave_pix" class="form-label"> Chave Pix </label> <input
+					type="text" class="form-control" id="chave_pix" name="chave_pix"
+					placeholder="Digite a chave Pix">
+			</div>
+
+			<div class="col-md-6 mb-3">
+				<label for="nome_pix" class="form-label"> Nome </label> <input
+					type="text" class="form-control" id="nome_pix" name="nome_pix"
+					placeholder="Nome do titular">
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<!-- ENDEREÇO DE ENVIO -->
+	<div class="tab-pane fade" id="endereco" role="tabpanel"
+		aria-labelledby="endereco-tab">
+
+		<div class="row">
+
+			<div class="col-md-8 mb-3">
+				<label for="endereco_completo" class="form-label"> Endereço
+					completo </label> <input type="text" class="form-control"
+					id="endereco_completo" name="endereco_completo"
+					placeholder="Rua, número, complemento, bairro...">
+			</div>
+
+			<div class="col-md-4 mb-3">
+				<label for="cep" class="form-label"> CEP </label> <input type="text"
+					class="form-control" id="cep" name="cep" placeholder="00000-000"
+					maxlength="9">
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+<!-- FIM DADO ABA -->
+		<!-- FIM row -->
+	</div>
+	<!-- FIM Container -->
+</div>
+<!-- FIM Container -->
+<!--  -->
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->
-			<!-- FIM DADO -->
-<!-- FIM Dominio -->
 
-<!-- Fim Dominio -->
+
+
+
+
+
+
+
+
+<!-- INICIO CONSULTAR DADO CLIENTE -->
+<c:if test="${empty list_cons_ocult or list_cons_ocult eq 'true'}">
+<!-- INICIO CONSULTAR DADO CLIENTE -->
+			<!--  -->
+			<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+<hr>					
+<!-- INICIO CONSULTAR DADO  -->
+
+				<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+	
+<a>Cliente Encontrado</a>
+					<!-- FIM row -->
+					</div>
+
+
+
+<!--Inico Tabela Consultar Cliente Pelo Nome -->
+<!-- Inicio Container -->
+<div class="container mt-1">
+	<!-- Inicio Container -->
+
+	<div style="height: 350px; overflow: scroll;">
+	<table class="table" id="t_list_cons">
+    <thead>
+        <tr>
+            <th scope="col">CNPJ ou CPF</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Nome Fantasia</th>
+            <th scope="col">Selecionar</th>
+        </tr>
+    </thead>
+   <tbody>
+    <!-- Verifica se a lista existe e não está vazia no escopo da requisição -->
+    <c:choose>
+        <c:when test="${not empty requestScope.list_cons_dado}">
+            <c:forEach items="${requestScope.list_cons_dado}" var="ml">
+                <tr>
+                    <td><c:out value="${ml.cnpj_cpf}" /></td>
+                    <td><c:out value="${ml.nome_desc}" /></td>
+                    <td><c:out value="${ml.no_fan}" /></td>
+                    <td>
+                        <a onclick="sel_cons('${ml.cnpj_cpf}', this); return false;" 
+                           class="btn btn-warning text-dark">
+                           Selecionar
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    Nenhum registro encontrado ou tipo de dados inválido.
+                </td>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+</tbody></table>
+
+	</div>
+	<hr>
+
+<!-- 
+/* =====================================================
+INICIO PAGINAÇÃO cons
+===================================================== */
+-->
+<div id="paginacao_cons"
+class="d-flex align-items-center justify-content-center flex-wrap mt-2">
+
+<!-- PAGINAÇÃO -->
+<span id="pag_cons"
+class="d-flex align-items-center">
+</span>
+
+<!-- SEPARADOR -->
+<span class="text-secondary mx-2">|</span>
+
+<!-- INFORMAÇÃO -->
+<span id="info_cons"
+class="text-secondary">
+</span>
+
+</div>
+<script type="text/javascript">
+
+/* ===================================================== 
+INICIO PAGINAÇÃO SCRIPT CONS
+===================================================== */
+
+/* =====================================================
+CONFIGURAÇÃO
+===================================================== */
+
+// CORREÇÃO 1: Garante que sempre será um número, evitando erro de sintaxe no JS.
+// Se 'cons_list_qt' for um número inteiro direto no Java, use apenas: ${empty cons_list_qt ? 0 : cons_list_qt}
+var totalRegistroscons = ${not empty cons_list_qt ? cons_list_qt : 0}; 
+var paginaAtualcons = 1;
+var registrosPorPaginacons = 5;
+
+/* =====================================================
+ATUALIZA INFORMAÇÃO
+===================================================== */
+function atualizarInfocons(pagina) {
+var registrosPorPagina = registrosPorPaginacons;
+var totalRegistros = totalRegistroscons || 0;
+var infocons = document.getElementById("info_cons");
+
+if (totalRegistros === 0) {
+infocons.innerHTML = "0 - 0 de 0";
+return;
+}
+
+var inicio = ((pagina - 1) * registrosPorPagina) + 1;
+var fim = pagina * registrosPorPagina;
+
+if (fim > totalRegistros) {
+fim = totalRegistros;
+}
+
+infocons.innerHTML = inicio + " - " + fim + " de " + totalRegistros;
+}
+
+/* =====================================================
+MONTA PAGINAÇÃO
+===================================================== */
+function montarPaginascons(paginaAtual) {
+var registrosPorPagina = registrosPorPaginacons;
+var totalRegistros = totalRegistroscons || 0;
+var totalPaginas = Math.ceil(totalRegistros / registrosPorPagina);
+var html = "";
+
+if (totalPaginas === 0) {
+document.getElementById("pag_cons").innerHTML = "";
+return;
+}
+
+// Botão Primeira
+if (paginaAtual === 1) {
+html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2" disabled>Primeira</button>';
+} else {
+html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2" onclick="carregarPaginacons(1)">Primeira</button>';
+}
+
+html += '<span class="text-secondary mx-2">|</span>';
+
+// Define as páginas visíveis
+var inicio, fim;
+
+if (totalPaginas <= 3) {
+inicio = 1;
+fim = totalPaginas;
+} else {
+inicio = paginaAtual - 1;
+fim = paginaAtual + 1;
+
+if (paginaAtual <= 2) {
+inicio = 1;
+fim = 3;
+}
+if (paginaAtual >= totalPaginas - 1) {
+inicio = totalPaginas - 2;
+fim = totalPaginas;
+}
+}
+
+// Números das páginas
+for (var pagina = inicio; pagina <= fim; pagina++) {
+if (pagina === paginaAtual) {
+html += '<button type="button" class="btn btn-primary rounded-3 px-3 py-2 mx-1" disabled>' + pagina + '</button>';
+} else {
+html += '<button type="button" class="btn btn-light border rounded-3 px-3 py-2 mx-1" onclick="carregarPaginacons(' + pagina + ')">' + pagina + '</button>';
+}
+}
+
+document.getElementById("pag_cons").innerHTML = html;
+}
+
+/* =====================================================
+CARREGA A PÁGINA (AJAX)
+===================================================== */
+function carregarPaginacons(pagina) {
+paginaAtualcons = pagina;
+
+// CORREÇÃO 2: Trocado de 'dom' para 'cons'
+atualizarInfocons(pagina); 
+montarPaginascons(pagina); 
+
+var registrosPorPagina = registrosPorPaginacons;
+var offset = (pagina - 1) * registrosPorPagina;
+
+var urlAction = '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_cons';
+var cons = document.getElementById('bus_cnpj_cpf').value;
+
+$.ajax({
+type: "POST",
+url: urlAction,
+data: {
+offset: offset,
+cons : cons
+},
+success: function(response) {
+$("#t_list_cons tbody").html(response);
+},
+error: function(xhr, status, error) {
+console.log(xhr.responseText);
+alert("Erro ao carregar página cons: " + error);
+}
+});
+}
+
+/* =====================================================
+INICIALIZAÇÃO
+===================================================== */
+atualizarInfocons(1);
+montarPaginascons(1);
+
+</script>
+
+<!-- 
+/* =====================================================
+FIM PAGINAÇÃO CONS
+===================================================== */
+-->
+
+
+
+
+
+
+
+
+
+
+	<!-- FIM Container -->
+</div>
+<!-- FIM Container -->
+<!-- Fim Consultar Cliente Pelo Nome -->
+
+
+
+
+
+<!-- FIM CONSULTAR DADO -->
+					<!-- coluna Direita -->
+<hr>
+					<!-- FIM Container -->
+				</div>
+			<!-- FIM Container -->
+			<!--  -->
+<!-- FIM CONSULTAR DADO CLIENTE -->
+</c:if>
+<!-- FIM CONSULTAR DADO CLIENTE -->
+			<!-- FIM DADO -->
 			<!--  -->
 			<!-- final form -->
 		</form>
@@ -2622,7 +3153,6 @@ function initLabels() {
 		}
 	});
 }
-
 </script>
 
 
@@ -2633,10 +3163,7 @@ function initLabels() {
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
 		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-		crossorigin="anonymous"></script>
+
 
 
 	<script

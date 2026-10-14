@@ -1329,26 +1329,22 @@ function sel_cons(cnpj_cpf, element) {
 							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
 	
 	
- 										<c:if test="${not empty cont_list}">
-							
+ 							
 							
 							
 							<textarea name="cont_bus_cont" id="cont_bus_cont" class="form-control"
 								placeholder="Busca Contado" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
- 						</c:if>
- 
+ 	
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-	 							<c:if test="${not empty cont_list}">
 							
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="busc_cont">Buscar Contado</button>
-						</c:if>
 			 			
 						
 						</div>
@@ -1358,13 +1354,11 @@ function sel_cons(cnpj_cpf, element) {
 						<div
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
-<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
 
 	<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
-</c:if>
 <!-- Modal -->
 <div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
@@ -1569,8 +1563,7 @@ function sel_cons(cnpj_cpf, element) {
 
 				<!-- Inicio Container -->
 				<div class="container mt-1">
- 			<c:if test="${not empty cont_list}">
-
+ 
 <hr>
 
 					<!-- Inicio Container -->
@@ -1614,9 +1607,7 @@ data-obs="${ml.obs}"
 			</table>
 
 		</div>
- </c:if>
 
-				<c:if test="${not empty cont_list}">
 		
 <hr>
 
@@ -1636,7 +1627,6 @@ data-obs="${ml.obs}"
     </span>
 
 </div>
-</c:if>
 <script type="text/javascript">
 
     /* =====================================================
