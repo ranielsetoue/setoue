@@ -22,6 +22,7 @@ import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_clin;
+import func.fun_clin_cont;
 import func.fun_forn;
 import func.fun_sis;
 import func.fun_sis_cont;
@@ -58,6 +59,8 @@ public class lt_sis_busc extends HttpServlet {
 	cla_perm_ace cl_perm_ace = new cla_perm_ace();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
 	fun_clin f_clin = new fun_clin();
+	fun_clin_cont f_clin_cont = new fun_clin_cont();
+
 	cla_glo_ad cl_glo_ad = new cla_glo_ad();
 	fun_forn f_forn = new fun_forn();
 	Calendar calend = Calendar.getInstance();
@@ -215,6 +218,7 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
 					request.getSession().setAttribute("aces_ven_cons_pro", false);
 					request.getSession().setAttribute("aces_ven_pro", false);
+					request.getSession().setAttribute("tab_cont_ocult", true);
 
 					request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
 							response);
@@ -305,6 +309,65 @@ public class lt_sis_busc extends HttpServlet {
 
 				}
 
+				
+				
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+
+					String cont_cnpj_cpf = request.getParameter("cont_cnpj_cpf");
+					cl_sis = f_clin.cons_clin(id_sis,cont_cnpj_cpf);
+					String cont_bus_cont = request.getParameter("cont_bus_cont");
+
+					int offsetcont = Integer.parseInt(request.getParameter("offset"));
+					List<cla_sis_cont> cont_sis_list = f_clin_cont.list_clin_cont_proc(cl_sis.getId_sis(),cl_sis.getClin_id(), offsetcont,
+							cont_bus_cont);
+					request.setAttribute("cont_list", cont_sis_list);
+					StringBuilder html = new StringBuilder();
+
+					for (cla_sis_cont d : cont_sis_list) {
+
+						html.append("<tr>");
+
+						html.append("<td>").append(d.getNome_desc()).append("</td>");
+
+						html.append("<td>").append(d.getTel_1()).append("</td>");
+
+						html.append("<td>").append(d.getEmail_1()).append("</td>");
+
+						html.append("<td>").append("<a onclick=\"exc_cont(").append(d.getId_sis_cont())
+								.append(", this); return false;\" class=\"btn btn-danger\">Excluir</a>")
+								.append("</td>");
+
+						html.append("<td>").append("<button type='button' ").append("onclick=\"detalhe_cont(this)\" ")
+								.append("data-nome_desc=\"").append(d.getNome_desc()).append("\" ")
+								.append("data-tel_1=\"").append(d.getTel_1()).append("\" ").append("data-tel_2=\"")
+								.append(d.getTel_2()).append("\" ").append("data-email_1=\"").append(d.getEmail_1())
+								.append("\" ").append("data-email_2=\"").append(d.getEmail_2()).append("\" ")
+								.append("data-setor_1=\"").append(d.getSetor_1()).append("\" ").append("data-obs=\"")
+								.append(d.getObs()).append("\" ").append("class=\"btn btn-warning\" ")
+								.append("data-bs-toggle=\"modal\">").append("Detalhes").append("</button>")
+								.append("</td>");
+
+						html.append("</tr>");
+					}
+
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().print(html.toString());
+
+					return;
+
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 
 			if (request.getParameter("fun").equalsIgnoreCase("pag_dom")) {
@@ -978,6 +1041,14 @@ public class lt_sis_busc extends HttpServlet {
 
 						request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
 
+						Integer offsetcont = Integer.parseInt("0");
+						List<cla_sis_cont> cont_sis_list = f_clin_cont.list_clin_cont_id(cl_sis.getId_sis(), cl_sis.getClin_id(), offsetcont);
+						request.setAttribute("cont_list", cont_sis_list);
+						List<cla_sis_cont> cont_list_qt = f_clin_cont.cont_list_qt(cl_sis.getId_sis(),cl_sis.getClin_id());
+						request.setAttribute("cont_list_qt", cont_list_qt);
+
+						request.getSession().setAttribute("cons_true", true);
+
 					}
 
 				} // CADASTRO DE CLIENTE
@@ -1262,6 +1333,11 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "ven_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "PROPOSTA");
 					request.getSession().setAttribute("tab_cont_ocult", true);
+
+					request.getSession().setAttribute("cons_true", true);
+					request.getSession().setAttribute("cons_false", true);
+					request.getSession().setAttribute("cons_list_not", true);
+					request.getSession().setAttribute("tab_dom_ocult", true);
 
 					Boolean simnaoclin = true;
 					cl_glo_ad.vz_id();

@@ -201,6 +201,14 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_ven_orc", false);
 				request.getSession().setAttribute("aces_ven_cons_pro", false);
 
+				
+				request.getSession().setAttribute("cons_true", true);
+				request.getSession().setAttribute("cons_false", true);
+				request.getSession().setAttribute("cons_list_not", true);
+				request.getSession().setAttribute("tab_dom_ocult", true);
+
+				
+				
 				cl_sis.vz_id();
 							
 				cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));

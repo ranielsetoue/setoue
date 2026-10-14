@@ -521,7 +521,8 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 		
-		
+						 
+						 
 						   document.getElementById('cont_bus_cont').value = document.getElementById('cont_nome_desc').value;
 						
 						
@@ -1314,7 +1315,8 @@ function sel_cons(cnpj_cpf, element) {
 				<!-- FIM Container -->
 				<!--  -->
 <!-- Inico Contado-->
-<c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+ <c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+
 <!-- Ocultar Inico Contado-->
 		<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1325,7 +1327,9 @@ function sel_cons(cnpj_cpf, element) {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
-										<c:if test="${not empty cont_list}">
+	
+	
+ 										<c:if test="${not empty cont_list}">
 							
 							
 							
@@ -1333,17 +1337,20 @@ function sel_cons(cnpj_cpf, element) {
 								placeholder="Busca Contado" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-						</c:if>
+ 						</c:if>
+ 
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
 						<div
 							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-								<c:if test="${not empty cont_list}">
+	 							<c:if test="${not empty cont_list}">
 							
 				<button onclick="bus_p1();" class="btn btn-success"
 						type="button" id="busc_cont">Buscar Contado</button>
 						</c:if>
+			 			
+						
 						</div>
 
 						<!-- coluna Central -->
@@ -1562,7 +1569,8 @@ function sel_cons(cnpj_cpf, element) {
 
 				<!-- Inicio Container -->
 				<div class="container mt-1">
-			<c:if test="${not empty cont_list}">
+ 			<c:if test="${not empty cont_list}">
+
 <hr>
 
 					<!-- Inicio Container -->
@@ -1606,7 +1614,7 @@ data-obs="${ml.obs}"
 			</table>
 
 		</div>
-</c:if>
+ </c:if>
 
 				<c:if test="${not empty cont_list}">
 		

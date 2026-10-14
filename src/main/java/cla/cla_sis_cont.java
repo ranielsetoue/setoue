@@ -25,6 +25,44 @@ private Long id_sis_log;
 private String l_usu;
 private String l_sen;
 private String tipo_ace;
+private Long clin_id;
+private Long clin_cont_id;
+private Long forn_id;
+private Long forn_cont_id;
+
+
+
+public Long getClin_id() {
+	return clin_id;
+}
+
+public void setClin_id(Long clin_id) {
+	this.clin_id = clin_id;
+}
+
+public Long getClin_cont_id() {
+	return clin_cont_id;
+}
+
+public void setClin_cont_id(Long clin_cont_id) {
+	this.clin_cont_id = clin_cont_id;
+}
+
+public Long getForn_id() {
+	return forn_id;
+}
+
+public void setForn_id(Long forn_id) {
+	this.forn_id = forn_id;
+}
+
+public Long getForn_cont_id() {
+	return forn_cont_id;
+}
+
+public void setForn_cont_id(Long forn_cont_id) {
+	this.forn_cont_id = forn_cont_id;
+}
 
 public boolean nv_id() {
 if (this.id_sis_cont == null || this.id_sis_cont == 0L) {

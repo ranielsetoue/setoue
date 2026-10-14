@@ -17,6 +17,7 @@ import cla.cla_sis_dom;
 import cla.cla_sis_log;
 import func.fun_blio;
 import func.fun_clin;
+import func.fun_clin_cont;
 import func.fun_sis;
 import func.fun_sis_cont;
 import func.fun_sis_dom;
@@ -57,6 +58,8 @@ public class lt_sis_excluir extends HttpServlet {
 	cla_sis_cont cl_sis_cont = new cla_sis_cont();
 	fun_sis_cont f_sis_cont = new fun_sis_cont();
 	fun_clin f_clin = new fun_clin();
+	fun_clin_cont f_clin_cont = new fun_clin_cont();
+
 	cla_glo_ad cl_glo_ad = new cla_glo_ad();
 
 	public lt_sis_excluir() {
@@ -93,7 +96,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
 
-
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -123,7 +125,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_sis", "false");
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
-		
 
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
@@ -140,7 +141,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_clin", "false");
 					request.getSession().setAttribute("cont_sis", "cad_cli");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
-		
 
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
@@ -158,9 +158,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_forn", "false");
 					request.getSession().setAttribute("cont_sis", "cad_for");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
-		
-
-					
 
 				}
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -168,9 +165,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_prod", "false");
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
-		
-
-					
 
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -178,8 +172,6 @@ public class lt_sis_excluir extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_serv", "false");
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
-		
-
 
 				}
 
@@ -216,10 +208,21 @@ public class lt_sis_excluir extends HttpServlet {
 
 			if (request.getParameter("fun").equalsIgnoreCase("excluir_sis_cont")) {
 
-				String cont_id_sis_cont = request.getParameter("id_sis_cont");
-				f_sis_cont.del_sis_cont(cont_id_sis_cont);
+				if ("cad_sis".equals(request.getSession().getAttribute("cont_sis"))) {
+					String cont_id_sis_cont = request.getParameter("id_sis_cont");
+					f_sis_cont.del_sis_cont(cont_id_sis_cont);
 
-				response.getWriter().print("OK");
+					response.getWriter().print("OK");
+
+				}
+
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
+					String cont_id_sis_cont = request.getParameter("id_sis_cont");
+					f_clin_cont.del_clin_cont(cont_id_sis_cont);
+
+					response.getWriter().print("OK");
+
+				}
 
 			}
 

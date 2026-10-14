@@ -18,6 +18,7 @@ import cla.cla_sis_log;
 import cla.cla_tipo_ace;
 import func.fun_blio;
 import func.fun_clin;
+import func.fun_clin_cont;
 import func.fun_forn;
 import func.fun_perm_ace;
 import func.fun_sis;
@@ -65,6 +66,7 @@ public class lt_sis_salvar extends HttpServlet {
 	fun_tipo_ace f_tipo_ace = new fun_tipo_ace();
 	fun_clin f_clin = new fun_clin();
 	fun_forn f_forn = new fun_forn();
+	fun_clin_cont f_clin_cont = new fun_clin_cont();
 
 	Calendar calend = Calendar.getInstance();
 	SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -132,8 +134,6 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
 
-					
-					
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -163,7 +163,6 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_sis", "false");
 					request.getSession().setAttribute("cont_sis", "cad_sis");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
-
 
 					cl_sis = f_sis.cons_sis_cnpj_cpf(t_cnpj_cpf);
 
@@ -303,10 +302,8 @@ public class lt_sis_salvar extends HttpServlet {
 
 					}
 
-
 					cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
-					
-	
+
 					cl_sis_log.setId_sis(id_sis);
 					cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -317,9 +314,7 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
 					cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
 
-	
-  					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
- 
+					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
 
 					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
 
@@ -330,7 +325,6 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("aces_cad_forn", "false");
 					request.getSession().setAttribute("cont_sis", "cad_for");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
-
 
 					cl_sis.setId_sis(0l);
 					cl_sis.setForn_id(0l);
@@ -444,7 +438,6 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 
-
 					/*
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					 * request.setAttribute("sis_cons", sisCons);
@@ -457,7 +450,6 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "cad_serv");
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 
-
 				}
 
 				if ("ven_pro".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -465,125 +457,115 @@ public class lt_sis_salvar extends HttpServlet {
 					request.getSession().setAttribute("cont_sis", "ven_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "PROPOSTA");
 
-						cl_sis.setId_sis(0l);
-						cl_sis.setClin_id(0l);
-						cl_sis_log.setId_sis(0l);
+					cl_sis.setId_sis(0l);
+					cl_sis.setClin_id(0l);
+					cl_sis_log.setId_sis(0l);
 
-						String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-						long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
-						long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
+					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
+					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
+					long id_dom = Long.valueOf(request.getSession().getAttribute("id_sis_dom_pre").toString());
 
-						if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
-							cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
-						}
+					if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
+						cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
+					}
 
-						cl_sis.setId_sis(id_sis);
-						cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis.setTruefalse(false);
-						cl_sis.setNome_desc(t_nome_desc);
-						cl_sis.setNo_fan(t_no_fan);
-						cl_sis.setCnpj_cpf(t_cnpj_cpf);
-						cl_sis.setEnd_rua(t_end_rua);
-						cl_sis.setEnd_num(t_end_num);
-						cl_sis.setEnd_com(t_end_com);
-						cl_sis.setEnd_bar(t_end_bar);
-						cl_sis.setEnd_mun(t_end_mun);
-						cl_sis.setEnd_uf(t_end_uf);
-						cl_sis.setEnd_cep(t_end_cep);
-						cl_sis.setIns_est(t_ins_est);
-						cl_sis.setIns_mun(t_ins_mun);
-						cl_sis.setTel_1(t_tel_1);
-						cl_sis.setEmail_1(t_email_1);
-						cl_sis.setObs(t_obs);
-						cl_sis.setAce_per_aut("CLIENTE");
+					cl_sis.setId_sis(id_sis);
+					cl_sis.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis.setTruefalse(false);
+					cl_sis.setNome_desc(t_nome_desc);
+					cl_sis.setNo_fan(t_no_fan);
+					cl_sis.setCnpj_cpf(t_cnpj_cpf);
+					cl_sis.setEnd_rua(t_end_rua);
+					cl_sis.setEnd_num(t_end_num);
+					cl_sis.setEnd_com(t_end_com);
+					cl_sis.setEnd_bar(t_end_bar);
+					cl_sis.setEnd_mun(t_end_mun);
+					cl_sis.setEnd_uf(t_end_uf);
+					cl_sis.setEnd_cep(t_end_cep);
+					cl_sis.setIns_est(t_ins_est);
+					cl_sis.setIns_mun(t_ins_mun);
+					cl_sis.setTel_1(t_tel_1);
+					cl_sis.setEmail_1(t_email_1);
+					cl_sis.setObs(t_obs);
+					cl_sis.setAce_per_aut("CLIENTE");
 
-						/*
-						 * System.out.println(" id_sis " +cl_sis.getId_sis() +" - id_cliente " +
-						 * cl_sis.getClin_id() +" - CNPJ/CPF " + t_cnpj_cpf);
-						 */
+					/*
+					 * System.out.println(" id_sis " +cl_sis.getId_sis() +" - id_cliente " +
+					 * cl_sis.getClin_id() +" - CNPJ/CPF " + t_cnpj_cpf);
+					 */
 
-						cl_sis = f_clin.sav_clin(cl_sis);
-						cl_glo_ad.vz_con();
+					cl_sis = f_clin.sav_clin(cl_sis);
+					cl_glo_ad.vz_con();
 
-						if (f_clin.val_clin_adi(id_sis, cl_sis.getClin_id())) {
-							cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
-						}
+					if (f_clin.val_clin_adi(id_sis, cl_sis.getClin_id())) {
+						cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
+					}
 
-						cl_glo_ad.setId_sis(id_sis);
-						cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_glo_ad.setTruefalse(false);
-						cl_glo_ad.setClin_id(cl_sis.getClin_id());
-						cl_glo_ad.setTel_2(t_tel_2);
-						cl_glo_ad.setEmail_2(t_email_2);
-						cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
+					cl_glo_ad.setId_sis(id_sis);
+					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_glo_ad.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_glo_ad.setTruefalse(false);
+					cl_glo_ad.setClin_id(cl_sis.getClin_id());
+					cl_glo_ad.setTel_2(t_tel_2);
+					cl_glo_ad.setEmail_2(t_email_2);
+					cl_glo_ad.setL_usu(cl_sis.getCnpj_cpf());
 
-						if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
-							String nh1 = fun_sis_login.gerarSenhaNumerica();
-							String nha2 = String.valueOf(nh1); // "99999"
-							int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
-							String senha1 = nha2.substring(nha3, nha3 + 3);
+					if (cl_glo_ad.getL_sen() == null || cl_glo_ad.getL_sen().trim().isEmpty()) {
+						String nh1 = fun_sis_login.gerarSenhaNumerica();
+						String nha2 = String.valueOf(nh1); // "99999"
+						int nha3 = (nha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha1 = nha2.substring(nha3, nha3 + 3);
 
-							String nhx2 = fun_sis_login.gerarSenhaForte();
-							String nha4 = String.valueOf(nhx2); // "99999"
-							int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
-							String senha2 = nha4.substring(nha5, nha5 + 3);
+						String nhx2 = fun_sis_login.gerarSenhaForte();
+						String nha4 = String.valueOf(nhx2); // "99999"
+						int nha5 = (nha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+						String senha2 = nha4.substring(nha5, nha5 + 3);
 
-							cl_glo_ad.setL_sen(senha1 + senha2);
+						cl_glo_ad.setL_sen(senha1 + senha2);
 
-							if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
+						if (f_sis_login.val_log_nha(cl_glo_ad.getL_sen())) {
 
-								String anh1 = fun_sis_login.gerarSenhaNumerica();
-								String anha2 = String.valueOf(anh1); // "99999"
-								int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
-								String asenha1 = anha2.substring(anha3, anha3 + 3);
+							String anh1 = fun_sis_login.gerarSenhaNumerica();
+							String anha2 = String.valueOf(anh1); // "99999"
+							int anha3 = (anha2.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha1 = anha2.substring(anha3, anha3 + 3);
 
-								String anh2x = fun_sis_login.gerarSenhaForte();
-								String anha4 = String.valueOf(anh2x); // "99999"
-								int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
-								String asenha2 = nha4.substring(anha5, anha5 + 3);
+							String anh2x = fun_sis_login.gerarSenhaForte();
+							String anha4 = String.valueOf(anh2x); // "99999"
+							int anha5 = (anha4.length() - 3) / 2; // (5 - 3) / 2 = 1
+							String asenha2 = nha4.substring(anha5, anha5 + 3);
 
-								cl_glo_ad.setL_sen(asenha1 + asenha2);
-
-							}
+							cl_glo_ad.setL_sen(asenha1 + asenha2);
 
 						}
 
+					}
 
-						cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
-						
-		
-						cl_sis_log.setId_sis(id_sis);
-						cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_log.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis_log.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_log.setId_sis_log(cl_glo_ad.getLogin_id());
-						cl_sis_log.setId_sis_dom(id_dom);
-						cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
-						cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
+					cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
 
-		
-	  					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
-	 
+					cl_sis_log.setId_sis(id_sis);
+					cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_log.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
+					cl_sis_log.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
+					cl_sis_log.setId_sis_log(cl_glo_ad.getLogin_id());
+					cl_sis_log.setId_sis_dom(id_dom);
+					cl_sis_log.setL_usu(cl_sis.getCnpj_cpf());
+					cl_sis_log.setL_sen(cl_glo_ad.getL_sen());
 
-						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
+					cl_sis_log = f_sis_login.sav_login_id(cl_sis_log);
 
-						
-					
+					response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
+
 				}
-			
-			
+
 			}
 
-			
-			
-			
 			/*
 			 * salvar_dominio
 			 */
@@ -1019,6 +1001,8 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setId_sis_log(0L);
 
 						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+						
+						
 						modal_dominio_visivel = true;
 						/*
 						 * Fim dado para modal
@@ -1034,11 +1018,9 @@ public class lt_sis_salvar extends HttpServlet {
 					}
 
 				}
-				
-				
+
 				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 
-					
 					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 
 					String sis_cont_cnpj_cpf = request.getParameter("cnpj_cpf");
@@ -1051,17 +1033,21 @@ public class lt_sis_salvar extends HttpServlet {
 					String sis_cont_obs = request.getParameter("cont_obs");
 					boolean modal_dominio_visivel = false;
 					String msg_tela = "Cadastro Já Existe";
-
+					
+					request.getSession().setAttribute("cons_list", true);
+					request.getSession().setAttribute("cons_true", true);
+					request.getSession().setAttribute("cons_false", false);
+					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("cont_list", true);
+					
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 					request.getSession().setAttribute("insc_ocult", true);
 
-				
-					
-					cl_sis = f_clin.cons_clin(id_sis,sis_cont_cnpj_cpf);
+					cl_sis = f_clin.cons_clin(id_sis, sis_cont_cnpj_cpf);
 
-					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc)) {
+					if (f_clin_cont.val_1(cl_sis.getId_sis(),cl_sis.getClin_id(), sis_cont_nome_desc)) {
 
-						cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(), sis_cont_nome_desc);
+						cl_sis_cont = f_clin_cont.cons_clin_cont(cl_sis.getId_sis(),cl_sis.getClin_id(), sis_cont_nome_desc);
 
 						cl_sis_cont.setId_sis(cl_sis.getId_sis());
 						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
@@ -1072,7 +1058,7 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setEmail_2(sis_cont_email_2);
 						cl_sis_cont.setSetor_1(sis_cont_setor_1);
 						cl_sis_cont.setObs(sis_cont_obs);
-						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+						cl_sis_cont = f_clin_cont.sav_clin_cont(cl_sis_cont);
 						modal_dominio_visivel = true;
 
 					} else {
@@ -1086,7 +1072,9 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
 						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_cont.setId_sis_cont(0L);
+						cl_sis_cont.setClin_id(cl_sis.getClin_id());
+						cl_sis_cont.setClin_cont_id(0l);
+						cl_sis_cont.setId_sis_cont(0l);
 						cl_sis_cont.setNome_desc(sis_cont_nome_desc);
 						cl_sis_cont.setTel_1(sis_cont_tel_1);
 						cl_sis_cont.setTel_2(sis_cont_tel_2);
@@ -1096,11 +1084,14 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_sis_cont.setObs(sis_cont_obs);
 						cl_sis_cont.setId_sis_log(0L);
 
-						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
+				
+				 cl_sis_cont = f_clin_cont.sav_clin_cont(cl_sis_cont);
+				 
 						modal_dominio_visivel = true;
 						/*
 						 * Fim dado para modal
 						 */
+		
 
 					}
 
@@ -1113,168 +1104,16 @@ public class lt_sis_salvar extends HttpServlet {
 
 				}
 
-				
 				if ("cad_for".equals(request.getSession().getAttribute("cont_sis"))) {
 
 					
-					String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-
-					String sis_cont_cnpj_cpf = request.getParameter("cnpj_cpf");
-					String sis_cont_nome_desc = request.getParameter("cont_nome_desc");
-					String sis_cont_tel_1 = request.getParameter("cont_tel_1");
-					String sis_cont_tel_2 = request.getParameter("cont_tel_2");
-					String sis_cont_email_1 = request.getParameter("cont_email_1");
-					String sis_cont_email_2 = request.getParameter("cont_email_2");
-					String sis_cont_setor_1 = request.getParameter("cont_setor_1");
-					String sis_cont_obs = request.getParameter("cont_obs");
-					boolean modal_dominio_visivel = false;
-					String msg_tela = "Cadastro Já Existe";
-
-					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
-					request.getSession().setAttribute("insc_ocult", true);
-
-				
-					
-					cl_sis = f_clin.cons_clin(id_sis,sis_cont_cnpj_cpf);
-
-					if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc)) {
-
-						cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(), sis_cont_nome_desc);
-
-						cl_sis_cont.setId_sis(cl_sis.getId_sis());
-						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_cont.setTel_1(sis_cont_tel_1);
-						cl_sis_cont.setTel_2(sis_cont_tel_2);
-						cl_sis_cont.setEmail_1(sis_cont_email_1);
-						cl_sis_cont.setEmail_2(sis_cont_email_2);
-						cl_sis_cont.setSetor_1(sis_cont_setor_1);
-						cl_sis_cont.setObs(sis_cont_obs);
-						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
-						modal_dominio_visivel = true;
-
-					} else {
-
-						/*
-						 * Inicio dado para modal
-						 */
-
-						cl_sis_cont.setId_sis(cl_sis.getId_sis());
-						cl_sis_cont.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-						cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-						cl_sis_cont.setId_sis_cont(0L);
-						cl_sis_cont.setNome_desc(sis_cont_nome_desc);
-						cl_sis_cont.setTel_1(sis_cont_tel_1);
-						cl_sis_cont.setTel_2(sis_cont_tel_2);
-						cl_sis_cont.setEmail_1(sis_cont_email_1);
-						cl_sis_cont.setEmail_2(sis_cont_email_2);
-						cl_sis_cont.setSetor_1(sis_cont_setor_1);
-						cl_sis_cont.setObs(sis_cont_obs);
-						cl_sis_cont.setId_sis_log(0L);
-
-						cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
-						modal_dominio_visivel = true;
-						/*
-						 * Fim dado para modal
-						 */
-
-					}
-
-					if (modal_dominio_visivel) {
-						response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
-					} else {
-						response.getWriter().write("{\"status\":\"erro\",\"msg\":\"" + msg_tela + "\"}");
-
-					}
 
 				}
-				
-				
+
 				if ("ven_pro".equals(request.getSession().getAttribute("cont_sis"))) {
 
-		
-						String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
-
-						String sis_cont_cnpj_cpf = request.getParameter("cnpj_cpf");
-						String sis_cont_nome_desc = request.getParameter("cont_nome_desc");
-						String sis_cont_tel_1 = request.getParameter("cont_tel_1");
-						String sis_cont_tel_2 = request.getParameter("cont_tel_2");
-						String sis_cont_email_1 = request.getParameter("cont_email_1");
-						String sis_cont_email_2 = request.getParameter("cont_email_2");
-						String sis_cont_setor_1 = request.getParameter("cont_setor_1");
-						String sis_cont_obs = request.getParameter("cont_obs");
-						boolean modal_dominio_visivel = false;
-						String msg_tela = "Cadastro Já Existe";
-
-						long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
-						request.getSession().setAttribute("insc_ocult", true);
-
-					
-						
-						cl_sis = f_clin.cons_clin(id_sis,sis_cont_cnpj_cpf);
-
-						if (f_sis_cont.val_1(cl_sis.getId_sis(), sis_cont_nome_desc)) {
-
-							cl_sis_cont = f_sis_cont.cons_sis_cont(cl_sis.getId_sis(), sis_cont_nome_desc);
-
-							cl_sis_cont.setId_sis(cl_sis.getId_sis());
-							cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-							cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-							cl_sis_cont.setTel_1(sis_cont_tel_1);
-							cl_sis_cont.setTel_2(sis_cont_tel_2);
-							cl_sis_cont.setEmail_1(sis_cont_email_1);
-							cl_sis_cont.setEmail_2(sis_cont_email_2);
-							cl_sis_cont.setSetor_1(sis_cont_setor_1);
-							cl_sis_cont.setObs(sis_cont_obs);
-							cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
-							modal_dominio_visivel = true;
-
-						} else {
-
-							/*
-							 * Inicio dado para modal
-							 */
-
-							cl_sis_cont.setId_sis(cl_sis.getId_sis());
-							cl_sis_cont.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-							cl_sis_cont.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
-							cl_sis_cont.setReg_alt(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
-							cl_sis_cont.setReg_data_alt(Timestamp.valueOf(formatData.format(calend.getTime())));
-							cl_sis_cont.setId_sis_cont(0L);
-							cl_sis_cont.setNome_desc(sis_cont_nome_desc);
-							cl_sis_cont.setTel_1(sis_cont_tel_1);
-							cl_sis_cont.setTel_2(sis_cont_tel_2);
-							cl_sis_cont.setEmail_1(sis_cont_email_1);
-							cl_sis_cont.setEmail_2(sis_cont_email_2);
-							cl_sis_cont.setSetor_1(sis_cont_setor_1);
-							cl_sis_cont.setObs(sis_cont_obs);
-							cl_sis_cont.setId_sis_log(0L);
-
-							cl_sis_cont = f_sis_cont.sav_sis_cont(cl_sis_cont);
-							modal_dominio_visivel = true;
-							/*
-							 * Fim dado para modal
-							 */
-
-						}
-
-						if (modal_dominio_visivel) {
-							response.getWriter().write("{\"status\":\"ok\",\"msg\":\"Dado Atualizado\"}");
-						} else {
-							response.getWriter().write("{\"status\":\"erro\",\"msg\":\"" + msg_tela + "\"}");
-
-						}
-
-					}
-
 				
-				
-				
-				
-				
-				
+				}
 
 			}
 			/*
