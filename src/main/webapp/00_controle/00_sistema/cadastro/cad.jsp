@@ -485,7 +485,24 @@ if (document.getElementById("no_dom").value == ''
 	    });
 	
 }	
+	
+	var contListVazia = ${empty cont_list ? true : false};
 
+	// Função opcional para reavaliar a visibilidade (útil se você tiver função de deletar)
+	function atualizarVisibilidadeBotao() {
+		 var divTextarea = document.getElementById('div_textarea_cont');
+		    var divBotao = document.getElementById('div_botao_cont');
+		    var divtabela = document.getElementById('div_tabela_cont');
+	    
+		    if (divTextarea) divTextarea.style.display = contListVazia ? 'none' : '';
+		    if (divBotao) divBotao.style.display = contListVazia ? 'none' : '';
+		    if (divtabela) divtabela.style.display = contListVazia ? 'none' : '';
+
+	
+	}
+	
+	
+	
 	
 	
 	function sav_cont() {
@@ -521,8 +538,16 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 		
-						 
-						 
+		
+						// Ocultar apenas o textarea
+						document.getElementById('div_textarea_cont').style.display = '';
+
+						// Exibir apenas o botão
+						document.getElementById('div_botao_cont').style.display = '';
+						// Exibir apenas o botão
+						document.getElementById('div_tabela_cont').style.display = '';
+	
+						
 						   document.getElementById('cont_bus_cont').value = document.getElementById('cont_nome_desc').value;
 						
 						
@@ -583,16 +608,62 @@ if (document.getElementById("no_dom").value == ''
 
 		        success: function(response) {
 		    	    // Após excluir no banco...
-		    	
+		    	    // 1. Remove a linha da tabela visualmente
+						//  elemento.closest("tr").remove();
+						   // Diminui o total
+				      //      totalRegistrosCont--;
+	        		 // Volta para a primeira página
+			  		//	  carregarPaginacont(1);
+		     
+		            
+			  			   // 1. Remove a linha da tabela visualmente
+			              var tr = elemento.closest("tr");
+			              if (tr) tr.remove();
 
-		            elemento.closest("tr").remove();
+			              // 2. Diminui o total de registros
+			              if (typeof totalRegistrosCont !== 'undefined') {
+			                  totalRegistrosCont--;
+			              }
 
-		            // Diminui o total
-		            totalRegistrosCont--;
-		         // Volta para a primeira página
-				    carregarPaginacont(1);
+			              // 3. Função interna para forçar a ocultação
+			              function forcarOcultacao() {
+			                  if (totalRegistrosCont <= 0) {
+			                      // Tenta ocultar pelas DIVs (se você adicionou os IDs nelas)
+			                      var divTextarea = document.getElementById('div_textarea_cont');
+			                      var divBotao = document.getElementById('div_botao_cont');
+			          		    var divtabela = document.getElementById('div_tabela_cont');
+
+			                      if (divTextarea) divTextarea.style.display = 'none';
+			                      if (divBotao) divBotao.style.display = 'none';
+			                      if (divtabela) divBotao.style.display = 'none';
+
+			                      // Tenta ocultar diretamente pelos elementos (caso as DIVs não tenham os IDs)
+			                      var txt = document.getElementById('cont_bus_cont');
+			                      var btn = document.getElementById('busc_cont');
+			                      var btn1 = document.getElementById('div_tabela_cont');
+			                      if (txt) txt.style.display = 'none';
+			                      if (btn) btn.style.display = 'none';
+			                      if (btn1) btn1.style.display = 'none';
+			                  }
+			              }
+
+			              // 4. Aplica a ocultação imediatamente
+			              forcarOcultacao();
+
+			              // 5. Recarrega a primeira página
+			              carregarPaginacont(1);
+			              
+			              // 6. REFORÇO: Força a ocultação novamente após 300ms
+			              // Isso garante que, se o carregarPaginacont(1) redesenhar a tela e mostrar os campos,
+			              // nós os ocultamos logo em seguida.
+			              setTimeout(forcarOcultacao, 300);
+	        		 
+			         
 					        },
 
+					        
+					        
+					        
 		        error: function(xhr, status, error) {
 		            console.log(xhr.responseText);
 		            alert("Erro ao deletar contato: " + error);
@@ -1315,7 +1386,7 @@ function sel_cons(cnpj_cpf, element) {
 				<!-- FIM Container -->
 				<!--  -->
 <!-- Inico Contado-->
- <c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+<c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
 
 <!-- Ocultar Inico Contado-->
 		<!-- Inicio Container -->
@@ -1325,8 +1396,8 @@ function sel_cons(cnpj_cpf, element) {
 					<div class="row align-items-center text-center text-md-left g-1">
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
+						<div  id="div_textarea_cont"
+							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
 	
 	
  							
@@ -1340,11 +1411,11 @@ function sel_cons(cnpj_cpf, element) {
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
-						<div
-							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
+						<div id="div_botao_cont"
+							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
 							
 				<button onclick="bus_p1();" class="btn btn-success"
-						type="button" id="busc_cont">Buscar Contado</button>
+						type="button" id="busc_cont"   >Buscar Contado</button>
 			 			
 						
 						</div>
@@ -1386,7 +1457,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_nome_desc" id="cont_nome_desc"
 								placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.nome_desc}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 								
 							
 						</div>
@@ -1399,7 +1470,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_tel_1" id="cont_tel_1"
 								placeholder="Telefone 1" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 							
 						</div>
 						<!-- coluna Central -->
@@ -1411,7 +1482,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_tel_2" id="cont_tel_2"
 								placeholder="Telefone 2" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_2}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1437,7 +1508,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_email_1" id="cont_email_1"
 								placeholder="Email 1" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 							
 						</div>
 						<!-- coluna esquerda -->
@@ -1449,7 +1520,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_email_2" id="cont_email_2"
 								placeholder="Email 2" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_2}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 												</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -1460,7 +1531,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_setor_1" id="cont_setor_1"
 								placeholder="Setor" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.setor_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
 	
 												</div>
@@ -1489,7 +1560,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_obs" id="cont_obs"
 								placeholder="Observação" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.obs}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 				
 						</div>
 						<!-- coluna esquerda -->
@@ -1562,7 +1633,7 @@ function sel_cons(cnpj_cpf, element) {
 <!--Inico Tabela Contado  -->
 
 				<!-- Inicio Container -->
-				<div class="container mt-1">
+				<div id="div_tabela_cont" class="container mt-1" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
  
 <hr>
 
@@ -2790,15 +2861,15 @@ function validartipo_ace() {
 		<div class="row">
 
 			<div class="col-md-6 mb-3">
-				<label for="chave_pix" class="form-label"> Chave Pix </label> <input
+				<label for="chave_pix" class="form-label"> em contrucao </label> <input
 					type="text" class="form-control" id="chave_pix" name="chave_pix"
-					placeholder="Digite a chave Pix">
+					placeholder="em contrucao">
 			</div>
 
 			<div class="col-md-6 mb-3">
-				<label for="nome_pix" class="form-label"> Nome </label> <input
+				<label for="nome_pix" class="form-label"> em contrucao </label> <input
 					type="text" class="form-control" id="nome_pix" name="nome_pix"
-					placeholder="Nome do titular">
+					placeholder="em contrucao">
 			</div>
 
 		</div>
@@ -2813,15 +2884,14 @@ function validartipo_ace() {
 		<div class="row">
 
 			<div class="col-md-8 mb-3">
-				<label for="endereco_completo" class="form-label"> Endereço
-					completo </label> <input type="text" class="form-control"
-					id="endereco_completo" name="endereco_completo"
-					placeholder="Rua, número, complemento, bairro...">
+				<label for="em contrucao" class="form-label"> em contrucao </label> <input type="text" class="form-control"
+					id="endereco_completo" name="em contrucao"
+					placeholder="em contrucao">
 			</div>
 
 			<div class="col-md-4 mb-3">
-				<label for="cep" class="form-label"> CEP </label> <input type="text"
-					class="form-control" id="cep" name="cep" placeholder="00000-000"
+				<label for="cep" class="form-label"> em contrucao </label> <input type="text"
+					class="form-control" id="cep" name="cep" placeholder="em contrucao"
 					maxlength="9">
 			</div>
 

@@ -26,9 +26,9 @@ public class TesteSefazPE {
 
 	public static void main(String[] args) {
 
-		String cnpj = "20.300.157/0052-90";
+		String cnpj = "17.104.250/0001-74";
 
-		String iea1 = api_inscricao.consultar("24.150.377/0003-57");
+		String iea1 = api_inscricao.consultar(cnpj);
 
 		System.out.println("Inscrição Estadual: " + iea1);
 

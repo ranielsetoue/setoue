@@ -216,7 +216,8 @@ public class lt_sis_excluir extends HttpServlet {
 
 				}
 
-				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
+				if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))
+						|| ("ven_pro".equals(request.getSession().getAttribute("cont_sis")))) {
 					String cont_id_sis_cont = request.getParameter("id_sis_cont");
 					f_clin_cont.del_clin_cont(cont_id_sis_cont);
 

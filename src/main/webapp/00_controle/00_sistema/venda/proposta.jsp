@@ -191,9 +191,8 @@ function formatCnpj(valor) {
 
 
 	// Função placeholder para nome (se tiver alguma função extra)
-	function valBusnome() {
-		// Pode colocar aqui validações adicionais de nome se precisar
-	}
+
+	
 
 	function sis_busc() {
 		var tx_bus = document.getElementById('bus_cnpj_cpf').value.trim();
@@ -211,15 +210,15 @@ function formatCnpj(valor) {
 	
 	function excluir_dado() {
 
-		if (document.getElementById("cnpj_cpf").value == null
-				|| document.getElementById("cnpj_cpf").value == '') {
+		if (document.getElementById("bus_cnpj_cpf").value == null
+				|| document.getElementById("bus_cnpj_cpf").value == '') {
 
 		} else {
 
 			if (confirm('Deseja realmente excluir os dados?')) {
 
 				var urlAction = '<%=request.getContextPath()%>/lt_sis_excluir/?fun=excluir';
-				var busc_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+				var busc_cnpj_cpf = document.getElementById('bus_cnpj_cpf').value;
 
 				
 				$.ajax({
@@ -272,199 +271,13 @@ function formatCnpj(valor) {
 
 	
 	
-	function carregarDominios() {
-
 	
-		    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=atual_list_sis_dom';
-		    var dom_cnpj_cpf = document.getElementById('cnpj_cpf').value;
-
-		    $.ajax({
-		        type: "POST",
-		        url: urlAction,
-		        data: {
-		            dom_cnpj_cpf: dom_cnpj_cpf
-		        },
-
-		        success: function(response) {
-
-		            $("#t_list_dom tbody").html(response);
-		        },
-
-		        error: function(xhr, status, error) {
-		            console.log(xhr.responseText);
-		            alert("Erro ao carregar domínios: " + error);
-		        }
-		    });
-		
-	}	
-	
-	function sav_dom() {
-
-if (document.getElementById("no_dom").value == ''
-				|| document.getElementById("sis_url").value == ''
-					|| document.getElementById("sis_tipo_ace").value == ''
-						|| document.getElementById("sis_tp_site").value == ''
-
-		) {
-			alert('Preencher Dado');
-		} else {
-
-
-			
-			var btn = document.getElementById("sal_dom");
-
-		    // 🔒 BLOQUEIA O BOTÃO
-		    btn.disabled = true;
-			
-			var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=salvar_dom';
-
-			$.ajax({
-
-				type : "POST",
-				url : urlAction,
-				data : $("#fon_cad").serialize(),
-
-				success : function(response) {
-
-
-			        // ✅ FECHA O MODAL SOMENTE SE SALVAR
-					
-					if (response.status === 'ok') {
-
-						   document.getElementById('cont_no_dom').value = document.getElementById('no_dom').value;
-
-						
-						totalRegistrosdom++;
-
-						// Volta para a primeira página
-						    carregarPaginadom(1);
-					                
-		                const modalEl = document.getElementById('adi_dom');
-		                bootstrap.Modal.getInstance(modalEl).hide();                	                
-		                alert(response.msg);
-		                
-
-		                btn.disabled = false;		                
-		            } else {
-
-		                // ❌ NÃO FECHA
-		                alert(response.msg);
-		                btn.disabled = false;		                
-
-		            }
-
-				}
-
-			}).fail(function(xhr, status, errorThrown) {
-                btn.disabled = false;		                
-				alert('Erro ao deletar usuário por id: ' + xhr.responseText);
-
-			});
-
-		}
-
-	}
-
-	function exc_dom(id, elemento) {
-
-
-		 if (!confirm("Deseja excluir este registro?")) {
-		        return;
-		    }
-		 
-		 
-		    var urlAction = '<%=request.getContextPath()%>/lt_sis_excluir/?fun=excluir_sis_dom';
-
-		    $.ajax({
-		        type: "POST",
-		        url: urlAction,
-		        data: {
-		        	id_sis_dom: id
-		        },
-
-		        success: function(response) {
-		    	    // Após excluir no banco...
-		    	    elemento.closest("tr").remove();	    
-		            // Diminui o total
-		            totalRegistrosdom--;
-		         // Volta para a primeira página
-				    carregarPaginadom(1);
-
-		    	    
-		        },
-
-		        error: function(xhr, status, error) {
-		            console.log(xhr.responseText);
-		            alert("Erro ao deletar contato: " + error);
-		        }
-		    });
-		 
-	    
-	}	
-
-	function detalhe_dom(textx) {
-
-		let no_dom = textx.dataset.no_dom;
-		let sis_url = textx.dataset.sis_url;
-		let tp_sit = textx.dataset.tp_sit;
-		let titulo_web = textx.dataset.titulo_web;
-		let ace_per_aut = textx.dataset.ace_per_aut;
-		let nome_desc = textx.dataset.nome_desc;
-		let email_1 = textx.dataset.email_1;
-		let l_usu = textx.dataset.l_usu;
-		let l_sen = textx.dataset.l_sen;
-
-		document.getElementById("no_dom").value = no_dom;
-		document.getElementById("sis_url").value = sis_url;
-		document.getElementById("sis_tp_site").value = tp_sit;
-		document.getElementById("titulo_web").value = titulo_web;
-		document.getElementById("sis_tipo_ace").value = ace_per_aut;
-		document.getElementById("nome_desc_usu").value = nome_desc;
-		document.getElementById("email_1_usu").value = email_1;
-		document.getElementById("l_usu").value = l_usu;
-		document.getElementById("l_sen").value = l_sen;
-
-		    let modal = new bootstrap.Modal(document.getElementById('adi_dom'));
-		    modal.show();
-		 
-	}
-
-	
-	
-	function limpar_modal_dominio() {
-
-		
-	var cnpjCpf = document.getElementById("cnpj_cpf").value.trim();
-		
-		if (cnpjCpf === "") {
- 		alert("Informe o CNPJ ou CPF antes de adicionar um Dominio."); 
- 		document.getElementById("cnpj_cpf").focus();
- 		return;
-        }
-		
-	
-		document.getElementById("no_dom").value = '';
-		document.getElementById("sis_url").value = '';
-		document.getElementById("sis_tp_site").value = '';
-		document.getElementById("titulo_web").value = '';
-		document.getElementById("sis_tipo_ace").value = '';
-		document.getElementById("nome_desc_usu").value = '';
-		document.getElementById("email_1_usu").value = '';
-		document.getElementById("l_usu").value = '';
-		document.getElementById("l_sen").value = '';
-		
-
-		var modal = new bootstrap.Modal(document.getElementById("adi_dom")); modal.show();
-
-		
-		}
-
 	
 	function carregarcontato() {
 
 		
 	    var urlAction = '<%=request.getContextPath()%>/lt_sis_salvar/?fun=atual_list_sis_cont';
-	    var cont_cnpj_cpf = document.getElementById('cnpj_cpf').value;
+	    var cont_cnpj_cpf = document.getElementById('bus_cnpj_cpf').value;
 
 	    $.ajax({
 	        type: "POST",
@@ -486,6 +299,20 @@ if (document.getElementById("no_dom").value == ''
 	
 }	
 
+	var contListVazia = ${empty cont_list ? true : false};
+
+	// Função opcional para reavaliar a visibilidade (útil se você tiver função de deletar)
+	function atualizarVisibilidadeBotao() {
+		 var divTextarea = document.getElementById('div_textarea_cont');
+		    var divBotao = document.getElementById('div_botao_cont');
+		    var divtabela = document.getElementById('div_tabela_cont');
+	    
+		    if (divTextarea) divTextarea.style.display = contListVazia ? 'none' : '';
+		    if (divBotao) divBotao.style.display = contListVazia ? 'none' : '';
+		    if (divtabela) divtabela.style.display = contListVazia ? 'none' : '';
+
+	
+	}
 	
 	
 	function sav_cont() {
@@ -521,7 +348,14 @@ if (document.getElementById("no_dom").value == ''
 					
 					if (response.status === 'ok') {
 		
-		
+						// Ocultar apenas o textarea
+						document.getElementById('div_textarea_cont').style.display = '';
+
+						// Exibir apenas o botão
+						document.getElementById('div_botao_cont').style.display = '';
+						// Exibir apenas o botão
+						document.getElementById('div_tabela_cont').style.display = '';
+	
 						   document.getElementById('cont_bus_cont').value = document.getElementById('cont_nome_desc').value;
 						
 						
@@ -582,14 +416,58 @@ if (document.getElementById("no_dom").value == ''
 
 		        success: function(response) {
 		    	    // Após excluir no banco...
-		    	
+		        	  // Após excluir no banco...
+		    	    // 1. Remove a linha da tabela visualmente
+						//  elemento.closest("tr").remove();
+						   // Diminui o total
+				      //      totalRegistrosCont--;
+	        		 // Volta para a primeira página
+			  		//	  carregarPaginacont(1);
+		     
+		            
+			  			   // 1. Remove a linha da tabela visualmente
+			              var tr = elemento.closest("tr");
+			              if (tr) tr.remove();
 
-		            elemento.closest("tr").remove();
+			              // 2. Diminui o total de registros
+			              if (typeof totalRegistrosCont !== 'undefined') {
+			                  totalRegistrosCont--;
+			              }
 
-		            // Diminui o total
-		            totalRegistrosCont--;
-		         // Volta para a primeira página
-				    carregarPaginacont(1);
+			              // 3. Função interna para forçar a ocultação
+			              function forcarOcultacao() {
+			                  if (totalRegistrosCont <= 0) {
+			                      // Tenta ocultar pelas DIVs (se você adicionou os IDs nelas)
+			                      var divTextarea = document.getElementById('div_textarea_cont');
+			                      var divBotao = document.getElementById('div_botao_cont');
+			          		    var divtabela = document.getElementById('div_tabela_cont');
+
+			                      if (divTextarea) divTextarea.style.display = 'none';
+			                      if (divBotao) divBotao.style.display = 'none';
+			                      if (divtabela) divBotao.style.display = 'none';
+
+			                      // Tenta ocultar diretamente pelos elementos (caso as DIVs não tenham os IDs)
+			                      var txt = document.getElementById('cont_bus_cont');
+			                      var btn = document.getElementById('busc_cont');
+			                      var btn1 = document.getElementById('div_tabela_cont');
+			                      if (txt) txt.style.display = 'none';
+			                      if (btn) btn.style.display = 'none';
+			                      if (btn1) btn1.style.display = 'none';
+			                  }
+			              }
+
+			              // 4. Aplica a ocultação imediatamente
+			              forcarOcultacao();
+
+			              // 5. Recarrega a primeira página
+			              carregarPaginacont(1);
+			              
+			              // 6. REFORÇO: Força a ocultação novamente após 300ms
+			              // Isso garante que, se o carregarPaginacont(1) redesenhar a tela e mostrar os campos,
+			              // nós os ocultamos logo em seguida.
+			              setTimeout(forcarOcultacao, 300);
+	        		 
+			         
 					        },
 
 		        error: function(xhr, status, error) {
@@ -627,11 +505,11 @@ if (document.getElementById("no_dom").value == ''
 
 	function limpar_modal_contato() {
 		
-		var cnpjCpf = document.getElementById("cnpj_cpf").value.trim();
+		var cnpjCpf = document.getElementById("bus_cnpj_cpf").value.trim();
 		
 		if (cnpjCpf === "") {
  		alert("Informe o CNPJ ou CPF antes de adicionar um contato."); 
- 		document.getElementById("cnpj_cpf").focus();
+ 		document.getElementById("bus_cnpj_cpf").focus();
  		return;
         }
 		
@@ -685,10 +563,33 @@ function bus_p2(){
 
 function sel_cons(cnpj_cpf, element) {
     // Define o valor e dispara o evento 'input' em cadeia
-    $('#bus_cnpj_cpf').val(cnpj_cpf).trigger('input');
+    $('#bus_cnpj_cpf').val(bus_cnpj_cpf).trigger('input');
     sis_busc();
 }
 
+
+function confirmarCliente() {
+	  return new Promise((resolve) => {
+	    const modal = document.getElementById('modalConfirmar');
+	    const btnSim = document.getElementById('btnSim');
+	    const btnNao = document.getElementById('btnNao');
+
+	    // Mostra o modal
+	    modal.style.display = 'flex';
+
+	    // Evento do botão Sim
+	    btnSim.onclick = () => {
+	      modal.style.display = 'none';
+	      resolve(true);
+	    };
+
+	    // Evento do botão Não
+	    btnNao.onclick = () => {
+	      modal.style.display = 'none';
+	      resolve(false);
+	    };
+	  });
+	}
 </script>
 <style>
   /* Por padrão (mobile): mostra a versão multi-linha */
@@ -719,6 +620,68 @@ function sel_cons(cnpj_cpf, element) {
   }
 </style>
 
+<style>
+/* Fundo escuro do modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Caixa branca do modal */
+.modal-box {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 320px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-texto {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 25px;
+  font-family: Arial, sans-serif;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 35px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-sim {
+  background: #1a56db;
+  color: #fff;
+}
+
+.btn-nao {
+  background: #e5e7eb;
+  color: #333;
+}
+</style>
 
 <!--  -->
 </head>
@@ -905,7 +868,6 @@ function sel_cons(cnpj_cpf, element) {
 	
 	
 	
-<c:if test="${not empty cons_false and cons_false eq 'true'}">
 					<div class="container mt-md-3">
 					<!-- Inicio Container -->
 
@@ -917,47 +879,7 @@ function sel_cons(cnpj_cpf, element) {
     <!-- Coluna única englobando o input-group -->
     <div class="col-12 mb-2 mb-md-0 align-self-center text-center">
         
-        <!-- O input-group une visualmente o input e o botão -->
-        <div class="input-group">
-            <input class="form-control" list="list_cnpj_cpf"
-                name="bus_cnpj_cpf" id="bus_cnpj_cpf"
-                oninput="handleBusca(this); valBusnome();"
-                placeholder="CNPJ, CPF ou Nome">
-
-            <datalist id="list_cnpj_cpf">
-                <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
-                    <option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
-                </c:forEach>
-            </datalist>
-
-            <!-- 
-               IMPORTANTE: 
-               - Se estiver usando Bootstrap 5: O código abaixo já funciona direto.
-               - Se estiver usando Bootstrap 4: Você deve envolver o botão com: 
-                 <div class="input-group-append"> ... </div>
-            -->
-            <button onclick="sis_busc();" id="buc_dado" type="button" class="btn btn-outline-secondary" title="Buscar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                </svg>
-            </button>
-        </div>
-        
-        <script>
-            function controlarDatalist(input) {
-                const datalist = document.getElementById('list_cnpj_cpf');
-                if (input.value.length === 0) {
-                    input.removeAttribute('list');
-                } else {
-                    input.setAttribute('list', 'list_cnpj_cpf');
-                }
-            }
-        </script>
-        
-        <!-- Mensagem de erro -->
-        <small id="erro_busca" class="text-danger d-none">Dado inválido</small>
-    </div>
-</div>
+   </div>
 <!-- FIM row -->
 
 <c:if test="${not empty naoexitedado and naoexitedado eq 'true'}">						
@@ -983,65 +905,66 @@ function sel_cons(cnpj_cpf, element) {
 					<!-- FIM row -->
 					<!-- FIM Container -->
 				</div>
-			</c:if>
 			<!-- FIM Container -->
 			<!--  -->
-
+</div>
 
 
 
 	
 
 			<!-- INICIO DADO -->
-			<!-- Inicio Container -->
-<c:if test="${not empty cons_true and cons_true eq 'true'}">
-				<div class="container mt-3">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-3 mb-2 mb-0 align-self-center align-items-center">
-							<label id="l_cnpj_cpf" data-placeholder="CNPJ ou CPF"></label> <input
-								class="form-control" list="listcnpj_cpf" name="cnpj_cpf"
-								id="cnpj_cpf" maxlength="18" oninput="handleBusca(this);"
-								placeholder="CNPJ ou CPF" readonly value="${pre_glo.cnpj_cpf}">
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div id="div_nome_desc"
-							class="col-12  col-md-9 mb-2 mb-0 align-self-center align-items-center">
-							<label id="l_nome_desc" data-placeholder="Nome"></label>
-							<textarea class="form-control" autocomplete="off"
-								name="nome_desc" id="nome_desc"
-								placeholder="Nome" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
-							<script>
-								function adjustHeight(el) {
-									el.style.height = 'auto'; // reset height
-									const lineHeight = 24; // ajuste conforme seu CSS do textarea
-									const maxLines = 3;
-									const maxHeight = lineHeight * maxLines;
+			
 
-									if (el.scrollHeight > maxHeight) {
-										el.style.height = maxHeight + 'px';
-										el.style.overflowY = 'auto'; // aparece scroll após 3 linhas
-									} else {
-										el.style.height = el.scrollHeight
-												+ 'px';
-										el.style.overflowY = 'hidden';
-									}
-								}
-							</script>
-						</div>
-						<!-- coluna Central -->
-						<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
+<div class="container mt-3">
+    <div class="row align-items-center text-center text-md-start">
+        
+        <!-- Coluna Esquerda: Busca -->
+        <div class="col-12 col-md-3 mb-2 mb-md-0">
+                    <label id="l_bus_cnpj_cpf" data-placeholder="CNPJ / CPF" for="bus_cnpj_cpf"></label>
+        
+            <div class="input-group" >
+                <!-- Alterado onfocus para chamar a nova função com confirmação -->
+               <input class="form-control" list="list_cnpj_cpf"
+    name="bus_cnpj_cpf" id="bus_cnpj_cpf"
+    onfocus="perguntarSeDesejaLimpar()"
+    oninput="handleBusca(this);"
+    placeholder="CNPJ, CPF ou Nome" value="${pre_glo.cnpj_cpf}">
+    
+              
+    
+
+                <datalist id="list_cnpj_cpf">
+                    <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
+                        <option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
+                    </c:forEach>
+                </datalist>
+
+                <button onclick="sis_busc();" id="buc_dado" type="button" class="btn btn-outline-secondary" title="Buscar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Nome -->
+        <div id="div_nome_desc" class="col-12 col-md-9 mb-2 mb-md-0">
+            <label id="l_nome_desc" data-placeholder="Nome" for="nome_desc"></label>
+            <textarea class="form-control" autocomplete="off"
+                name="nome_desc" id="nome_desc"
+                placeholder="Nome" rows="1"
+                style="overflow: hidden; resize: none; line-height: 1.5;"
+                >${pre_glo.nome_desc}</textarea>
+        </div>
+
+<c:if test="${not empty cons_true and cons_true eq 'true'}">
+
+<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
 						
 												<!-- coluna Direita -->
-						<div
-							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+						<div id="div_no_fan"
+							class="col-12 col-md-12 mt-3 mb-2 mb-0 align-self-center text-center">
 							<label id="l_no_fan" data-placeholder="Nome Fantasia"></label>
 							<textarea class="form-control" name="no_fan" id="no_fan"
 								autocomplete="off" placeholder="Nome Fantasia" rows="1"
@@ -1050,13 +973,127 @@ function sel_cons(cnpj_cpf, element) {
 
 						</div>
 						<!-- coluna Direita -->
-						</c:if>
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-				</div>
-				<!-- FIM Container -->
+					</c:if>
+					</c:if>
+				
+    </div>
+    
+    <!-- Mensagem de erro -->
+    <div class="row mt-1">
+        <div class="col-12">
+            <small id="erro_busca" class="text-danger d-none">Dado inválido</small>
+        </div>
+    </div>
+</div>
+
+<script>
+    let modalAberto = false; // Evita que o onfocus dispare o modal múltiplas vezes
+
+    function mostrarModalConfirmacao() {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('modalConfirmar');
+            const btnSim = document.getElementById('btnSim');
+            const btnNao = document.getElementById('btnNao');
+
+            modal.style.display = 'flex';
+            modalAberto = true;
+
+            const handlerSim = () => {
+                modal.style.display = 'none';
+                modalAberto = false;
+                btnSim.removeEventListener('click', handlerSim);
+                btnNao.removeEventListener('click', handlerNao);
+                resolve(true);
+            };
+            
+            const handlerNao = () => {
+                modal.style.display = 'none';
+                modalAberto = false;
+                btnSim.removeEventListener('click', handlerSim);
+                btnNao.removeEventListener('click', handlerNao);
+                resolve(false);
+            };
+
+            btnSim.addEventListener('click', handlerSim);
+            btnNao.addEventListener('click', handlerNao);
+        });
+    }
+
+    async function perguntarSeDesejaLimpar() {
+        const campoBusca = document.getElementById('bus_cnpj_cpf');
+        
+        // Se o modal já estiver aberto ou o campo já estiver vazio, não faz nada
+        if (modalAberto || !campoBusca || campoBusca.value.trim() === '') {
+            return;
+        }
+
+        const confirmar = await mostrarModalConfirmacao();
+
+        if (confirmar) {
+            // 1. Limpa o campo de busca
+            campoBusca.value = '';
+
+            // 2. Força a atualização do oninput (para remover bordas de erro e habilitar botão)
+            campoBusca.dispatchEvent(new Event('input'));
+
+            // 3. Limpa os demais campos com segurança
+            const idsParaLimpar = ['nome_desc', 'ins_est', 'ins_mun', 'no_fan', 'end_rua', 'end_num', 'end_com', 'end_uf', 'end_cep', 'obs', 'tel_1', 'email_1', 'tel_2', 'email_2'];
+            idsParaLimpar.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.value = '';
+                    el.dispatchEvent(new Event('input')); // Ajusta altura de textareas e labels
+                }
+            });
+
+            // 4. Esconde as divs
+            ['div_no_fan', 'div_dado_cliente', 'div_dado_Aba', 'erro_busca'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('d-none');
+            });
+
+            // 5. GARANTIA DO DATALIST: Não fazemos nenhuma manipulação complexa.
+            // Apenas verificamos se o atributo está lá. O navegador mantém as opções vivas.
+            if (campoBusca.getAttribute('list') !== 'list_cnpj_cpf') {
+                campoBusca.setAttribute('list', 'list_cnpj_cpf');
+            }
+
+            // 6. Devolve o foco ao campo
+            setTimeout(() => {
+                campoBusca.focus();
+            }, 100);
+
+        } else {
+            // Se clicou em NÃO, tira o foco para não ficar perguntando em loop
+            campoBusca.blur();
+        }
+    }
+
+    function adjustHeight(el) {
+        if (!el) return;
+        el.style.height = 'auto';
+        const lineHeight = parseFloat(getComputedStyle(el).lineHeight) || 24;
+        const maxLines = 3;
+        const maxHeight = lineHeight * maxLines;
+
+        if (el.scrollHeight > maxHeight) {
+            el.style.height = maxHeight + 'px';
+            el.style.overflowY = 'auto';
+        } else {
+            el.style.height = el.scrollHeight + 'px';
+            el.style.overflowY = 'hidden';
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const textarea = document.getElementById('nome_desc');
+        if (textarea) adjustHeight(textarea);
+    });
+</script>
+
+<c:if test="${not empty cons_true and cons_true eq 'true'}">
+<div id="div_dado_cliente">
+
 
 				<!--  -->
 				<!-- Inicio Container -->
@@ -1078,7 +1115,7 @@ function sel_cons(cnpj_cpf, element) {
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
-						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-end ">
+						<div class="col-12 col-md-6 mb-2 mb-0 align-self-end text-center">
 
 							<label id="l_ins_mun" data-placeholder="Inscricao Municipal"></label>
 							<input type="text" name="ins_mun" id="ins_mun" autocomplete="off"
@@ -1277,8 +1314,15 @@ function sel_cons(cnpj_cpf, element) {
 				</div>
 				<!-- FIM Container -->
 				<!--  -->
+
+	</div>	
+
+
+
+
 <!-- Inico Contado-->
 <c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
+
 <!-- Ocultar Inico Contado-->
 		<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1287,27 +1331,28 @@ function sel_cons(cnpj_cpf, element) {
 					<div class="row align-items-center text-center text-md-left g-1">
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
-										<c:if test="${not empty cont_list}">
-							
+						<div  id="div_textarea_cont"
+							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
+	
+	
+ 							
 							
 							
 							<textarea name="cont_bus_cont" id="cont_bus_cont" class="form-control"
 								placeholder="Busca Contado" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-						</c:if>
+ 	
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
-						<div
-							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-								<c:if test="${not empty cont_list}">
+						<div id="div_botao_cont"
+							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
 							
 				<button onclick="bus_p1();" class="btn btn-success"
-						type="button" id="busc_cont">Buscar Contado</button>
-						</c:if>
+						type="button" id="busc_cont"   >Buscar Contado</button>
+			 			
+						
 						</div>
 
 						<!-- coluna Central -->
@@ -1315,11 +1360,11 @@ function sel_cons(cnpj_cpf, element) {
 						<div
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
+
 	<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
@@ -1347,7 +1392,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_nome_desc" id="cont_nome_desc"
 								placeholder="Nome" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cont.nome_desc}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 								
 							
 						</div>
@@ -1360,7 +1405,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_tel_1" id="cont_tel_1"
 								placeholder="Telefone 1" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 							
 						</div>
 						<!-- coluna Central -->
@@ -1372,7 +1417,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_tel_2" id="cont_tel_2"
 								placeholder="Telefone 2" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.tel_2}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 												</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1398,7 +1443,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_email_1" id="cont_email_1"
 								placeholder="Email 1" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 							
 						</div>
 						<!-- coluna esquerda -->
@@ -1410,7 +1455,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_email_2" id="cont_email_2"
 								placeholder="Email 2" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.email_2}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 												</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -1421,7 +1466,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_setor_1" id="cont_setor_1"
 								placeholder="Setor" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.setor_1}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
 	
 												</div>
@@ -1450,7 +1495,7 @@ function sel_cons(cnpj_cpf, element) {
 								name="cont_obs" id="cont_obs"
 								placeholder="Observação" rows="1"
 								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_cot.obs}</textarea>
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 				
 						</div>
 						<!-- coluna esquerda -->
@@ -1523,8 +1568,8 @@ function sel_cons(cnpj_cpf, element) {
 <!--Inico Tabela Contado  -->
 
 				<!-- Inicio Container -->
-				<div class="container mt-1">
-			<c:if test="${not empty cont_list}">
+				<div id="div_tabela_cont" class="container mt-1" <c:if test="${empty cont_list}"> style="display:none;" </c:if>>
+ 
 <hr>
 
 					<!-- Inicio Container -->
@@ -1568,9 +1613,7 @@ data-obs="${ml.obs}"
 			</table>
 
 		</div>
-</c:if>
 
-				<c:if test="${not empty cont_list}">
 		
 <hr>
 
@@ -1590,7 +1633,6 @@ data-obs="${ml.obs}"
     </span>
 
 </div>
-</c:if>
 <script type="text/javascript">
 
     /* =====================================================
@@ -1852,7 +1894,7 @@ data-obs="${ml.obs}"
    	    var cont_bus_cont = document.getElementById('cont_bus_cont').value;
 
         var campoCnpjCpf =
-            document.getElementById('cnpj_cpf');
+            document.getElementById('bus_cnpj_cpf');
 
         var cont_cnpj_cpf = "";
 
@@ -1930,728 +1972,13 @@ data-obs="${ml.obs}"
 <!-- FIM Contado-->
 
 
-<!-- Inico Dominio-->
-<c:if test="${not empty tab_dom_ocult and tab_dom_ocult eq 'true'}">
-<!-- Ocultar Inico Dominio-->
 
 
-			<!--  -->
-			<!-- Inicio Container -->
-				<div class="container mt-1">
-<hr>
-
-					<!-- Inicio Container -->
-
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left g-1">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-8 mb-2 mb-0 align-self-center text-center">
-															<c:if test="${not empty dom_list}">
-							
-							<textarea name="cont_no_dom" id="cont_no_dom" class="form-control"
-								placeholder="Busca Dominio" autocomplete="off" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-							</c:if>
-				
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-12 col-md-2 mb-2 align-self-center text-center text-md-start">
-																		<c:if test="${not empty dom_list}">
-				
-				<button onclick="bus_p2();" class="btn btn-success"
-						type="button" id="busc_dom">Buscar Dominio</button>
-				</c:if>			
-						</div>
-
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12 col-md-2 mb-2 text-center text-md-start">
-							
-<!--  -->
-
-	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-target="#adi_dom">
- Adiciona Dominio
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="adi_dom" tabindex="-1" aria-labelledby="m_adi_dom" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="m_adi_dom">Adiciona Dominio</h1>
-        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <div class="modal-body">
-        
-
-
-			<!--  -->
-			<!-- Inicio Container -->
-				<div class="container mt-1">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-											<label id="l_no_dom" data-placeholder="Nome do Dominio"></label>
-							<textarea class="form-control" autocomplete="off"
-								name="no_dom" id="no_dom"
-								placeholder="Nome do Dominio" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.no_dom}</textarea>
-								
-							
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-									<label id="l_sis_url" data-placeholder="URL - Caminho do Sistema"></label>
-							<textarea class="form-control" autocomplete="off"
-								name="sis_url" id="sis_url"
-								placeholder="URL - Caminho do Sistema" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.sis_url}</textarea>
-							
-						</div>
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12  mb-2  align-self-center text-center">
-										<label id="l_sis_tp_site" data-placeholder="Tipo de Site"></label>						
-				<input class="form-control" list="list_tp_site" value="${pre_dom.sis_tp_site}"
-								name="sis_tp_site" id="sis_tp_site" placeholder="Tipo de Site"
-								onblur="validarTipoSite()">
-
-							<datalist id="list_tp_site">
-								<c:forEach items="${sis_cons_tp_site}" var="t_tp_site">
-									<option value="${t_tp_site.nomeDesc}"></option>
-								</c:forEach>
-							</datalist>
-		<script>
-function validarTipoSite() {
-    const inputSite = document.getElementById("sis_tp_site");
-    const datalist = document.getElementById("list_tp_site");
-    const opcoes = Array.from(datalist.options).map(o => o.value);
-
-    if (inputSite.value.trim() !== '' && !opcoes.includes(inputSite.value)) {
-        inputSite.value = '';
-        document.getElementById("sis_tp_site") == '';
-        alert("Selecione um valor válido da lista");
-    }
-}
-</script>
-
-
-												</div>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-				</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-		<!--  -->
-			<!-- Inicio Container -->
-				<div class="container mt-1">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-			<label id="l_titulo_web" data-placeholder="Titulo Web"></label>
-			<textarea name="titulo_web" id="titulo_web"
-			class="form-control" placeholder="Titulo Web"
-			autocomplete="off" rows="1"
-		style="overflow: hidden; resize: none;"
-		oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.titulo_web}</textarea>
-							
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-								<div
-							class="col-12  mb-2  align-self-center text-center">
-										<label id="l_tipo_ace" data-placeholder="Autorização de Acesso"></label>						
-				<input class="form-control" list="list_tipo_ace" value="${pre_dom.tipo_ace}"
-								name="sis_tipo_ace" id="sis_tipo_ace" placeholder="Autorização de Acesso"
-								onblur="validartipo_ace()">
-
-							<datalist id="list_tipo_ace">
-								<c:forEach items="${sis_cons_tip_ace}" var="t_tipo_ace">
-									<option value="${t_tipo_ace.nomeDesc}"></option>
-								</c:forEach>
-							</datalist>
-		<script>
-function validartipo_ace() {
-    const inputace = document.getElementById("sis_tipo_ace");
-    const datalist = document.getElementById("list_tipo_ace");
-    const opcoesace = Array.from(datalist.options).map(o => o.value);
-
-    if (inputace.value.trim() !== '' && !opcoesace.includes(inputace.value)) {
-        inputace.value = '';
-        document.getElementById("sis_tipo_ace").value == '';
-        alert("Selecione um valor válido da lista");
-
-    }
-}
-</script>
-
-
-												</div>
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12  mb-2  align-self-center text-center">
-
-													<label id="l_nome_desc_usu" data-placeholder="Nome do Usuario"></label>
-													<textarea name="nome_desc_usu" id="nome_desc_usu"
-														class="form-control" placeholder="Nome do Usuario"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.nome_desc}</textarea>
-
-												</div>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-				</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-
-	<!--  -->
-			<!-- Inicio Container -->
-				<div class="container mt-1">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-																				<label id="l_email_1_usu" data-placeholder="E-mail"></label>
-													<textarea name="email_1_usu" id="email_1_usu"
-														class="form-control" placeholder="E-mail"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.email}</textarea>
-				
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-																		<label id="l_l_usu" data-placeholder="Usuario para Login"></label>
-													<textarea name="l_usu" id="l_usu"
-														class="form-control" placeholder="Usuario para Login"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_usu}</textarea>
-									
-						</div>
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						<div
-							class="col-12  mb-2 align-self-center text-center">
-																<label id="l_l_sen" data-placeholder="Senha para Login"></label>
-													<textarea name="l_sen" id="l_sen"
-														class="form-control" placeholder="Senha para Login"
-														autocomplete="off" rows="1"
-														style="overflow: hidden; resize: none;"
-														oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_dom.l_sen}</textarea>
-	
-																					</div>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-				</div>
-			<!-- FIM Container -->
-			<!--  -->
-      </div>
-
-      <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-    Cancelar
-</button>
-      
-        <button id="sal_dom" type="button" class="btn btn-primary" onclick="sav_dom();" >Salva</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-<!--  -->
-												</div>
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-	<hr>
-					<!-- FIM Container -->
-				</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-
-
-<!-- Inicio Tabela Dominio  -->
-				<!-- Inicio Container -->
-				<div class="container mt-1">
-					<c:if test="${not empty dom_list}">
-						<!-- Inicio Container -->
-		<div style="height: 350px; overflow: scroll;">
-			<table class="table" id="t_list_dom">
-				<thead>
-					<tr>
-						<th scope="col">Nome do Dominio</th>
-						<th scope="col">Deletar</th>
-						<th scope="col">Editar</th>
-
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${dom_list}" var="ml">
-						<tr>
-							<td><c:out value="${ml.no_dom}"></c:out></td>
-							<td><a onclick="exc_dom(${ml.id_sis_dom}, this); return false;"
-								class="btn btn-danger">Excluir</a></td>
-							<td><button type="button" id="adicionar_dom"
-									 onclick="detalhe_dom(this)"
-										 data-no_dom="${ml.no_dom}"
-											 data-sis_url="${ml.sis_url}"
-											 data-tp_sit="${ml.tp_sit}"
-											 data-titulo_web="${ml.titulo_web}"
-											 data-ace_per_aut="${ml.ace_per_aut}"
-											 data-nome_desc="${ml.nome_desc}"
-											 data-email_1="${ml.email_1}"
-											 data-l_usu="${ml.l_usu}"
-											 data-l_sen="${ml.l_sen}"    
-								class="btn btn-warning" data-bs-toggle="modal">Detalhes</button></td>
-
-						</tr>
-
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-				</c:if>
-		
-	<c:if test="${not empty dom_list}">
-				
-							<!-- FIM Container -->
-							<hr>
-<div id="paginacao_dom"
-     class="d-flex align-items-center justify-content-center flex-wrap mt-2">
-
-    <!-- PAGINAÇÃO -->
-    <span id="pag_dom"
-          class="d-flex align-items-center">
-    </span>
-
-    <!-- SEPARADOR -->
-    <span class="text-secondary mx-2">|</span>
-
-    <!-- INFORMAÇÃO -->
-    <span id="info_dom"
-          class="text-secondary">
-    </span>
-
-</div>
-</c:if>
-
-<script type="text/javascript">
-
-    /* =====================================================
-       CONFIGURAÇÃO
-       ===================================================== */
-
-    var totalRegistrosdom = ${dom_list_qt.size()};
-    var paginaAtualDom = 1;
-    var registrosPorPaginaDom = 5;
-
-
-    /* =====================================================
-       ATUALIZA INFORMAÇÃO
-       Exemplo: 1 - 5 de 21
-       ===================================================== */
-
-    function atualizarInfodom(pagina) {
-
-        var registrosPorPagina =
-            registrosPorPaginaDom;
-
-        var totalRegistros =
-            totalRegistrosdom || 0;
-
-        var infoDom =
-            document.getElementById("info_dom");
-
-
-        /* Nenhum registro */
-
-        if (totalRegistros === 0) {
-
-            infoDom.innerHTML =
-                "0 - 0 de 0";
-
-            return;
-        }
-
-
-        /* Primeiro registro */
-
-        var inicio =
-            ((pagina - 1) * registrosPorPagina) + 1;
-
-
-        /* Último registro */
-
-        var fim =
-            pagina * registrosPorPagina;
-
-
-        /* Não ultrapassar total */
-
-        if (fim > totalRegistros) {
-
-            fim = totalRegistros;
-        }
-
-
-        infoDom.innerHTML =
-            inicio + " - " + fim +
-            " de " + totalRegistros;
-    }
-
-
-    /* =====================================================
-       MONTA PAGINAÇÃO
-       ===================================================== */
-
-    function montarPaginasdom(paginaAtual) {
-
-        var registrosPorPagina =
-            registrosPorPaginaDom;
-
-        var totalRegistros =
-            totalRegistrosdom || 0;
-
-        var totalPaginas =
-            Math.ceil(
-                totalRegistros / registrosPorPagina
-            );
-
-        var html = "";
-
-
-        /* =================================================
-           SEM REGISTROS
-           ================================================= */
-
-        if (totalPaginas === 0) {
-
-            document.getElementById(
-                "pag_dom"
-            ).innerHTML = "";
-
-            return;
-        }
-
-
-        /* =================================================
-           BOTÃO PRIMEIRA
-           ================================================= */
-
-        if (paginaAtual === 1) {
-
-            html +=
-                '<button type="button" ' +
-                'class="btn btn-light border rounded-3 px-3 py-2" ' +
-                'disabled>' +
-                'Primeira' +
-                '</button>';
-
-        } else {
-
-            html +=
-                '<button type="button" ' +
-                'class="btn btn-light border rounded-3 px-3 py-2" ' +
-                'onclick="carregarPaginadom(1)">' +
-                'Primeira' +
-                '</button>';
-        }
-
-
-        /* =================================================
-           SEPARADOR
-           ================================================= */
-
-        html +=
-            '<span class="text-secondary mx-2">|</span>';
-
-
-        /* =================================================
-           DEFINE AS PÁGINAS VISÍVEIS
-           
-           Página 1:
-           1 2 3
-
-           Página 2:
-           1 2 3
-
-           Página 3:
-           2 3 4
-
-           Página 4:
-           3 4 5
-
-           Última:
-           4 5 6
-           ================================================= */
-
-        var inicio;
-        var fim;
-
-
-        if (totalPaginas <= 3) {
-
-            inicio = 1;
-            fim = totalPaginas;
-
-        } else {
-
-            inicio = paginaAtual - 1;
-            fim = paginaAtual + 1;
-
-
-            /* Primeira ou segunda */
-
-            if (paginaAtual <= 2) {
-
-                inicio = 1;
-                fim = 3;
-            }
-
-
-            /* Penúltima ou última */
-
-            if (paginaAtual >= totalPaginas - 1) {
-
-                inicio = totalPaginas - 2;
-                fim = totalPaginas;
-            }
-        }
-
-
-        /* =================================================
-           NÚMEROS DAS PÁGINAS
-           ================================================= */
-
-        for (
-            var pagina = inicio;
-            pagina <= fim;
-            pagina++
-        ) {
-
-
-            /* ---------------------------------------------
-               PÁGINA ATUAL
-               --------------------------------------------- */
-
-            if (pagina === paginaAtual) {
-
-                html +=
-                    '<button type="button" ' +
-                    'class="btn btn-primary rounded-3 px-3 py-2 mx-1" ' +
-                    'disabled>' +
-                    pagina +
-                    '</button>';
-
-            }
-
-
-            /* ---------------------------------------------
-               OUTRAS PÁGINAS
-               --------------------------------------------- */
-
-            else {
-
-                html +=
-                    '<button type="button" ' +
-                    'class="btn btn-light border rounded-3 px-3 py-2 mx-1" ' +
-                    'onclick="carregarPaginadom(' +
-                    pagina +
-                    ')">' +
-                    pagina +
-                    '</button>';
-            }
-        }
-
-
-        /* =================================================
-           COLOCA NA TELA
-           ================================================= */
-
-        document.getElementById(
-            "pag_dom"
-        ).innerHTML = html;
-    }
-
-
-    /* =====================================================
-       CARREGA A PÁGINA
-       ===================================================== */
-
-    function carregarPaginadom(pagina) {
-
-        /* Guarda página atual */
-
-        paginaAtualDom = pagina;
-
-
-        /* Atualiza informação */
-
-        atualizarInfodom(pagina);
-
-
-        /* Atualiza paginação */
-
-        montarPaginasdom(pagina);
-
-
-        /* =================================================
-           OFFSET
-           ================================================= */
-
-        var registrosPorPagina =
-            registrosPorPaginaDom;
-
-        var offset =
-            (pagina - 1) *
-            registrosPorPagina;
-
-
-        /* =================================================
-           URL
-           ================================================= */
-
-        var urlAction =
-            '<%=request.getContextPath()%>/lt_sis_busc/?fun=pag_dom';
-
-
-        /* =================================================
-           CNPJ / CPF
-           ================================================= */
-           
-      	    var cont_no_dom = document.getElementById('cont_no_dom').value;
-      
-        var campoCnpjCpf =
-            document.getElementById(
-                'cnpj_cpf'
-            );
-
-        var dom_cnpj_cpf = "";
-
-        if (campoCnpjCpf) {
-
-        	dom_cnpj_cpf =
-                campoCnpjCpf.value;
-        }
-
-
-        /* =================================================
-           AJAX
-           ================================================= */
-
-        $.ajax({
-
-            type: "POST",
-
-            url: urlAction,
-
-            data: {
-
-                offset: offset,
-                cont_no_dom:cont_no_dom,
-                dom_cnpj_cpf: dom_cnpj_cpf
-            },
-
-
-            /* ---------------------------------------------
-               SUCESSO
-               --------------------------------------------- */
-
-            success: function(response) {
-
-                $("#t_list_dom tbody")
-                    .html(response);
-            },
-
-
-            /* ---------------------------------------------
-               ERRO
-               --------------------------------------------- */
-
-            error: function(
-                xhr,
-                status,
-                error
-            ) {
-
-                console.log(
-                    xhr.responseText
-                );
-
-                alert(
-                    "Erro ao carregar página Dominio: " +
-                    error
-                );
-            }
-
-        });
-    }
-
-
-    /* =====================================================
-       INICIALIZAÇÃO
-       ===================================================== */
-
-    atualizarInfodom(1);
-
-    montarPaginasdom(1);
-
-</script>							
-				</div>
-			<!-- FIM Container -->
-			<!--  -->
-		
-<!-- Fim Tabela Dominio -->
-<!-- Ocultar Fim Dominio-->
-</c:if>
-<!-- FIM Dominio-->
 
 
 <!-- Inicio ABA  -->
 
-	
+<div id="div_dado_Aba">	
 <!--  -->
 <!-- Inicio Container -->
 <div class="container mt-3">
@@ -2754,15 +2081,15 @@ function validartipo_ace() {
 		<div class="row">
 
 			<div class="col-md-6 mb-3">
-				<label for="chave_pix" class="form-label"> Chave Pix </label> <input
+				<label for="chave_pix" class="form-label"> Em Contrução </label> <input
 					type="text" class="form-control" id="chave_pix" name="chave_pix"
-					placeholder="Digite a chave Pix">
+					placeholder="Em Contrução">
 			</div>
 
 			<div class="col-md-6 mb-3">
-				<label for="nome_pix" class="form-label"> Nome </label> <input
+				<label for="nome_pix" class="form-label"> Em Contrução </label> <input
 					type="text" class="form-control" id="nome_pix" name="nome_pix"
-					placeholder="Nome do titular">
+					placeholder="Em Contrução">
 			</div>
 
 		</div>
@@ -2777,15 +2104,15 @@ function validartipo_ace() {
 		<div class="row">
 
 			<div class="col-md-8 mb-3">
-				<label for="endereco_completo" class="form-label"> Endereço
-					completo </label> <input type="text" class="form-control"
+				<label for="endereco_completo" class="form-label"> Em Contrução
+					</label> <input type="text" class="form-control"
 					id="endereco_completo" name="endereco_completo"
-					placeholder="Rua, número, complemento, bairro...">
+					placeholder="Em Contrução">
 			</div>
 
 			<div class="col-md-4 mb-3">
-				<label for="cep" class="form-label"> CEP </label> <input type="text"
-					class="form-control" id="cep" name="cep" placeholder="00000-000"
+				<label for="cep" class="form-label"> Em Contrução </label> <input type="text"
+					class="form-control" id="cep" name="cep" placeholder="Em Contrução"
 					maxlength="9">
 			</div>
 
@@ -2794,7 +2121,10 @@ function validartipo_ace() {
 	</div>
 
 </div>
+</div>
+
 <!-- FIM DADO ABA -->
+
 		<!-- FIM row -->
 	</div>
 	<!-- FIM Container -->
@@ -3080,43 +2410,47 @@ FIM PAGINAÇÃO CONS
 	</div>
 	<!-- Borda -->
 
+<div id="modalConfirmar" class="modal-overlay">
+  <div class="modal-box">
+    <p class="modal-texto">Deseja selecionar outro Cliente?</p>
+    <div class="modal-botoes">
+      <button id="btnSim" class="btn btn-sim">Sim</button>
+      <button id="btnNao" class="btn btn-nao">Não</button>
+    </div>
+  </div>
+</div>
 
 	<!-- ====== SCRIPT PRINCIPAL ====== -->
 	<script type="text/javascript">
-	// Detecta quando o usuário clica ou digita no campo de busca
-	document.addEventListener('DOMContentLoaded', () => {
-		const campoBusca = document.getElementById('termo');
-		if (campoBusca) {
-			campoBusca.addEventListener('focus', limparFormularioCadastro);
-			campoBusca.addEventListener('input', limparFormularioCadastro);
-		}
-		initLabels();
-	});
+    // Labels dinâmicos
+    function toggleLabel(inputId, labelId) {
+        const input = document.getElementById(inputId);
+        const label = document.getElementById(labelId);
+        if (!input || !label) return;
+        if (!input.value.trim()) {
+            label.style.display = 'none';
+        } else {
+            label.style.display = 'inline';
+            label.textContent = label.dataset.placeholder;
+        }
+    }
 
-	// Labels dinâmicos
-	function toggleLabel(inputId, labelId) {
-		const input = document.getElementById(inputId);
-		const label = document.getElementById(labelId);
-		if (!input || !label) return;
-		if (!input.value.trim()) {
-			label.style.display = 'none';
-		} else {
-			label.style.display = 'inline';
-			label.textContent = label.dataset.placeholder;
-		}
-	}
+    function initLabels() {
+        document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
+            const labelId = 'l_' + input.id;
+            const label = document.getElementById(labelId);
+            if (label) {
+                toggleLabel(input.id, labelId);
+                input.addEventListener('input', () => toggleLabel(input.id, labelId));
+                input.addEventListener('blur', () => toggleLabel(input.id, labelId));
+            }
+        });
+    }
 
-function initLabels() {
-	document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
-		const labelId = 'l_' + input.id;
-		const label = document.getElementById(labelId);
-		if (label) {
-			toggleLabel(input.id, labelId);
-			input.addEventListener('input', () => toggleLabel(input.id, labelId));
-			input.addEventListener('blur', () => toggleLabel(input.id, labelId));
-		}
-	});
-}
+    // Inicializa apenas os labels, SEM adicionar listeners conflitantes
+    document.addEventListener('DOMContentLoaded', () => {
+        initLabels();
+    });
 </script>
 
 
