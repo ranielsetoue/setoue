@@ -49,7 +49,8 @@
 
 <c:set scope="session" var="list_cons_ocult"
 	value="${sessionScope.list_cons_ocult}" />
-
+<c:set scope="session" var="aces_dev"
+	value="${sessionScope.aces_dev}" />
 
 <!--  -->
 <title>${h_titulo_web}</title>
@@ -791,10 +792,15 @@ function sel_cons(cnpj_cpf, element) {
   }
 </style>
 
+ <!-- Importando o CSS externo -->
+<c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
+<link rel="stylesheet" href="${l_css}/css/botao.css">
 
 <!--  -->
 </head>
 <body>
+
+	<%@ include file="/00_controle/00_sistema/Layout/cabecalho.jsp" %>
 
 	<!-- ----- inicio body -->
 	<!--  -->
@@ -803,167 +809,7 @@ function sel_cons(cnpj_cpf, element) {
 		<!-- Borda -->
 		<!-- inicio form -->
 
-
-		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
-			style="" onsubmit="return validardados()? true : false">
-			<!-- inicio form -->
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div class="col-12  col-md-2 align-self-center align-items-center">
-						<img height="200" width="400"
-							src="<%=request.getContextPath()%>/desenho/logo.png"
-							alt="product" class="img-fluid">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						<c:choose>
-							<c:when test="${empty h_titulo_pagina}">
-								<h3>SET DEV</h3>
-							</c:when>
-							<c:otherwise>
-								<h3>${h_titulo_pagina}</h3>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-						<!-- 						<table style="display: none;"> -->
-						<table>
-
-							<tr>
-								<td class="pl-2"><a>Usuario: </a> <c:if
-										test="${not empty sessionScope.usu_html}">
-                            ${sessionScope.usu_html}
-                        </c:if></td>
-								<td>
-									<button type="button" class="btn btn-warning"
-										onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_log/?f_out_log=f_out_log';">
-										logout</button>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container mt-3">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-				<!-- coluna esquerda -->
-<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-start 
-            text-start text-md-start text-center">
-
-    <div class="d-flex justify-content-center justify-content-md-start 
-                align-items-start gap-2">
-
-        <!-- Página Inicial -->
-        <a href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
-            <button type="button" class="btn btn-primary">
-                Pagina Inicial
-            </button>
-        </a>
-
-        <!-- Cadastro -->
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                Cadastro
-            </button>
-
-            <ul class="dropdown-menu">
-
-                <c:if test="${aces_cad_sis}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
-                        SISTEMA
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_clin}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">
-                        CLIENTE
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_forn}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">
-                        FORNECEDOR
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_prod}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">
-                        PRODUTO
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_serv}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">
-                        SERVICO
-                    </a>
-                </c:if>
-
-            </ul>
-        </div>
-
-    </div>
-
-</div>
-<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						
-
-						
-						
-						
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-			<!--  -->
-			<!-- final form -->
-		</form>
-		<!-- final form -->
-
+	
 		<form id="fon_cad" method="post"
 			action="<%=request.getContextPath()%>/lt_sis_busc/"
 			onsubmit="return validardados()? true : false">
@@ -1427,7 +1273,7 @@ function sel_cons(cnpj_cpf, element) {
 <!--  -->
 
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
+<button type="button" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
 <!-- Modal -->
@@ -2083,7 +1929,7 @@ data-obs="${ml.obs}"
 <!--  -->
 
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_dominio()" data-bs-target="#adi_dom">
+<button type="button" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;" onclick="limpar_modal_dominio()" data-bs-target="#adi_dom">
  Adiciona Dominio
 </button>
 

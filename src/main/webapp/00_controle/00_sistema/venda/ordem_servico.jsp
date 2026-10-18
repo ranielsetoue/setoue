@@ -50,6 +50,19 @@
 <c:set scope="session" var="list_cons_ocult"
 	value="${sessionScope.list_cons_ocult}" />
 
+<c:set scope="session" var="aces_ven_pro"
+	value='<%=request.getSession().getAttribute("aces_ven_pro").toString()%>'></c:set>
+<c:set scope="session" var="aces_ven_orde"
+	value='<%=request.getSession().getAttribute("aces_ven_orde").toString()%>'></c:set>
+<c:set scope="session" var="aces_ven_orc"
+	value='<%=request.getSession().getAttribute("aces_ven_orc").toString()%>'></c:set>
+
+<c:set scope="session" var="aces_ven_cons_pro"
+	value='<%=request.getSession().getAttribute("aces_ven_cons_pro").toString()%>'></c:set>
+
+<c:set scope="session" var="aces_ven_pro_cons"
+	value='<%=request.getSession().getAttribute("aces_ven_pro_cons").toString()%>'></c:set>
+
 
 <!--  -->
 <title>${h_titulo_web}</title>
@@ -719,10 +732,16 @@ function sel_cons(cnpj_cpf, element) {
   }
 </style>
 
+ <!-- Importando o CSS externo -->
+<c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
+<link rel="stylesheet" href="${l_css}/css/botao.css">
 
 <!--  -->
 </head>
 <body>
+
+	<%@ include file="/00_controle/00_sistema/Layout/cabecalho.jsp" %>
+
 
 	<!-- ----- inicio body -->
 	<!--  -->
@@ -731,171 +750,44 @@ function sel_cons(cnpj_cpf, element) {
 		<!-- Borda -->
 		<!-- inicio form -->
 
-
-		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
-			style="" onsubmit="return validardados()? true : false">
-			<!-- inicio form -->
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div class="col-12  col-md-2 align-self-center align-items-center">
-						<img height="200" width="400"
-							src="<%=request.getContextPath()%>/desenho/logo.png"
-							alt="product" class="img-fluid">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						<c:choose>
-							<c:when test="${empty h_titulo_pagina}">
-								<h3>SET DEV</h3>
-							</c:when>
-							<c:otherwise>
-								<h3>${h_titulo_pagina}</h3>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-						<!-- 						<table style="display: none;"> -->
-						<table>
-
-							<tr>
-								<td class="pl-2"><a>Usuario: </a> <c:if
-										test="${not empty sessionScope.usu_html}">
-                            ${sessionScope.usu_html}
-                        </c:if></td>
-								<td>
-									<button type="button" class="btn btn-warning"
-										onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_log/?f_out_log=f_out_log';">
-										logout</button>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container mt-3">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-				<!-- coluna esquerda -->
-<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-start 
-            text-start text-md-start text-center">
-
-    <div class="d-flex justify-content-center justify-content-md-start 
-                align-items-start gap-2">
-
-        <!-- Página Inicial -->
-        <a href="<%=request.getContextPath()%>/lt_sis/?fun=ini_cont">
-            <button type="button" class="btn btn-primary">
-                Pagina Inicial
-            </button>
-        </a>
-
-        <!-- Cadastro -->
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                Cadastro
-            </button>
-
-            <ul class="dropdown-menu">
-
-                <c:if test="${aces_cad_sis}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_sis">
-                        SISTEMA
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_clin}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_cli">
-                        CLIENTE
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_forn}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_for">
-                        FORNECEDOR
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_prod}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_pro">
-                        PRODUTO
-                    </a>
-                </c:if>
-
-                <c:if test="${aces_cad_serv}">
-                    <a class="dropdown-item"
-                       href="<%=request.getContextPath()%>/lt_sis/?fun=cad_serv">
-                        SERVICO
-                    </a>
-                </c:if>
-
-            </ul>
-        </div>
-
-    </div>
-
-</div>
-<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						
-
-						
-						
-						
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-			<!--  -->
-			<!-- final form -->
-		</form>
-		<!-- final form -->
-
 		<form id="fon_cad" method="post"
 			action="<%=request.getContextPath()%>/lt_sis_busc/"
 			onsubmit="return validardados()? true : false">
 			<input type="hidden" name="fun" id="fun" value="" />
+			
+			
+						<!--  -->
+			<!-- Inicio Container -->
+
+				<div class="container mt-3" id="html_true">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna esquerda -->
+						<div
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
+							</div>
+						<!-- coluna esquerda -->
+						<!-- coluna Central -->
+						<div
+							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
+							<a href="<%=request.getContextPath()%>/lt_sis/?fun=ven_pro"
+   class="btn btn-success">
+   + Incluir Proposta
+</a>
+						</div>
+						<!-- coluna Central -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+					<hr>
+				</div>
+			<!-- FIM Container -->
+			
+			
+			
 			<!-- Inicio Container -->
 	
 <c:if test="${not empty cons_false and cons_false eq 'true'}">
@@ -915,7 +807,7 @@ function sel_cons(cnpj_cpf, element) {
             <input class="form-control" list="list_cnpj_cpf"
                 name="bus_cnpj_cpf" id="bus_cnpj_cpf"
                 oninput="handleBusca(this); valBusnome();"
-                placeholder="CNPJ, CPF ou Nome">
+                placeholder="Consultar por CNPJ, CPF , Nome e Número da Proposta">
 
             <datalist id="list_cnpj_cpf">
                 <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
@@ -983,50 +875,7 @@ function sel_cons(cnpj_cpf, element) {
 
 
 
-			<!--  -->
-			<!-- Inicio Container -->
 
-<c:if test="${not empty cons_true and cons_true eq 'true'}">
-				<div class="container mt-3" id="html_true">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna esquerda -->
-						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-info"
-								onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_busc/?fun=novo';">
-								NOVO</button>
-						</div>
-						<!-- coluna esquerda -->
-						<!-- coluna Central -->
-						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-success"
-								onclick="salvar_dado();">SALVAR</button>
-						</div>
-						<!-- coluna Central -->
-						<!-- coluna Direita -->
-						
-						
-						<c:if test="${not empty ocul_excluir and ocul_excluir eq 'true'}">
-						<div
-							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
-							<button type="button" class="btn btn-danger"
-								onclick="excluir_dado();">EXCLUIR</button>
-						</div>
-						</c:if>
-						
-						<!-- coluna Direita -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-					<hr>
-				</div>
-			</c:if>
-			<!-- FIM Container -->
 
 			<!-- INICIO DADO -->
 			<!-- Inicio Container -->
@@ -1352,7 +1201,7 @@ function sel_cons(cnpj_cpf, element) {
 							class="col-12 col-md-2 mb-2 text-center text-md-start">
 <!--  -->
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
+<button type="button" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
 

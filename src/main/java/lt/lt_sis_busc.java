@@ -98,7 +98,9 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
 					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+					request.getSession().setAttribute("aces_ven_pro_cons", cl_perm_ace.getAces_ven_cons_pro());
 
+					
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -215,9 +217,9 @@ public class lt_sis_busc extends HttpServlet {
 						|| ("ven_pro".equals(request.getSession().getAttribute("cont_sis")))) {
 					request.getSession().setAttribute("cont_sis", "ven_cons_pro");
 					request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
-					request.getSession().setAttribute("aces_ven_cons_pro", false);
-					request.getSession().setAttribute("aces_ven_pro", false);
-					request.getSession().setAttribute("tab_cont_ocult", true);
+					request.getSession().setAttribute("aces_ven_cons_pro", "false");
+					request.getSession().setAttribute("aces_ven_pro_cons", "false");
+					
 
 					request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
 							response);
@@ -1066,7 +1068,7 @@ public class lt_sis_busc extends HttpServlet {
 						cl_sis.setPro_id(1L);
 						List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 						request.setAttribute("sis_cons", sisCons);
-
+						request.getSession().setAttribute("aces_ven_pro", "false");
 					}
 					
 					

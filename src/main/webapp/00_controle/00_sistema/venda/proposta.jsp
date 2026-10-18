@@ -620,72 +620,15 @@ function confirmarCliente() {
   }
 </style>
 
-<style>
-/* Fundo escuro do modal */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-/* Caixa branca do modal */
-.modal-box {
-  background: #fff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  text-align: center;
-  min-width: 320px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
-.modal-texto {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 25px;
-  font-family: Arial, sans-serif;
-}
-
-.modal-botoes {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.btn {
-  padding: 10px 35px;
-  border: none;
-  border-radius: 25px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: opacity 0.2s;
-}
-
-.btn:hover {
-  opacity: 0.85;
-}
-
-.btn-sim {
-  background: #1a56db;
-  color: #fff;
-}
-
-.btn-nao {
-  background: #e5e7eb;
-  color: #333;
-}
-</style>
+ <!-- Importando o CSS externo -->
+<c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
+<link rel="stylesheet" href="${l_css}/css/botao.css">
 
 <!--  -->
 </head>
 <body>
+
+	<%@ include file="/00_controle/00_sistema/Layout/cabecalho.jsp" %>
 
 	<!-- ----- inicio body -->
 	<!--  -->
@@ -693,113 +636,6 @@ function confirmarCliente() {
 	<div class="container-fluid	 mt-3 px-4">
 		<!-- Borda -->
 		<!-- inicio form -->
-
-
-		<form method="post" action="<%=request.getContextPath()%>/lt_sis_log/"
-			style="" onsubmit="return validardados()? true : false">
-			<!-- inicio form -->
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-					<!-- coluna esquerda -->
-					<div class="col-12  col-md-2 align-self-center align-items-center">
-						<img height="200" width="400"
-							src="<%=request.getContextPath()%>/desenho/logo.png"
-							alt="product" class="img-fluid">
-					</div>
-					<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						<c:choose>
-							<c:when test="${empty h_titulo_pagina}">
-								<h3>SET DEV</h3>
-							</c:when>
-							<c:otherwise>
-								<h3>${h_titulo_pagina}</h3>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-						<!-- 						<table style="display: none;"> -->
-						<table>
-
-							<tr>
-								<td class="pl-2"><a>Usuario: </a> <c:if
-										test="${not empty sessionScope.usu_html}">
-                            ${sessionScope.usu_html}
-                        </c:if></td>
-								<td>
-									<button type="button" class="btn btn-warning"
-										onclick="window.location.href='<%=request.getContextPath()%>/lt_sis_log/?f_out_log=f_out_log';">
-										logout</button>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-
-
-			<!--  -->
-			<!-- Inicio Container -->
-			<div class="container mt-3">
-				<!-- Inicio Container -->
-				<!-- Inicio row -->
-				<div class="row align-items-center text-center text-md-left">
-					<!-- Inicio row -->
-				<!-- coluna esquerda -->
-<div class="col-12 col-md-5 mb-2 mb-md-0 align-self-start 
-            text-start text-md-start text-center">
-
-    <div class="d-flex justify-content-center justify-content-md-start 
-                align-items-start gap-2">
-
-
-    </div>
-
-</div>
-<!-- coluna esquerda -->
-					<!-- coluna Central -->
-					<div
-						class="col-12 col-md-7 mb-2 mb-md-0 align-self-center text-center">
-						
-
-						
-						
-						
-					</div>
-					<!-- coluna Central -->
-					<!-- coluna Direita -->
-					<div
-						class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
-					</div>
-					<!-- coluna Direita -->
-					<!-- FIM row -->
-				</div>
-				<!-- FIM row -->
-				<!-- FIM Container -->
-			</div>
-			<!-- FIM Container -->
-			<!--  -->
-			<!--  -->
-			<!-- final form -->
-		</form>
-		<!-- final form -->
-
 		<form id="fon_cad" method="post"
 			action="<%=request.getContextPath()%>/lt_sis_busc/"
 			onsubmit="return validardados()? true : false">
@@ -949,7 +785,10 @@ function confirmarCliente() {
         </div>
 
         <!-- Coluna Direita: Nome -->
+
         <div id="div_nome_desc" class="col-12 col-md-9 mb-2 mb-md-0">
+        <c:if test="${not empty cons_true and cons_true eq 'true'}">
+                <div id="div_nome_cliente">
             <label id="l_nome_desc" data-placeholder="Nome" for="nome_desc"></label>
             <textarea class="form-control" autocomplete="off"
                 name="nome_desc" id="nome_desc"
@@ -957,7 +796,8 @@ function confirmarCliente() {
                 style="overflow: hidden; resize: none; line-height: 1.5;"
                 >${pre_glo.nome_desc}</textarea>
         </div>
-
+        </c:if>
+</div>
 <c:if test="${not empty cons_true and cons_true eq 'true'}">
 
 <c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
@@ -1047,7 +887,7 @@ function confirmarCliente() {
             });
 
             // 4. Esconde as divs
-            ['div_no_fan', 'div_dado_cliente', 'div_dado_Aba', 'erro_busca'].forEach(id => {
+            ['div_nome_cliente','div_no_fan', 'div_dado_cliente', 'div_contado','div_dado_Aba', 'erro_busca'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('d-none');
             });
@@ -1319,10 +1159,10 @@ function confirmarCliente() {
 
 
 
-
+<div id="div_contado">	
 <!-- Inico Contado-->
 <c:if test="${not empty tab_cont_ocult and tab_cont_ocult eq 'true'}">
-
+<
 <!-- Ocultar Inico Contado-->
 		<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1362,7 +1202,7 @@ function confirmarCliente() {
 <!--  -->
 
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
+<button type="button" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
 <!-- Modal -->
@@ -1971,7 +1811,7 @@ data-obs="${ml.obs}"
 </c:if>
 <!-- FIM Contado-->
 
-
+</div>
 
 
 

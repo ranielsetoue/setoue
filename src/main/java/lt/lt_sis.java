@@ -74,6 +74,7 @@ public class lt_sis extends HttpServlet {
 
 			cl_perm_ace = f_sis_login.cons_perm_ace_id_sis_log(
 					Long.parseLong(String.valueOf(request.getSession().getAttribute("id_sis_log_pre"))));
+			request.getSession().setAttribute("aces_cad_sis", cl_perm_ace.getAces_cad_sis());
 			request.getSession().setAttribute("aces_cad_clin", cl_perm_ace.getAces_cad_clin());
 			request.getSession().setAttribute("aces_cad_forn", cl_perm_ace.getAces_cad_forn());
 			request.getSession().setAttribute("aces_cad_prod", cl_perm_ace.getAces_cad_prod());
@@ -83,10 +84,15 @@ public class lt_sis extends HttpServlet {
 			request.getSession().setAttribute("aces_ven_orde", cl_perm_ace.getAces_ven_orde());
 			request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 			request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
+			request.getSession().setAttribute("aces_dev", cl_perm_ace.getAces_cad_sis());
+			request.getSession().setAttribute("aces_ven_pro_cons", cl_perm_ace.getAces_ven_cons_pro());
 
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 
 				request.getSession().setAttribute("aces_cad_sis", "false");
+				
+				
+				
 				request.getSession().setAttribute("cons_true", "false");
 				request.getSession().setAttribute("cons_false", "true");
 				request.getSession().setAttribute("cont_sis", "cad_sis");
@@ -177,9 +183,9 @@ public class lt_sis extends HttpServlet {
 						request.getSession().getAttribute("h_titulo_pagina_ini"));
 				request.getSession().setAttribute("h_titulo_web",
 						request.getSession().getAttribute("h_titulo_web_ini"));
-				request.getSession().setAttribute("cont_sis", "ven_pro");
-				request.getSession().setAttribute("aces_ven_cons_pro", false);
-				request.getSession().setAttribute("aces_ven_pro", false);
+				request.getSession().setAttribute("cont_sis", "ven_cons_pro");
+				request.getSession().setAttribute("aces_ven_cons_pro", "false");
+				request.getSession().setAttribute("aces_ven_pro_cons", "false");
 
 				request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
 				request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
@@ -197,9 +203,7 @@ public class lt_sis extends HttpServlet {
 						request.getSession().getAttribute("h_titulo_web_ini"));
 				request.getSession().setAttribute("cont_sis", "ven_pro");
 				request.getSession().setAttribute("aces_ven_pro", false);
-				request.getSession().setAttribute("aces_ven_orde", false);
-				request.getSession().setAttribute("aces_ven_orc", false);
-				request.getSession().setAttribute("aces_ven_cons_pro", false);
+	
 				
 				cl_sis.vz_id();
 							
