@@ -52,7 +52,7 @@
 		<div class="row align-items-center text-center text-md-left">
 			<div class="col-12 col-md-12 text-start">
 
-
+<c:if test="${cadastro_false}">
 				<!-- Botão Cadastro -->
 				<div class="btn-group me-2" role="group">
 				<c:if test="${aces_ven_pro}">
@@ -83,9 +83,11 @@
 					</ul>
 					</c:if>
 				</div>
-
+				</c:if>
+<c:if test="${venda_false}">
 				<!-- Botão Venda -->
 				<div class="btn-group me-2" role="group">
+				
 					<c:if test="${aces_ven_pro}">
 					<button id="btnGroupDropVen" type="button"
 						class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
@@ -114,8 +116,9 @@
 						</c:if>
 					</ul>
 					</c:if>
+		
 				</div>
-
+			</c:if>
 				<!-- Botão TESTE -->
 					<c:if test="${aces_ven_pro}">
 				<c:if test="${aces_dev}">

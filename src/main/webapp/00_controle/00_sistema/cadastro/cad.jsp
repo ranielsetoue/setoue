@@ -52,6 +52,14 @@
 <c:set scope="session" var="aces_dev"
 	value="${sessionScope.aces_dev}" />
 
+
+<c:set scope="session" var="venda_false"
+	value='<%=request.getSession().getAttribute("venda_false").toString()%>'></c:set>
+	
+	<c:set scope="session" var="cadastro_false"
+	value='<%=request.getSession().getAttribute("cadastro_false").toString()%>'></c:set>
+
+
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -949,7 +957,8 @@ function sel_cons(cnpj_cpf, element) {
 			<!-- INICIO DADO -->
 			<!-- Inicio Container -->
 <c:if test="${not empty cons_true and cons_true eq 'true'}">
-				<div class="container mt-3">
+
+					<div class="container mt-3">
 					<!-- Inicio Container -->
 					<!-- Inicio row -->
 					<div class="row align-items-center text-center text-md-left">
@@ -1311,10 +1320,10 @@ function sel_cons(cnpj_cpf, element) {
 						<!-- coluna Central -->
 						<div
 							class="col-12  mb-2 align-self-center text-center">
-									<label id="l_cont_tel_1" data-placeholder="Telefone 1"></label>
+									<label id="l_cont_tel_1" data-placeholder="Whatshapp"></label>
 							<textarea class="form-control" autocomplete="off"
 								name="cont_tel_1" id="cont_tel_1"
-								placeholder="Telefone 1" rows="1"
+								placeholder="Whatshapp" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 							
@@ -1323,10 +1332,10 @@ function sel_cons(cnpj_cpf, element) {
 						<!-- coluna Direita -->
 						<div
 							class="col-12  mb-2  align-self-center text-center">
-									<label id="l_cont_tel_2" data-placeholder="Telefone 2"></label>
+									<label id="l_cont_tel_2" data-placeholder="Telefone"></label>
 							<textarea class="form-control" autocomplete="off"
 								name="cont_tel_2" id="cont_tel_2"
-								placeholder="Telefone 2" rows="1"
+								placeholder="Telefone" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 												</div>

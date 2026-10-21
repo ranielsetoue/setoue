@@ -52,6 +52,16 @@
 	value="${sessionScope.list_cons_ocult}" />
 <c:set scope="session" var="aces_dev" value="${sessionScope.aces_dev}" />
 
+
+
+<c:set scope="session" var="venda_false"
+	value='<%=request.getSession().getAttribute("venda_false").toString()%>'></c:set>
+	
+	<c:set scope="session" var="cadastro_false"
+	value='<%=request.getSession().getAttribute("cadastro_false").toString()%>'></c:set>
+
+
+
 <!--  -->
 <title>${h_titulo_web}</title>
 

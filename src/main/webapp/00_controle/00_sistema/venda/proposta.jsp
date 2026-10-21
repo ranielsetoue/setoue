@@ -51,6 +51,18 @@
 	value="${sessionScope.list_cons_ocult}" />
 
 
+<c:set scope="session" var="venda_false"
+	value='<%=request.getSession().getAttribute("venda_false").toString()%>'></c:set>
+	
+	<c:set scope="session" var="cadastro_false"
+	value='<%=request.getSession().getAttribute("cadastro_false").toString()%>'></c:set>
+
+
+<c:set scope="session" var="fan_ocult"
+	value="${sessionScope.fan_ocult}" />
+
+
+
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -563,7 +575,7 @@ function bus_p2(){
 
 function sel_cons(cnpj_cpf, element) {
     // Define o valor e dispara o evento 'input' em cadeia
-    $('#bus_cnpj_cpf').val(bus_cnpj_cpf).trigger('input');
+    $('#bus_cnpj_cpf').val(cnpj_cpf).trigger('input');
     sis_busc();
 }
 
@@ -747,16 +759,15 @@ function confirmarCliente() {
 
 
 
-	
 
 			<!-- INICIO DADO -->
 			
-
+  
 <div class="container mt-3">
     <div class="row align-items-center text-center text-md-start">
         
         <!-- Coluna Esquerda: Busca -->
-        <div class="col-12 col-md-3 mb-2 mb-md-0">
+        <div class="col-12 col-md-12 mb-2 mb-md-0" id="div_bus_cnpj_cpf" >
                     <label id="l_bus_cnpj_cpf" data-placeholder="CNPJ / CPF" for="bus_cnpj_cpf"></label>
         
             <div class="input-group" >
@@ -766,11 +777,7 @@ function confirmarCliente() {
     onfocus="perguntarSeDesejaLimpar()"
     oninput="handleBusca(this);"
     placeholder="CNPJ, CPF ou Nome" value="${pre_glo.cnpj_cpf}">
-    
-              
-    
-
-                <datalist id="list_cnpj_cpf">
+                  <datalist id="list_cnpj_cpf">
                     <c:forEach items="${sis_cons}" var="l_cnpj_cpf">
                         <option value="${l_cnpj_cpf.cnpjCpf}">${l_cnpj_cpf.nomeDesc}</option>
                     </c:forEach>
@@ -788,7 +795,8 @@ function confirmarCliente() {
 
         <div id="div_nome_desc" class="col-12 col-md-9 mb-2 mb-md-0">
         <c:if test="${not empty cons_true and cons_true eq 'true'}">
-                <div id="div_nome_cliente">
+        
+                  <div id="div_nome_cliente">
             <label id="l_nome_desc" data-placeholder="Nome" for="nome_desc"></label>
             <textarea class="form-control" autocomplete="off"
                 name="nome_desc" id="nome_desc"
@@ -798,13 +806,13 @@ function confirmarCliente() {
         </div>
         </c:if>
 </div>
+
 <c:if test="${not empty cons_true and cons_true eq 'true'}">
 
-<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
 						
 												<!-- coluna Direita -->
-						<div id="div_no_fan"
-							class="col-12 col-md-12 mt-3 mb-2 mb-0 align-self-center text-center">
+						<div id="div_no_fan" 	
+							class="col-12 col-md-12 mt-3 mb-2 mb-0 align-self-center text-center ${!fan_ocult ? 'd-none' : ''}">
 							<label id="l_no_fan" data-placeholder="Nome Fantasia"></label>
 							<textarea class="form-control" name="no_fan" id="no_fan"
 								autocomplete="off" placeholder="Nome Fantasia" rows="1"
@@ -813,7 +821,6 @@ function confirmarCliente() {
 
 						</div>
 						<!-- coluna Direita -->
-					</c:if>
 					</c:if>
 				
     </div>
@@ -891,7 +898,12 @@ function confirmarCliente() {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('d-none');
             });
+            
+            const divbuscnpjcpfer = document.getElementById('div_bus_cnpj_cpf');
 
+                divbuscnpjcpfer.classList.remove('col-md-3');
+                divbuscnpjcpfer.classList.add('col-md-12');
+            
             // 5. GARANTIA DO DATALIST: Não fazemos nenhuma manipulação complexa.
             // Apenas verificamos se o atributo está lá. O navegador mantém as opções vivas.
             if (campoBusca.getAttribute('list') !== 'list_cnpj_cpf') {
@@ -973,8 +985,65 @@ function confirmarCliente() {
 				<!-- FIM Container -->
 				<!--  -->
 
+<div id="end_completo">
+			<!--  -->
+				<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+							<!-- coluna Central -->
+						<div
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_enderenco_c" data-placeholder="Enderenço"></label> 
+							<textarea class="form-control" autocomplete="off"
+								name="enderenco_c" id="enderenco_c"
+								placeholder="Enderenço" rows="1"
+								readonly style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.end_completo != null ? pre_glo.end_completo : ''}</textarea>
+						</div>
+						<!-- coluna Central -->
+					
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+	</div>			
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const endereco = document.getElementById('enderenco_c').value.trim();
+    const endCompleto = document.getElementById('end_completo');
+    const endDado = document.getElementById('end_dado');
+    const endDadoobs = document.getElementById('end_dado_obs');
+    const divdadoAba = document.getElementById('div_dado_Aba');
+	  const divbuscnpjcpf = document.getElementById('div_bus_cnpj_cpf');
+
+    
+    if (endereco === '' || endereco === null) {
+        endCompleto.style.display = 'none';
+        endDado.style.display = 'block';
+        endDadoobs.style.display = 'nome';
+     
+    } else {
+        endCompleto.style.display = 'block';
+        endDado.style.display = 'none';
+        endDadoobs.style.display = 'block';
+        divbuscnpjcpf.classList.remove('col-md-12');
+        divbuscnpjcpf.classList.add('col-md-3');
+    }
+    
+    
+   
+});
+</script>		
 
 
+
+<div id="end_dado">
 				<!--  -->
 				<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -985,6 +1054,7 @@ function confirmarCliente() {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+										
 							<label id="l_end_rua" data-placeholder="Enderenco"></label>
 							<textarea name="end_rua" id="end_rua" autocomplete="off"
 								class="form-control" placeholder="Enderenco" rows="1"
@@ -1032,10 +1102,12 @@ function confirmarCliente() {
 						<!-- coluna esquerda -->
 						<div
 							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
+						
 							<label id="l_end_uf" data-placeholder="UF"></label> <input
 								type="text" maxlength="2" name="end_uf" id="end_uf"
 								autocomplete="off" class="form-control" placeholder="UF"
 								value="${pre_glo.end_uf}">
+								
 						</div>
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
@@ -1046,6 +1118,7 @@ function confirmarCliente() {
 								onblur="CEPPESQ();" type="text" maxlength="10" name="end_cep"
 								id="end_cep" autocomplete="off" class="form-control"
 								placeholder="CEP" value="${pre_glo.end_cep}">
+						
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -1065,6 +1138,39 @@ function confirmarCliente() {
 				</div>
 				<!-- FIM Container -->
 				<!--  -->
+</div>
+
+
+<div id="end_dado_obs">
+
+
+				<!--  -->
+				<!-- Inicio Container -->
+				<div class="container mt-1">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+					<div class="row align-items-center text-center text-md-left">
+						<!-- Inicio row -->
+						<!-- coluna Central -->
+							<div id="col-obs"
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_obs" data-placeholder="Observações"></label>
+							<textarea name="obs" id="obs" class="form-control"
+								placeholder="Observação" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.obs}</textarea>
+						</div>
+
+						<!-- coluna Central -->
+						<!-- FIM row -->
+					</div>
+					<!-- FIM row -->
+					<!-- FIM Container -->
+				</div>
+				<!-- FIM Container -->
+				<!--  -->
+</div>
+
 
 				<!--  -->
 				<!-- Inicio Container -->
@@ -1202,9 +1308,13 @@ function confirmarCliente() {
 <!--  -->
 
 	<!-- Button trigger modal -->
+			
+<div id="ad_cont" class="${!fan_ocult ? 'd-none' : ''}">	
 <button type="button" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;" onclick="limpar_modal_contato()" data-bs-target="#adi_cont">
  Adiciona Contado
 </button>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="adi_cont" tabindex="-1" aria-labelledby="m_adi_cont" aria-hidden="true">
   <div class="modal-dialog">
@@ -1816,161 +1926,6 @@ data-obs="${ml.obs}"
 
 
 
-<!-- Inicio ABA  -->
-
-<div id="div_dado_Aba">	
-<!--  -->
-<!-- Inicio Container -->
-<div class="container mt-3">
-	<!-- Inicio Container -->
-	<!-- Inicio row -->
-	<div class="row align-items-center text-center text-md-left">
-		<!-- Inicio row -->
-
-<!-- INICIO DADO ABA -->
-
-
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-	<li class="nav-item" role="presentation">
-		<button class="nav-link active" id="dados-tab" data-bs-toggle="tab"
-			data-bs-target="#dados" type="button" role="tab">Dado
-			Adicional</button>
-	</li>
-
-	<li class="nav-item" role="presentation">
-		<button class="nav-link" id="financeiro-tab" data-bs-toggle="tab"
-			data-bs-target="#financeiro" type="button" role="tab">
-			Financeiro</button>
-	</li>
-
-	<li class="nav-item" role="presentation">
-		<button class="nav-link" id="endereco-tab" data-bs-toggle="tab"
-			data-bs-target="#endereco" type="button" role="tab">
-			Endereço de Envio</button>
-	</li>
-
-</ul>
-
-
-<div class="tab-content border border-top-0 p-3" id="myTabContent">
-
-	<!-- DADO ADICIONAL -->
-	<div class="tab-pane fade show active" id="dados" role="tabpanel"
-		aria-labelledby="dados-tab">
-
-		<div class="row align-items-center text-center text-md-left">
-
-<c:if test="${not empty insc_ocult and insc_ocult eq 'true'}">
-
-<fieldset class="border rounded p-3">
-
-    <legend class="float-none w-auto px-2 text-start fs-6">
-        Consultar na Receita Federal
-    </legend>
-    		<div class="row align-items-center text-center text-md-left">
-    
-			<div class="col-12 col-md-5 mb-2 mb-0 align-self-center text-center">
-				<label id="l_tel_2" data-placeholder="Telefone"></label> <input
-					type="text" maxlength="20" name="tel_2" id="tel_2"
-					autocomplete="off" class="form-control" placeholder="Telefone"
-					value="${pre_glo_ad.tel_2}">
-			</div>
-
-			<div class="col-12 col-md-7 mb-2 mb-0 align-self-center text-center">
-				<label id="l_email_2" data-placeholder="E-mail"></label>
-				<textarea name="email_2" id="email_2" class="form-control"
-					placeholder="E-mail" autocomplete="off" rows="1"
-					style="overflow: hidden; resize: none;"
-					oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo_ad.email_2}</textarea>
-
-			</div>
-			</div>
-</fieldset>
-						</c:if>
-
-<c:if test="${empty insc_ocult or insc_ocult eq 'false'}">
-    		<div class="row align-items-center text-center text-md-left">
-    
-			<div class="col-12 col-md-5 mb-2 mb-0 align-self-center text-center">
-				<label id="l_tel_2" data-placeholder="Telefone"></label> <input
-					type="text" maxlength="20" name="tel_2" id="tel_2"
-					autocomplete="off" class="form-control" placeholder="Telefone"
-					value="${pre_glo_ad.tel_2}">
-			</div>
-
-			<div class="col-12 col-md-7 mb-2 mb-0 align-self-center text-center">
-				<label id="l_email_2" data-placeholder="E-mail"></label>
-				<textarea name="email_2" id="email_2" class="form-control"
-					placeholder="E-mail" autocomplete="off" rows="1"
-					style="overflow: hidden; resize: none;"
-					oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo_ad.email_2}</textarea>
-
-			</div>
-			</div>
-
-</c:if>
-		</div>
-
-	</div>
-
-
-	<!-- FINANCEIRO -->
-	<div class="tab-pane fade" id="financeiro" role="tabpanel"
-		aria-labelledby="financeiro-tab">
-
-		<div class="row">
-
-			<div class="col-md-6 mb-3">
-				<label for="chave_pix" class="form-label"> Em Contrução </label> <input
-					type="text" class="form-control" id="chave_pix" name="chave_pix"
-					placeholder="Em Contrução">
-			</div>
-
-			<div class="col-md-6 mb-3">
-				<label for="nome_pix" class="form-label"> Em Contrução </label> <input
-					type="text" class="form-control" id="nome_pix" name="nome_pix"
-					placeholder="Em Contrução">
-			</div>
-
-		</div>
-
-	</div>
-
-
-	<!-- ENDEREÇO DE ENVIO -->
-	<div class="tab-pane fade" id="endereco" role="tabpanel"
-		aria-labelledby="endereco-tab">
-
-		<div class="row">
-
-			<div class="col-md-8 mb-3">
-				<label for="endereco_completo" class="form-label"> Em Contrução
-					</label> <input type="text" class="form-control"
-					id="endereco_completo" name="endereco_completo"
-					placeholder="Em Contrução">
-			</div>
-
-			<div class="col-md-4 mb-3">
-				<label for="cep" class="form-label"> Em Contrução </label> <input type="text"
-					class="form-control" id="cep" name="cep" placeholder="Em Contrução"
-					maxlength="9">
-			</div>
-
-		</div>
-
-	</div>
-
-</div>
-</div>
-
-<!-- FIM DADO ABA -->
-
-		<!-- FIM row -->
-	</div>
-	<!-- FIM Container -->
-</div>
-<!-- FIM Container -->
-<!--  -->
 				<!-- FIM Ocultar-->
 			</c:if>
 			<!-- FIM Ocultar -->

@@ -80,6 +80,7 @@ public class lt_sis_busc extends HttpServlet {
 
 		try {
 			request.getSession().setAttribute("list_cons_ocult", false);
+			request.getSession().setAttribute("fan_ocult", true);
 
 			if (request.getParameter("fun").equalsIgnoreCase("novo")) {
 				request.getSession().setAttribute("cons_list", false);
@@ -99,6 +100,8 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("aces_ven_orc", cl_perm_ace.getAces_ven_orc());
 					request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
 					request.getSession().setAttribute("aces_ven_pro_cons", cl_perm_ace.getAces_ven_cons_pro());
+					request.getSession().setAttribute("venda_false", "true");
+					request.getSession().setAttribute("cadastro_false", "true");
 
 					
 				} catch (Exception e) {
@@ -132,6 +135,14 @@ public class lt_sis_busc extends HttpServlet {
 					request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 					request.getSession().setAttribute("tab_cont_ocult", true);
 
+					if (cl_perm_ace.getAces_cad_sis() == false 
+							|| (cl_perm_ace.getAces_cad_clin() == false )
+							|| (cl_perm_ace.getAces_cad_forn() == false )
+							|| (cl_perm_ace.getAces_cad_prod() == false )
+							|| (cl_perm_ace.getAces_cad_serv() == false )
+							) {
+						request.getSession().setAttribute("cadastro_false", "false");}
+					
 					List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					request.setAttribute("sis_cons", sisCons);
 
@@ -145,6 +156,14 @@ public class lt_sis_busc extends HttpServlet {
 
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
+					if (cl_perm_ace.getAces_cad_sis() == false 
+							|| (cl_perm_ace.getAces_cad_clin() == false )
+							|| (cl_perm_ace.getAces_cad_forn() == false )
+							|| (cl_perm_ace.getAces_cad_prod() == false )
+							|| (cl_perm_ace.getAces_cad_serv() == false )
+							) {
+						request.getSession().setAttribute("cadastro_false", "false");}
+					
 					List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 					request.setAttribute("sis_cons", sisCons);
 
@@ -158,6 +177,14 @@ public class lt_sis_busc extends HttpServlet {
 
 					long id_sis = Long.valueOf(request.getSession().getAttribute("id_sis_pre").toString());
 
+					if (cl_perm_ace.getAces_cad_sis() == false 
+							|| (cl_perm_ace.getAces_cad_clin() == false )
+							|| (cl_perm_ace.getAces_cad_forn() == false )
+							|| (cl_perm_ace.getAces_cad_prod() == false )
+							|| (cl_perm_ace.getAces_cad_serv() == false )
+							) {
+						request.getSession().setAttribute("cadastro_false", "false");}
+					
 					List<cla_list_cnpj_nome> sisCons = f_forn.cons_list_cnpj(id_sis);
 					request.setAttribute("sis_cons", sisCons);
 
@@ -172,6 +199,14 @@ public class lt_sis_busc extends HttpServlet {
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					 * request.setAttribute("sis_cons", sisCons);
 					 */
+					
+					if (cl_perm_ace.getAces_cad_sis() == false 
+							|| (cl_perm_ace.getAces_cad_clin() == false )
+							|| (cl_perm_ace.getAces_cad_forn() == false )
+							|| (cl_perm_ace.getAces_cad_prod() == false )
+							|| (cl_perm_ace.getAces_cad_serv() == false )
+							) {
+						request.getSession().setAttribute("cadastro_false", "false");}
 
 				}
 				if ("cad_serv".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -184,6 +219,13 @@ public class lt_sis_busc extends HttpServlet {
 					 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 					 * request.setAttribute("sis_cons", sisCons);
 					 */
+					if (cl_perm_ace.getAces_cad_sis() == false 
+							|| (cl_perm_ace.getAces_cad_clin() == false )
+							|| (cl_perm_ace.getAces_cad_forn() == false )
+							|| (cl_perm_ace.getAces_cad_prod() == false )
+							|| (cl_perm_ace.getAces_cad_serv() == false )
+							) {
+						request.getSession().setAttribute("cadastro_false", "false");}
 
 				}
 
@@ -258,7 +300,9 @@ public class lt_sis_busc extends HttpServlet {
 		try {
 			request.getSession().setAttribute("naoexitedado", false);
 			request.getSession().setAttribute("list_cons_ocult", false);
-
+			request.getSession().setAttribute("venda_false", "true");
+			request.getSession().setAttribute("cadastro_false", "true");
+			request.getSession().setAttribute("fan_ocult", true);
 			String id_log = String.valueOf(request.getSession().getAttribute("id_sis_log_pre"));
 			request.getSession().setAttribute("insc_ocult", true);
 
@@ -505,6 +549,7 @@ public class lt_sis_busc extends HttpServlet {
 				request.getSession().setAttribute("naoexitedado", false);
 				request.getSession().setAttribute("cons_list", true);
 				request.getSession().setAttribute("ocul_excluir", false);
+
 
 				List<cla_list_tp_site> sisConstp_site = f_sis.cons_list_sis_tp_site();
 				request.setAttribute("sis_cons_tp_site", sisConstp_site);
@@ -816,6 +861,54 @@ public class lt_sis_busc extends HttpServlet {
 
 							cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
 
+							
+							
+							
+							
+							
+							String end1 = ""; // Declara fora para que possa ser usada depois
+							String end2 = ""; // Declara fora para que possa ser usada depois
+							String end3 = ""; // Declara fora para que possa ser usada depois
+							String end4 = ""; // Declara fora para que possa ser usada depois
+							String end5 = ""; // Declara fora para que possa ser usada depois
+							String end6 = ""; // Declara fora para que possa ser usada depois
+							String end7 = ""; // Declara fora para que possa ser usada depois
+
+							if (cl_sis.getEnd_rua() != null && !cl_sis.getEnd_rua().isBlank()) {
+							    end1 = cl_sis.getEnd_rua(); // Apenas atribui o valor
+							}
+
+
+							if (cl_sis.getEnd_num() != null && !cl_sis.getEnd_num().isBlank()) {
+								end2 = " - " + cl_sis.getEnd_num();
+							}
+
+							if (cl_sis.getEnd_com() != null && !cl_sis.getEnd_com().isBlank()) {
+								end3 = " - " + cl_sis.getEnd_com();
+							}
+
+							if (cl_sis.getEnd_bar() != null && !cl_sis.getEnd_bar().isBlank()) {
+								end4 = " - " + cl_sis.getEnd_bar();
+								
+							}
+
+							if (cl_sis.getEnd_mun() != null && !cl_sis.getEnd_mun().isBlank()) {
+								end5 = " - " + cl_sis.getEnd_mun();	
+							}
+
+							if (cl_sis.getEnd_uf() != null && !cl_sis.getEnd_uf().isBlank()) {
+								end6 = " - " + cl_sis.getEnd_uf();
+							}
+
+							if (cl_sis.getEnd_cep() != null && !cl_sis.getEnd_cep().isBlank()) {
+								end7 = " - " + cl_sis.getEnd_cep();
+							}
+						
+							String end0 = end1 + end2 + end3+ end4+ end5+ end6+ end7;
+							String end0_sem = end1 + end2 + end3+ end4+ end5+ end6;
+							cl_sis.setEnd_completo(end0);
+							cl_sis.setEnd_semcep(end0_sem);
+							
 						} else {
 
 							cl_sis.setId_sis(id_sis);
@@ -844,6 +937,51 @@ public class lt_sis_busc extends HttpServlet {
 
 							cl_sis = f_clin.sav_clin(cl_sis);
 
+					
+							
+							String end1 = ""; // Declara fora para que possa ser usada depois
+							String end2 = ""; // Declara fora para que possa ser usada depois
+							String end3 = ""; // Declara fora para que possa ser usada depois
+							String end4 = ""; // Declara fora para que possa ser usada depois
+							String end5 = ""; // Declara fora para que possa ser usada depois
+							String end6 = ""; // Declara fora para que possa ser usada depois
+							String end7 = ""; // Declara fora para que possa ser usada depois
+
+							if (cl_sis.getEnd_rua() != null && !cl_sis.getEnd_rua().isBlank()) {
+							    end1 = cl_sis.getEnd_rua(); // Apenas atribui o valor
+							}
+
+
+							if (cl_sis.getEnd_num() != null && !cl_sis.getEnd_num().isBlank()) {
+								end2 = " - " + cl_sis.getEnd_num();
+							}
+
+							if (cl_sis.getEnd_com() != null && !cl_sis.getEnd_com().isBlank()) {
+								end3 = " - " + cl_sis.getEnd_com();
+							}
+
+							if (cl_sis.getEnd_bar() != null && !cl_sis.getEnd_bar().isBlank()) {
+								end4 = " - " + cl_sis.getEnd_bar();
+								
+							}
+
+							if (cl_sis.getEnd_mun() != null && !cl_sis.getEnd_mun().isBlank()) {
+								end5 = " - " + cl_sis.getEnd_mun();	
+							}
+
+							if (cl_sis.getEnd_uf() != null && !cl_sis.getEnd_uf().isBlank()) {
+								end6 = " - " + cl_sis.getEnd_uf();
+							}
+
+							if (cl_sis.getEnd_cep() != null && !cl_sis.getEnd_cep().isBlank()) {
+								end7 = " - " + cl_sis.getEnd_cep();
+							}
+						
+							String end0 = end1 + end2 + end3+ end4+ end5+ end6+ end7;
+							String end0_sem = end1 + end2 + end3+ end4+ end5+ end6;
+							cl_sis.setEnd_completo(end0);
+							cl_sis.setEnd_semcep(end0_sem);
+							
 							cl_glo_ad.setId_sis(id_sis);
 							cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 							cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -906,7 +1044,52 @@ public class lt_sis_busc extends HttpServlet {
 							if (f_clin.val_clin(id_sis, t_cnpj_cpf)) {
 								cl_sis = f_clin.cons_clin(id_sis, t_cnpj_cpf);
 								cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
+								request.getSession().setAttribute("fan_ocult", false);
+								
+								String end1 = ""; // Declara fora para que possa ser usada depois
+								String end2 = ""; // Declara fora para que possa ser usada depois
+								String end3 = ""; // Declara fora para que possa ser usada depois
+								String end4 = ""; // Declara fora para que possa ser usada depois
+								String end5 = ""; // Declara fora para que possa ser usada depois
+								String end6 = ""; // Declara fora para que possa ser usada depois
+								String end7 = ""; // Declara fora para que possa ser usada depois
 
+								if (cl_sis.getEnd_rua() != null && !cl_sis.getEnd_rua().isBlank()) {
+								    end1 = cl_sis.getEnd_rua(); // Apenas atribui o valor
+								}
+
+
+								if (cl_sis.getEnd_num() != null && !cl_sis.getEnd_num().isBlank()) {
+									end2 = " - " + cl_sis.getEnd_num();
+								}
+
+								if (cl_sis.getEnd_com() != null && !cl_sis.getEnd_com().isBlank()) {
+									end3 = " - " + cl_sis.getEnd_com();
+								}
+
+								if (cl_sis.getEnd_bar() != null && !cl_sis.getEnd_bar().isBlank()) {
+									end4 = " - " + cl_sis.getEnd_bar();
+									
+								}
+
+								if (cl_sis.getEnd_mun() != null && !cl_sis.getEnd_mun().isBlank()) {
+									end5 = " - " + cl_sis.getEnd_mun();	
+								}
+
+								if (cl_sis.getEnd_uf() != null && !cl_sis.getEnd_uf().isBlank()) {
+									end6 = " - " + cl_sis.getEnd_uf();
+								}
+
+								if (cl_sis.getEnd_cep() != null && !cl_sis.getEnd_cep().isBlank()) {
+									end7 = " - " + cl_sis.getEnd_cep();
+								}
+							
+								String end0 = end1 + end2 + end3+ end4+ end5+ end6+ end7;
+								String end0_sem = end1 + end2 + end3+ end4+ end5+ end6;
+								cl_sis.setEnd_completo(end0);
+								cl_sis.setEnd_semcep(end0_sem);
+								
+								
 								request.getSession().setAttribute("pre_glo", cl_sis);
 
 								request.getSession().setAttribute("pre_glo_ad", cl_glo_ad);
@@ -926,6 +1109,11 @@ public class lt_sis_busc extends HttpServlet {
 								cl_sis.setClin_id(0l);
 
 								cl_sis = f_clin.sav_clin(cl_sis);
+								
+								String end0 = "";
+								String end0_sem = "";
+								cl_sis.setEnd_completo(end0);
+								cl_sis.setEnd_semcep(end0_sem);
 
 								cl_glo_ad.setId_sis(id_sis);
 								cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
@@ -1009,6 +1197,51 @@ public class lt_sis_busc extends HttpServlet {
 									cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
 									simnaoclin = true;
 
+									
+									String end1 = ""; // Declara fora para que possa ser usada depois
+									String end2 = ""; // Declara fora para que possa ser usada depois
+									String end3 = ""; // Declara fora para que possa ser usada depois
+									String end4 = ""; // Declara fora para que possa ser usada depois
+									String end5 = ""; // Declara fora para que possa ser usada depois
+									String end6 = ""; // Declara fora para que possa ser usada depois
+									String end7 = ""; // Declara fora para que possa ser usada depois
+
+									if (cl_sis.getEnd_rua() != null && !cl_sis.getEnd_rua().isBlank()) {
+									    end1 = cl_sis.getEnd_rua(); // Apenas atribui o valor
+									}
+
+
+									if (cl_sis.getEnd_num() != null && !cl_sis.getEnd_num().isBlank()) {
+										end2 = " - " + cl_sis.getEnd_num();
+									}
+
+									if (cl_sis.getEnd_com() != null && !cl_sis.getEnd_com().isBlank()) {
+										end3 = " - " + cl_sis.getEnd_com();
+									}
+
+									if (cl_sis.getEnd_bar() != null && !cl_sis.getEnd_bar().isBlank()) {
+										end4 = " - " + cl_sis.getEnd_bar();
+										
+									}
+
+									if (cl_sis.getEnd_mun() != null && !cl_sis.getEnd_mun().isBlank()) {
+										end5 = " - " + cl_sis.getEnd_mun();	
+									}
+
+									if (cl_sis.getEnd_uf() != null && !cl_sis.getEnd_uf().isBlank()) {
+										end6 = " - " + cl_sis.getEnd_uf();
+									}
+
+									if (cl_sis.getEnd_cep() != null && !cl_sis.getEnd_cep().isBlank()) {
+										end7 = " - " + cl_sis.getEnd_cep();
+									}
+								
+									String end0 = end1 + end2 + end3+ end4+ end5+ end6+ end7;
+									String end0_sem = end1 + end2 + end3+ end4+ end5+ end6;
+									cl_sis.setEnd_completo(end0);
+									cl_sis.setEnd_semcep(end0_sem);
+									
+									
 									if (fun_blio.isCNPJ(cl_sis.getCnpj_cpf())) {
 										request.getSession().setAttribute("insc_ocult", true);
 									}
@@ -1056,6 +1289,8 @@ public class lt_sis_busc extends HttpServlet {
 
 					}
 
+					
+					
 					if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 						request.getSession().setAttribute("cont_sis", "cad_cli");
 						request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
@@ -1069,9 +1304,10 @@ public class lt_sis_busc extends HttpServlet {
 						List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 						request.setAttribute("sis_cons", sisCons);
 						request.getSession().setAttribute("aces_ven_pro", "false");
+						request.getSession().setAttribute("insc_ocult", false);
 					}
 					
-					
+		
 				} // CADASTRO DE CLIENTE
 
 				if ("cad_for".equals(request.getSession().getAttribute("cont_sis"))) {
@@ -1346,6 +1582,11 @@ public class lt_sis_busc extends HttpServlet {
 					}
 
 				}
+				
+		
+
+				
+				
 				if ("cad_prod".equals(request.getSession().getAttribute("cont_sis"))) {
 					request.getSession().setAttribute("aces_cad_prod", "false");
 					request.getSession().setAttribute("cont_sis", "cad_pro");

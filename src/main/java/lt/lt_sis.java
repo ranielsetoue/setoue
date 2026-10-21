@@ -86,7 +86,12 @@ public class lt_sis extends HttpServlet {
 			request.getSession().setAttribute("aces_ven_cons_pro", cl_perm_ace.getAces_ven_cons_pro());
 			request.getSession().setAttribute("aces_dev", cl_perm_ace.getAces_cad_sis());
 			request.getSession().setAttribute("aces_ven_pro_cons", cl_perm_ace.getAces_ven_cons_pro());
+			request.getSession().setAttribute("venda_false", "true");
+			request.getSession().setAttribute("cadastro_false", "true");
 
+			
+			
+			
 			if (request.getParameter("fun").equalsIgnoreCase("cad_sis")) {
 
 				request.getSession().setAttribute("aces_cad_sis", "false");
@@ -100,6 +105,14 @@ public class lt_sis extends HttpServlet {
 				List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				request.setAttribute("sis_cons", sisCons);
 
+			
+				if (cl_perm_ace.getAces_cad_sis() == false 
+						|| (cl_perm_ace.getAces_cad_clin() == false )
+						|| (cl_perm_ace.getAces_cad_forn() == false )
+						|| (cl_perm_ace.getAces_cad_prod() == false )
+						|| (cl_perm_ace.getAces_cad_serv() == false )
+						) {
+					request.getSession().setAttribute("cadastro_false", "false");}
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SISTEMA");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
 			}
@@ -117,7 +130,17 @@ public class lt_sis extends HttpServlet {
 
 				List<cla_list_cnpj_nome> sisCons = f_clin.cons_list_cnpj(id_sis);
 				request.setAttribute("sis_cons", sisCons);
+				
 
+				if (cl_perm_ace.getAces_cad_sis() == false 
+						|| (cl_perm_ace.getAces_cad_clin() == false )
+						|| (cl_perm_ace.getAces_cad_forn() == false )
+						|| (cl_perm_ace.getAces_cad_prod() == false )
+						|| (cl_perm_ace.getAces_cad_serv() == false )
+						) {
+					request.getSession().setAttribute("cadastro_false", "false");}
+				
+				
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
 			}
@@ -137,6 +160,14 @@ public class lt_sis extends HttpServlet {
 				List<cla_list_cnpj_nome> sisCons = f_forn.cons_list_cnpj(id_sis);
 				request.setAttribute("sis_cons", sisCons);
 
+				if (cl_perm_ace.getAces_cad_sis() == false 
+						|| (cl_perm_ace.getAces_cad_clin() == false )
+						|| (cl_perm_ace.getAces_cad_forn() == false )
+						|| (cl_perm_ace.getAces_cad_prod() == false )
+						|| (cl_perm_ace.getAces_cad_serv() == false )
+						) {
+					request.getSession().setAttribute("cadastro_false", "false");}
+				
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO FORNECEDOR");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad.jsp").forward(request, response);
 			}
@@ -153,6 +184,14 @@ public class lt_sis extends HttpServlet {
 				 * request.setAttribute("sis_cons", sisCons);
 				 */
 
+				if (cl_perm_ace.getAces_cad_sis() == false 
+						|| (cl_perm_ace.getAces_cad_clin() == false )
+						|| (cl_perm_ace.getAces_cad_forn() == false )
+						|| (cl_perm_ace.getAces_cad_prod() == false )
+						|| (cl_perm_ace.getAces_cad_serv() == false )
+						) {
+					request.getSession().setAttribute("cadastro_false", "false");}
+				
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO PRODUTO");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
 						response);
@@ -169,6 +208,14 @@ public class lt_sis extends HttpServlet {
 				 * List<cla_list_cnpj_nome> sisCons = f_sis.cons_list_sis_cnpj();
 				 * request.setAttribute("sis_cons", sisCons);
 				 */
+				
+				if (cl_perm_ace.getAces_cad_sis() == false 
+						|| (cl_perm_ace.getAces_cad_clin() == false )
+						|| (cl_perm_ace.getAces_cad_forn() == false )
+						|| (cl_perm_ace.getAces_cad_prod() == false )
+						|| (cl_perm_ace.getAces_cad_serv() == false )
+						) {
+					request.getSession().setAttribute("cadastro_false", "false");}
 
 				request.getSession().setAttribute("h_titulo_pagina", "CADASTRO SERVICO");
 				request.getRequestDispatcher("/00_controle/00_sistema/cadastro/cad_pro_serv.jsp").forward(request,
@@ -187,6 +234,18 @@ public class lt_sis extends HttpServlet {
 				request.getSession().setAttribute("aces_ven_cons_pro", "false");
 				request.getSession().setAttribute("aces_ven_pro_cons", "false");
 
+				
+				
+			
+				
+
+				
+				if (cl_perm_ace.getAces_ven_orc() == false || cl_perm_ace.getAces_ven_orde() == false ) {
+					request.getSession().setAttribute("venda_false", "false");
+								
+				}
+
+				
 				request.getSession().setAttribute("h_titulo_pagina", "CONSULTAR PROPOSTA");
 				request.getRequestDispatcher("/00_controle/00_sistema/venda/cons_proposta.jsp").forward(request,
 						response);

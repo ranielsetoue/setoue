@@ -64,6 +64,12 @@
 	value='<%=request.getSession().getAttribute("aces_ven_pro_cons").toString()%>'></c:set>
 
 
+<c:set scope="session" var="venda_false"
+	value='<%=request.getSession().getAttribute("venda_false").toString()%>'></c:set>
+	
+	<c:set scope="session" var="cadastro_false"
+	value='<%=request.getSession().getAttribute("cadastro_false").toString()%>'></c:set>
+
 <!--  -->
 <title>${h_titulo_web}</title>
 
@@ -731,10 +737,10 @@ function sel_cons(cnpj_cpf, element) {
     }
   }
 </style>
-
  <!-- Importando o CSS externo -->
 <c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
 <link rel="stylesheet" href="${l_css}/css/botao.css">
+
 
 <!--  -->
 </head>

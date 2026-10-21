@@ -35,8 +35,29 @@ public class cla_sis implements Serializable {
 	private String email_1;
 	private String obs;
 	private String ace_per_aut;
-
+	private String end_completo;
+	private String end_semcep;
 	
+
+	public String getEnd_completo() {
+		return end_completo;
+	}
+
+
+	public void setEnd_completo(String end_completo) {
+		this.end_completo = end_completo;
+	}
+
+
+	public String getEnd_semcep() {
+		return end_semcep;
+	}
+
+
+	public void setEnd_semcep(String end_semcep) {
+		this.end_semcep = end_semcep;
+	}
+
 
 	public boolean nv_id() {
 		if (this.id_sis == null || this.id_sis == 0L) {
