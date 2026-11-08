@@ -102,7 +102,15 @@ public class lt_sis_salvar extends HttpServlet {
 
 		String t_nome_desc = request.getParameter("nome_desc");
 		String t_no_fan = request.getParameter("no_fan");
+		
+		
 		String t_cnpj_cpf = request.getParameter("cnpj_cpf");
+
+		if (t_cnpj_cpf == null || t_cnpj_cpf.trim().isEmpty()) {
+			t_cnpj_cpf = request.getParameter("bus_cnpj_cpf");
+		}
+	
+		
 		String t_end_rua = request.getParameter("end_rua");
 		String t_end_num = request.getParameter("end_num");
 		String t_end_com = request.getParameter("end_com");
@@ -215,7 +223,8 @@ public class lt_sis_salvar extends HttpServlet {
 					cl_sis.setId_sis(0l);
 					cl_sis.setClin_id(0l);
 					cl_sis_log.setId_sis(0l);
-
+					cl_sis_log.setId_sis_log(0l);
+					
 					if ("cad_cli".equals(request.getSession().getAttribute("cont_sis"))) {
 						request.getSession().setAttribute("cont_sis", "cad_cli");
 						request.getSession().setAttribute("h_titulo_pagina", "CADASTRO CLIENTE");
@@ -272,6 +281,15 @@ public class lt_sis_salvar extends HttpServlet {
 						cl_glo_ad = f_clin.cons_clin_adi(id_sis, cl_sis.getClin_id());
 					}
 
+					if (f_sis_login.val_log_l_usu(id_sis, cl_sis.getCnpj_cpf())) {
+						cl_sis_log = f_sis_login.cons_log_l_usu(id_sis, cl_sis.getCnpj_cpf());
+						cl_glo_ad.setLogin_id(cl_sis_log.getId_sis_log()); 
+						cl_glo_ad.setL_usu(cl_sis_log.getL_usu()); 
+						cl_glo_ad.setL_sen(cl_sis_log.getL_usu()); 
+					}
+					
+					
+					
 					cl_glo_ad.setId_sis(id_sis);
 					cl_glo_ad.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_glo_ad.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));
@@ -314,8 +332,14 @@ public class lt_sis_salvar extends HttpServlet {
 
 					}
 
+					
+					
+					
 					cl_glo_ad = f_clin.sav_clin_adi(cl_glo_ad);
 
+					
+					
+					
 					cl_sis_log.setId_sis(id_sis);
 					cl_sis_log.setReg_id(id_log != null && !id_log.isEmpty() ? Long.parseLong(id_log) : 0L);
 					cl_sis_log.setReg_data(Timestamp.valueOf(formatData.format(calend.getTime())));

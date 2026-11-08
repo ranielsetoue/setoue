@@ -70,7 +70,51 @@ public class fun_sis_login {
 		return gra_inp;
 
 	}
+	
+	public cla_sis_log cons_log_l_usu(long nx1, String tx1) throws Exception {
 
+		cla_sis_log gra_inp = new cla_sis_log();
+
+		String bc_sql = "select * FROM tb_sis_log where id_sis = '" + nx1 + "'AND l_usu = '" + tx1 + "'";
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet cl_sis_log = gra_bus.executeQuery();
+
+		while (cl_sis_log.next()) {
+
+			gra_inp.setId_sis(cl_sis_log.getLong("id_sis"));
+			gra_inp.setReg_id(cl_sis_log.getLong("reg_id"));
+			gra_inp.setReg_data(cl_sis_log.getTimestamp("reg_data"));
+			gra_inp.setReg_alt(cl_sis_log.getLong("reg_alt"));
+			gra_inp.setReg_data_alt(cl_sis_log.getTimestamp("reg_data_alt"));
+			gra_inp.setId_sis_log(cl_sis_log.getLong("id_sis_log"));
+			gra_inp.setId_sis_dom(cl_sis_log.getLong("id_sis_dom"));
+			gra_inp.setL_usu(cl_sis_log.getString("l_usu"));
+			gra_inp.setL_sen(cl_sis_log.getString("l_sen"));
+
+		}
+		return gra_inp;
+	
+	}
+
+	
+	public boolean val_log_l_usu(long nx1, String tx1) throws Exception {
+
+		tx1 = tx1.replaceAll("\\s+", ""); // remove TODOS os espaços
+		tx1 = tx1.toUpperCase();
+
+		String bc_sql = "SELECT  count (1) > 0 as existe " + "FROM tb_sis_log " + "WHERE id_sis = " + nx1
+				+ " And REPLACE(UPPER(l_usu),' ','') = UPPER('" + tx1 + "')";
+
+		PreparedStatement gra_bus = pos_cbd_con.prepareStatement(bc_sql);
+
+		ResultSet resul = gra_bus.executeQuery();
+
+		resul.next();
+		return resul.getBoolean("existe");
+
+	}
+	
 	public cla_sis_d_log cons_sis_d_log_id_sis_log(long id_sis_log) throws Exception {
 
 		cla_sis_d_log gra_inp = new cla_sis_d_log();

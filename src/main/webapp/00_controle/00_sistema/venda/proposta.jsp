@@ -8,7 +8,9 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script> <!-- Idioma PT-BR -->
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -16,7 +18,10 @@
 		<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<!--  -->
-
+	
+ <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+ 
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
 	type="imagem/x-icon">
@@ -602,8 +607,77 @@ function confirmarCliente() {
 	    };
 	  });
 	}
+	
+	
+	
+	function end_alt(){
+	
+		const xendCompleto = document.getElementById('end_completo');
+	    const xendDado = document.getElementById('end_dado');
+		  const colUf  = document.getElementById('col_uf');
+		    const colCep = document.getElementById('col_cep');
+
+		    const colobs = document.getElementById('col_obs');
+		    
+	
+		        colobs.classList.remove('col-md-12');
+		        colobs.classList.add('col-md-9');
+    
+		    
+	        xendCompleto.style.display = 'none';
+	        xendDado.style.display = '';
+	        colUf.style.display  = '';
+	        colCep.style.display = '';
+	 
+		
+
+	}
 </script>
 <style>
+
+@media (max-width: 768px) {
+    .table-responsive-stack thead {
+        display: none; /* esconde o cabeçalho */
+    }
+
+    .table-responsive-stack,
+    .table-responsive-stack tbody,
+    .table-responsive-stack tr,
+    .table-responsive-stack td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive-stack tr {
+        margin-bottom: 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 10px;
+        background: #f8f9fa;
+    }
+
+    .table-responsive-stack td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border-bottom: 1px solid #eee;
+        text-align: right;
+    }
+
+    .table-responsive-stack td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #333;
+        text-align: left;
+        margin-right: 10px;
+    }
+
+    .table-responsive-stack td input {
+        width: 100%;
+        text-align: right;
+    }
+}
   /* Por padrão (mobile): mostra a versão multi-linha */
   .mensagem-desktop {
     display: none;
@@ -631,7 +705,41 @@ function confirmarCliente() {
     }
   }
 </style>
+ 
 
+  <style>
+  
+   
+  
+        .col_item { width: 70px; }
+        .col_codigo { width: 150px; }
+        .col_descricao { width: 550; }
+        .col_un { width: 100px; }
+        .col_qtde { width: 150px; }
+        .col_desc { width: 170px; }
+        .col_preco-un { width: 270px; }
+        .col_ipi { width: 150px; }
+        .col_preco-total { width: 270px; }
+        .col_excluir_item { width: 50px; }
+  
+        .btn-adicionar {
+             color: green;
+         }
+        
+    
+        
+        .item-number {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
  <!-- Importando o CSS externo -->
 <c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
 <link rel="stylesheet" href="${l_css}/css/botao.css">
@@ -698,11 +806,12 @@ function confirmarCliente() {
                 <div class="col-6 col-md-3 mb-2 mb-md-0">
                     <!-- Espaçador invisível para alinhar com os inputs -->
                     <div style="height: 24px;"></div>
+                
                     <button type="button" class="btn btn-success w-100"
                             onclick="salvar_dado();">
                         SALVAR
                     </button>
-                </div>
+                               </div>
             </div>
         </div>
     </div>
@@ -802,7 +911,7 @@ function confirmarCliente() {
                 name="nome_desc" id="nome_desc"
                 placeholder="Nome" rows="1"
                 style="overflow: hidden; resize: none; line-height: 1.5;"
-                >${pre_glo.nome_desc}</textarea>
+                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.nome_desc}</textarea>
         </div>
         </c:if>
 </div>
@@ -894,7 +1003,7 @@ function confirmarCliente() {
             });
 
             // 4. Esconde as divs
-            ['div_nome_cliente','div_no_fan', 'div_dado_cliente', 'div_contado','div_dado_Aba', 'erro_busca'].forEach(id => {
+            ['div_nome_cliente','div_no_fan', 'div_dado_cliente', 'div_contado', 'erro_busca'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('d-none');
             });
@@ -996,14 +1105,28 @@ function confirmarCliente() {
 							<!-- coluna Central -->
 						<div
 							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-							<label id="l_enderenco_c" data-placeholder="Enderenço"></label> 
+								<label id="l_enderenco_c" data-placeholder="Enderenço"></label> 
+							 <div class="input-group" >
+						
 							<textarea class="form-control" autocomplete="off"
 								name="enderenco_c" id="enderenco_c"
 								placeholder="Enderenço" rows="1"
 								readonly style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.end_completo != null ? pre_glo.end_completo : ''}</textarea>
+						
+							<!-- coluna Central -->
+			<button onclick="end_alt();" name="b_end_alt" id="b_end_alt" type="button" class="btn btn-outline-warning" title="Alterar dado">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+    </svg>
+
+</button>
 						</div>
-						<!-- coluna Central -->
+						
+						</div>
+					
+							
+						
 					
 						<!-- FIM row -->
 					</div>
@@ -1019,21 +1142,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const endCompleto = document.getElementById('end_completo');
     const endDado = document.getElementById('end_dado');
     const endDadoobs = document.getElementById('end_dado_obs');
-    const divdadoAba = document.getElementById('div_dado_Aba');
 	  const divbuscnpjcpf = document.getElementById('div_bus_cnpj_cpf');
-
-    
+	  const colUf  = document.getElementById('col_uf');
+	    const colCep = document.getElementById('col_cep');
+	    const colobs = document.getElementById('col_obs');
+   
     if (endereco === '' || endereco === null) {
         endCompleto.style.display = 'none';
         endDado.style.display = 'block';
-        endDadoobs.style.display = 'nome';
+        colUf.style.display  = 'block';
+        colCep.style.display = 'block';
      
     } else {
         endCompleto.style.display = 'block';
         endDado.style.display = 'none';
-        endDadoobs.style.display = 'block';
-        divbuscnpjcpf.classList.remove('col-md-12');
+         divbuscnpjcpf.classList.remove('col-md-12');
         divbuscnpjcpf.classList.add('col-md-3');
+        colUf.style.display  = 'none';
+        colCep.style.display = 'none';
+        colobs.classList.remove('col-md-9');
+        colobs.classList.add('col-md-12');
+ 
+        
+
     }
     
     
@@ -1042,8 +1173,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>		
 
 
+						<div id="end_dado">
 
-<div id="end_dado">
+
 				<!--  -->
 				<!-- Inicio Container -->
 				<div class="container mt-1">
@@ -1088,7 +1220,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				<!-- FIM Container -->
 				<!--  -->
 
-
+</div>
 
 
 
@@ -1100,35 +1232,37 @@ document.addEventListener('DOMContentLoaded', function() {
 					<div class="row align-items-center text-center text-md-left">
 						<!-- Inicio row -->
 						<!-- coluna esquerda -->
-						<div
-							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 						
+
+						<div id="col_uf"
+							class="col-12 col-md-1 mb-2 mb-0 align-self-center text-center">
 							<label id="l_end_uf" data-placeholder="UF"></label> <input
 								type="text" maxlength="2" name="end_uf" id="end_uf"
 								autocomplete="off" class="form-control" placeholder="UF"
 								value="${pre_glo.end_uf}">
-								
 						</div>
+					
 						<!-- coluna esquerda -->
 						<!-- coluna Central -->
-						<div
+						
+						<div id="col_cep"
 							class="col-12 col-md-2 mb-2 mb-0 align-self-center text-center">
-
 							<label id="l_end_cep" data-placeholder="CEP"></label> <input
 								onblur="CEPPESQ();" type="text" maxlength="10" name="end_cep"
 								id="end_cep" autocomplete="off" class="form-control"
 								placeholder="CEP" value="${pre_glo.end_cep}">
 						
-						</div>
+							</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
-						<div id="col-obs"
+						<div id="col_obs"
 							class="col-12 col-md-9 mb-2 mb-0 align-self-center text-center">
-							<label id="l_obs" data-placeholder="Observações"></label>
+							<label id="l_obs" data-placeholder="Observações do Cliente"></label>
 							<textarea name="obs" id="obs" class="form-control"
-								placeholder="Observação" autocomplete="off" rows="1"
+								placeholder="Observação do Cliente" autocomplete="off" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.obs}</textarea>
+						
 						</div>
 						<!-- coluna Direita -->
 						<!-- FIM row -->
@@ -1138,39 +1272,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				</div>
 				<!-- FIM Container -->
 				<!--  -->
-</div>
-
-
-<div id="end_dado_obs">
-
-
-				<!--  -->
-				<!-- Inicio Container -->
-				<div class="container mt-1">
-					<!-- Inicio Container -->
-					<!-- Inicio row -->
-					<div class="row align-items-center text-center text-md-left">
-						<!-- Inicio row -->
-						<!-- coluna Central -->
-							<div id="col-obs"
-							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
-							<label id="l_obs" data-placeholder="Observações"></label>
-							<textarea name="obs" id="obs" class="form-control"
-								placeholder="Observação" autocomplete="off" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.obs}</textarea>
-						</div>
-
-						<!-- coluna Central -->
-						<!-- FIM row -->
-					</div>
-					<!-- FIM row -->
-					<!-- FIM Container -->
-				</div>
-				<!-- FIM Container -->
-				<!--  -->
-</div>
-
+						
 
 				<!--  -->
 				<!-- Inicio Container -->
@@ -1525,7 +1627,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					<!-- Inicio Container -->
 
 		<div style="height: 350px; overflow: scroll;">
-					<table class="table" id="t_list_cont">
+					<table class="table table-responsive-stack" id="t_list_cont">
 				<thead>
 					<tr>
 						<th scope="col">Nome</th>
@@ -1538,9 +1640,30 @@ document.addEventListener('DOMContentLoaded', function() {
 				<tbody>
 					<c:forEach items="${cont_list}" var="ml">
 						<tr>
-							<td><c:out value="${ml.nome_desc}"></c:out></td>
-							<td><c:out value="${ml.tel_1}"></c:out></td>
-							<td><c:out value="${ml.email_1}"></c:out></td>
+							<td>
+							
+							  <textarea class="form-control" autocomplete="off"
+							
+							placeholder="Descrição do Produto ou Serviço" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.nome_desc}"></c:out></textarea>
+							
+							</td>
+							<td>
+							  <textarea class="form-control" autocomplete="off"						
+							placeholder="Descrição do Produto ou Serviço" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.tel_1}"></c:out></textarea></td>
+							
+							
+							
+							
+							<td>
+							<textarea class="form-control" autocomplete="off"						
+							placeholder="Descrição do Produto ou Serviço" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.email_1}"></c:out></textarea></td>
+						
 							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_cont"
@@ -2214,6 +2337,364 @@ FIM PAGINAÇÃO CONS
     </div>
   </div>
 </div>
+
+			<!-- inicio itens da proposta comercial -->
+			<!-- Inicio Container -->
+				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<!-- Inicio row -->
+	<hr>
+<p>Itens da proposta comercial</p>
+</div>
+
+   
+    <div class="container-fluid mt-4 border-start border-end border-2 p-3">
+        <div class="table-responsive">
+            <table class="table table-responsive-stack mb-0" id="tabelaItens" >
+                <thead>
+                    <tr>
+                        <th class="col_item">Item</th>
+                        <th class="col_codigo">Código</th>
+                        <th class="col_descricao">Descrição</th>
+                        <th class="col_un">Unidade</th>
+                        <th class="col_qtde">Quantidade</th>
+                        <th class="col_preco-un">Preço Unitario</th>
+                                           <th class="col_desc">Desconto %</th>
+                        <th class="col_ipi">IPI %</th>
+                        <th class="col_preco-total">Preço total</th>
+                        <th class="col_excluir_item">excluir</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyItens">
+                    <tr class="item-row">
+                        <td>
+                            <div class="item-number">1</div>
+                                   </td>
+                        
+                        
+                        
+                        
+                        <td><input type="text" class="form-control form-control-sm" placeholder="Código"></td>
+                        <td>  
+    <textarea class="form-control" autocomplete="off"
+							
+							placeholder="Descrição do Produto ou Serviço" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+    </td>
+                        
+                        <td><input type="text" class="form-control form-control-sm" placeholder="Unidade" value="UN"></td>
+                        <td><input  type="number" class="form-control form-control-sm quant_tab_item" placeholder="Quantidade" min="0" value=1></td>
+                        
+                        <td>
+                        <div class="input-group input-group-sm">
+        <span class="input-group-text">R$</span>
+        <input type="text" class="form-control" placeholder="Preço Unitário" >
+    </div></td>
+                                  <td><input type="number" class="form-control form-control-sm" placeholder="Desconto %" min="0" max="10" value=0></td>
+
+                          <td><input type="number" class="form-control form-control-sm" placeholder="IPI %" min="0" max="100" value=0></td>
+                             <td>
+    <div class="input-group input-group-sm">
+        <span class="input-group-text">R$</span>
+        <input type="text" class="form-control preco_tab_item" placeholder="Preço Total" readonly>
+    </div>
+</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm btn-excluir">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-adicionar" id="btnAdicionar">
+                <i class="bi bi-plus-lg"></i> Adicionar outro item
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+  
+ // 🔧 Função de máscara para formatar enquanto digita
+    function mascaraMoeda(input) {
+        input.addEventListener('input', function(e) {
+            let valor = e.target.value;
+            
+            // Remove tudo que não é número
+            valor = valor.replace(/\D/g, '');
+            
+            // Converte para decimal (divide por 100 para ter 2 casas)
+            valor = (parseFloat(valor) / 100).toFixed(2);
+            
+            // Formata como moeda brasileira
+            valor = valor.replace('.', ',');
+            valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            
+            e.target.value = valor;
+        });
+    }
+
+    // Aplicar máscara nos campos monetários
+    document.addEventListener('DOMContentLoaded', function() {
+        const tbody = document.getElementById('tbodyItens');
+        const btnAdicionar = document.getElementById('btnAdicionar');
+        // Aplicar máscara em todos os campos de preço (existentes)
+        
+       
+        function aplicarMascaras(row) {
+            const camposMonetarios = row.querySelectorAll('[placeholder="Preço Unitário"], [placeholder="Preço Total"]');
+            camposMonetarios.forEach(input => {
+                mascaraMoeda(input);
+            });
+        }
+
+        // Aplicar nas linhas existentes
+        tbody.querySelectorAll('.item-row').forEach(row => {
+            aplicarMascaras(row);
+        });
+
+        // 🔢 Função para calcular o total de uma linha
+        function calcularTotal(row) {
+            const qtde = parseFloat(row.querySelector('[placeholder="Quantidade"]').value) || 0;
+            
+            // Limpa o valor formatado antes de calcular
+            const precoUnitStr = row.querySelector('[placeholder="Preço Unitário"]').value;
+            const precoUnit = parseFloat(precoUnitStr.replace(/\./g, '').replace(',', '.')) || 0;
+            
+            const desc = parseFloat(row.querySelector('[placeholder="Desconto %"]').value) || 0;
+            const ipi = parseFloat(row.querySelector('[placeholder="IPI %"]').value) || 0;
+
+            const subtotal = qtde * precoUnit;
+            const comDesconto = subtotal * (1 - desc / 100);
+            const total = comDesconto * (1 + ipi / 100);
+
+            const campoTotal = row.querySelector('[placeholder="Preço Total"]');
+            campoTotal.value = total.toLocaleString('pt-BR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+
+         
+        }
+
+   
+
+        // 👂 Escuta mudanças em qualquer input da tabela
+        tbody.addEventListener('input', function(e) {
+            if (e.target.matches('input')) {
+                const row = e.target.closest('.item-row');
+                if (row) calcularTotal(row);
+            }
+        });
+
+        // ➕ Adicionar nova linha
+        btnAdicionar.addEventListener('click', function() {
+            const novaLinha = document.createElement('tr');
+            
+                    novaLinha.className = 'item-row';
+            novaLinha.innerHTML = `
+                <td><div class="item-number">${tbody.children.length + 1}</div></td>
+                
+                <td><input type="text" class="form-control form-control-sm" placeholder="Código"></td>
+                <td>  
+<textarea class="form-control" autocomplete="off"
+					
+					placeholder="Descrição do Produto ou Serviço" rows="1"
+						style="overflow: hidden; resize: none;"
+						oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+</td>
+                
+                <td><input type="text" class="form-control form-control-sm" placeholder="Unidade" value="UN"></td>
+                <td><input type="number" class="form-control form-control-sm quant_tab_item" placeholder="Quantidade" min="0" value=1></td>
+                
+                <td>
+                <div class="input-group input-group-sm">
+<span class="input-group-text">R$</span>
+<input type="text" class="form-control" placeholder="Preço Unitário" >
+</div></td>
+                          <td><input type="number" class="form-control form-control-sm" placeholder="Desconto %" min="0" max="10" value=0></td>
+
+                  <td><input type="number" class="form-control form-control-sm" placeholder="IPI %" max="100" min="0" value=0></td>
+                     <td>
+<div class="input-group input-group-sm">
+<span class="input-group-text">R$</span>
+<input type="text" class="form-control preco_tab_item" placeholder="Preço Total" readonly>
+</div>
+</td>
+                <td>
+                    <button class="btn btn-danger btn-sm btn-excluir">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+                 
+            `;
+            tbody.appendChild(novaLinha);
+            aplicarMascaras(novaLinha); // Aplica máscara na nova linha
+            atualizarNumeracao();
+            
+        });
+
+        // 🗑️ Excluir linha
+        tbody.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-excluir')) {
+                if (tbody.children.length > 1) {
+                    e.target.closest('.item-row').remove();
+                    atualizarNumeracao();
+                  } else {
+                    alert('Deve haver pelo menos um item.');
+                }
+            }
+        });
+
+        // 🔢 Atualiza numeração
+        function atualizarNumeracao() {
+            tbody.querySelectorAll('.item-row').forEach((row, i) => {
+                const num = row.querySelector('.item-number');
+                if (num) num.textContent = i + 1;
+                
+                document.getElementById('num_item_total').value = num.textContent;
+            
+                
+            });
+        }
+    });
+
+ // Isso funciona mesmo para linhas criadas dinamicamente depois!
+    document.addEventListener('input', function(event) {
+        // Verifica se o campo que foi digitado tem a classe 'quant-item'
+        if (event.target.classList.contains('quant_tab_item')) {
+            atualizarTotalGeral(); // Chama a função de soma
+        }
+    });
+    
+   
+    </script>
+
+  				<div class="container mt-3">
+					<!-- Inicio Container -->
+	<hr>	
+	
+	
+            <table class="table table-responsive-stack mb-0" id="tabelaItens" >
+                <thead>
+                    <tr>
+                        <th class="col_item_total">Número Total de Item</th>
+                           <th class="col_qtde_total">Quantidade Total</th>
+                           <th class="col_preco_proposta">Preço Total da Proposta</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyItens">
+                    <tr class="item-row">
+                        
+                        <td><input id="num_item_total" type="text" class="form-control form-control-sm" placeholder="Número Total de Item" Value=1 readonly></td>
+                       <td><input id="num_quant_total" type="text" class="form-control form-control-sm " placeholder="Quantidade Total" Value=1 readonly></td>
+                       <td><div class="input-group input-group-sm">
+<span class="input-group-text">R$</span>
+<input id="preco_total_proposta" type="text" class="form-control" placeholder="Preço Total da Proposta" readonly>
+</div></td>
+
+                    </tr>
+                </tbody>
+            </table>
+    				<!-- FIM Container -->
+    				<hr>
+    				<p>Condições Comercial</p>
+    				 <table class="table table-responsive-stack mb-0" id="tabelaItens" >
+                <thead>
+                    <tr>
+                        <th class="col_item_total">Dias</th>
+                           <th class="col_qtde_total">Data</th>
+                           <th class="col_preco_proposta">Forma de Pagamento</th>
+                           <th class="col_preco_proposta">Prazo de Entrega</th>
+                           <th class="col_preco_proposta">Validade da Proposta</th>
+  
+
+                    </tr>
+                </thead>
+                <tbody id="tbodyItens">
+                    <tr class="item-row">
+                        
+                        <td><input type="text" class="form-control form-control-sm" placeholder="Dias"></td>
+                       <td>    <input id="data_boleto" type="text" class="form-control form-control-sm" placeholder="Data" readonly autocomplete="off"></td>
+                       <td>  <select class="form-control form-control-sm">
+        <option value="" disabled >Forma de Pagamento</option>
+        <option value="boleto">Boleto</option>
+        <option value="pix" selected>Pix</option>
+        <option value="cartao">Cartão</option>
+        <option value="dinheiro">Dinheiro</option>
+    </select></td>
+                      <td><input type="text" class="form-control form-control-sm" placeholder="Prazo de Entrega" value=5></td>
+                     <td><input type="text" class="form-control form-control-sm" placeholder="Validade da Proposta" value=5></td>
+ 
+                    </tr>
+                </tbody>
+            </table>
+    			<script>
+    			const inputItem = document.getElementById('quant_tab_item');
+    			const inputTotal = document.getElementById('num_quant_total');
+
+    			// Escuta quando o usuário digita ou muda os números
+    			inputItem.addEventListener('input', function() {
+    			    let quantidade = parseFloat(this.value) || 0;
+    			    
+    			    // OPÇÃO A: Apenas espelhar o valor
+    			    inputTotal.value = quantidade; 
+    			    
+    			    // OPÇÃO B: Se quiser multiplicar por um preço (exemplo)
+    			    // let preco = 10.50; 
+    			    // inputTotal.value = (quantidade * preco).toFixed(2);
+    			});
+    			// Função que calcula e atualiza o total
+    			function atualizarTotalGeral() {
+    			    // Pega todos os inputs que têm a classe 'quant-item'
+    			    const inputsQuantidade = document.querySelectorAll('.quant_tab_item');
+    			    let total = 0;
+
+    			    // Soma o valor de cada um
+    			    inputsQuantidade.forEach(input => {
+    			        total += parseFloat(input.value) || 0; // || 0 evita erro se o campo estiver vazio
+    			    });
+
+    			    // Coloca o resultado no campo de Total
+    			    document.getElementById('num_quant_total').value = total;
+    			}
+
+    			// Adiciona o "ouvinte" de eventos para todos os inputs existentes na tela
+    			document.querySelectorAll('.quant_tab_item').forEach(input => {
+    			    input.addEventListener('input', atualizarTotalGeral);
+    			});
+    	    flatpickr("#data_boleto", {
+        locale: "pt",           // Define o calendário em Português
+        dateFormat: "d/m/Y",    // Formato Dia/Mês/Ano
+        allowInput: false       // Garante que não pode digitar, apenas selecionar
+    });
+</script>
+    			
+    								
+    				
+			</div>
+			<!-- FIM Container -->
+			
+			 				<div class="container mt-3">
+					<!-- Inicio Container -->
+					<div id="col_obs_proposta"
+							class="col-12 col-md-12 mb-2 mb-0 align-self-center text-center">
+							<label id="l_obs_proposta" data-placeholder="Observações da Proposta"></label>
+							<textarea name="obs_proposta" id="obs_proposta" class="form-control"
+								placeholder="Observação da Proposta" autocomplete="off" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';">${pre_glo.obs_proposta}</textarea>
+						
+						</div>
+					
+				</div>
+			<!-- FIM Container -->
+			<!-- fim itens da proposta comercial -->
+
 
 	<!-- ====== SCRIPT PRINCIPAL ====== -->
 	<script type="text/javascript">

@@ -15,7 +15,11 @@
 		
 		<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<!--  -->
+	<!--  --
+
+<!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/desenho/logo.png"
@@ -772,6 +776,50 @@ function sel_cons(cnpj_cpf, element) {
 
 </script>
 <style>
+
+@media (max-width: 768px) {
+    .table-responsive-stack thead {
+        display: none; /* esconde o cabeçalho */
+    }
+
+    .table-responsive-stack,
+    .table-responsive-stack tbody,
+    .table-responsive-stack tr,
+    .table-responsive-stack td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive-stack tr {
+        margin-bottom: 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 10px;
+        background: #f8f9fa;
+    }
+
+    .table-responsive-stack td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border-bottom: 1px solid #eee;
+        text-align: right;
+    }
+
+    .table-responsive-stack td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #333;
+        text-align: left;
+        margin-right: 10px;
+    }
+
+    .table-responsive-stack td input {
+        width: 100%;
+        text-align: right;
+    }
+}
   /* Por padrão (mobile): mostra a versão multi-linha */
   .mensagem-desktop {
     display: none;
@@ -929,8 +977,10 @@ function sel_cons(cnpj_cpf, element) {
 						<!-- coluna Central -->
 						<div
 							class="col-4 col-md-4 mb-2 mb-md-0 align-self-center text-center">
+						
 							<button type="button" class="btn btn-success"
 								onclick="salvar_dado();">SALVAR</button>
+						 
 						</div>
 						<!-- coluna Central -->
 						<!-- coluna Direita -->
@@ -1495,7 +1545,7 @@ function sel_cons(cnpj_cpf, element) {
 					<!-- Inicio Container -->
 
 		<div style="height: 350px; overflow: scroll;">
-					<table class="table" id="t_list_cont">
+					<table class="table table-responsive-stack" id="t_list_cont">
 				<thead>
 					<tr>
 						<th scope="col">Nome</th>
@@ -2180,7 +2230,7 @@ function validartipo_ace() {
 					<c:if test="${not empty dom_list}">
 						<!-- Inicio Container -->
 		<div style="height: 350px; overflow: scroll;">
-			<table class="table" id="t_list_dom">
+			<table class="table table-responsive-stack" id="t_list_dom">
 				<thead>
 					<tr>
 						<th scope="col">Nome do Dominio</th>

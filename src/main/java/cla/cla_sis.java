@@ -37,7 +37,7 @@ public class cla_sis implements Serializable {
 	private String ace_per_aut;
 	private String end_completo;
 	private String end_semcep;
-	
+	private String obs_proposta;
 
 	public String getEnd_completo() {
 		return end_completo;
@@ -376,6 +376,16 @@ public class cla_sis implements Serializable {
 
 	public void setPro_id(long pro_id) {
 		this.pro_id = pro_id;
+	}
+
+
+	public String getObs_proposta() {
+		return obs_proposta;
+	}
+
+
+	public void setObs_proposta(String obs_proposta) {
+		this.obs_proposta = obs_proposta;
 	}
 
 	
