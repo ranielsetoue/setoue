@@ -712,11 +712,11 @@ function confirmarCliente() {
    
   
         .col_item { width: 70px; }
-        .col_codigo { width: 150px; }
-        .col_descricao { width: 550; }
-        .col_un { width: 100px; }
-        .col_qtde { width: 150px; }
-        .col_desc { width: 170px; }
+        .col_codigo { width: 200px; }
+        .col_descricao { width: 500; }
+        .col_un { width: 130px; }
+        .col_qtde { width: 140px; }
+        .col_desc { width: 180px; }
         .col_preco-un { width: 270px; }
         .col_ipi { width: 150px; }
         .col_preco-total { width: 270px; }
@@ -739,6 +739,16 @@ function confirmarCliente() {
             justify-content: center;
             font-weight: bold;
         }
+        
+
+
+.col_nome_cont {
+    max-width: 400px;       /* ajuste conforme necessário */
+    word-wrap: break-word;  /* quebra palavras longas */
+    word-break: break-word; /* compatibilidade extra */
+    white-space: normal;    /* garante quebra de linha */
+    overflow-wrap: break-word; /* padrão moderno */
+}
     </style>
  <!-- Importando o CSS externo -->
 <c:set var="l_css" value="${pageContext.request.contextPath}/00_controle/00_sistema/Layout"/>
@@ -1639,31 +1649,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				</thead>
 				<tbody>
 					<c:forEach items="${cont_list}" var="ml">
-						<tr>
-							<td>
-							
-							  <textarea class="form-control" autocomplete="off"
-							
-							placeholder="Descrição do Produto ou Serviço" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.nome_desc}"></c:out></textarea>
-							
-							</td>
-							<td>
-							  <textarea class="form-control" autocomplete="off"						
-							placeholder="Descrição do Produto ou Serviço" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.tel_1}"></c:out></textarea></td>
-							
-							
-							
-							
-							<td>
-							<textarea class="form-control" autocomplete="off"						
-							placeholder="Descrição do Produto ou Serviço" rows="1"
-								style="overflow: hidden; resize: none;"
-								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><c:out value="${ml.email_1}"></c:out></textarea></td>
-						
+			<tr>
+							<td class="col_nome_cont"><c:out value="${ml.nome_desc}"></c:out></td>
+							<td><c:out value="${ml.tel_1}"></c:out></td>
+							<td class="col_nome_cont"><c:out value="${ml.email_1}"></c:out></td>
 							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_cont"
@@ -2374,30 +2363,51 @@ FIM PAGINAÇÃO CONS
                         
                         
                         
-                        <td><input type="text" class="form-control form-control-sm" placeholder="Código"></td>
+                        <td>
+                         <textarea class="form-control" autocomplete="off"
+							
+							placeholder="Código" rows="1"
+								style="overflow: hidden; resize: none;"
+								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+        
                         <td>  
     <textarea class="form-control" autocomplete="off"
 							
-							placeholder="Descrição do Produto ou Serviço" rows="1"
+							placeholder="Produto ou Serviço" rows="1"
 								style="overflow: hidden; resize: none;"
 								oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
     </td>
                         
-                        <td><input type="text" class="form-control form-control-sm" placeholder="Unidade" value="UN"></td>
+                         
+                        <td>  <select class="form-control form-control-sm">
+        <option value="Unidade" selected>Unidade</option>
+        <option value="kgf - peso">kgf - peso</option>
+        <option value="L - Litro">L - Litro</option>
+    </select></td>
+                        
+                        
+                        
                         <td><input  type="number" class="form-control form-control-sm quant_tab_item" placeholder="Quantidade" min="0" value=1></td>
                         
                         <td>
                         <div class="input-group input-group-sm">
         <span class="input-group-text">R$</span>
-        <input type="text" class="form-control" placeholder="Preço Unitário" >
+        <input type="text" class="form-control pre_tab_item" placeholder="Preço Unitário" >
     </div></td>
-                                  <td><input type="number" class="form-control form-control-sm" placeholder="Desconto %" min="0" max="10" value=0></td>
+                                  <td><input 
+  type="number" 
+  class="form-control form-control-sm pre_tab_item" 
+  placeholder="Desconto %" 
+  min="0" 
+  max="20"
+  oninput="if(this.value > 20) this.value = 20; if(this.value < 0) this.value = 0;"
+></td>
 
-                          <td><input type="number" class="form-control form-control-sm" placeholder="IPI %" min="0" max="100" value=0></td>
+                          <td><input type="number" class="form-control form-control-sm pre_tab_item" placeholder="IPI %" min="0" max="100" ></td>
                              <td>
     <div class="input-group input-group-sm">
         <span class="input-group-text">R$</span>
-        <input type="text" class="form-control preco_tab_item" placeholder="Preço Total" readonly>
+        <input type="text" class="form-control pr_t_pro_tab_item" placeholder="Preço Total" readonly>
     </div>
 </td>
                         <td>
@@ -2499,11 +2509,18 @@ FIM PAGINAÇÃO CONS
             novaLinha.innerHTML = `
                 <td><div class="item-number">${tbody.children.length + 1}</div></td>
                 
-                <td><input type="text" class="form-control form-control-sm" placeholder="Código"></td>
+                <td>
+                <textarea class="form-control" autocomplete="off"
+					
+					placeholder="Código" rows="1"
+						style="overflow: hidden; resize: none;"
+						oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+               </td>  
                 <td>  
 <textarea class="form-control" autocomplete="off"
 					
-					placeholder="Descrição do Produto ou Serviço" rows="1"
+					placeholder="Produto ou Serviço" rows="1"
 						style="overflow: hidden; resize: none;"
 						oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </td>
@@ -2514,15 +2531,22 @@ FIM PAGINAÇÃO CONS
                 <td>
                 <div class="input-group input-group-sm">
 <span class="input-group-text">R$</span>
-<input type="text" class="form-control" placeholder="Preço Unitário" >
+<input type="text" class="form-control pre_tab_item" placeholder="Preço Unitário" >
 </div></td>
-                          <td><input type="number" class="form-control form-control-sm" placeholder="Desconto %" min="0" max="10" value=0></td>
+                          <td><input 
+                          type="number" 
+                        	  class="form-control form-control-sm pre_tab_item" 
+                        	  placeholder="Desconto %" 
+                        	  min="0" 
+                        	  max="20"
+                        	  oninput="if(this.value > 20) this.value = 20; if(this.value < 0) this.value = 0;"
+                        	></td>
 
-                  <td><input type="number" class="form-control form-control-sm" placeholder="IPI %" max="100" min="0" value=0></td>
+                  <td><input type="number" class="form-control form-control-sm pre_tab_item" placeholder="IPI %" max="100" min="0" ></td>
                      <td>
 <div class="input-group input-group-sm">
 <span class="input-group-text">R$</span>
-<input type="text" class="form-control preco_tab_item" placeholder="Preço Total" readonly>
+<input type="text" class="form-control pr_t_pro_tab_item" placeholder="Preço Total" readonly>
 </div>
 </td>
                 <td>
@@ -2571,7 +2595,17 @@ FIM PAGINAÇÃO CONS
         }
     });
     
+    // Isso funciona mesmo para linhas criadas dinamicamente depois!
+    document.addEventListener('input', function(event) {
+        // Verifica se o campo que foi digitado tem a classe 'quant-item'
+        if (event.target.classList.contains('pre_tab_item')) {
+            atualizarTotalGeralpre_tab_item(); // Chama a função de soma
+        }
+    });
+     
    
+ 
+ 
     </script>
 
   				<div class="container mt-3">
@@ -2594,7 +2628,7 @@ FIM PAGINAÇÃO CONS
                        <td><input id="num_quant_total" type="text" class="form-control form-control-sm " placeholder="Quantidade Total" Value=1 readonly></td>
                        <td><div class="input-group input-group-sm">
 <span class="input-group-text">R$</span>
-<input id="preco_total_proposta" type="text" class="form-control" placeholder="Preço Total da Proposta" readonly>
+<input id="pr_t_prop" type="text" class="form-control" placeholder="Preço Total da Proposta" readonly>
 </div></td>
 
                     </tr>
@@ -2606,9 +2640,9 @@ FIM PAGINAÇÃO CONS
     				 <table class="table table-responsive-stack mb-0" id="tabelaItens" >
                 <thead>
                     <tr>
-                        <th class="col_item_total">Dias</th>
-                           <th class="col_qtde_total">Data</th>
+              
                            <th class="col_preco_proposta">Forma de Pagamento</th>
+                                     <th class="col_item_total">Prazo de Pagamento</th>
                            <th class="col_preco_proposta">Prazo de Entrega</th>
                            <th class="col_preco_proposta">Validade da Proposta</th>
   
@@ -2617,16 +2651,25 @@ FIM PAGINAÇÃO CONS
                 </thead>
                 <tbody id="tbodyItens">
                     <tr class="item-row">
-                        
-                        <td><input type="text" class="form-control form-control-sm" placeholder="Dias"></td>
-                       <td>    <input id="data_boleto" type="text" class="form-control form-control-sm" placeholder="Data" readonly autocomplete="off"></td>
-                       <td>  <select class="form-control form-control-sm">
+                                          <td>  <select id="pag_sel" class="form-control form-control-sm for_pag_sel">
+ 
         <option value="" disabled >Forma de Pagamento</option>
-        <option value="boleto">Boleto</option>
-        <option value="pix" selected>Pix</option>
-        <option value="cartao">Cartão</option>
-        <option value="dinheiro">Dinheiro</option>
+        <option value="Boleto">Boleto</option>
+        <option value="Pix" selected>Pix</option>
+        <option value="Cartao">Cartão</option>
+        <option value="Dinheiro">Dinheiro</option>
     </select></td>
+                    <td>
+    <div class="d-flex gap-2">
+        <div class="input-group">
+            <span class="input-group-text">Dias</span>
+            <input id="prazo_pag" type="text" class="form-control form-control-sm" placeholder="Dias" value="30">
+        </div>
+
+    </div>
+</td>
+                       
+  
                       <td><input type="text" class="form-control form-control-sm" placeholder="Prazo de Entrega" value=5></td>
                      <td><input type="text" class="form-control form-control-sm" placeholder="Validade da Proposta" value=5></td>
  
@@ -2654,27 +2697,93 @@ FIM PAGINAÇÃO CONS
     			    const inputsQuantidade = document.querySelectorAll('.quant_tab_item');
     			    let total = 0;
 
+    			    const inputspr_t = document.querySelectorAll('.pr_t_pro_tab_item');
+    			    let totalpr_t = 0;
+    			    
     			    // Soma o valor de cada um
     			    inputsQuantidade.forEach(input => {
     			        total += parseFloat(input.value) || 0; // || 0 evita erro se o campo estiver vazio
     			    });
+    			    
+    			    inputspr_t.forEach(input => {
+    			    	totalpr_t += parseFloat(input.value) || 0; // || 0 evita erro se o campo estiver vazio
+    			    });
 
     			    // Coloca o resultado no campo de Total
     			    document.getElementById('num_quant_total').value = total;
+    			    document.getElementById('pr_t_prop').value = totalpr_t;
+    			    
     			}
 
     			// Adiciona o "ouvinte" de eventos para todos os inputs existentes na tela
     			document.querySelectorAll('.quant_tab_item').forEach(input => {
     			    input.addEventListener('input', atualizarTotalGeral);
     			});
-    	    flatpickr("#data_boleto", {
-        locale: "pt",           // Define o calendário em Português
-        dateFormat: "d/m/Y",    // Formato Dia/Mês/Ano
-        allowInput: false       // Garante que não pode digitar, apenas selecionar
-    });
-</script>
     			
-    								
+    			
+    			
+    			function atualizarTotalGeralpre_tab_item() {
+    			    // Pega todos os inputs que têm a classe 'pr_t_pro_tab_item'
+    			    const inputspr_t = document.querySelectorAll('.pr_t_pro_tab_item');
+    			    let totalpr_t = 0;
+    			    
+    			    // Soma o valor de cada um  
+    			    inputspr_t.forEach(input => {
+    			        // Remove pontos de milhar e troca vírgula por ponto para garantir o cálculo correto
+    			        let valorLimpo = input.value.replace(/\./g, '').replace(',', '.');
+    			        totalpr_t += parseFloat(valorLimpo) || 0; 
+    			    });
+
+    			    // Formata para o padrão brasileiro (ex: 145063.5 -> "145.063,50") SEM o "R$"
+    			    const totalFormatado = totalpr_t.toLocaleString('pt-BR', {
+    			        minimumFractionDigits: 2,
+    			        maximumFractionDigits: 2
+    			    });
+    			    
+    			    // Coloca o resultado formatado no campo de Total
+    			    document.getElementById('pr_t_prop').value = totalFormatado;
+    			}
+    			
+    			
+
+    			// Adiciona o "ouvinte" de eventos para todos os inputs existentes na tela
+    			document.querySelectorAll('.quant_tab_item').forEach(input => {
+    			    input.addEventListener('input', atualizarTotalGeral);
+    			});
+    			
+    			// Adiciona o "ouvinte" de eventos para todos os inputs existentes na tela
+    			document.querySelectorAll('.pre_tab_item').forEach(input => {
+    			    input.addEventListener('input', atualizarTotalGeralpre_tab_item);
+    			});
+    			
+    			
+</script>
+  			
+ <script>
+ document.addEventListener('DOMContentLoaded', function() {
+     const selectPagamento = document.getElementById('pag_sel');
+     const inputPrazo = document.getElementById('prazo_pag');
+     
+     // Função que atualiza o prazo baseado na forma de pagamento
+     function atualizarPrazo() {
+         const formaPagamento = selectPagamento.value;
+         
+         if (formaPagamento === 'Boleto') {
+             inputPrazo.value = '30';
+         } else if (formaPagamento === 'Pix' || formaPagamento === 'Cartao' || formaPagamento === 'Dinheiro') {
+             inputPrazo.value = 'A vista';
+         } else {
+             inputPrazo.value = '';
+         }
+     }
+     
+     // Adiciona o evento de mudança no select
+     selectPagamento.addEventListener('change', atualizarPrazo);
+     
+     // Executa uma vez ao carregar a página para definir o valor inicial correto
+     atualizarPrazo();
+ });
+</script>   								
     				
 			</div>
 			<!-- FIM Container -->

@@ -846,6 +846,15 @@ function sel_cons(cnpj_cpf, element) {
       display: none;
     }
   }
+  
+  .col_nome_cont {
+    max-width: 400px;       /* ajuste conforme necessário */
+    word-wrap: break-word;  /* quebra palavras longas */
+    word-break: break-word; /* compatibilidade extra */
+    white-space: normal;    /* garante quebra de linha */
+    overflow-wrap: break-word; /* padrão moderno */
+}
+  
 </style>
 
  <!-- Importando o CSS externo -->
@@ -1558,9 +1567,9 @@ function sel_cons(cnpj_cpf, element) {
 				<tbody>
 					<c:forEach items="${cont_list}" var="ml">
 						<tr>
-							<td><c:out value="${ml.nome_desc}"></c:out></td>
+							<td class="col_nome_cont"><c:out value="${ml.nome_desc}"></c:out></td>
 							<td><c:out value="${ml.tel_1}"></c:out></td>
-							<td><c:out value="${ml.email_1}"></c:out></td>
+							<td class="col_nome_cont"><c:out value="${ml.email_1}"></c:out></td>
 							<td><a onclick="exc_cont(${ml.id_sis_cont}, this); return false;"
 								class="btn btn-danger">Excluir</a></td>
 							<td><button type="button" id="adicionar_cont"
