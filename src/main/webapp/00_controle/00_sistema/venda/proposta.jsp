@@ -2662,7 +2662,7 @@ FIM PAGINAÇÃO CONS
                     <td>
     <div class="d-flex gap-2">
         <div class="input-group">
-            <span class="input-group-text">Dias</span>
+            <span class="input-group-text" id="span_dias">Dias</span>
             <input id="prazo_pag" type="text" class="form-control form-control-sm" placeholder="Dias" value="30">
         </div>
 
@@ -2758,11 +2758,12 @@ FIM PAGINAÇÃO CONS
     			
     			
 </script>
-  			
+	
  <script>
  document.addEventListener('DOMContentLoaded', function() {
      const selectPagamento = document.getElementById('pag_sel');
      const inputPrazo = document.getElementById('prazo_pag');
+     const spanDias = document.getElementById('span_dias');
      
      // Função que atualiza o prazo baseado na forma de pagamento
      function atualizarPrazo() {
@@ -2770,10 +2771,13 @@ FIM PAGINAÇÃO CONS
          
          if (formaPagamento === 'Boleto') {
              inputPrazo.value = '30';
+             spanDias.style.display = 'block';
          } else if (formaPagamento === 'Pix' || formaPagamento === 'Cartao' || formaPagamento === 'Dinheiro') {
              inputPrazo.value = 'A vista';
+             spanDias.style.display = 'none';
          } else {
              inputPrazo.value = '';
+             spanDias.style.display = 'block';
          }
      }
      
@@ -2783,6 +2787,7 @@ FIM PAGINAÇÃO CONS
      // Executa uma vez ao carregar a página para definir o valor inicial correto
      atualizarPrazo();
  });
+ 
 </script>   								
     				
 			</div>
